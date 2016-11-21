@@ -75,7 +75,8 @@
       <thead>
       <tr>
         <th>Ammo</th>
-        <th class="text-right">Dmg</th>
+        <th style="width: 4em" class="text-right">Dmg</th>
+        <th style="width: 4em" class="text-right">Pierce</th>
         <th style="width: 4em" class="text-right">Noise</th>
       </tr>
       </thead>
@@ -83,6 +84,7 @@
     <tr>
       <td><a href="{{ route("item.view", $ammo->id) }}">{{$ammo->name}}</a></td>
       <td class="text-right">{{ $ammo->damage }}</td>
+      <td class="text-right">{{ $ammo->pierce }}</td>
       <td class="text-right">{{ round($item->noise($ammo)) }}</td>
     </tr>
     @endforeach
@@ -96,7 +98,7 @@
     @if ($item->burst==0)
     Semi-automatic<br>
     @else
-    Burst size: {{{$item->burst}}}
+    Burst size: {{{$item->burst}}}<br>
     @endif
     @if ($item->isModdable)
       Mod Locations:<br>

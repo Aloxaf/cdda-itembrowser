@@ -2,6 +2,7 @@
 namespace Repositories\Indexers;
 
 use Repositories\RepositoryWriterInterface;
+use CustomUtility\ValueUtil;
 
 class Monster implements IndexerInterface
 {
@@ -19,6 +20,13 @@ class Monster implements IndexerInterface
                 $repo->append("monster.species.$species", $object->id);
                 $repo->addUnique("monster.species", $species);
             }
+
+            ValueUtil::SetDefault($object,"melee_skill",0);
+            ValueUtil::SetDefault($object,"melee_dice_sides",0);
+            ValueUtil::SetDefault($object,"melee_cut",0);
+            ValueUtil::SetDefault($object,"melee_dice",0);
+            ValueUtil::SetDefault($object,"aggression",0);
+            ValueUtil::SetDefault($object,"morale",0);
 
             return;
         }

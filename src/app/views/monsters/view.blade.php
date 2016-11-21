@@ -39,7 +39,7 @@ Monster ID: {{{$monster->id}}}
 </tr>
 <tr>
   <td>Material:</td>
-  <td>{{{$monster->material}}}</td>
+  <td>{{{ is_array($monster->material) ? implode(", ",$monster->material) : $monster->material }}}</td>
 </tr>
 <tr>
   <td>Speed:</td>

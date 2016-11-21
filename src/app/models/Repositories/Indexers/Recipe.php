@@ -53,7 +53,7 @@ class Recipe implements IndexerInterface
         // NONCRAFT recipes go directly to the disassembly index,
         // they are not needed anywhere else.
         if ($key == "recipes"
-            and $recipe->category == "CC_NONCRAFT") {
+            and $recipe->type == "uncraft") {
             $repo->append("item.disassembly.$id", $recipe->repo_id);
 
             return;
@@ -69,7 +69,7 @@ class Recipe implements IndexerInterface
 
         if ($key == "toolFor") {
             // create a list of recipe categories, excluding NONCRAFT.
-            if ($recipe->category != "CC_NONCRAFT") {
+            if ($recipe->type != "uncraft") {
                 $category = $recipe->category;
                 $repo->addUnique("item.categories.$id", $category);
             }
@@ -87,6 +87,12 @@ class Recipe implements IndexerInterface
         if ($object->type == "recipe") {
             $recipe = $object;
 
+            if (!isset($recipe->category) && $recipe->type == "uncraft") {
+                ValueUtil::SetDefault($recipe, "category", "uncraft");
+            }
+
+            ValueUtil::SetDefault($recipe,"difficulty",0);
+
             $repo->append(self::DEFAULT_INDEX, $recipe->repo_id);
             $repo->set(self::DEFAULT_INDEX.".".$recipe->repo_id, $recipe->repo_id);
 
@@ -96,6 +102,12 @@ class Recipe implements IndexerInterface
                     foreach ($recipe->book_learn as $learn) {
                         $this->linkIndexes($repo, "learn", $learn[0], $recipe);
                     }
+                }
+            }
+
+            if (isset($recipe->qualities)) {
+                foreach ($recipe->qualities as $group) {
+                    ValueUtil::SetDefault($group,"amount",1);
                 }
             }
 
@@ -114,7 +126,7 @@ class Recipe implements IndexerInterface
                         list($id, $amount) = $component;
                         $this->linkIndexes($repo, "toolFor", $id, $recipe);
 
-                        if ($recipe->category == "CC_NONCRAFT"
+                        if ($recipe->category == "uncraft"
               or (isset($recipe->reversible)
               and $recipe->reversible == "true")) {
                             $repo->append("item.disassembledFrom.$id", $recipe->repo_id);

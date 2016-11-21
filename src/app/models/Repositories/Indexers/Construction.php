@@ -47,13 +47,32 @@ class Construction implements IndexerInterface
         foreach($repo->raw(self::DEFAULT_INDEX) as $id) {
             $object = $repo->get(self::DEFAULT_INDEX.".$id");
 
-            if(isset($object->qualities)) foreach($object->qualities as $group) {
-                foreach($group as $quality) {
-                    foreach($repo->raw("quality.$quality->id") as $item_id) {
-                        $item = $repo->get("item.$item_id");
-                        if($this->itemQualityLevel($item, $quality->id)<$quality->level)
-                            continue;
-                        $repo->addUnique("construction.$item_id", $id); 
+            if (isset($object->qualities)) {
+                foreach ($object->qualities as $group) {
+                    $isqualitygroup = true;
+                    foreach ($group as $quality) {
+                        // some qualities are a simple array vs two-dimensional array
+                        if (!is_object($quality)) {
+                            $isqualitygroup = false;
+                            break;
+                        }
+
+                        foreach($repo->raw("quality.$quality->id") as $item_id) {
+                            $item = $repo->get("item.$item_id");
+                            if($this->itemQualityLevel($item, $quality->id)<$quality->level){
+                                continue;
+                            }
+                            $repo->addUnique("construction.$item_id", $id); 
+                        }
+                    }
+                    if(!$isqualitygroup){
+                        foreach($repo->raw("quality.$group->id") as $item_id) {
+                            $item = $repo->get("item.$item_id");
+                            if($this->itemQualityLevel($item, $group->id)<$group->level){
+                                continue;
+                            }
+                            $repo->addUnique("construction.$item_id", $id); 
+                        }
                     }
                 }
             }
