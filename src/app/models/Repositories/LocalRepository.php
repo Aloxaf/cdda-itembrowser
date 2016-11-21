@@ -98,7 +98,8 @@ class LocalRepository extends Repository implements RepositoryInterface,
         $mods = array_filter(glob("$path/data/mods/*"), "is_dir");
         foreach ($mods as $mod) {
             $modinfo = json_decode(file_get_contents("$mod/modinfo.json"));
-            if ($modinfo->ident == $id) {
+            // JSON structure is different than earlier mod versions
+            if ($modinfo[0]->ident == $id) {
                 return $mod;
             }
         }
@@ -107,7 +108,7 @@ class LocalRepository extends Repository implements RepositoryInterface,
     // retrieve the directories where JSON files are contained
     private function dataPaths($path)
     {
-        $default_mods_data = json_decode(file_get_contents("$path/data/mods/dev-default-mods.json"));
+        $default_mods_data = json_decode(file_get_contents("$path/data/mods/default.json"));
 
         // a new path (core) was added, contains basic json definitions
         $paths = array("$path/data/core", "$path/data/json");
@@ -255,9 +256,10 @@ class LocalRepository extends Repository implements RepositoryInterface,
     private function getVersion($path)
     {
         $version_file = "$path/src/version.h";
-        $data = file_get_contents($version_file);
 
-        if ($data == false) {
+        if (file_exists($version_file)) {
+            $data = @file_get_contents($version_file);
+        } else {
             return "unknown_version";
         }
 

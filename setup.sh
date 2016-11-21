@@ -19,7 +19,7 @@ echo "Unzipping..."
 unzip -qo master.zip
 
 # download php dependencies
-composer -d=src install
+php composer.phar -d=src install
 php src/artisan cataclysm:rebuild Cataclysm-DDA-master
 
 echo "--------------------------"

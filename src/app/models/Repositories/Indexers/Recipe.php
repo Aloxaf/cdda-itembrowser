@@ -2,6 +2,7 @@
 namespace Repositories\Indexers;
 
 use Repositories\RepositoryWriterInterface;
+use CustomUtility\ValueUtil;
 
 class Recipe implements IndexerInterface
 {
@@ -39,6 +40,11 @@ class Recipe implements IndexerInterface
                 $level = $recipe->difficulty;
 
                 $item = $repo->get("item.$recipe->result");
+
+                if ($item === null) {
+                    print "missing recipe result $recipe->result\n";
+                }
+
                 $repo->append("skill.$skill.$level", $item->id);
                 $skills[$skill] = $skill;
             }
@@ -84,10 +90,10 @@ class Recipe implements IndexerInterface
 
     public function onNewObject(RepositoryWriterInterface $repo, $object)
     {
-        if ($object->type == "recipe") {
+        if ($object->type == "recipe" || $object->type == "uncraft") {
             $recipe = $object;
 
-            if (!isset($recipe->category) && $recipe->type == "uncraft") {
+            if ($recipe->type == "uncraft") {
                 ValueUtil::SetDefault($recipe, "category", "uncraft");
             }
 

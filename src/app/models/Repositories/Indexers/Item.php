@@ -16,7 +16,7 @@ class Item implements IndexerInterface
         $this->types = array_flip(array(
             "AMMO", "GUN", "ARMOR", "TOOL", "TOOL_ARMOR", "BOOK", "COMESTIBLE",
             "CONTAINER", "GUNMOD", "GENERIC", "BIONIC_ITEM", "VAR_VEH_PART",
-            "_SPECIAL", "MAGAZINE", "WHEEL", "TOOLMOD",
+            "_SPECIAL", "MAGAZINE", "WHEEL", "TOOLMOD", "ENGINE",
         ));
 
         $this->book_types = array(
