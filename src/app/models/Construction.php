@@ -17,8 +17,12 @@ class Construction implements Robbo\Presenter\PresentableInterface
         $this->data = $data;
         if($this->requiresQualities)
         foreach($data->qualities as $group) {
-            foreach($group as &$q) {
-                $q->quality = $this->repo->getModel("Quality", $q->id);
+            if (is_array($group)){
+                foreach($group as &$q) {
+                    $q->quality = $this->repo->getModel("Quality", $q->id);
+                }
+            }else{
+                $group->quality = $this->repo->getModel("Quality", $group->id);
             }
         }
         if($this->requiresTools)

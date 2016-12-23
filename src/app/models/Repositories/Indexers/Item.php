@@ -156,6 +156,7 @@ class Item implements IndexerInterface
         // save books per skill
         if ($object->type == "BOOK") {
             ValueUtil::SetDefault($object, "skill", "none");
+            ValueUtil::SetDefault($object, "required_level", 0);
 
             if (isset($this->book_types[$object->skill])) {
                 $skill = $this->book_types[$object->skill];
