@@ -418,7 +418,7 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getContains()
     {
-        return $this->data->contains/4.0;
+        return $this->data->contains/1.0;
     }
 
     public function getConstructionUses()
