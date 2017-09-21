@@ -10,11 +10,11 @@ cd "$BASE_PATH"
 cp bluehost_composer.json src/composer.json
 cp bluehost_artisan src/artisan
 
-if [ ! -e Cataclysm-DDA-master]
+if [ ! -e Cataclysm-DDA-master ]
 then
     rm -r Cataclysm-DDA-master
 fi
-if [ ! -e master.zip]
+if [ ! -e master.zip ]
 then
     rm master.zip
 fi
