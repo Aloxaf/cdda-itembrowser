@@ -13,10 +13,13 @@ Consumables - Cataclysm: Dark Days Ahead
   <tr>
     <th></th>
     <th>Name</th>
-    <th>Quench</th>
-    <th><span title="Nutrition">Nut</span></th>
-    <th><span title="Days to spoil">Spo</span></th>
-    <th><span title="Stimulant">Sti</span></th>
+    <th><span title="Servings">Serv</span></th>
+    <th><span title="Quench per Serving">Quen</span></th>
+    <th><span title="Nutrition per Serving">Nt</span></th>
+    <th><span title="Total Quench">T.Quen</span></th>
+    <th><span title="Total Nutrition">T.Nt</span></th>
+    <th><span title="Days to spoil">Spoil</span></th>
+    <th><span title="Stimulant">Stim</span></th>
     <th><span title="Health">Hea</span></th>
     <th><span title="Addiction">Adi</span></th>
     <th>Fun</th>
@@ -26,8 +29,11 @@ Consumables - Cataclysm: Dark Days Ahead
 <tr>
   <td>{{ $item->symbol }}</td>
   <td><a href="{{route('item.view', $item->id)}}">{{ $item->name }}</a></td>
+  <td>{{ $item->charges }}</td>
   <td>{{ $item->quench }}</td>
   <td>{{ $item->nutrition }}</td>
+  <td>{{ $item->quench * $item->charges }}</td>
+  <td>{{ $item->nutrition * $item->charges }}</td>
   <td>{{ $item->spoils_in }}</td>
   <td>{{ $item->stim }}</td>
   <td>{{ $item->healthy }}</td>
@@ -41,11 +47,11 @@ Consumables - Cataclysm: Dark Days Ahead
 $(function() {
     $(".tablesorter").tablesorter({
 @if ($type=="drink")
-      sortList: [[1,1]]
+      sortList: [[3,1]]
 @elseif ($type=="food")
-      sortList: [[2,1]]
+      sortList: [[4,1]]
 @else
-      sortList: [[5,1]]
+      sortList: [[8,1]]
 @endif
       });
 });
