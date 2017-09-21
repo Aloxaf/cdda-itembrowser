@@ -18,7 +18,7 @@ Consumables - Cataclysm: Dark Days Ahead
     <th><span title="Days to spoil">Spo</span></th>
     <th><span title="Stimulant">Sti</span></th>
     <th><span title="Health">Hea</span></th>
-    <th><span title="Adiction">Adi</span></th>
+    <th><span title="Addiction">Adi</span></th>
     <th>Fun</th>
   </tr>
 </thead>
