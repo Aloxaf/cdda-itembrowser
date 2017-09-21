@@ -22,7 +22,7 @@ It's always nice to make a {{link_to_route('item.recipes', 'fire', array("id"=>"
 To repair your armor and clothes, you can cut some
 {{ link_to_route("item.materials", "items made of wood", "wood") }}
  to obtain
-{{ link_to_route("item.view", "skewers", "skewer") }},
+{{ link_to_route("item.view", "splintered wood", "skewer") }},
  with that you can
 {{ link_to_route("item.craft", "craft a wooden needle", "needle_wood") }},
  then you need

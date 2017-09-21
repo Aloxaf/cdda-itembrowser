@@ -38,7 +38,7 @@ Books - Cataclysm: Dark Days Ahead
 <script>
 $(function() {
     $(".tablesorter").tablesorter({
-      sortList: [[5,1]]
+      sortList: [[2,0],[3,0],[4,0],[1,0]]
       });
 });
 </script>

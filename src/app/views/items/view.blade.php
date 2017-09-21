@@ -11,7 +11,7 @@
     {{$item->featureLabels}}
     <br>
     <br>
-    Volume: {{{ $item->volume }}} Weight: {{ $item->weight }}/{{ $item->weightMetric }}<br>
+    Volume: {{{ $item->volume/4.0 }}} L Weight: {{ $item->weight }}/{{ $item->weightMetric }}<br>
       Bash: {{{ $item->bashing }}}
       @if ($item->hasFlag("SPEAR"))
       Pierce: {{{ $item->cutting }}}
@@ -158,7 +158,7 @@
       Elec: {{{  $item->protection('elec') }}}<br>
       Environmental protection: {{{ $item->environmental_protection }}}<br>
       Warmth: {{{ $item->warmth }}}<br>
-      Storage: {{{ $item->storage }}}<br>
+      Storage: {{{ $item->storage/4.0 }}} L<br>
     @endif
 
     @if ($item->isContainer)
