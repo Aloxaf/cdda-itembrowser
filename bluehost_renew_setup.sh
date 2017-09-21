@@ -10,8 +10,14 @@ cd "$BASE_PATH"
 cp bluehost_composer.json src/composer.json
 cp bluehost_artisan src/artisan
 
-rm -r Cataclysm-DDA-master
-rm master.zip
+if [ ! -e Cataclysm-DDA-master]
+then
+    rm -r Cataclysm-DDA-master
+fi
+if [ ! -e master.zip]
+then
+    rm master.zip
+fi
 
 # download the cataclysm dda's source code
 #if [ ! -e master.zip ]
