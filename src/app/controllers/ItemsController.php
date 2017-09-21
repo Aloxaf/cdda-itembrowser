@@ -182,6 +182,6 @@ class ItemsController extends BaseController
     {
         $item = $this->repo->getModelOrFail("Item", $id);
 
-        return Redirect::to("http://www.wiki.cataclysmdda.com/index.php?title=$item->slug");
+        return Redirect::to("http://cddawiki.chezzo.com/cdda_wiki/index.php?title=$item->slug");
     }
 }
