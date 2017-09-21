@@ -8,7 +8,7 @@ STORAGE_PATH="src/app/storage"
 
 cd "$BASE_PATH"
 cp bluehost_composer.json src/composer.json
-
+cp bluehost_artisan src/artisan
 # download the cataclysm dda's source code
 #if [ ! -e master.zip ]
 #then
