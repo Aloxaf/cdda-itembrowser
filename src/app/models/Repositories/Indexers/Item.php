@@ -225,6 +225,11 @@ class Item implements IndexerInterface
             ValueUtil::SetDefault($object,"healthy",0);
             ValueUtil::SetDefault($object,"addiction_potential",0);
             ValueUtil::SetDefault($object,"charges",1);
+            ValueUtil::SetDefault($object,"nutrition",0);
+
+            if (isset($object->calories)) {
+                $object->nutrition = floor($object->calories/2500.0*288.0);
+            }
 
             $type = strtolower($object->comestible_type);
             $repo->append("consumables.$type", $object->id);
