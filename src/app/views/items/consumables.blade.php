@@ -1,6 +1,9 @@
 @section('title')
 Consumables - Cataclysm: Dark Days Ahead
 @endsection
+<style type="text/css">
+tr:nth-child(2n) {background-color:#1C1C1C}
+</style>
 <h1>Consumables</h1>
 
 <ul class="nav nav-tabs">
