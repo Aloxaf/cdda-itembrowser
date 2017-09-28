@@ -36,12 +36,14 @@ To repair your armor and clothes, you can cut some
 
 <h2>There are two copies of the database</h2>
 <p>
-On the top bar, there are two links, stable and development, each one points to a copy of the database for the latest stable release and an up-to-date git master copy (updated nightly), respectively.
+On the top bar, there are two links, stable and development, each one points to a copy of the database for the latest stable release and a frequently updated git master copy, respectively.
 </p>
 
 <hr>
 <p>
-The source code for this item browser is available at <a href="https://github.com/Sheco/cdda-itembrowser">Github</a>.
+The source code for the original item browser is available at <a href="https://github.com/Sheco/cdda-itembrowser">Github</a>.
+<br/>
+The source code for the latest experimental item browser is also available at <a href="https://github.com/DanmakuDan/cdda-itembrowser">Github</a>.
 </p>
 </div>
 
