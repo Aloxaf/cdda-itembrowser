@@ -220,7 +220,7 @@ class Item implements IndexerInterface
                 //$object->comestible_type = "N/A";
             //}
 
-            ValueUtil::SetDefault($object,"comestible_type","N/A");
+            ValueUtil::SetDefault($object,"comestible_type","None");
             ValueUtil::SetDefault($object,"phase","solid");
             ValueUtil::SetDefault($object,"quench",0);
             ValueUtil::SetDefault($object,"fun",0);
