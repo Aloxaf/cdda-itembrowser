@@ -215,10 +215,12 @@ class Item implements IndexerInterface
         }
 
         if ($object->type == "COMESTIBLE") {
-            if (!array_key_exists("comestible_type", $object)) {
-                print "comestible_type missing: ".$object->id."\n";
-            }
+            //if (!array_key_exists("comestible_type", $object)) {
+                //print "comestible_type missing: ".$object->id."\n";
+                //$object->comestible_type = "N/A";
+            //}
 
+            ValueUtil::SetDefault($object,"comestible_type","N/A");
             ValueUtil::SetDefault($object,"phase","solid");
             ValueUtil::SetDefault($object,"quench",0);
             ValueUtil::SetDefault($object,"fun",0);
