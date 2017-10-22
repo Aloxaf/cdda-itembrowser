@@ -10,11 +10,11 @@ cd "$BASE_PATH"
 cp bluehost_composer.json src/composer.json
 cp bluehost_artisan src/artisan
 # download the cataclysm dda's source code
-#if [ ! -e master.zip ]
-#then
+if [ ! -e master.zip ]
+then
     echo "Downloading game source and data files..."
     curl -LOs https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip
-#fi
+fi
 
 echo "Unzipping..."
 unzip -qo master.zip
