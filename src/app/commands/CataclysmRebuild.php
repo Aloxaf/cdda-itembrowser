@@ -87,6 +87,7 @@ class CataclysmCache extends Command
         $this->registerIndexer(new Indexers\MonsterGroup());
         $this->registerIndexer(new Indexers\Terrain);
         $this->registerIndexer(new Indexers\Furniture);
+        $this->registerIndexer(new Indexers\Requirement);
     }
 
     private function registerIndexer(Indexers\IndexerInterface $indexer)
