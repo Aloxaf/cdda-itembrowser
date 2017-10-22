@@ -58,6 +58,7 @@ class Item implements IndexerInterface
 
     public function onFinishedLoading(RepositoryWriterInterface $repo)
     {
+        $starttime = microtime(true);
         foreach ($repo->raw(self::DEFAULT_INDEX) as $id) {
             $recipes = count($repo->raw("item.toolFor.$id"));
             if ($recipes>0) {
@@ -109,6 +110,9 @@ class Item implements IndexerInterface
         $repo->sort("gunSkills");
         $repo->sort("bookSkills");
         $repo->sort("consumableTypes");
+
+        $timediff = microtime(true) - $starttime;
+        print "Item post-processing $timediff s.\n";
     }
 
     public function onNewObject(RepositoryWriterInterface $repo, $object)

@@ -19,6 +19,7 @@ class Recipe implements IndexerInterface
 
     public function onFinishedLoading(RepositoryWriterInterface $repo)
     {
+        $starttime = microtime(true);
         try {
             $skills = [];
             foreach ($repo->raw(self::DEFAULT_INDEX) as $id) {
@@ -300,6 +301,9 @@ class Recipe implements IndexerInterface
             print "Exception encountered while linking recipe information.\n";
             throw $e;
         }
+        $endtime = microtime(true);
+        $timediff = $endtime-$starttime;
+        print "Recipe post-processing $timediff s.\n";
     }
 
     private function linkIndexes($repo, $key, $id, $recipe)

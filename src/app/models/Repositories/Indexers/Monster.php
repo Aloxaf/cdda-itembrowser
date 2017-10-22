@@ -21,12 +21,12 @@ class Monster implements IndexerInterface
                 $repo->addUnique("monster.species", $species);
             }
 
-            ValueUtil::SetDefault($object,"melee_skill",0);
-            ValueUtil::SetDefault($object,"melee_dice_sides",0);
-            ValueUtil::SetDefault($object,"melee_cut",0);
-            ValueUtil::SetDefault($object,"melee_dice",0);
-            ValueUtil::SetDefault($object,"aggression",0);
-            ValueUtil::SetDefault($object,"morale",0);
+            ValueUtil::SetDefault($object, "melee_skill", 0);
+            ValueUtil::SetDefault($object, "melee_dice_sides", 0);
+            ValueUtil::SetDefault($object, "melee_cut", 0);
+            ValueUtil::SetDefault($object, "melee_dice", 0);
+            ValueUtil::SetDefault($object, "aggression", 0);
+            ValueUtil::SetDefault($object, "morale", 0);
 
             return;
         }
@@ -34,6 +34,11 @@ class Monster implements IndexerInterface
 
     public function onFinishedLoading(RepositoryWriterInterface $repo)
     {
+        $starttime = microtime(true);
+
         $repo->sort("monster.species");
+
+        $timediff = microtime(true) - $starttime;
+        print "Monster post-processing $timediff s.\n";
     }
 }
