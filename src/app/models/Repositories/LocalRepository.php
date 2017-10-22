@@ -21,6 +21,8 @@ class LocalRepository extends Repository implements RepositoryInterface,
 
     private $events;
 
+    private $sublist;
+
     public function __construct(
         \Illuminate\Events\Dispatcher $events,
         \Illuminate\Foundation\Application $app
@@ -132,6 +134,7 @@ class LocalRepository extends Repository implements RepositoryInterface,
 
         $this->simpleindex = array();
         $this->pending = array();
+        $this->sublist = array();
 
         $paths = $this->dataPaths($path);
 
@@ -195,6 +198,23 @@ class LocalRepository extends Repository implements RepositoryInterface,
         $this->events->fire("cataclysm.finishedLoading", array($this));
 
         return array($this->database, $this->index);
+    }
+
+    public function add_substitute($id, $sub)
+    {
+        if (!isset($this->sublist[$sub])) {
+            $this->sublist[$sub] = array();
+        }
+        array_push($this->sublist[$sub],$id);
+    }
+
+    public function get_substitute($id)
+    {
+        $result = array();
+        if (isset($this->sublist[$id])) {
+            $result = $this->sublist[$id];
+        }
+        return $result;
     }
 
     // save an index to an object, without category context
