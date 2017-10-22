@@ -153,6 +153,11 @@ class Item implements IndexerInterface
             $repo->append("tool", $object->id);
         }
 
+        //apply substitution saving
+        if (isset($object->sub)) {
+            $repo->add_substitute($object->id,$object->sub);
+        }
+
         // save books per skill
         if ($object->type == "BOOK") {
             ValueUtil::SetDefault($object, "skill", "none");
