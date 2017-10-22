@@ -298,6 +298,7 @@ class LocalRepository extends Repository implements
 
         print "[Main] Post-processing for loaded objects...\n";
         $this->events->fire("cataclysm.finishedLoading", array($this));
+        print "[Main] Post-processing for loaded objects finished.\n";
 
         return array($this->database, $this->index);
     }
