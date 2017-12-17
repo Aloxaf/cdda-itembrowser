@@ -142,6 +142,58 @@ class Item implements IndexerInterface
         }
 
         ValueUtil::SetDefault($object, "reload", 100);
+        if ($object->type == "BOOK") {
+            ValueUtil::SetDefault($object, "skill", "none");
+            ValueUtil::SetDefault($object, "required_level", 0);
+        }
+        if ($object->type == "GUN") {
+            ValueUtil::SetDefault($object, "skill", "none");
+            ValueUtil::SetDefault($object, "ranged_damage", 0);
+            ValueUtil::SetDefault($object, "range", 0);
+            ValueUtil::SetDefault($object, "recoil", 0);
+            ValueUtil::SetDefault($object, "dispersion", 120);
+            ValueUtil::SetDefault($object, "burst", 0);
+        }
+        if ($object->type == "GUNMOD") {
+            ValueUtil::SetDefault($object, "location", "unknown");
+            ValueUtil::SetDefault($object, "mod_targets", array("unknown_target"));
+        }
+        if ($object->type == "AMMO") {
+            ValueUtil::SetDefault($object, "damage", 0);
+            ValueUtil::SetDefault($object, "recoil", 0);
+            ValueUtil::SetDefault($object, "loudness", 0);
+            ValueUtil::SetDefault($object, "price", 0);
+            ValueUtil::SetDefault($object, "pierce", 0);
+            ValueUtil::SetDefault($object, "dispersion", 0);
+            ValueUtil::SetDefault($object, "count", 1);
+        }
+        if ($object->type == "COMESTIBLE") {
+            ValueUtil::SetDefault($object, "comestible_type", "None");
+            ValueUtil::SetDefault($object, "phase", "solid");
+            ValueUtil::SetDefault($object, "quench", 0);
+            ValueUtil::SetDefault($object, "fun", 0);
+            ValueUtil::SetDefault($object, "healthy", 0);
+            ValueUtil::SetDefault($object, "addiction_potential", 0);
+            ValueUtil::SetDefault($object, "charges", 1);
+            ValueUtil::SetDefault($object, "nutrition", 0);
+        }
+
+        // handle properties that are modified by addition/multiplication
+        // the property is removed after application, since each template reference can have its own modifiers
+        if (isset($object->relative)) {
+            foreach ($object->relative as $relkey => $relvalue) {
+                $object->{$relkey} += $relvalue;
+            }
+            unset($object->relative);
+        }
+
+        if (isset($object->proportional)) {
+            foreach ($object->proportional as $proportionkey => $proportionvalue) {
+                if (is_array($object->{$proportionkey})) continue;
+                $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
+            }
+            unset($object->proportional);
+        }
 
         // items with enough damage might be good melee weapons.
         if ((isset($object->bashing) and isset($object->cutting) and isset($object->to_hit)) and ($object->bashing+$object->cutting>10 and $object->to_hit>-2)) {
@@ -178,9 +230,6 @@ class Item implements IndexerInterface
 
         // save books per skill
         if ($object->type == "BOOK") {
-            ValueUtil::SetDefault($object, "skill", "none");
-            ValueUtil::SetDefault($object, "required_level", 0);
-
             if (isset($this->book_types[$object->skill])) {
                 $skill = $this->book_types[$object->skill];
             } else {
@@ -191,13 +240,6 @@ class Item implements IndexerInterface
         }
 
         if ($object->type == "GUN") {
-            ValueUtil::SetDefault($object, "skill", "none");
-            ValueUtil::SetDefault($object, "ranged_damage", 0);
-            ValueUtil::SetDefault($object, "range", 0);
-            ValueUtil::SetDefault($object, "recoil", 0);
-            ValueUtil::SetDefault($object, "dispersion", 120);
-            ValueUtil::SetDefault($object, "burst", 0);
-
             if (!isset($object->skill)) {
                 $object->skill = "none";
             }
@@ -206,9 +248,6 @@ class Item implements IndexerInterface
         }
 
         if ($object->type == "GUNMOD") {
-            ValueUtil::SetDefault($object, "location", "unknown");
-            ValueUtil::SetDefault($object, "mod_targets", array("unknown_target"));
-
             foreach ($object->mod_targets as $target) {
                 $repo->append("gunmods.$target.$object->location", $object->id);
                 $repo->addUnique("gunmodSkills", $target);
@@ -217,14 +256,6 @@ class Item implements IndexerInterface
         }
 
         if ($object->type == "AMMO") {
-            ValueUtil::SetDefault($object, "damage", 0);
-            ValueUtil::SetDefault($object, "recoil", 0);
-            ValueUtil::SetDefault($object, "loudness", 0);
-            ValueUtil::SetDefault($object, "price", 0);
-            ValueUtil::SetDefault($object, "pierce", 0);
-            ValueUtil::SetDefault($object, "dispersion", 0);
-            ValueUtil::SetDefault($object, "count", 1);
-
             if (isset($object->ammo_type)) {
                 // some ammunition has multiple types
                 if (is_array($object->ammo_type)) {
@@ -242,15 +273,6 @@ class Item implements IndexerInterface
                 //print "comestible_type missing: ".$object->id."\n";
                 //$object->comestible_type = "N/A";
             //}
-
-            ValueUtil::SetDefault($object, "comestible_type", "None");
-            ValueUtil::SetDefault($object, "phase", "solid");
-            ValueUtil::SetDefault($object, "quench", 0);
-            ValueUtil::SetDefault($object, "fun", 0);
-            ValueUtil::SetDefault($object, "healthy", 0);
-            ValueUtil::SetDefault($object, "addiction_potential", 0);
-            ValueUtil::SetDefault($object, "charges", 1);
-            ValueUtil::SetDefault($object, "nutrition", 0);
 
             if (isset($object->calories)) {
                 $object->nutrition = floor($object->calories/2500.0*288.0);
@@ -283,20 +305,5 @@ class Item implements IndexerInterface
             }
         }
 
-        // handle properties that are modified by addition/multiplication
-        // the property is removed after application, since each template reference can have its own modifiers
-        if (isset($object->relative)) {
-            foreach ($object->relative as $relkey => $relvalue) {
-                $object->{$relkey} += $relvalue;
-            }
-            unset($object->relative);
-        }
-
-        if (isset($object->proportional)) {
-            foreach ($object->proportional as $proportionkey => $proportionvalue) {
-                $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
-            }
-            unset($object->proportional);
-        }
     }
 }
