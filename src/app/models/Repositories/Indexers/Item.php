@@ -240,6 +240,9 @@ class Item implements IndexerInterface
         }
 
         if ($object->type == "GUN") {
+            if (is_object($object->ranged_damage)) {
+                $object->ranged_damage = "N/A";
+            }
             if (!isset($object->skill)) {
                 $object->skill = "none";
             }
