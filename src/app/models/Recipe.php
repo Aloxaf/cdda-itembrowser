@@ -51,6 +51,11 @@ class Recipe implements Robbo\Presenter\PresentableInterface
         return isset($this->data->components);
     }
 
+    public function getHasByproducts()
+    {
+        return isset($this->data->byproducts);
+    }
+
     public function getTools()
     {
         return array_map(function ($group) {
@@ -71,6 +76,14 @@ class Recipe implements Robbo\Presenter\PresentableInterface
                 return array($this->repo->getModel("Item", $id), $amount);
             }, $group);
         }, $this->data->components);
+    }
+
+    public function getByproducts()
+    {
+            return array_map(function ($byproduct) {
+                list($id, $amount) = $byproduct;
+                return array($this->repo->getModel("Item", $id), $amount);
+            }, $this->data->byproducts);
     }
 
     public function getCanBeLearned()

@@ -40,6 +40,13 @@
   Components required:<br>
   {{$recipe->components}}<br>
   @endif
+
+  Byproducts:<br>
+  @if ($recipe->hasByproducts)
+  {{$recipe->byproducts}}<br>
+  @else
+  (none)<br>
+  @endif
 @if ($recipe->canBeLearned)
 --<br>
 This recipe can be found in the following books when {{$recipe->skill_used}} is at least the required level:<br>

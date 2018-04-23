@@ -55,4 +55,15 @@ class Recipe extends \Robbo\Presenter\Presenter
 
         return "&gt; ".implode("<br>&gt; ", $components)."\n";
     }
+
+    public function presentByproducts()
+    {
+        $byproducts = array();
+        foreach ($this->object->byproducts as $group) {
+            list($item, $amount) = $group;
+            $byproducts[] = "{$amount}x ".link_to_route("item.view", $item->name, array("id" => $item->id));
+        }
+
+        return "&gt; ".implode(", ", $byproducts)."\n";
+    }
 }

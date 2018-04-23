@@ -372,6 +372,14 @@ class Recipe implements IndexerInterface
                     }
                 }
 
+                if (isset($recipe->byproducts)) {
+                    for ($a = 0; $a < count($recipe->byproducts); $a++) {
+                        if (count($recipe->byproducts[$a]) == 1) {
+                            array_push($recipe->byproducts[$a], 1);
+                        }
+                    }
+                }
+
                 if (isset($recipe->tools)) {
                     foreach ($recipe->tools as $group) {
                         foreach ($group as $tool) {
