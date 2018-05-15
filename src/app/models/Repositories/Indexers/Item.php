@@ -282,8 +282,14 @@ class Item implements IndexerInterface
             }
 
             $type = strtolower($object->comestible_type);
-            $repo->append("consumables.$type", $object->id);
-            $repo->addUnique("consumableTypes", $type);
+
+            if (isset($object->brewable)) {
+                $repo->append("consumables.fermentable", $object->id);
+                $repo->addUnique("consumableTypes", "fermentable");
+            } else {
+                $repo->append("consumables.$type", $object->id);
+                $repo->addUnique("consumableTypes", $type);
+            }
         }
 
         if (isset($object->qualities)) {

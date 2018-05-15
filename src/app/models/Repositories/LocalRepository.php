@@ -47,6 +47,11 @@ class LocalRepository extends Repository implements
             return;
         }
 
+        // manually skip other water definitions for now
+        if (isset($object->id) && $object->id == "water" && isset($object->type) && $object->type != "COMESTIBLE") {
+            return;
+        }
+
         // //temporary exclusion of uncrafting recipes
         // if (isset($object->type)&&$object->type=="uncraft") {
         //     return;
@@ -214,7 +219,9 @@ class LocalRepository extends Repository implements
         $path = $this->source;
 
         $this->database = array();
-        $this->id = 0;
+
+        //starting from zero causes issues
+        $this->id = 1;
         $this->index = array();
 
         $this->simpleindex = array();
@@ -265,6 +272,7 @@ class LocalRepository extends Repository implements
                 }
             }
         }
+
 
         // load special replacements for ingame features
         if (!$this->get("item.toolset")) {

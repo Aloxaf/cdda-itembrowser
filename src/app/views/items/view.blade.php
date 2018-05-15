@@ -161,6 +161,12 @@
       Storage: {{{ $item->storage/4.0 }}} L<br>
     @endif
 
+    @if ($item->isBrewable)
+      <br>
+      {{$item->brewable}}
+      <br>
+    @endif
+
     @if ($item->isContainer)
     @if ($item->rigid=='y')
       This item is rigid.<br>
