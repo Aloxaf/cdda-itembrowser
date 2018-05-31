@@ -182,6 +182,7 @@ class Item implements IndexerInterface
         // the property is removed after application, since each template reference can have its own modifiers
         if (isset($object->relative)) {
             foreach ($object->relative as $relkey => $relvalue) {
+                if(isset($object->{$relkey}))
                 $object->{$relkey} += $relvalue;
             }
             unset($object->relative);
