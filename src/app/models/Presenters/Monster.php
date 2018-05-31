@@ -42,7 +42,19 @@ class Monster extends \Robbo\Presenter\Presenter
         array_walk($attacks, function (&$attack) {
             if(isset($attack->type)) 
                 $attack = "$attack->type: $attack->cooldown";
-            else 
+            else if(isset($attack->id)) {
+                if(isset($attack->damage_max_instance)) {
+                    $counter = 0;
+                    $attackstr = "$attack->id: ";
+                    $attackarray=[];
+                    foreach($attack->damage_max_instance as $inst) {
+                        $attackarray[]="($inst->damage_type for $inst->amount damage)";
+                    }
+                    $attackstr= $attackstr.implode(" ",$attackarray);
+                    $attack=$attackstr;
+                }
+            }
+            else
                 $attack = "$attack[0]: $attack[1]";
         });
 
