@@ -376,6 +376,11 @@ class Item implements Robbo\Presenter\PresentableInterface
         return count($this->flags)>0;
     }
 
+    public function getHasTechniques()
+    {
+        return count($this->techniques)>0;
+    }
+
     public function getDamagePerMove()
     {
         if(!$this->movesPerAttack)

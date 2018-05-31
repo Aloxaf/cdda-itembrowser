@@ -212,4 +212,14 @@ class Item extends \Robbo\Presenter\Presenter
     {
         return number_format($this->object->contains, 2);
     }
+
+    public function presentTechniques()
+    {
+        $techs = (array) $this->object->techniques;
+        if (empty($techs)) {
+            return "";
+        }
+
+        return implode(", ", $techs);
+    }
 }
