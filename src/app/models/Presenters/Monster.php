@@ -52,6 +52,8 @@ class Monster extends \Robbo\Presenter\Presenter
                     }
                     $attackstr= $attackstr.implode(" ",$attackarray);
                     $attack=$attackstr;
+                }else{
+                    $attack="$attack->id";
                 }
             }
             else
