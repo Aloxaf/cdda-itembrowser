@@ -88,6 +88,6 @@ class Construction implements IndexerInterface
         }
 
         $timediff = microtime(true) - $starttime;
-        print "Construction post-processing $timediff s.\n";
+        print "Construction post-processing ".number_format($timediff,3)." s.\n";
     }
 }

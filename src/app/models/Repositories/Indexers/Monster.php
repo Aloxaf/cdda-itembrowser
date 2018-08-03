@@ -39,6 +39,6 @@ class Monster implements IndexerInterface
         $repo->sort("monster.species");
 
         $timediff = microtime(true) - $starttime;
-        print "Monster post-processing $timediff s.\n";
+        print "Monster post-processing ".number_format($timediff,3)." s.\n";
     }
 }

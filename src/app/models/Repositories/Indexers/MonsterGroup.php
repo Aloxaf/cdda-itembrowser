@@ -16,7 +16,7 @@ class MonsterGroup implements IndexerInterface
         $repo->sort(self::DEFAULT_INDEX);
 
         $timediff = microtime(true) - $starttime;
-        print "MonsterGroup post-processing $timediff s.\n";
+        print "MonsterGroup post-processing ".number_format($timediff,3)." s.\n";
     }
 
     public function onNewObject(RepositoryWriterInterface $repo, $object)

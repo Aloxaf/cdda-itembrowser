@@ -112,7 +112,7 @@ class Item implements IndexerInterface
         $repo->sort("consumableTypes");
 
         $timediff = microtime(true) - $starttime;
-        print "Item post-processing $timediff s.\n";
+        print "Item post-processing ".number_format($timediff,3)." s.\n";
     }
 
     public function onNewObject(RepositoryWriterInterface $repo, $object)

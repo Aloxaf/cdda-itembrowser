@@ -303,7 +303,7 @@ class Recipe implements IndexerInterface
         }
         $endtime = microtime(true);
         $timediff = $endtime-$starttime;
-        print "Recipe post-processing $timediff s.\n";
+        print "Recipe post-processing ".number_format($timediff,3)." s.\n";
     }
 
     private function linkIndexes($repo, $key, $id, $recipe)
