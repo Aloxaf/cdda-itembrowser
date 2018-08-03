@@ -43,12 +43,16 @@ class LocalRepository extends Repository implements
     private function newObject($object)
     {
         // skip snippets and talk topics for now
-        if ($object->type == "snippet" || $object->type =="talk_topic") {
+        if ($object->type == "snippet" || $object->type =="talk_topic" || $object->type=="overmap_terrain") {
             return;
         }
 
         // manually skip other water definitions for now
         if (isset($object->id) && $object->id == "water" && isset($object->type) && $object->type != "COMESTIBLE") {
+            return;
+        }
+
+        if(isset($object->type) && $object->type=="recipe" && isset($object->category) && $object->category=="CC_BUILDING"){
             return;
         }
 
@@ -66,13 +70,15 @@ class LocalRepository extends Repository implements
             $object->repo_id = $this->id++;
             // print $object->repo_id."\n";
         }
-        // if (isset($object->id)) {
-        //     print $object->id."\n";
-        // } elseif (isset($object->result)) {
-        //     print $object->result."\n";
-        // } elseif (isset($object->abstract)) {
-        //     print $object->abstract."\n";
-        // }
+         //if (isset($object->id)) {
+         //    print $object->id."\n";
+         //} elseif (isset($object->result)) {
+         //    print $object->result."\n";
+         //} elseif (isset($object->abstract)) {
+         //    print $object->abstract."\n";
+         //} else{
+         //   var_dump($object);
+         //}
 
 
         // move abstract field to id field so abstracts can be referenced in copy-from logic
