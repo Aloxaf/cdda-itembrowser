@@ -165,14 +165,22 @@ class Item implements Robbo\Presenter\PresentableInterface
 
         $variable = "{$type}_resist";
         $thickness = $this->material_thickness;
-        if ($thickness<1) {
+        if ($thickness < 1 || ($variable == "acid_resist" || $variable == "fire_resist")) {
             $thickness = 1;
         }
-        if ($mat2 == "null") {
-            return $thickness*3*$mat1->$variable;
+
+        $val = 0;
+        if ($mat2 == "null" || $mat2->ident == "null") {
+            $val = $thickness * $mat1->$variable;
         } else {
-            return $thickness*(($mat1->$variable*2)+$mat2->$variable);
+            $val = $thickness * (($mat1->$variable + $mat2->$variable) / 2);
         }
+
+        if (($variable == "acid_resist" || $variable == "fire_resist") && $this->environmental_protection < 10) {
+            $val = $this->environmental_protection / 10.0 * $val;
+        }
+
+        return round($val);
     }
 
     public function getIsTool()

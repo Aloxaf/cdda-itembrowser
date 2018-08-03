@@ -157,8 +157,7 @@
       Cut:  {{{  $item->protection('cut') }}}<br>
       Acid: {{{  $item->protection('acid') }}}
       &nbsp;&nbsp;&nbsp;
-      Fire: {{{  $item->protection('fire') }}}
-      Elec: {{{  $item->protection('elec') }}}<br>
+      Fire: {{{  $item->protection('fire') }}}<br>
       Environmental protection: {{{ $item->environmental_protection }}}<br>
       Warmth: {{{ $item->warmth }}}<br>
       Storage: {{{ $item->storage/4.0 }}} L<br>
