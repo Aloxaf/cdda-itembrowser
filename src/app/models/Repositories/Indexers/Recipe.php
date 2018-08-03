@@ -279,7 +279,7 @@ class Recipe implements IndexerInterface
                     }
                 }
 
-                if (isset($recipe->skill_used)) {
+                if (isset($recipe->skill_used) && !isset($recipe->abstract)) {
                     $skill = $recipe->skill_used;
                     $level = $recipe->difficulty;
 
