@@ -197,8 +197,12 @@ class Item implements IndexerInterface
         }
 
         // items with enough damage might be good melee weapons.
-        if ((isset($object->bashing) and isset($object->cutting) and isset($object->to_hit)) and ($object->bashing+$object->cutting>10 and $object->to_hit>-2)) {
-            $repo->append("melee", $object->id);
+        $damagecheck=0;
+        if(isset($object->bashing))$damagecheck+=$object->bashing;
+        if(isset($object->cutting))$damagecheck+=$object->cutting;
+        if(isset($object->to_hit))$damagecheck+=$object->to_hit;
+        if($damagecheck>=8 && (!isset($object->dispersion) || $object->dispersion==0)) {
+            $repo->append("melee",$object->id);
         }
 
         $is_armor = in_array($object->type, ["ARMOR", "TOOL_ARMOR"]);
