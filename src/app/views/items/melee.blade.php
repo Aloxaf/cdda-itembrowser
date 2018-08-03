@@ -3,7 +3,7 @@ Melee - Cataclysm: Dark Days Ahead
 @endsection
 <h1>Melee</h1>
 <p>
-Items with bashing+cutting damage higher than 10 and to-hit bonus higher than -2
+Items with bashing damage + cutting damage + to-hit bonus higher than 7
 </p>
 
 <table class="table table-bordered table-hover tablesorter">
@@ -16,7 +16,7 @@ Items with bashing+cutting damage higher than 10 and to-hit bonus higher than -2
     <th><span title="Weight">W</span></th>
     <th><span title="Moves per attack">M/A</span></th>
     <th><span title="Bashing+Cutting">Dmg</span></th>
-    <th><span title="Damage per move">dps</span></th>
+    <th><span title="Damage per 100 moves">dpm</span></th>
     <th><span title="To-Hit">H</span></th>
   </tr>
 </thead>
