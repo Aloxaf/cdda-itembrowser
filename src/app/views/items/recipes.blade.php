@@ -24,7 +24,7 @@ var show_recipe = function(id)
 <h1>
   {{$item->symbol}} <a href="{{ route("item.view", array("id"=>$item->id)) }}">{{ $item->name }}</a>
 @if ($item->count("toolFor"))
- can be used to craft following recipes:<br>
+ can be used to craft the following recipes:<br>
 @else
  can't be used to craft anything.
 @endif

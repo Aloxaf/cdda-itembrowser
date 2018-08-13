@@ -266,19 +266,6 @@ class Recipe implements IndexerInterface
                     }
                 }
 
-                // search for all the items with the apropiate qualities
-                if (isset($recipe->qualities)) {
-                    foreach ($recipe->qualities as $group) {
-                        foreach ($repo->raw("quality.$group->id") as $id) {
-                            $item = $repo->get("item.$id");
-                            if ($this->itemQualityLevel($item, $group->id)<$group->level) {
-                                continue;
-                            }
-                            $this->linkIndexes($repo, 'toolFor', $id, $recipe);
-                        }
-                    }
-                }
-
                 if (isset($recipe->skill_used) && !isset($recipe->abstract)) {
                     $skill = $recipe->skill_used;
                     $level = $recipe->difficulty;
