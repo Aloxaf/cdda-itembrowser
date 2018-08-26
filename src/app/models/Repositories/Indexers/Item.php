@@ -16,7 +16,7 @@ class Item implements IndexerInterface
         $this->types = array_flip(array(
             "AMMO", "GUN", "ARMOR", "TOOL", "TOOL_ARMOR", "BOOK", "COMESTIBLE",
             "CONTAINER", "GUNMOD", "GENERIC", "BIONIC_ITEM", "VAR_VEH_PART",
-            "_SPECIAL", "MAGAZINE", "WHEEL", "TOOLMOD", "ENGINE",
+            "_SPECIAL", "MAGAZINE", "WHEEL", "TOOLMOD", "ENGINE", "VEHICLE_PART",
         ));
 
         $this->book_types = array(
@@ -117,17 +117,8 @@ class Item implements IndexerInterface
 
     public function onNewObject(RepositoryWriterInterface $repo, $object)
     {
-        // only index objects with valid item types.
-        // if (!isset($this->types[$object->type])) {
-        //     if (isset($object->id)) {
-        //         print "[Item?] ".$object->id." is not in the type list.\n";
-        //         if (isset($object->type)) {
-        //             print $object->type."\n";
-        //         }
-        //     }
-        //     return;
-        // }
-        if (!isset($this->types[$object->type]) || !isset($object->id)) {
+        // capitalize type name to avoid failing on lowercase types
+        if (!isset($this->types[strtoupper($object->type)]) || !isset($object->id)) {
             return;
         }
 
