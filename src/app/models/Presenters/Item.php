@@ -222,4 +222,13 @@ class Item extends \Robbo\Presenter\Presenter
 
         return implode(", ", $techs);
     }
+    
+    public function presentSourcePart()
+    {
+        if ($this->object->item === null) {
+            return "(unknown)";
+        }
+        $sourcepart = $this->object->sourcepart;
+        return link_to_route("item.view", $sourcepart->name, array("id" => $sourcepart->id));
+    }
 }

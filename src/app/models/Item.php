@@ -148,6 +148,11 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $this->data->type == "AMMO";
     }
 
+    public function getIsVehiclePart()
+    {
+        return strtoupper($this->data->type) == "VEHICLE_PART";
+    }
+    
     public function getIsBook()
     {
         return $this->data->type == "BOOK";
@@ -463,5 +468,10 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function getConstructionUses()
     {
         return $this->repo->allModels('Construction', "construction.{$this->data->id}");
+    }
+    
+    public function getSourcePart()
+    {
+        return $this->repo->getModel("Item", $this->data->item);
     }
 }

@@ -9,6 +9,14 @@
   <div class="col-md-6">
     <h1>{{$item->symbol}} {{$item->name}}</h1>
     {{$item->featureLabels}}
+    @if ($item->isVehiclePart)
+    <br>
+    <br>
+    This vehicle part is installed from the item {{$item->sourcePart}}.
+    <br>
+    <br>
+    @endif
+    @if (!$item->isVehiclePart)
     <br>
     <br>
     Volume: {{{ $item->volume/4.0 }}} L Weight: {{ $item->weight }}/{{ $item->weightMetric }}<br>
@@ -24,6 +32,7 @@
       Moves per attack: {{{ $item->movesPerAttack }}}<br>
       Damage per move: {{{ $item->damagePerMove }}}<br>
       Materials: {{ $item->materials }}<br>
+    @endif
       @if ($item->hasFlags)
       Flags: {{ $item->flags }}<br>
       @endif
