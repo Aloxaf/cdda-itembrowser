@@ -56,30 +56,10 @@ class LocalRepository extends Repository implements
             return;
         }
 
-        // //temporary exclusion of uncrafting recipes
-        // if (isset($object->type)&&$object->type=="uncraft") {
-        //     return;
-        // }
-
-        // if (isset($object->id) && $object->id=="radio_car") {
-        //     var_dump($object);
-        // }
-
         // generate a new repo ID if we are not currently processing pending objects
         if (!array_key_exists("repo_id", $object)) {
             $object->repo_id = $this->id++;
-            // print $object->repo_id."\n";
         }
-         //if (isset($object->id)) {
-         //    print $object->id."\n";
-         //} elseif (isset($object->result)) {
-         //    print $object->result."\n";
-         //} elseif (isset($object->abstract)) {
-         //    print $object->abstract."\n";
-         //} else{
-         //   var_dump($object);
-         //}
-
 
         // move abstract field to id field so abstracts can be referenced in copy-from logic
         if (array_key_exists("abstract", $object)) {
@@ -89,9 +69,6 @@ class LocalRepository extends Repository implements
                 $object->id = $object->abstract;
             }
         }
-        // if (!array_key_exists("id", $object) && array_key_exists("abstract", $object)) {
-        //     $object->id = $object->abstract;
-        // }
 
         // handle template copying in cataclysm JSON
         if (array_key_exists("copy-from", $object)) {
@@ -102,7 +79,6 @@ class LocalRepository extends Repository implements
             } else {
                 $tempobj = $this->simpleget($object->{'copy-from'}, null);
             }
-            // $tempobj = $this->simpleget($object->type."#".$object->{'copy-from'}, null);
 
             // if the referenced template is not available, store it in $pending for later, or wait for the next $pending review loop
             if ($tempobj === null) {
@@ -112,10 +88,8 @@ class LocalRepository extends Repository implements
                     $this->pending[$object->repo_id] = $object;
                     return;
                 }
-            } else {
-                // print "Loaded ".$object->{'copy-from'}." for repo ID $object->repo_id\n";
             }
-
+            
             // copy all template fields that are not already populated in the current item
             foreach ($tempobj as $subkey => $subobject) {
                 if (!array_key_exists($subkey, $object) && $subkey!="abstract") {
@@ -129,22 +103,6 @@ class LocalRepository extends Repository implements
             }
         }
 
-        // // store basic ID into simple array for lookup later for resolving copy-from templates
-        // if (array_key_exists("type", $object) && ($object->type=="recipe"||$object->type=="uncraft")) {
-        // } elseif (array_key_exists("id", $object)) {
-        //     // $str = "";
-        //     // if (isset($object->type)) {
-        //     //     $str=$object->type;
-        //     // }
-        //     // $this->simpleset($str."#".$object->id, $object->repo_id);
-        //     if ($this->simpleget($object->id) === null) {
-        //         $this->simpleset($object->id, $object->repo_id);
-        //     } else {
-        //         print "omitting ".$object->id." from simpleget list, appears as duplicate\n";
-        //         return;
-        //     }
-        // }
-
         // store basic ID into simple array for lookup later for resolving copy-from templates
         if (isset($object->type)&&$object->type=="recipe") {
             $this->simplesetrecipe($object->result, $object->repo_id);
@@ -156,22 +114,6 @@ class LocalRepository extends Repository implements
                 $this->simpleset($object->id, $object->repo_id);
             }
         }
-
-        // if (isset($object->id)) {
-        //     if ($object->id=="radio_car") {
-        //         // var_dump($object);
-        //     }
-        //     //print $object->type."#".$object->id."\n";
-        // } else {
-        //     if (isset($object->result)) {
-        //         if ($object->result=="radio_car") {
-        //             // var_dump($object);
-        //         }
-        //         //print $object->type."#".$object->result."\n";
-        //     } else {
-        //         // var_dump($object);
-        //     }
-        // }
 
         try {
             // ask each indexer to process the new object
@@ -286,26 +228,26 @@ class LocalRepository extends Repository implements
                 "id":"toolset",
                 "name":"integrated toolset",
                 "type":"_SPECIAL",
-                "description":"A fake item. It represents an feature in-game that does not normally exist as an item."
+                "description":"A fake item. It represents a feature in-game that does not normally exist as an item."
             }'));
         }
         $this->newObject(json_decode('{
             "id":"fire",
             "name":"nearby fire",
             "type":"_SPECIAL",
-            "description":"A fake item. It represents an feature in-game that does not normally exist as an item."
+            "description":"A fake item. It represents a feature in-game that does not normally exist as an item."
             }'));
         $this->newObject(json_decode('{
             "id":"cvd_machine",
             "name":"cvd machine",
             "type":"_SPECIAL",
-            "description":"A fake item. It represents an feature in-game that does not normally exist as an item."
+            "description":"A fake item. It represents a feature in-game that does not normally exist as an item."
         }'));
         $this->newObject(json_decode('{
             "id":"apparatus",
             "name":"a smoking device and a source of flame",
             "type":"_SPECIAL",
-            "description":"A fake item. It represents an feature in-game that does not normally exist as an item."
+            "description":"A fake item. It represents a feature in-game that does not normally exist as an item."
         }'));
 
         $this->version = $this->getVersion($path);
