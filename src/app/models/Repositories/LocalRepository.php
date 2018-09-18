@@ -139,8 +139,14 @@ class LocalRepository extends Repository implements
         foreach ($mods as $mod) {
             $modinfo = json_decode(file_get_contents("$mod/modinfo.json"));
             // JSON structure is different than earlier mod versions
-            if ($modinfo[0]->ident == $id) {
-                return $mod;
+            if (is_array($modinfo)) {
+                if ($modinfo[0]->ident == $id) {
+                    return $mod;
+                }
+            } else {
+                if ($modinfo->ident == $id) {
+                    return $mod;
+                }
             }
         }
     }
