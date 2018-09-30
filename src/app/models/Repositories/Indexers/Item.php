@@ -133,6 +133,7 @@ class Item implements IndexerInterface
         }
 
         ValueUtil::SetDefault($object, "reload", 100);
+        ValueUtil::SetDefault($object, "to_hit", 0);
         if ($object->type == "ARMOR") {
             ValueUtil::SetDefault($object, "environmental_protection", 0);
         }
@@ -195,7 +196,7 @@ class Item implements IndexerInterface
         if(isset($object->bashing))$damagecheck+=$object->bashing;
         if(isset($object->cutting))$damagecheck+=$object->cutting;
         if(isset($object->to_hit))$damagecheck+=$object->to_hit;
-        if($damagecheck>=8 && (!isset($object->dispersion) || $object->dispersion==0)) {
+        if($damagecheck>=8 && strtoupper($object->type) != "VEHICLE_PART" && isset($object->weight) && $object->weight < 15000 && (!isset($object->dispersion) || $object->dispersion==0)) {
             $repo->append("melee",$object->id);
         }
 
