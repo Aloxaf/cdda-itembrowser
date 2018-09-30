@@ -13,7 +13,7 @@ Items with bashing damage + cutting damage + to-hit bonus higher than 7
     <th>Name</th>
     <th>Material</th>
     <th><span title="Volume">V</span></th>
-    <th><span title="Weight">W</span></th>
+    <th><span title="Weight in pounds">W lbs</span></th>
     <th><span title="Moves per attack">M/A</span></th>
     <th><span title="Bashing+Cutting">Dmg</span></th>
     <th><span title="Damage per 100 moves">dpm</span></th>

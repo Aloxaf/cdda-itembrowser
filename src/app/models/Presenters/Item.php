@@ -30,7 +30,7 @@ class Item extends \Robbo\Presenter\Presenter
             return;
         }
 
-        return number_format($weight/453.6, 2)." lbs";
+        return number_format($weight/453.6, 2);
     }
 
     public function presentWeightMetric()
@@ -40,7 +40,7 @@ class Item extends \Robbo\Presenter\Presenter
             return;
         }
 
-        return number_format($weight/1000, 2).' kg';
+        return number_format($weight/1000, 2);
     }
 
     public function presentBashing()

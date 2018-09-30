@@ -19,7 +19,7 @@
     @if (!$item->isVehiclePart)
     <br>
     <br>
-    Volume: {{{ $item->volume/4.0 }}} L Weight: {{ $item->weight }}/{{ $item->weightMetric }}<br>
+    Volume: {{{ $item->volume/4.0 }}} L Weight: {{ $item->weight }} lbs /{{ $item->weightMetric }} kg<br>
       Bash: {{{ $item->bashing }}}
       @if ($item->hasFlag("SPEAR"))
       Pierce: {{{ $item->cutting }}}
