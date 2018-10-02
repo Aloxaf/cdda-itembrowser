@@ -84,4 +84,14 @@ class Recipe extends \Robbo\Presenter\Presenter
 
         return implode(" ", $labelArray);
     }
+    
+    public function presentNpcLabel()
+    {
+        $suffix = $this->object->id_suffix;
+        if (stripos($suffix, "npc") !== false) {
+            return '<span class="label label-warning">NPC Recipe</span>';
+        }
+        
+        return "";
+    }
 }

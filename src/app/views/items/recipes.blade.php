@@ -39,7 +39,7 @@ var show_recipe = function(id)
 <div class="row">
   <div class="col-md-4">
 @foreach ($recipes as $recipe_id=>$local_recipe)
-{{$local_recipe->result->symbol}} <a href="#" onclick="return show_recipe('{{$recipe_id}}')">{{{ $local_recipe->result->name }}}</a>
+{{$local_recipe->result->symbol}} <a href="#" onclick="return show_recipe('{{$recipe_id}}')">{{{ $local_recipe->result->name }}} {{ $local_recipe->npcLabel }}</a>
 <br>
 @endforeach
 <hr>
@@ -50,6 +50,7 @@ var show_recipe = function(id)
 {{$recipe->result->symbol}} {{ link_to_route("item.view",
 $recipe->result->name,
 array("id"=>$recipe->result->id)) }}<br>
+  {{ $recipe->labels }}
   Category: {{{ $recipe->category }}}<br>
   SubCategory: {{{ $recipe->subcategory }}}<br>
   Required skills: {{ $recipe->skillsRequired }} <br>
