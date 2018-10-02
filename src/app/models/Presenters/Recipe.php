@@ -66,4 +66,22 @@ class Recipe extends \Robbo\Presenter\Presenter
 
         return "&gt; ".implode(", ", $byproducts)."\n";
     }
+    
+    public function presentLabels()
+    {
+        $labelArray = [];
+        $neverlearn = $this->object->never_learn;
+        if ($neverlearn) {
+            $labelArray[] = '<span class="label label-warning">Cannot Be Memorized</span><br>';
+        }
+
+        $suffix = $this->object->id_suffix;
+        if (stripos($suffix, "npc") !== false) {
+            $labelArray[] = '<span class="label label-warning">NPC Recipe</span><br>';
+        } else {
+            $labelArray[] = '<span class="label label-success">Player Recipe</span><br>';
+        }
+
+        return implode(" ", $labelArray);
+    }
 }

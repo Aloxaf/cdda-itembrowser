@@ -123,4 +123,12 @@ class Recipe implements Robbo\Presenter\PresentableInterface
     {
         return $this->data->repo_id;
     }
+    
+    public function getIsNpcOnly()
+    {
+        if (isset($this->data->id_suffix)) {
+            return $this->data->id_suffix == "npc";
+        }
+        return false;
+    }
 }
