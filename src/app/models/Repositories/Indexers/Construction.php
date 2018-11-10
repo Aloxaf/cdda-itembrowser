@@ -52,7 +52,6 @@ class Construction implements IndexerInterface
     public function onFinishedLoading(RepositoryWriterInterface $repo)
     {
         $starttime = microtime(true);
-
         foreach ($repo->raw(self::DEFAULT_INDEX) as $id) {
             $object = $repo->get(self::DEFAULT_INDEX.".$id");
 
@@ -68,6 +67,9 @@ class Construction implements IndexerInterface
 
                         foreach ($repo->raw("quality.$quality->id") as $item_id) {
                             $item = $repo->get("item.$item_id");
+                            if (isset($item->type) && strtoupper($item->type) == "VEHICLE_PART") {
+                                continue;
+                            }
                             if ($this->itemQualityLevel($item, $quality->id)<$quality->level) {
                                 continue;
                             }
@@ -77,6 +79,9 @@ class Construction implements IndexerInterface
                     if (!$isqualitygroup) {
                         foreach ($repo->raw("quality.$group->id") as $item_id) {
                             $item = $repo->get("item.$item_id");
+                            if (isset($item->type) && strtoupper($item->type) == "VEHICLE_PART") {
+                                continue;
+                            }
                             if ($this->itemQualityLevel($item, $group->id)<$group->level) {
                                 continue;
                             }
