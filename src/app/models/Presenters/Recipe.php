@@ -81,6 +81,10 @@ class Recipe extends \Robbo\Presenter\Presenter
         } else {
             $labelArray[] = '<span class="label label-success">Player Recipe</span><br>';
         }
+        $obsolete = $this->object->obsolete;
+        if ($obsolete === true) {
+            $labelArray[] = '<span class="label label-danger">Obsolete</span><br>';
+        }
 
         return implode(" ", $labelArray);
     }
@@ -90,6 +94,16 @@ class Recipe extends \Robbo\Presenter\Presenter
         $suffix = $this->object->id_suffix;
         if (stripos($suffix, "npc") !== false) {
             return '<span class="label label-warning">NPC Recipe</span>';
+        }
+        
+        return "";
+    }
+    
+    public function presentObsoleteLabel()
+    {
+        $obsolete = $this->object->obsolete;
+        if ($obsolete === true) {
+            return '<span class="label label-danger">Obsolete</span>';
         }
         
         return "";

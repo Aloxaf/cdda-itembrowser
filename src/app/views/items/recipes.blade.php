@@ -39,7 +39,7 @@ var show_recipe = function(id)
 <div class="row">
   <div class="col-md-4">
 @foreach ($recipes as $recipe_id=>$local_recipe)
-{{$local_recipe->result->symbol}} <a href="#" onclick="return show_recipe('{{$recipe_id}}')">{{{ $local_recipe->result->name }}} {{ $local_recipe->npcLabel }}</a>
+{{ $local_recipe->result->symbol }} <a href="#" onclick="return show_recipe('{{$recipe_id}}')">{{{ $local_recipe->result->name }}} {{ $local_recipe->npcLabel }} {{ $local_recipe->obsoleteLabel }} </a>
 <br>
 @endforeach
 <hr>
