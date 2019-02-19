@@ -303,11 +303,12 @@ class Recipe implements IndexerInterface
                     $skill = $recipe->skill_used;
                     $level = $recipe->difficulty;
 
-                    $item = $repo->get("item.$recipe->result");
-
-                    if ($item === null) {
-                        var_dump($recipe);
-                        print "missing recipe result $recipe->result\n";
+                    if (!isset($recipe->obsolete) || $recipe->obsolete == false) {
+                        $item = $repo->get("item.$recipe->result");
+                        if ($item === null) {
+                            var_dump($recipe);
+                            print "missing recipe result $recipe->result\n";
+                        }
                     }
 
                     $repo->append("skill.$skill.$level", $item->id);
