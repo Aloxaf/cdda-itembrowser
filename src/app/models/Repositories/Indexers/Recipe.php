@@ -28,7 +28,7 @@ class Recipe implements IndexerInterface
                 // handle group substitution of qualities, tools, and components
                 if (isset($recipe->using)) {
                     foreach ($recipe->using as $usinggroup) {
-                        $req = $repo->get("requirement.".$usinggroup[0]);
+                        $req = $repo->get("requirement."."requirement_".$usinggroup[0]);
                         if (isset($req)) {
                             // the second value multiplies the values contained in the requirement
                             $multiplier = $usinggroup[1];
@@ -129,7 +129,7 @@ class Recipe implements IndexerInterface
                                     $unit_param_3 = $similar_unit[2];
                                 }
                                 if (isset($unit_param_3) && $unit_param_3 == "LIST") {
-                                    $req = $repo->get("requirement.".$u_id);
+                                    $req = $repo->get("requirement."."requirement_".$u_id);
                                     if (isset($req) && isset($req->components)) {
                                         $successful_sub = true;
                                         foreach ($req->components as $req_similar_unit_group) {
@@ -216,7 +216,7 @@ class Recipe implements IndexerInterface
                                     $unit_param_3 = $similar_unit[2];
                                 }
                                 if (isset($unit_param_3) && $unit_param_3 == "LIST") {
-                                    $req = $repo->get("requirement.".$u_id);
+                                    $req = $repo->get("requirement."."requirement_".$u_id);
                                     if (isset($req) && isset($req->tools)) {
                                         $successful_sub = true;
                                         foreach ($req->tools as $req_similar_unit_group) {
