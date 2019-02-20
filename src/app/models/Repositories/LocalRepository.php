@@ -55,6 +55,10 @@ class LocalRepository extends Repository implements
         if(isset($object->type) && $object->type=="recipe" && isset($object->category) && $object->category=="CC_BUILDING"){
             return;
         }
+        
+        if (isset($object->type) && $object->type == "requirement") {
+            $object->id = "requirement_".$object->id;
+        }
 
         // generate a new repo ID if we are not currently processing pending objects
         if (!array_key_exists("repo_id", $object)) {
@@ -79,7 +83,7 @@ class LocalRepository extends Repository implements
             } else {
                 $tempobj = $this->simpleget($object->{'copy-from'}, null);
             }
-
+            
             // if the referenced template is not available, store it in $pending for later, or wait for the next $pending review loop
             if ($tempobj === null) {
                 if (isset($this->pending[$object->repo_id])) {
