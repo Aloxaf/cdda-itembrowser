@@ -106,6 +106,43 @@ class LocalRepository extends Repository implements
                 unset($this->pending[$object->repo_id]);
             }
         }
+        
+        // handle delete tag
+        if (array_key_exists("delete", $object)) {
+            //iterate through each object defined in delete tag
+            foreach ($object->delete as $delkey => $delvalue) {
+                if (isset($object->{$delkey})) {
+                    //iterate through each item in the array for a delete item
+                    foreach ($delvalue as $inspectobjvalue) {
+                        // if delete item is an array, compare arrays before deleting
+                        if(is_array($inspectobjvalue)){
+                            if(is_array($object->{$delkey})){
+                                for($i=0;$i<count($object->{$delkey});$i++){
+                                    if(is_array($object->{$delkey}[$i])){
+                                        // a matching array will be spliced out
+                                        if(count(array_diff($object->{$delkey}[$i],$inspectobjvalue))==0){
+                                            array_splice($object->{$delkey},$i,1);
+                                            $i--;
+                                        }
+                                    }
+                                }
+                            }
+                        }else{
+                            // if delete item is a single item, compare array of single items to find matching items to delete
+                            if(is_array($object->{$delkey})){
+                                for($i=0;$i<count($object->{$delkey});$i++){
+                                    if($object->{$delkey}[$i]==$inspectobjvalue){
+                                        array_splice($object->{$delkey},$i,1);
+                                        $i--;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+//            unset($object->relative);
+        }
 
         // store basic ID into simple array for lookup later for resolving copy-from templates
         if (isset($object->type)&&$object->type=="recipe") {
