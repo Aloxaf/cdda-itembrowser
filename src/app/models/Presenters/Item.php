@@ -139,7 +139,26 @@ class Item extends \Robbo\Presenter\Presenter
 
     public function presentSpoilsIn()
     {
-        return number_format($this->object->spoils_in/24, 2);
+        if (is_numeric($this->object->spoils_in)) {
+            if ($this->object->spoils_in < 24) {
+                return $this->object->spoils_in." hours";
+            }
+            
+            $weeks = 0;
+            $days = $this->object->spoils_in / 24;
+            $hours = $this->object->spoils_in % 24;
+            while ($days > 6) {
+                $weeks+=1;
+                $days-=7;
+            }
+            $result = "";
+            if ($weeks > 0) $result = $result."$weeks weeks ";
+            if ($days > 0) $result = $result."$days days ";
+            if ($hours > 0) $result = $result."$hours days ";
+//            return ($this->object->spoils_in / 24)." days";
+            return $result;
+        }
+        return $this->object->spoils_in;
     }
 
     public function presentStim()

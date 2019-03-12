@@ -171,6 +171,7 @@ class Item implements IndexerInterface
             ValueUtil::SetDefault($object, "addiction_potential", 0);
             ValueUtil::SetDefault($object, "charges", 1);
             ValueUtil::SetDefault($object, "nutrition", 0);
+            ValueUtil::SetDefault($object, "calories", 0);
         }
 
         // handle properties that are modified by addition/multiplication
@@ -277,9 +278,12 @@ class Item implements IndexerInterface
                 //$object->comestible_type = "N/A";
             //}
 
-            if (isset($object->calories)) {
-                $object->nutrition = floor($object->calories/2500.0*288.0);
-            }
+            //if (isset($object->calories)) {
+                //$object->nutrition = floor($object->calories/2500.0*288.0);
+            //}
+            
+            $object->calories = floor( floor($object->calories/2500.0*288.0) * 2500.0/288.0 );
+            $object->nutrition = $object->calories;
 
             $type = strtolower($object->comestible_type);
 
