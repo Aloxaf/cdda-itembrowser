@@ -146,11 +146,11 @@
     <br>
     @if ($item->isConsumable)
       Phase: {{{ $item->phase }}}<br>
-      Nutrition: {{{ $item->nutrition }}}<br>
+      <span title="(*actual amounts may depend on components)">Calories (kcal)*</span>: {{{ $item->nutrition }}}<br>
       Quench: {{{ $item->quench }}}<br>
       Enjoyability: {{{ $item->fun }}}<br>
       @if ($item->spoils_in>0)
-      Spoils in {{{ $item->spoils_in }}} days<br>
+      Spoils in {{{ $item->spoils_in }}}<br>
       @endif
       Charges: {{{ $item->charges }}}<br>
       Healthy: {{{ $item->healthy }}}<br>
