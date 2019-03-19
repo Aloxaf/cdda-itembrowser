@@ -29,7 +29,7 @@ curl -sS https://getcomposer.org/installer | php -- --filename=composer --instal
 
 chown $USER "$STORAGE_PATH"
 
-sudo -u $USER "$BASE_PATH"/setup.sh
+sudo -u $USER "$BASE_PATH"/vagrantsetup.sh
 
 echo "Giving access to the webserver"
 chgrp -R www-data "$STORAGE_PATH"/*
