@@ -21,9 +21,8 @@
 <div class="col-md-6">
 @foreach ($item->recipes as $recipe)
   {{ $recipe->labels }}
-  Skill used: {{{ $recipe->skill_used }}} <br>
+  Primary skill used: {{{ $recipe->skill_used }}}({{{ $recipe->difficulty }}})<br>
   Required skills: {{ $recipe->skillsRequired }} <br>
-  Difficulty: {{{ $recipe->difficulty }}}<br>
   Time to complete: {{{ $recipe->time }}}<br>
   @if ($recipe->hasTools || $recipe->hasQualities)
   Tools required:<br>

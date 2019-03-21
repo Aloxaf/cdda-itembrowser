@@ -53,8 +53,8 @@ array("id"=>$recipe->result->id)) }}<br>
   {{ $recipe->labels }}
   Category: {{{ $recipe->category }}}<br>
   SubCategory: {{{ $recipe->subcategory }}}<br>
+  Primary skill used: {{{ $recipe->skill_used }}}({{{ $recipe->difficulty }}})<br>
   Required skills: {{ $recipe->skillsRequired }} <br>
-  Difficulty: {{{ $recipe->difficulty }}}<br>
   Time to complete: {{{ $recipe->time }}}<br>
   Auto-learn: {{{ $recipe->autolearn? "Yes": "No" }}}<br>
   <br>
