@@ -19,7 +19,10 @@ Armor - Cataclysm: Dark Days Ahead
     <th><span title="Bash protection">BP</span></th>
     <th><span title="Cutting protection">CP</span></th>
     <th><span title="Warmth">Wa</span></th>
-    <th><span title="Storage">St</span></th>
+    <th><span title="Storage (liters)">St</span></th>
+    <th><span title="Environmental protection">Env</span></th>
+    <th><span title="Acid resist">Acid</span></th>
+    <th><span title="Fire resist">Fire</span></th>
   </tr>
 </thead>
 <tbody>
@@ -34,7 +37,10 @@ Armor - Cataclysm: Dark Days Ahead
   <td>{{ $item->protection('bash') }}</td>
   <td>{{ $item->protection('cut') }}</td>
   <td>{{ $item->warmth }}</td>
-  <td>{{ $item->storage }}</td>
+  <td>{{ $item->storage/4.0 }}</td>
+  <td>{{ $item->environmental_protection }}</td>
+  <td>{{ $item->protection('acid') }}</td>
+  <td>{{ $item->protection('fire') }}</td>
 </tr>
 @endforeach
 </tbody>
