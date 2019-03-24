@@ -143,7 +143,7 @@ class Item implements IndexerInterface
 
         ValueUtil::SetDefault($object, "reload", 100);
         ValueUtil::SetDefault($object, "to_hit", 0);
-        if ($object->type == "ARMOR") {
+        if ($object->type == "ARMOR" || $object->type == "TOOL_ARMOR") {
             ValueUtil::SetDefault($object, "environmental_protection", 0);
             ValueUtil::SetDefault($object, "encumbrance", 0);
         }
