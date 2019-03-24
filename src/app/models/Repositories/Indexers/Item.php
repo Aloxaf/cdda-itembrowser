@@ -101,7 +101,16 @@ class Item implements IndexerInterface
                 });
                 $repo->set("item.toolForCategory.$id.$category", $recipes);
             }
+            
+            // build item/vehicle part installation cross reference list per item
+            if (strpos($id, "vpart_") === 0) {
+                $vpart = $repo->get(self::DEFAULT_INDEX.".".$id);
+                if (isset($vpart->item)) {
+                    $repo->append("vpartlist.$vpart->item", $id);
+                }
+            }
         }
+        
         
         $repo->sort("flags");
         $repo->sort("gunmodParts");

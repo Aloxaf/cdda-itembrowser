@@ -261,6 +261,10 @@
     <br>This object is surrounded by a sickly green glow.<br>
     @endif
 
+    @if ($item->hasVpartlist)
+    <br>This item can be installed into vehicles as:<br>
+    {{$item->VpartFor}}
+    @endif
   </div>
 </div>
 <script>

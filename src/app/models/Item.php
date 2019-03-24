@@ -108,6 +108,24 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $this->repo->allModels("Item", "item.toolFor.$this->id");
     }
 
+    public function getHasVpartlist()
+    {
+        return count($this->repo->allModels("Item", "vpartlist.$this->id"));
+    }
+    
+    public function getVpartFor()
+    {
+        $vparts = $this->repo->allModels("Item", "vpartlist.$this->id");
+        $string1 = "";
+        $inner=array();
+        foreach ($vparts as $item) {
+            // build link name with name and ID to distinguish between multiple usage of vehicle part names
+            $inner[] =  link_to_route("item.view", $item->name.(substr($item->id,6) !== $item->name ? " (".substr($item->id,6).")" : ""), array("id" => $item->id));
+        }
+        
+        return "&gt; ".implode("<br>&gt; ", $inner)."\n";
+    }
+    
     public function count($type)
     {
         return $this->repo->raw("item.count.$this->id.$type", 0);

@@ -73,15 +73,24 @@ class LocalRepository extends Repository implements
                 $object->id = $object->abstract;
             }
         }
+        
+        // handle vpart naming replacement here so abstracts are covered
+        if (isset($object->type) && $object->type == "vehicle_part") {
+            $object->id = "vpart_".$object->id;
+        }
 
         // handle template copying in cataclysm JSON
         if (array_key_exists("copy-from", $object)) {
+            $copyfromid = $object->{'copy-from'};
+            if (isset($object->type) && $object->type == "vehicle_part") {
+                $copyfromid = "vpart_".$copyfromid;
+            }
             if (isset($object->type)&&$object->type=="recipe") {
-                $tempobj = $this->simplegetrecipe($object->{'copy-from'}, null);
+                $tempobj = $this->simplegetrecipe($copyfromid, null);
             } elseif (isset($object->type)&&$object->type=="uncraft") {
-                $tempobj = $this->simplegetuncraft($object->{'copy-from'}, null);
+                $tempobj = $this->simplegetuncraft($copyfromid, null);
             } else {
-                $tempobj = $this->simpleget($object->{'copy-from'}, null);
+                $tempobj = $this->simpleget($copyfromid, null);
             }
             
             // if the referenced template is not available, store it in $pending for later, or wait for the next $pending review loop
