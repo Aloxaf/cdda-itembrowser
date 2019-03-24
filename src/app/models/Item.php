@@ -492,4 +492,25 @@ class Item implements Robbo\Presenter\PresentableInterface
     {
         return $this->repo->getModel("Item", $this->data->item);
     }
+    
+    public function getEncumbrance()
+    {
+        if (is_numeric($this->data->encumbrance) && $this->data->encumbrance > 0) {
+            $result = "";
+            $foundvarsize = false;
+            $enc = $this->data->encumbrance;
+            foreach ($this->data->flags as $flag) {
+                if (!is_array($flag) && $flag == "VARSIZE") {
+                    $foundvarsize = true;
+                }
+            }
+            if ($foundvarsize == true){
+                $result = $enc." (poor fit), ".max(floor($enc / 2), $enc - 10)." (fitted)";
+            } else {
+                $result = $enc;
+            }
+            return $result;
+        }
+        return 0;
+    }
 }

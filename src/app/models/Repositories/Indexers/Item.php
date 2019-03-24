@@ -145,6 +145,7 @@ class Item implements IndexerInterface
         ValueUtil::SetDefault($object, "to_hit", 0);
         if ($object->type == "ARMOR") {
             ValueUtil::SetDefault($object, "environmental_protection", 0);
+            ValueUtil::SetDefault($object, "encumbrance", 0);
         }
         if ($object->type == "BOOK") {
             ValueUtil::SetDefault($object, "skill", "none");
