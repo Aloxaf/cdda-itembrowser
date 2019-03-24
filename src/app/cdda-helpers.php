@@ -22,16 +22,21 @@ function colorToCSS($color)
 
 function colorPairToCSS($color)
 {
-    if ($color[1] == "_") {
-        $color = substr($color, 2);
+    $activecolor = "";
+    // handle seasonal color array by taking only the spring color for now
+    if (is_array($color)) {
+        $activecolor = $color[0];
+    }
+    if (count($activecolor) > 1 && $activecolor[1] == "_") {
+        $activecolor = substr($activecolor, 2);
     }
 
-    $color = explode("_", "{$color}_");
-    $foreground = $color[0];
-    $background = $color[1];
+    $activecolor = explode("_", "{$activecolor}_");
+    $foreground = $activecolor[0];
+    $background = $activecolor[1];
 
     return array(
-    colorToCSS($foreground),
-    colorToCSS($background),
-  );
+        colorToCSS($foreground),
+        colorToCSS($background),
+    );
 }
