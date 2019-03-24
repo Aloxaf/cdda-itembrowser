@@ -499,8 +499,9 @@ class Item implements Robbo\Presenter\PresentableInterface
             $result = "";
             $foundvarsize = false;
             $enc = $this->data->encumbrance;
-            foreach ($this->data->flags as $flag) {
-                if (!is_array($flag) && $flag == "VARSIZE") {
+            // not sure why index number contains the flag values
+            foreach ($this->data->flags as $indexnum => $flag) {
+                if (!is_array($indexnum) && $indexnum == "VARSIZE") {
                     $foundvarsize = true;
                 }
             }
