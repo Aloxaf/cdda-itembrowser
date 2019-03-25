@@ -514,4 +514,21 @@ class Item implements Robbo\Presenter\PresentableInterface
         }
         return 0;
     }
+    
+    public function getRangedDamage()
+    {
+        $inner = array();
+        if (!is_numeric($this->data->ranged_damage)) {
+            if (is_array($this->data->ranged_damage)) {
+                 foreach ($this->data->ranged_damage as $indexnum=>$damageunit) {
+                     $inner[] = (is_numeric($damageunit->amount)?$damageunit->amount:"").(isset($damageunit->damage_type)?" (".$damageunit->damage_type.")":"").(isset($damageunit->armor_multiplier)?" (Armor multiplier $damageunit->armor_multiplier)":"");
+                 }
+                return implode(", ", $inner);
+            } else if (is_object($this->data->ranged_damage)){
+                $rd = $this->data->ranged_damage;
+                return (is_numeric($rd->amount)?$rd->amount:"").(isset($rd->damage_type)?" (".$rd->damage_type.")":"").(isset($rd->armor_multiplier)?" (Armor multiplier $rd->armor_multiplier)":"");
+            }
+        }
+        return $this->data->ranged_damage;
+    }
 }

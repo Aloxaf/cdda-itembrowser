@@ -45,7 +45,7 @@ abstract class Repository implements RepositoryInterface
     {
         $data = $this->get("all.$id");
 
-        \Log::info("auto", array($id, $data));
+//        \Log::info("auto", array($id, $data));
         $model = ucfirst($data->type);
         $model = $this->app->make($model);
 
