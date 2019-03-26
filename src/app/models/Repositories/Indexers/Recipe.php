@@ -378,6 +378,14 @@ class Recipe implements IndexerInterface
                 $repo->append(self::DEFAULT_INDEX, $recipe->repo_id);
                 $repo->set(self::DEFAULT_INDEX.".".$recipe->repo_id, $recipe->repo_id);
 
+                if (isset($recipe->book_learn)) {
+                    for ($i = 0; $i < count($recipe->book_learn); $i++) {
+                        if (count($recipe->book_learn[$i]) < 2) {
+                            $recipe->book_learn[$i][] = -1;
+                        }
+                    }
+                }
+                
                 if (isset($recipe->result)) {
                     $this->linkIndexes($repo, "recipes", $recipe->result, $recipe);
                     if (isset($recipe->book_learn)) {
