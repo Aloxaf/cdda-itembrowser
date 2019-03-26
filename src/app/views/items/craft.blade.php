@@ -51,7 +51,13 @@
 --<br>
 This recipe can be found in the following books when {{$recipe->skill_used}} is at least the required level:<br>
 @foreach($recipe->booksTeaching as $book)
-<a href="{{ route('item.view', $book[0]->id) }}">{{{ $book[0]->name }}} (level {{{ $book[1] }}})</a><br>
+<a href="{{ route('item.view', $book[0]->id) }}">{{{ $book[0]->name }}}
+@if ($book[1]<0)
+(any level)
+@else
+(level {{{ $book[1] }}})
+@endif
+</a><br>
 @endforeach
 @endif
 <br>
