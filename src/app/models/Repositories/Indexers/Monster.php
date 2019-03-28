@@ -13,6 +13,11 @@ class Monster implements IndexerInterface
     public function onNewObject(RepositoryWriterInterface $repo, $object)
     {
         if ($object->type == "MONSTER") {
+            if (!isset($object->species)) {
+                $object->species = array();
+                $object->species[] = "none";
+            }
+            
             $repo->append(self::DEFAULT_INDEX, $object->id);
             $repo->set(self::DEFAULT_INDEX.".".$object->id, $object->repo_id);
             $objspecies = (array) $object->species;
