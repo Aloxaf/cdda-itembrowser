@@ -223,6 +223,26 @@ class Item implements IndexerInterface
                 $repo->addUnique("armorParts", $part);
             }
         }
+        
+        // handle "ml" indicators in volume/container volume
+        if (isset($object->volume) && is_string($object->volume)) {
+            if (stripos($object->volume, "ml") !== false) {
+                $object->volume = (substr($object->volume, 0, -2) * 4.0) / 1000.0;
+            }
+        }
+        if (isset($object->contains) && is_string($object->contains)) {
+            if (stripos($object->contains, "ml") !== false) {
+                $object->contains = substr($object->contains, 0, -2) / 1000.0;
+            }
+        }
+        // adjust volume for low volume large stack size ammunition
+        if ($object->type == "AMMO") {
+            if (isset($object->stack_size) && $object->stack_size > 0) {
+                if (($object->volume * 1.0) / $object->stack_size < .004) {
+                    $object->volume = .004 * $object->stack_size;
+                }
+            }
+        }
 
         if ($object->type == "CONTAINER") {
             $repo->append("container", $object->id);
