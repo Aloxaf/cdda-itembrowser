@@ -409,11 +409,15 @@ class Recipe implements IndexerInterface
                     }
                 }
 
+                $toolfortype = "toolFor";
+                if ($recipe->type == "uncraft") {
+                    $toolfortype = "uncraftToolFor";
+                }
                 if (isset($recipe->tools)) {
                     foreach ($recipe->tools as $group) {
                         foreach ($group as $tool) {
                             list($id, $amount) = $tool;
-                            $this->linkIndexes($repo, "toolFor", $id, $recipe);
+                            $this->linkIndexes($repo, $toolfortype, $id, $recipe);
                         }
                     }
                 }
@@ -429,7 +433,7 @@ class Recipe implements IndexerInterface
                             if (isset($listval) && $listval == "LIST") {
                                 continue;
                             }
-                            $this->linkIndexes($repo, "toolFor", $id, $recipe);
+                            $this->linkIndexes($repo, $toolfortype, $id, $recipe);
 
                             if ($recipe->category == "uncraft"
                             or (isset($recipe->reversible)

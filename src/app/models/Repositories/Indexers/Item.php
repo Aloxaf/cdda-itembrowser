@@ -84,6 +84,11 @@ class Item implements IndexerInterface
             if ($recipes>0) {
                 $repo->set("item.count.$id.disassembledFrom", $recipes);
             }
+            
+            $recipes = count($repo->raw("item.uncraftToolFor.$id"));
+            if ($recipes>0) {
+                $repo->set("item.count.$id.uncraftToolFor", $recipes);
+            }
 
             $count = count($repo->raw("construction.$id"));
             if ($count>0) {
