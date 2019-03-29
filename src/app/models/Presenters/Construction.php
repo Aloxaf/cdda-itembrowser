@@ -7,12 +7,24 @@ class Construction extends \Robbo\Presenter\Presenter
     public function presentQualities()
     {
         $out = array();
+        $simplearraygrouping = false;
         foreach($this->object->qualities as $group) {
+            if (!is_array($group)) {
+                $simplearraygrouping = true;
+                break;
+            }
             $group = array_map(function($q) {
                 $link = link_to_route("item.qualities", $q->quality->name, $q->id);
                 return "1 tool with $link quality of $q->level or more";
             }, $group);
             $out[] = "> ".join(" <strong>OR</strong> ", $group);
+        }
+        if ($simplearraygrouping == true) {
+            $group = array_map(function($q) {
+                $link = link_to_route("item.qualities", $q->quality->name, $q->id);
+                return "1 tool with $link quality of $q->level or more";
+            }, $this->object->qualities);
+            return implode("<br> ", $group);
         }
         return implode("<br> ", $out);
     }
