@@ -116,22 +116,33 @@ class Recipe implements IndexerInterface
                 // handle component "LIST" substitution
                 if (isset($recipe->components)) {
                     $successful_sub = true;
+                    
+                    // requirement lists can unpack more requirement lists, repeat until no more LISTs are left
                     while ($successful_sub == true) {
                         $successful_sub = false;
+                        
+                        // look through component groups
                         foreach ($recipe->components as $cgkey => $similar_unit_group) {
                             $splice_list = array();
                             $newgrouplist = [];
-                            $insert_into_group = false;
+
+                            // look through each item in a specific component group
                             foreach ($similar_unit_group as $groupkey => $similar_unit) {
                                 unset($unit_param_3);
                                 list($u_id, $multiplier) = $similar_unit;
                                 if (count($similar_unit) > 2) {
                                     $unit_param_3 = $similar_unit[2];
                                 }
+                                
+                                // looking for LIST text in the 3rd spot of the item
                                 if (isset($unit_param_3) && $unit_param_3 == "LIST") {
                                     $req = $repo->get("requirement."."requirement_".$u_id);
+                                    
+                                    // found the requirement that matches the LIST name
                                     if (isset($req) && isset($req->components)) {
                                         $successful_sub = true;
+                                        
+                                        // add each new component to the index list and set up for adding to the recipe info
                                         foreach ($req->components as $req_similar_unit_group) {
                                             foreach ($req_similar_unit_group as $req_similar_unit) {
                                                 list($ru_id, $base_amount) = $req_similar_unit;
@@ -139,14 +150,19 @@ class Recipe implements IndexerInterface
                                                 if ($mult_amount < 0) {
                                                     $mult_amount = -1;
                                                 }
-                                                $this->linkIndexes($repo, "toolFor", $ru_id, $recipe);
+                                                
+                                                
+                                                $toolfortype = "toolFor";
+                                                if ($recipe->type == "uncraft") {
+                                                    $toolfortype = "uncraftToolFor";
+                                                }
+                                                $this->linkIndexes($repo, $toolfortype, $ru_id, $recipe);
 
                                                 if ($recipe->category == "uncraft"
                                                 or (isset($recipe->reversible)
                                                 and $recipe->reversible == "true")) {
                                                     $repo->append("item.disassembledFrom.$ru_id", $recipe->repo_id);
                                                 }
-                                                
                                                 
                                                 if (count($req_similar_unit) > 2){
                                                     $listinfo = $req_similar_unit[2];
@@ -159,20 +175,17 @@ class Recipe implements IndexerInterface
 
                                         $splice_list[] = $groupkey;
                                     }
-                                } else {
-                                    $insert_into_group=true;
                                 }
                             }
+                            
+                            // push all the new LIST-resolved items into the current component group
                             if (count($newgrouplist) > 0) {
-                                if ($insert_into_group == true) {
-                                    foreach ($newgrouplist as $groupitem) {
-                                        $recipe->components[$cgkey][] = $groupitem;
-                                    }
-                                } else {
-                                    $recipe->components[] = $newgrouplist;
+                                foreach ($newgrouplist as $groupitem) {
+                                    $recipe->components[$cgkey][] = $groupitem;
                                 }
                             }
 
+                            // remove the old LIST references from the current component group
                             if (count($splice_list) > 0) {
                                 $splice_count = 0;
                                 foreach ($splice_list as $splice_number) {
@@ -182,6 +195,7 @@ class Recipe implements IndexerInterface
                                 }
                             }
 
+                            // remove empty component groups
                             $splice_list2 = array();
                             foreach ($recipe->components as $tool_groupkey => $tool_group) {
                                 if (count($tool_group) < 1) {
@@ -207,8 +221,8 @@ class Recipe implements IndexerInterface
                         $successful_sub = false;
                         foreach ($recipe->tools as $cgkey => $similar_unit_group) {
                             $splice_list = array();
-                            $newgrouplist = [];
-                            $insert_into_group=false;
+                            $newgrouplist = array();
+
                             foreach ($similar_unit_group as $groupkey => $similar_unit) {
                                 unset($unit_param_3);
                                 list($u_id, $multiplier) = $similar_unit;
@@ -227,7 +241,11 @@ class Recipe implements IndexerInterface
                                                     $mult_amount = -1;
                                                 }
 
-                                                $this->linkIndexes($repo, "toolFor", $ru_id, $recipe);
+                                                $toolfortype = "toolFor";
+                                                if ($recipe->type == "uncraft") {
+                                                    $toolfortype = "uncraftToolFor";
+                                                }
+                                                $this->linkIndexes($repo, $toolfortype, $ru_id, $recipe);
 
                                                 if (count($req_similar_unit) > 2){
                                                     $listinfo = $req_similar_unit[2];
@@ -240,17 +258,11 @@ class Recipe implements IndexerInterface
 
                                         $splice_list[] = $groupkey;
                                     }
-                                } else {
-                                    $insert_into_group = true;
                                 }
                             }
                             if (count($newgrouplist) > 0) {
-                                if ($insert_into_group == true) {
-                                    foreach ($newgrouplist as $groupitem) {
-                                        $recipe->tools[$cgkey][] = $groupitem;
-                                    }
-                                } else {
-                                    $recipe->tools[] = $newgrouplist;
+                                foreach ($newgrouplist as $groupitem) {
+                                    $recipe->tools[$cgkey][] = $groupitem;
                                 }
                             }
                             if (count($splice_list) > 0) {
