@@ -81,9 +81,9 @@ class CataclysmCache extends Command
         //TODO: find a way to find the indexers automatically
         // instead of hardcoding them here.
         $this->registerIndexer(new Indexers\Construction);
-        $this->registerIndexer(new Indexers\Item());
         $this->registerIndexer(new Indexers\Material());
         $this->registerIndexer(new Indexers\Recipe());
+        $this->registerIndexer(new Indexers\Item());
         $this->registerIndexer(new Indexers\Quality());
         $this->registerIndexer(new Indexers\Monster());
         $this->registerIndexer(new Indexers\MonsterGroup());
