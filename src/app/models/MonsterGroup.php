@@ -30,6 +30,7 @@ class MonsterGroup implements Robbo\Presenter\PresentableInterface
             $monsters[$monster] = true;
         }
         $uniqueMonsters = array_keys($monsters);
+
         return array_map(function (&$monster) {
             return $this->repo->getModel('Monster', $monster);
         }, $uniqueMonsters);

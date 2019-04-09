@@ -12,22 +12,23 @@ class ItemsController extends BaseController
 
     public function view($id)
     {
-        $item = $this->repo->getModelOrFail("Item", $id);
+        $itembunch = $this->repo->getMultiModelOrFail("Item", $id);
+        // \Log::info("test", array($itembunch,compact('itembunch')));
 
-        $this->layout->nest('content', 'items.view', compact('item'));
+        $this->layout->nest('content', 'items.view', compact('itembunch'));
     }
 
     public function craft($id)
     {
-        $item = $this->repo->getModelOrFail("Item", $id);
+        $itembunch = $this->repo->getMultiModelOrFail("Item", $id);
 
-        $this->layout->nest('content', 'items.craft', compact('item'));
+        $this->layout->nest('content', 'items.craft', compact('itembunch'));
     }
 
     public function recipes($id, $category = null)
     {
-        $item = $this->repo->getModelOrFail("Item", $id);
-        $categories = $item->toolCategories;
+        $itembunch = $this->repo->getMultiModelOrFail("Item", $id);
+        $categories = $itembunch[0]->toolCategories;
 
         if ($category === null) {
             $category = key($categories);
@@ -35,27 +36,27 @@ class ItemsController extends BaseController
             return Redirect::route(Route::currentRouteName(), array($id, $category));
         }
 
-        $recipes = $item->getToolForCategory($category);
+        $recipes = $itembunch[0]->getToolForCategory($category);
 
-        $this->layout->nest('content', 'items.recipes', compact('item', "category", "recipes", "categories"));
+        $this->layout->nest('content', 'items.recipes', compact('itembunch', "category", "recipes", "categories"));
     }
 
     public function disassemble($id)
     {
-        $item = $this->repo->getModelOrFail("Item", $id);
+        $itembunch = $this->repo->getMultiModelOrFail("Item", $id);
 
-        $this->layout->nest('content', 'items.disassemble', compact('item'));
+        $this->layout->nest('content', 'items.disassemble', compact('itembunch'));
     }
 
     public function construction($id)
     {
-        $item = $this->repo->getModelOrFail("Item", $id);
-        $this->layout->nest("content", "items.construction", compact('item'));
+        $itembunch = $this->repo->getMultiModelOrFail("Item", $id);
+        $this->layout->nest("content", "items.construction", compact('itembunch'));
     }
 
     public function armors($part = null)
     {
-        $parts = $this->repo->raw("armorParts"); 
+        $parts = $this->repo->raw("armorParts");
 
         if ($part === null) {
             return Redirect::route(Route::currentRouteName(), array(reset($parts)));
@@ -81,7 +82,7 @@ class ItemsController extends BaseController
 
     public function books($type = null)
     {
-        $types = $this->repo->raw("bookSkills"); 
+        $types = $this->repo->raw("bookSkills");
 
         if ($type === null) {
             return Redirect::route(Route::currentRouteName(), reset($types));
@@ -126,7 +127,7 @@ class ItemsController extends BaseController
         if ($id === null) {
             return Redirect::route("item.qualities", array(reset($qualities)->id));
         }
-        
+
         $items = $this->repo->allModels("Item", "quality.$id");
 
         $this->layout->nest('content', 'items.qualities', compact('items', 'qualities', 'id'));

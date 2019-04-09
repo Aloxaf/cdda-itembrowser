@@ -17,9 +17,10 @@ class MonsterController extends BaseController
 
             return Redirect::route("monster.groups", array($id));
         }
-        $group = $this->repo->getModel('MonsterGroup', $id);
+//         $group = $this->repo->getModel('MonsterGroup', $id);
+        $groupbunch = $this->repo->getMultiModelOrFail("MonsterGroup", $id);
 
-        $this->layout->nest('content', 'monsters.groups', compact('groups', 'group', 'id'));
+        $this->layout->nest('content', 'monsters.groups', compact('groups', 'groupbunch', 'id'));
     }
 
     public function species($id = null)
@@ -37,8 +38,9 @@ class MonsterController extends BaseController
 
     public function view($id)
     {
-        $monster = $this->repo->getModel('Monster', $id);
+//         $monster = $this->repo->getModel('Monster', $id);
+        $monsterbunch = $this->repo->getMultiModelOrFail('Monster', $id);
 
-        $this->layout->nest('content', 'monsters.view', compact('id', 'monster'));
+        $this->layout->nest('content', 'monsters.view', compact('id', 'monsterbunch'));
     }
 }

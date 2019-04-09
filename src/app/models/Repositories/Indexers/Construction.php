@@ -1,4 +1,5 @@
 <?php
+
 namespace Repositories\Indexers;
 
 use Repositories\RepositoryWriterInterface;
@@ -9,7 +10,7 @@ class Construction implements IndexerInterface
 
     public function onNewObject(RepositoryWriterInterface $repo, $object)
     {
-        if ($object->type!="construction") {
+        if ($object->type != "construction") {
             return;
         }
 
@@ -70,7 +71,7 @@ class Construction implements IndexerInterface
                             if (isset($item->type) && strtoupper($item->type) == "VEHICLE_PART") {
                                 continue;
                             }
-                            if ($this->itemQualityLevel($item, $quality->id)<$quality->level) {
+                            if ($this->itemQualityLevel($item, $quality->id) < $quality->level) {
                                 continue;
                             }
                             $repo->addUnique("construction.$item_id", $id);
@@ -82,7 +83,7 @@ class Construction implements IndexerInterface
                             if (isset($item->type) && strtoupper($item->type) == "VEHICLE_PART") {
                                 continue;
                             }
-                            if ($this->itemQualityLevel($item, $group->id)<$group->level) {
+                            if ($this->itemQualityLevel($item, $group->id) < $group->level) {
                                 continue;
                             }
                             $repo->addUnique("construction.$item_id", $id);
@@ -93,6 +94,6 @@ class Construction implements IndexerInterface
         }
 
         $timediff = microtime(true) - $starttime;
-        print "Construction post-processing ".number_format($timediff,3)." s.\n";
+        echo "Construction post-processing ".number_format($timediff, 3)." s.\n";
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Repositories\Indexers;
 
 use Repositories\RepositoryWriterInterface;
@@ -17,7 +18,7 @@ class Monster implements IndexerInterface
                 $object->species = array();
                 $object->species[] = "none";
             }
-            
+
             $repo->append(self::DEFAULT_INDEX, $object->id);
             $repo->set(self::DEFAULT_INDEX.".".$object->id, $object->repo_id);
             $objspecies = (array) $object->species;
@@ -44,6 +45,6 @@ class Monster implements IndexerInterface
         $repo->sort("monster.species");
 
         $timediff = microtime(true) - $starttime;
-        print "Monster post-processing ".number_format($timediff,3)." s.\n";
+        echo "Monster post-processing ".number_format($timediff, 3)." s.\n";
     }
 }

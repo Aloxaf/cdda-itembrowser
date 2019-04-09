@@ -1,11 +1,11 @@
 @section('title')
-{{{$item->rawName}}} (recipes) - Cataclysm: Dark Days Ahead
+{{{$itembunch[0]->rawName}}} (recipes) - Cataclysm: Dark Days Ahead
 @endsection
 @section('description')
-@if ($item->count("toolFor"))
-{{{$item->rawName}}} can be used to craft other items. You can find more information here.
+@if ($itembunch[0]->count("toolFor"))
+{{{$itembunch[0]->rawName}}} can be used to craft other items. You can find more information here.
 @else
-{{{$item->rawName}}} can't be used to craft other items.
+{{{$itembunch[0]->rawName}}} can't be used to craft other items.
 @endif
 @endsection
 <script>
@@ -22,8 +22,8 @@ var show_recipe = function(id)
 </script>
 @include('items.menu', array('active'=>'recipes'))
 <h1>
-  {{$item->symbol}} <a href="{{ route("item.view", array("id"=>$item->id)) }}">{{ $item->name }}</a>
-@if ($item->count("toolFor"))
+  {{$itembunch[0]->symbol}} <a href="{{ route("item.view", array("id"=>$itembunch[0]->id)) }}">{{ $itembunch[0]->name }}</a>
+@if ($itembunch[0]->count("toolFor"))
  can be used to craft the following recipes:<br>
 @else
  can't be used to craft anything.
@@ -32,14 +32,14 @@ var show_recipe = function(id)
 <ul class="nav nav-tabs">
 @foreach ($categories as $cat)
 <li @if ($cat==$category) class="active" @endif>{{ link_to_route("item.recipes", substr($cat, 3),
-      array("id"=>$item->id, "category"=>$cat)) }}</li>
+      array("id"=>$itembunch[0]->id, "category"=>$cat)) }}</li>
 @endforeach
 </ul>
 
 <div class="row">
   <div class="col-md-4">
 @foreach ($recipes as $recipe_id=>$local_recipe)
-{{ $local_recipe->result->symbol }} <a href="#" onclick="return show_recipe('{{$recipe_id}}')">{{{ $local_recipe->result->name }}} {{ $local_recipe->npcLabel }} {{ $local_recipe->obsoleteLabel }} </a>
+{{ $local_recipe->result->symbol }} <a href="#" onclick="return show_recipe('{{$recipe_id}}')">{{{ $local_recipe->result->name }}} {{ $local_recipe->modLabel }} {{ $local_recipe->npcLabel }} {{ $local_recipe->obsoleteLabel }} </a>
 <br>
 @endforeach
 <hr>

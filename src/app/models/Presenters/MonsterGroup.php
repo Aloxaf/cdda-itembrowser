@@ -1,4 +1,5 @@
 <?php
+
 namespace Presenters;
 
 class MonsterGroup extends \Robbo\Presenter\Presenter

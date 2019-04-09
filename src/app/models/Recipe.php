@@ -80,10 +80,11 @@ class Recipe implements Robbo\Presenter\PresentableInterface
 
     public function getByproducts()
     {
-            return array_map(function ($byproduct) {
-                list($id, $amount) = $byproduct;
-                return array($this->repo->getModel("Item", $id), $amount);
-            }, $this->data->byproducts);
+        return array_map(function ($byproduct) {
+            list($id, $amount) = $byproduct;
+
+            return array($this->repo->getModel("Item", $id), $amount);
+        }, $this->data->byproducts);
     }
 
     public function getCanBeLearned()
@@ -119,7 +120,7 @@ class Recipe implements Robbo\Presenter\PresentableInterface
         return new Presenters\Recipe($this);
     }
 
-    public function getId() 
+    public function getId()
     {
         return $this->data->repo_id;
     }

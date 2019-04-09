@@ -1,4 +1,5 @@
 <?php
+
 namespace Repositories\Indexers;
 
 use Repositories\RepositoryWriterInterface;

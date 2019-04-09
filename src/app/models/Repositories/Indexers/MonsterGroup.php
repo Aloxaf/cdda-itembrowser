@@ -1,4 +1,5 @@
 <?php
+
 namespace Repositories\Indexers;
 
 use Repositories\RepositoryWriterInterface;
@@ -16,13 +17,13 @@ class MonsterGroup implements IndexerInterface
         $repo->sort(self::DEFAULT_INDEX);
 
         $timediff = microtime(true) - $starttime;
-        print "MonsterGroup post-processing ".number_format($timediff,3)." s.\n";
+        echo "MonsterGroup post-processing ".number_format($timediff, 3)." s.\n";
     }
 
     public function onNewObject(RepositoryWriterInterface $repo, $object)
     {
         if ($object->type == "monstergroup") {
-            $repo->append(self::DEFAULT_INDEX, $object->name);
+            $repo->appendUnique(self::DEFAULT_INDEX, $object->name);
             $repo->set(self::DEFAULT_INDEX.".".$object->name, $object->repo_id);
 
             return;

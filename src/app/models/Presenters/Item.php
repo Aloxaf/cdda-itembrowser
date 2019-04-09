@@ -1,4 +1,5 @@
 <?php
+
 namespace Presenters;
 
 class Item extends \Robbo\Presenter\Presenter
@@ -30,7 +31,7 @@ class Item extends \Robbo\Presenter\Presenter
             return;
         }
 
-        return number_format($weight/453.6, 2);
+        return number_format($weight / 453.6, 2);
     }
 
     public function presentWeightMetric()
@@ -40,7 +41,7 @@ class Item extends \Robbo\Presenter\Presenter
             return;
         }
 
-        return number_format($weight/1000, 2);
+        return number_format($weight / 1000, 2);
     }
 
     public function presentBashing()
@@ -109,11 +110,27 @@ class Item extends \Robbo\Presenter\Presenter
         if ($this->count("recipes")) {
             $badges[] = '<a href="'.route("item.craft", $this->object->id).'"><span class="label label-default">craft: '.$this->count("recipes").'</span></a>';
         }
-        if($this->count("construction")) {
+        if ($this->count("construction")) {
             $badges[] = '<a href="'.route("item.construction", $this->object->id).'"><span class="label label-warning">construction: '.$this->count("construction").'</span></a>';
         }
-        if($this->count("uncraftToolFor")) {
-            $badges[] = '<span class="label label-warning">item disassembly: '.$this->count("uncraftToolFor").'</span></a>';
+        if ($this->count("uncraftToolFor")) {
+            $badges[] = '<span class="label label-warning">item disassembly: '.$this->count("uncraftToolFor").'</span>';
+        }
+        if ($this->object->modspace != "_dda_" && $this->object->modspace != "") {
+            $badges[] = '<span class="label label-warning">mod</span>';
+        }
+        if ($this->object->override == true) {
+            $badges[] = '<span class="label label-warning">overrides base item</span>';
+        }
+
+        return implode(" ", $badges);
+    }
+
+    public function presentModLabel()
+    {
+        $badges = array();
+        if ($this->object->modspace != "") {
+            $badges[] = '<span class="label label-warning">'.$this->object->modfoldername.'</span>';
         }
 
         return implode(" ", $badges);
@@ -135,7 +152,7 @@ class Item extends \Robbo\Presenter\Presenter
             return "none";
         }
 
-        return implode(", ", array_map(function($cover) {
+        return implode(", ", array_map(function ($cover) {
             return link_to_route('item.armors', $cover, $cover);
         }, $this->object->covers));
     }
@@ -146,27 +163,34 @@ class Item extends \Robbo\Presenter\Presenter
             if ($this->object->spoils_in < 24) {
                 return $this->object->spoils_in." hours";
             }
-            
+
             $weeks = 0;
             $days = $this->object->spoils_in / 24;
             $hours = $this->object->spoils_in % 24;
             while ($days > 6) {
-                $weeks+=1;
-                $days-=7;
+                $weeks++;
+                $days -= 7;
             }
             $result = "";
-            if ($weeks > 0) $result = $result."$weeks weeks ";
-            if ($days > 0) $result = $result."$days days ";
-            if ($hours > 0) $result = $result."$hours days ";
+            if ($weeks > 0) {
+                $result = $result."$weeks weeks ";
+            }
+            if ($days > 0) {
+                $result = $result."$days days ";
+            }
+            if ($hours > 0) {
+                $result = $result."$hours days ";
+            }
 //            return ($this->object->spoils_in / 24)." days";
             return $result;
         }
+
         return $this->object->spoils_in;
     }
 
     public function presentStim()
     {
-        return ($this->object->stim*5)." mins";
+        return ($this->object->stim * 5)." mins";
     }
 
     public function presentValidModLocations()
@@ -212,22 +236,22 @@ class Item extends \Robbo\Presenter\Presenter
 
     public function presentRigid()
     {
-        return $this->object->rigid? "y": "n";
+        return $this->object->rigid ? "y" : "n";
     }
 
     public function presentSeals()
     {
-        return $this->object->seals? "y": "n";
+        return $this->object->seals ? "y" : "n";
     }
 
     public function presentWatertight()
     {
-        return $this->object->watertight? "y": "n";
+        return $this->object->watertight ? "y" : "n";
     }
 
     public function presentPreserves()
     {
-        return $this->object->preserves? "y": "n";
+        return $this->object->preserves ? "y" : "n";
     }
 
     public function presentContains()
@@ -244,13 +268,14 @@ class Item extends \Robbo\Presenter\Presenter
 
         return implode(", ", $techs);
     }
-    
+
     public function presentSourcePart()
     {
         if ($this->object->item === null) {
             return "(unknown)";
         }
         $sourcepart = $this->object->sourcepart;
+
         return link_to_route("item.view", $sourcepart->name, array("id" => $sourcepart->id));
     }
 }

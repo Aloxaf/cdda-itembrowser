@@ -1,7 +1,8 @@
 <?php
 namespace Repositories;
 
-class CacheRepository extends Repository implements RepositoryInterface,
+class CacheRepository extends Repository implements
+    RepositoryInterface,
     RepositoryParserInterface
 {
     private $repo;
@@ -10,8 +11,7 @@ class CacheRepository extends Repository implements RepositoryInterface,
 
     public function __construct(
         \Illuminate\Foundation\Application $app
-    )
-    {
+    ) {
         $this->repo = $app['cache']->driver('file');
         $this->app = $app;
     }
@@ -40,8 +40,22 @@ class CacheRepository extends Repository implements RepositoryInterface,
     {
         $repo_id = $this->raw($index, null);
 
-        if($repo_id === null)
+        if ($repo_id === null) {
             return $default;
+        }
+
+        if (!isset($this->database[$repo_id])) {
+            $this->database[$repo_id] = $this->repo->get("cdda:db:$repo_id");
+        }
+
+        return $this->database[$repo_id];
+    }
+    
+    public function getrepo($repo_id, $default=null)
+    {
+        if ($repo_id === null) {
+            return $default;
+        }
 
         if (!isset($this->database[$repo_id])) {
             $this->database[$repo_id] = $this->repo->get("cdda:db:$repo_id");
@@ -64,20 +78,24 @@ class CacheRepository extends Repository implements RepositoryInterface,
         $search = strtolower($search);
         $key = "search:$model:".str_replace(" ", "!", $search);
 
-        $objects = \Cache::rememberForever($key,
+        $objects = \Cache::rememberForever(
+            $key,
             function () use ($model, $search) {
                 $objects = parent::searchModels($model, $search);
                 array_walk($objects, function (&$object) {
                     $object = $object->id;
                 });
 
-            return $objects;
-        });
+                return $objects;
+            }
+        );
 
-        array_walk($objects, 
+        array_walk(
+            $objects,
             function (&$object) use ($model) {
                 $object = $this->getModel($model, $object);
-            });
+            }
+        );
 
         return $objects;
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Repositories\Indexers;
 
 use Repositories\RepositoryWriterInterface;
@@ -16,7 +17,7 @@ class Recipe implements IndexerInterface
             }
         }
     }
-    
+
     public function onFinishedLoading(RepositoryWriterInterface $repo)
     {
         $starttime = microtime(true);
@@ -55,7 +56,7 @@ class Recipe implements IndexerInterface
                                             $repo->append("item.disassembledFrom.$id", $recipe->repo_id);
                                         }
 
-                                        if (count($similar_component_unit) > 2){
+                                        if (count($similar_component_unit) > 2) {
                                             $listinfo = $similar_component_unit[2];
                                             $new_component_groups[] = array($id, $mult_amount, $listinfo);
                                         } else {
@@ -96,8 +97,8 @@ class Recipe implements IndexerInterface
                                             $mult_amount = -1;
                                         }
                                         $this->linkIndexes($repo, "toolFor", $id, $recipe);
-                                        
-                                        if (count($similar_tool_unit) > 2){
+
+                                        if (count($similar_tool_unit) > 2) {
                                             $listinfo = $similar_tool_unit[2];
                                             $new_tool_group[] = array($id, $mult_amount, $listinfo);
                                         } else {
@@ -116,11 +117,11 @@ class Recipe implements IndexerInterface
                 // handle component "LIST" substitution
                 if (isset($recipe->components)) {
                     $successful_sub = true;
-                    
+
                     // requirement lists can unpack more requirement lists, repeat until no more LISTs are left
                     while ($successful_sub == true) {
                         $successful_sub = false;
-                        
+
                         // look through component groups
                         foreach ($recipe->components as $cgkey => $similar_unit_group) {
                             $splice_list = array();
@@ -133,15 +134,15 @@ class Recipe implements IndexerInterface
                                 if (count($similar_unit) > 2) {
                                     $unit_param_3 = $similar_unit[2];
                                 }
-                                
+
                                 // looking for LIST text in the 3rd spot of the item
                                 if (isset($unit_param_3) && $unit_param_3 == "LIST") {
                                     $req = $repo->get("requirement."."requirement_".$u_id);
-                                    
+
                                     // found the requirement that matches the LIST name
                                     if (isset($req) && isset($req->components)) {
                                         $successful_sub = true;
-                                        
+
                                         // add each new component to the index list and set up for adding to the recipe info
                                         foreach ($req->components as $req_similar_unit_group) {
                                             foreach ($req_similar_unit_group as $req_similar_unit) {
@@ -150,8 +151,7 @@ class Recipe implements IndexerInterface
                                                 if ($mult_amount < 0) {
                                                     $mult_amount = -1;
                                                 }
-                                                
-                                                
+
                                                 $toolfortype = "toolFor";
                                                 if ($recipe->type == "uncraft") {
                                                     $toolfortype = "uncraftToolFor";
@@ -163,8 +163,8 @@ class Recipe implements IndexerInterface
                                                 and $recipe->reversible == "true")) {
                                                     $repo->append("item.disassembledFrom.$ru_id", $recipe->repo_id);
                                                 }
-                                                
-                                                if (count($req_similar_unit) > 2){
+
+                                                if (count($req_similar_unit) > 2) {
                                                     $listinfo = $req_similar_unit[2];
                                                     $newgrouplist[] = array($ru_id, $mult_amount, $listinfo);
                                                 } else {
@@ -177,7 +177,7 @@ class Recipe implements IndexerInterface
                                     }
                                 }
                             }
-                            
+
                             // push all the new LIST-resolved items into the current component group
                             if (count($newgrouplist) > 0) {
                                 foreach ($newgrouplist as $groupitem) {
@@ -247,7 +247,7 @@ class Recipe implements IndexerInterface
                                                 }
                                                 $this->linkIndexes($repo, $toolfortype, $ru_id, $recipe);
 
-                                                if (count($req_similar_unit) > 2){
+                                                if (count($req_similar_unit) > 2) {
                                                     $listinfo = $req_similar_unit[2];
                                                     $newgrouplist[] = array($ru_id, $mult_amount, $listinfo);
                                                 } else {
@@ -302,7 +302,7 @@ class Recipe implements IndexerInterface
                         }
                         if (count($toolsub) > 0) {
                             foreach ($toolsub as $toolsubgroup) {
-                                list($subgroup,$amount) = $toolsubgroup;
+                                list($subgroup, $amount) = $toolsubgroup;
                                 foreach ($subgroup as $subitem) {
                                     $recipe->tools[$toolgroupkey][] = array($subitem, $amount);
                                 }
@@ -316,14 +316,19 @@ class Recipe implements IndexerInterface
                     $level = $recipe->difficulty;
 
                     if (!isset($recipe->obsolete) || $recipe->obsolete == false) {
-                        $item = $repo->get("item.$recipe->result");
+                        // \Log::info("checking for $recipe->result\n");
+                        $item = $this->simple_resolve_reference($repo, $recipe);
                         if ($item === null) {
                             var_dump($recipe);
-                            print "missing recipe result $recipe->result\n";
+                            echo "missing recipe result $recipe->result\n";
+                        } else {
+                            // \Log::info("found $item->id\n");
                         }
                     }
 
-                    $repo->append("skill.$skill.$level", $item->id);
+                    if ($item !== null) {
+                        $repo->append("skill.$skill.$level", $item->id);
+                    }
                     $skills[$skill] = $skill;
                 }
             }
@@ -331,12 +336,52 @@ class Recipe implements IndexerInterface
             sort($skills);
             $repo->set("skills", $skills);
         } catch (Exception $e) {
-            print "Exception encountered while linking recipe information.\n";
+            echo "Exception encountered while linking recipe information.\n";
             throw $e;
         }
         $endtime = microtime(true);
         $timediff = $endtime - $starttime;
-        print "Recipe post-processing ".number_format($timediff, 3)." s.\n";
+        echo "Recipe post-processing ".number_format($timediff, 3)." s.\n";
+    }
+
+    private function simple_resolve_reference($repo, $recipe)
+    {
+        $itemid = $recipe->result;
+        // \Log::info("looking for $itemid\n");
+        $item = $repo->get("item.$itemid");
+
+        return $item;
+    }
+
+    private function resolve_reference($repo, $recipe)
+    {
+        $itemid = $recipe->result;
+        if (isset($recipe->modspace)) {
+            $itemid = $recipe->modspace.$itemid;
+            // \Log::info("looking for $itemid\n");
+        }
+        $item = $repo->get("item.$itemid");
+        if ($item === null) {
+            $moddeps = $repo->get_moddeps($recipe);
+            if ($moddeps !== null) {
+                foreach ($moddeps as $dep) {
+                    $itemid = $repo->build_modid_prefix($dep).$recipe->result;
+                    // \Log::info("looking for $itemid\n");
+                    $item = $repo->get("item.$itemid");
+                    if ($item !== null) {
+                        break;
+                    }
+                }
+            }
+
+            if ($item === null) {
+                $itemid = $recipe->result;
+                // \Log::info("looking for $itemid\n");
+                $item = $repo->get("item.$itemid");
+            }
+        }
+
+        return $item;
     }
 
     private function linkIndexes($repo, $key, $id, $recipe)
@@ -397,7 +442,7 @@ class Recipe implements IndexerInterface
                         }
                     }
                 }
-                
+
                 if (isset($recipe->result)) {
                     $this->linkIndexes($repo, "recipes", $recipe->result, $recipe);
                     if (isset($recipe->book_learn)) {
@@ -439,7 +484,7 @@ class Recipe implements IndexerInterface
                         foreach ($group as $component) {
                             unset($listval);
                             list($id, $amount) = $component;
-                            if (count($component)>2) {
+                            if (count($component) > 2) {
                                 $listval = $component[2];
                             }
                             if (isset($listval) && $listval == "LIST") {
@@ -458,8 +503,8 @@ class Recipe implements IndexerInterface
             }
         } catch (Exception $e) {
             var_dump($object);
-            if (isset($object)&&isset($object->result)) {
-                print "Recipe for ".$object->result." has an error.\n";
+            if (isset($object) && isset($object->result)) {
+                echo "Recipe for ".$object->result." has an error.\n";
             }
             throw $e;
         }

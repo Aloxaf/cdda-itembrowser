@@ -24,7 +24,7 @@ Books - Cataclysm: Dark Days Ahead
 @foreach($items as $item)
 <tr>
   <td>{{ $item->symbol }}</td>
-  <td><a href="{{route('item.view', $item->id)}}">{{ $item->name }}</a></td>
+  <td><a href="{{route('item.view', $item->id)}}">{{ $item->name }} {{ $item->modLabel }}</a></td>
   <td>{{ $item->skill }}</td>
   <td>{{ $item->required_level }}</td>
   <td>{{ $item->max_level }}</td>

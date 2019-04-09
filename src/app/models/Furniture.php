@@ -15,8 +15,4 @@ class Furniture implements Robbo\Presenter\PresentableInterface
     {
         return new Presenters\Furniture($this);
     }
-
-
 }
-
-

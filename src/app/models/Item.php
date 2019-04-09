@@ -10,7 +10,7 @@ class Item implements Robbo\Presenter\PresentableInterface
     private $cut_pairs = array(
       "cotton" => "rag",
       "leather" => "leather",
-      "fur"=>"fur",
+      "fur" => "fur",
       "nomex" => "nomex",
       "plastic" => "plastic_chunk",
       "kevlar" => "kevlar_plate",
@@ -25,7 +25,7 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function load($data)
     {
         if (!isset($data->material)) {
-            $data->material = array( "null", "null" );
+            $data->material = array("null", "null");
         }
         if (!is_array($data->material)) {
             $data->material = array($data->material, "null");
@@ -85,11 +85,15 @@ class Item implements Robbo\Presenter\PresentableInterface
             return;
         }
 
-        return ($this->type == "bionic" ? "CBM: " : "").$this->data->name;
+        return ($this->type == "bionic" ? "CBM: " : "").$this->data->name; //." (".$this->data->id.")";
     }
 
     public function getRecipes()
     {
+        if (isset($this->data->original_id)) {
+            return $this->repo->allModels("Recipe", "item.recipes.{$this->data->original_id}");
+        }
+
         return $this->repo->allModels("Recipe", "item.recipes.{$this->data->id}");
     }
 
@@ -112,23 +116,28 @@ class Item implements Robbo\Presenter\PresentableInterface
     {
         return count($this->repo->allModels("Item", "vpartlist.$this->id"));
     }
-    
+
     public function getVpartFor()
     {
         $vparts = $this->repo->allModels("Item", "vpartlist.$this->id");
         $string1 = "";
-        $inner=array();
+        $inner = array();
         foreach ($vparts as $item) {
             // build link name with name and ID to distinguish between multiple usage of vehicle part names
-            $inner[] =  link_to_route("item.view", $item->name.(substr($item->id,6) !== $item->name ? " (".substr($item->id,6).")" : ""), array("id" => $item->id));
+            $inner[] = link_to_route("item.view", $item->name.(substr($item->id, 6) !== $item->name ? " (".substr($item->id, 6).")" : ""), array("id" => $item->id));
         }
-        
+
         return "&gt; ".implode("<br>&gt; ", $inner)."\n";
     }
-    
+
     public function count($type)
     {
         return $this->repo->raw("item.count.$this->id.$type", 0);
+    }
+
+    public function flatcount($type)
+    {
+        return $this->repo->raw("item.count.$this->original_id.$type", 0);
     }
 
     public function getToolCategories()
@@ -170,7 +179,7 @@ class Item implements Robbo\Presenter\PresentableInterface
     {
         return strtoupper($this->data->type) == "VEHICLE_PART";
     }
-    
+
     public function getIsBook()
     {
         return $this->data->type == "BOOK";
@@ -234,7 +243,7 @@ class Item implements Robbo\Presenter\PresentableInterface
             return;
         }
         if ($this->isAmmo) {
-            return $this->data->weight*$this->data->count;
+            return $this->data->weight * $this->data->count;
         }
 
         return $this->data->weight;
@@ -281,22 +290,21 @@ class Item implements Robbo\Presenter\PresentableInterface
         $material1 = $this->material1->ident;
         $material2 = $this->material2->ident;
 
-        return in_array($material1, array_keys($this->cut_pairs)) AND
+        return in_array($material1, array_keys($this->cut_pairs)) and
               in_array($material2, array_keys($this->cut_pairs));
     }
 
     public function getCutResult()
     {
-	$results = [];
-	$materials = $this->materials;
+        $results = [];
+        $materials = $this->materials;
 
-        foreach($materials as $material) {
-	    $results[] = [
-                "amount"=>$this->volume/count($materials),
-                "item"=>$this->repo->getModel("Item", $this->cut_pairs[$material->ident])
+        foreach ($materials as $material) {
+            $results[] = [
+                "amount" => $this->volume / count($materials),
+                "item" => $this->repo->getModel("Item", $this->cut_pairs[$material->ident]),
             ];
         }
-	
 
         return $results;
     }
@@ -382,7 +390,7 @@ class Item implements Robbo\Presenter\PresentableInterface
 
         $ret = $ammo->damage;
         $ret *= 0.8;
-        if ($ret>5) {
+        if ($ret > 5) {
             $ret += 20;
         }
         $ret *= 1.5;
@@ -404,25 +412,26 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getHasFlags()
     {
-        return count($this->flags)>0;
+        return count($this->flags) > 0;
     }
 
     public function getHasTechniques()
     {
-        return count($this->techniques)>0;
+        return count($this->techniques) > 0;
     }
 
     public function getDamagePerMove()
     {
-        if(!$this->movesPerAttack)
+        if (!$this->movesPerAttack) {
             return 0;
+        }
 
-        return number_format(($this->bashing+$this->cutting)/($this->movesPerAttack/100.0), 2, ".", "");
+        return number_format(($this->bashing + $this->cutting) / ($this->movesPerAttack / 100.0), 2, ".", "");
     }
 
     public function getIsModdable()
     {
-        return count($this->valid_mod_locations)>0;
+        return count($this->valid_mod_locations) > 0;
     }
 
     public function getIsBrewable()
@@ -448,7 +457,7 @@ class Item implements Robbo\Presenter\PresentableInterface
 
         $brewproducts = implode(", ", $brewresults);
 
-        return "Fermenting this item for " . $brewtimestring . " produces " . $brewproducts . ".";
+        return "Fermenting this item for ".$brewtimestring." produces ".$brewproducts.".";
     }
 
     public function getIsGunMod()
@@ -466,33 +475,33 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $this->repo->allModels("Item", "gunmodGuns.{$this->data->id}");
     }
 
-    public function getId() 
+    public function getId()
     {
         return $this->data->id;
     }
 
     public function getCovers()
     {
-        return array_map(function($cover) {
+        return array_map(function ($cover) {
             return strtolower($cover);
-        }, isset($this->data->covers)?$this->data->covers: []);
+        }, isset($this->data->covers) ? $this->data->covers : []);
     }
 
     public function getContains()
     {
-        return $this->data->contains/1.0;
+        return $this->data->contains / 4.0;
     }
 
     public function getConstructionUses()
     {
         return $this->repo->allModels('Construction', "construction.{$this->data->id}");
     }
-    
+
     public function getSourcePart()
     {
         return $this->repo->getModel("Item", $this->data->item);
     }
-    
+
     public function getEncumbrance()
     {
         if (is_numeric($this->data->encumbrance) && $this->data->encumbrance > 0) {
@@ -505,30 +514,35 @@ class Item implements Robbo\Presenter\PresentableInterface
                     $foundvarsize = true;
                 }
             }
-            if ($foundvarsize == true){
+            if ($foundvarsize == true) {
                 $result = $enc." (poor fit), ".max(floor($enc / 2), $enc - 10)." (fitted)";
             } else {
                 $result = $enc;
             }
+
             return $result;
         }
+
         return 0;
     }
-    
+
     public function getRangedDamage()
     {
         $inner = array();
         if (!is_numeric($this->data->ranged_damage)) {
             if (is_array($this->data->ranged_damage)) {
-                 foreach ($this->data->ranged_damage as $indexnum=>$damageunit) {
-                     $inner[] = (is_numeric($damageunit->amount)?$damageunit->amount:"").(isset($damageunit->damage_type)?" (".$damageunit->damage_type.")":"").(isset($damageunit->armor_multiplier)?" (Armor multiplier $damageunit->armor_multiplier)":"");
-                 }
+                foreach ($this->data->ranged_damage as $indexnum => $damageunit) {
+                    $inner[] = (is_numeric($damageunit->amount) ? $damageunit->amount : "").(isset($damageunit->damage_type) ? " (".$damageunit->damage_type.")" : "").(isset($damageunit->armor_multiplier) ? " (Armor multiplier $damageunit->armor_multiplier)" : "");
+                }
+
                 return implode(", ", $inner);
-            } else if (is_object($this->data->ranged_damage)){
+            } elseif (is_object($this->data->ranged_damage)) {
                 $rd = $this->data->ranged_damage;
-                return (is_numeric($rd->amount)?$rd->amount:"").(isset($rd->damage_type)?" (".$rd->damage_type.")":"").(isset($rd->armor_multiplier)?" (Armor multiplier $rd->armor_multiplier)":"");
+
+                return (is_numeric($rd->amount) ? $rd->amount : "").(isset($rd->damage_type) ? " (".$rd->damage_type.")" : "").(isset($rd->armor_multiplier) ? " (Armor multiplier $rd->armor_multiplier)" : "");
             }
         }
+
         return $this->data->ranged_damage;
     }
 }
