@@ -34,10 +34,10 @@ datetime="$(date -u)"
 echo "#define VERSION \"Last updated ${datetime}\"" | tee version.h
 cd ../../
 # download php dependencies
-alias php='/usr/php/56/bin/php'
+alias php='/usr/local/bin/ea-php56'
 
-/usr/php/56/bin/php -c /home/chezzoco/phpextra/php.ini composer.phar -d=src install
-/usr/php/56/bin/php -c /home/chezzoco/phpextra/php.ini src/artisan cataclysm:rebuild Cataclysm-DDA-master
+#/usr/local/bin/ea-php56 -c ./php.ini composer.phar -d=src install
+/usr/local/bin/ea-php56 -c ./php.ini src/artisan cataclysm:rebuild Cataclysm-DDA-master
 
 echo "--------------------------"
 echo "You need to make sure the webserver can read/write to the storage path"

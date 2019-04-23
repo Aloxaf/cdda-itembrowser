@@ -20,15 +20,21 @@ echo "Unzipping..."
 unzip -qo master.zip
 cd Cataclysm-DDA-master
 cd src
+echo "date"
 datetime="$(date -u)"
+echo "tee"
 echo "#define VERSION \"Last updated ${datetime}\"" | tee version.h
 cd ../../
 # download php dependencies
-alias php='/usr/php/56/bin/php'
+echo "alias"
+alias php='/usr/local/bin/ea-php56'
 
-/usr/php/56/bin/php -c /home/chezzoco/phpextra/php.ini composer.phar -d=src install
-/usr/php/56/bin/php -c /home/chezzoco/phpextra/php.ini src/artisan cataclysm:rebuild Cataclysm-DDA-master
-
+echo "composer"
+#/usr/local/bin/ea-php56 -c ./php.ini composer.phar -d=src install
+echo "artisan"
+#/usr/local/bin/ea-php56 -c ./php.ini src/artisan cataclysm:rebuild Cataclysm-DDA-master
+env PATH="/usr/local/bin" ea-php56 -c ./php.ini src/artisan cataclysm:rebuild Cataclysm-DDA-master
+env PATH="/usr/local/bin" ea-php56 --version
 echo "--------------------------"
 echo "You need to make sure the webserver can read/write to the storage path"
 echo ": $STORAGE_PATH"
