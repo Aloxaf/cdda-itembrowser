@@ -1,4 +1,5 @@
 <?php
+
 namespace Presenters;
 
 class Recipe extends \Robbo\Presenter\Presenter
@@ -7,10 +8,10 @@ class Recipe extends \Robbo\Presenter\Presenter
     {
         $time = $this->object->time;
         if ($time >= 1000) {
-            return ($time/1000)." minutes";
+            return ($time / 1000)." minutes";
         }
 
-        return ($time/100)." turns";
+        return ($time / 100)." turns";
     }
 
     public function presentSkillsRequired()
@@ -32,7 +33,7 @@ class Recipe extends \Robbo\Presenter\Presenter
             $inner = array();
             foreach ($group as $gi) {
                 list($item, $amount) = $gi;
-                $inner[] =  link_to_route("item.view", $item->name, array("id" => $item->id))." ".($amount>0 ? "($amount&nbsp;charges)" : "");
+                $inner[] = link_to_route("item.view", $item->name, array("id" => $item->id))." ".($amount > 0 ? "($amount&nbsp;charges)" : "");
             }
             $tools[] = implode(" OR ", $inner);
         }
@@ -66,13 +67,16 @@ class Recipe extends \Robbo\Presenter\Presenter
 
         return "&gt; ".implode(", ", $byproducts)."\n";
     }
-    
+
     public function presentLabels()
     {
         $labelArray = [];
         $neverlearn = $this->object->never_learn;
         if ($neverlearn) {
             $labelArray[] = '<span class="label label-warning">Cannot Be Memorized</span><br>';
+        }
+        if ($this->object->autolearn == true) {
+            $labelArray[] = '<span class="label label-success">Autolearned</span><br>';
         }
 
         $suffix = $this->object->id_suffix;
@@ -81,31 +85,46 @@ class Recipe extends \Robbo\Presenter\Presenter
         } else {
             $labelArray[] = '<span class="label label-success">Player Recipe</span><br>';
         }
+        if ($this->object->modspace != "" && $this->object->modspace != "_dda_") {
+            $labelArray[] = '<span class="label label-warning">'.$this->object->modfoldername.'</span>';
+        }
         $obsolete = $this->object->obsolete;
         if ($obsolete === true) {
             $labelArray[] = '<span class="label label-danger">Obsolete</span><br>';
         }
+        if ($this->object->override == true) {
+            $labelArray[] = '<span class="label label-warning">overrides base recipe</span>';
+        }
 
         return implode(" ", $labelArray);
     }
-    
+
     public function presentNpcLabel()
     {
         $suffix = $this->object->id_suffix;
         if (stripos($suffix, "npc") !== false) {
-            return '<span class="label label-warning">NPC Recipe</span>';
+            return '<span class="label label-warning">NPC</span>';
         }
-        
+
         return "";
     }
-    
+
+    public function presentModLabel()
+    {
+        if ($this->object->modspace != "" && $this->object->modspace != "_dda_") {
+            return '<span class="label label-warning">'.$this->object->modfoldername.'</span>';
+        }
+
+        return "";
+    }
+
     public function presentObsoleteLabel()
     {
         $obsolete = $this->object->obsolete;
         if ($obsolete === true) {
             return '<span class="label label-danger">Obsolete</span>';
         }
-        
+
         return "";
     }
 }

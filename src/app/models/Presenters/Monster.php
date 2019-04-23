@@ -1,4 +1,5 @@
 <?php
+
 namespace Presenters;
 
 class Monster extends \Robbo\Presenter\Presenter
@@ -40,27 +41,36 @@ class Monster extends \Robbo\Presenter\Presenter
         }
 
         array_walk($attacks, function (&$attack) {
-            if(isset($attack->type)) 
+            if (isset($attack->type)) {
                 $attack = "$attack->type: $attack->cooldown";
-            else if(isset($attack->id)) {
-                if(isset($attack->damage_max_instance)) {
+            } elseif (isset($attack->id)) {
+                if (isset($attack->damage_max_instance)) {
                     $counter = 0;
                     $attackstr = "$attack->id: ";
-                    $attackarray=[];
-                    foreach($attack->damage_max_instance as $inst) {
-                        $attackarray[]="($inst->damage_type for $inst->amount damage)";
+                    $attackarray = [];
+                    foreach ($attack->damage_max_instance as $inst) {
+                        $attackarray[] = "($inst->damage_type for $inst->amount damage)";
                     }
-                    $attackstr= $attackstr.implode(" ",$attackarray);
-                    $attack=$attackstr;
-                }else{
-                    $attack="$attack->id";
+                    $attackstr = $attackstr.implode(" ", $attackarray);
+                    $attack = $attackstr;
+                } else {
+                    $attack = "$attack->id";
                 }
-            }
-            else
+            } else {
                 $attack = "$attack[0]: $attack[1]";
+            }
         });
 
         return implode(",<br>", $attacks);
+    }
+
+    public function presentModinfo()
+    {
+        if ($this->object->modspace != "_dda_" && $this->object->modspace != "") {
+            return '<span class="label label-warning">'.$this->object->modfoldername.'</span>';
+        }
+
+        return "";
     }
 
     public function presentSpecies()
@@ -89,8 +99,10 @@ class Monster extends \Robbo\Presenter\Presenter
 
     public function presentSpecialWhenHit()
     {
-        if(!($this->object->special_when_hit))
+        if (!($this->object->special_when_hit)) {
             return "";
+        }
+
         return $this->object->special_when_hit[0]." (".$this->object->special_when_hit[1].")";
     }
 }

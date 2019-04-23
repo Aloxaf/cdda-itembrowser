@@ -15,38 +15,41 @@ class Construction implements Robbo\Presenter\PresentableInterface
     public function load($data)
     {
         $this->data = $data;
-        if($this->requiresQualities)
-        foreach($data->qualities as $group) {
-            if (is_array($group)){
-                foreach($group as &$q) {
-                    $q->quality = $this->repo->getModel("Quality", $q->id);
+        if ($this->requiresQualities) {
+            foreach ($data->qualities as $group) {
+                if (is_array($group)) {
+                    foreach ($group as &$q) {
+                        $q->quality = $this->repo->getModel("Quality", $q->id);
+                    }
+                } else {
+                    $group->quality = $this->repo->getModel("Quality", $group->id);
                 }
-            }else{
-                $group->quality = $this->repo->getModel("Quality", $group->id);
             }
         }
-        if($this->requiresTools)
-        foreach($data->tools as &$group) {
-            foreach($group as $k=>$v) {
-                $charges = 0;
-                if(is_array($v))
-                    list($v, $charges) = $v;
-                $group[$k] = (object) array(
-                    "item"=>$this->repo->getModel("Item", $v),
-                    "charges"=>$charges,
+        if ($this->requiresTools) {
+            foreach ($data->tools as &$group) {
+                foreach ($group as $k => $v) {
+                    $charges = 0;
+                    if (is_array($v)) {
+                        list($v, $charges) = $v;
+                    }
+                    $group[$k] = (object) array(
+                    "item" => $this->repo->getModel("Item", $v),
+                    "charges" => $charges,
                 );
+                }
             }
         }
 
-        if($this->requiresComponents)
-        foreach($data->components as &$group)
-        {
-            foreach($group as $k=>$c) {
-                list($id, $amount) = $c;
-                $group[$k] = (object) array(
-                    "amount"=>$amount,
-                    "item"=> $this->repo->getModel("Item", $id)
+        if ($this->requiresComponents) {
+            foreach ($data->components as &$group) {
+                foreach ($group as $k => $c) {
+                    list($id, $amount) = $c;
+                    $group[$k] = (object) array(
+                    "amount" => $amount,
+                    "item" => $this->repo->getModel("Item", $id),
                 );
+                }
             }
         }
     }
@@ -56,15 +59,17 @@ class Construction implements Robbo\Presenter\PresentableInterface
         return new Presenters\Construction($this);
     }
 
-    public function getId() 
+    public function getId()
     {
         return $this->data->repo_id;
     }
-    
+
     public function getComment()
     {
-        if(!isset($this->data->{"//"}))
+        if (!isset($this->data->{"//"})) {
             return "";
+        }
+
         return $this->data->{"//"};
     }
 
@@ -85,7 +90,7 @@ class Construction implements Robbo\Presenter\PresentableInterface
 
     public function getSkill()
     {
-        return isset($this->data->skill)?$this->data->skill:"construction";
+        return isset($this->data->skill) ? $this->data->skill : "construction";
     }
 
     public function getHasPreTerrain()
@@ -108,4 +113,3 @@ class Construction implements Robbo\Presenter\PresentableInterface
         return $this->repo->getModelAuto($this->data->post_terrain);
     }
 }
-

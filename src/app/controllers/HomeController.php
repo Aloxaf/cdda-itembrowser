@@ -1,6 +1,6 @@
 <?php
 
-class HomeController extends BaseController 
+class HomeController extends BaseController
 {
     protected $repo;
 
@@ -22,13 +22,13 @@ class HomeController extends BaseController
         $items = $this->repo->searchModels("Item", $search);
         $monsters = $this->repo->searchModels("Monster", $search);
 
-        $this->layout->nest('content', 'search', compact('items', 
+        $this->layout->nest('content', 'search', compact('items',
             'search', 'monsters'));
     }
 
     public function sitemap()
     {
-        $sitemap = Cache::rememberForever('sitemap', function() {
+        $sitemap = Cache::rememberForever('sitemap', function () {
             $armorParts = $this->repo->raw("armorParts");
             $gunSkills = $this->repo->raw("gunSkills");
             $bookTypes = $this->repo->raw("bookTypes");

@@ -20,7 +20,7 @@ Please select an entry from the menu on the left and a level on the top.
 @else
 <ul class="list-unstyled">
 @foreach($items as $item)
-  <li>{{ $item->symbol }} <a href="{{route('item.craft', $item->id)}}">{{ $item->name }}</a></li>
+  <li>{{ $item->symbol }} <a href="{{route('item.craft', $item->id)}}">{{ $item->name }} {{ $item->modLabel }}</a></li>
 @endforeach
 </ul>
 @endif

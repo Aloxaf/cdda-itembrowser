@@ -1,4 +1,5 @@
 <?php
+
 namespace Repositories\Indexers;
 
 use Repositories\RepositoryWriterInterface;
@@ -62,37 +63,37 @@ class Item implements IndexerInterface
         $starttime = microtime(true);
         foreach ($repo->raw(self::DEFAULT_INDEX) as $id) {
             $recipes = count($repo->raw("item.toolFor.$id"));
-            if ($recipes>0) {
+            if ($recipes > 0) {
                 $repo->set("item.count.$id.toolFor", $recipes);
             }
 
             $recipes = count($repo->raw("item.recipes.$id"));
-            if ($recipes>0) {
+            if ($recipes > 0) {
                 $repo->set("item.count.$id.recipes", $recipes);
             }
 
             $recipes = count($repo->raw("item.learn.$id"));
-            if ($recipes>0) {
+            if ($recipes > 0) {
                 $repo->set("item.count.$id.learn", $recipes);
             }
 
             $recipes = count($repo->raw("item.disassembly.$id"));
-            if ($recipes>0) {
+            if ($recipes > 0) {
                 $repo->set("item.count.$id.disassembly", $recipes);
             }
 
             $recipes = count($repo->raw("item.disassembledFrom.$id"));
-            if ($recipes>0) {
+            if ($recipes > 0) {
                 $repo->set("item.count.$id.disassembledFrom", $recipes);
             }
-            
+
             $recipes = count($repo->raw("item.uncraftToolFor.$id"));
-            if ($recipes>0) {
+            if ($recipes > 0) {
                 $repo->set("item.count.$id.uncraftToolFor", $recipes);
             }
 
             $count = count($repo->raw("construction.$id"));
-            if ($count>0) {
+            if ($count > 0) {
                 $repo->set("item.count.$id.construction", $count);
             }
 
@@ -103,11 +104,12 @@ class Item implements IndexerInterface
                 usort($recipes, function ($a, $b) use ($repo) {
                     $a = $repo->get("recipe.$a");
                     $b = $repo->get("recipe.$b");
-                    return $a->difficulty-$b->difficulty;
+
+                    return $a->difficulty - $b->difficulty;
                 });
                 $repo->set("item.toolForCategory.$id.$category", $recipes);
             }
-            
+
             // build item/vehicle part installation cross reference list per item
             if (strpos($id, "vpart_") === 0) {
                 $vpart = $repo->get(self::DEFAULT_INDEX.".".$id);
@@ -116,8 +118,7 @@ class Item implements IndexerInterface
                 }
             }
         }
-        
-        
+
         $repo->sort("flags");
         $repo->sort("gunmodParts");
         $repo->sort("gunmodSkills");
@@ -127,7 +128,7 @@ class Item implements IndexerInterface
         $repo->sort("consumableTypes");
 
         $timediff = microtime(true) - $starttime;
-        print "Item post-processing ".number_format($timediff,3)." s.\n";
+        echo "Item post-processing ".number_format($timediff, 3)." s.\n";
     }
 
     public function onNewObject(RepositoryWriterInterface $repo, $object)
@@ -186,35 +187,42 @@ class Item implements IndexerInterface
             ValueUtil::SetDefault($object, "healthy", 0);
             ValueUtil::SetDefault($object, "addiction_potential", 0);
             ValueUtil::SetDefault($object, "charges", 1);
-            ValueUtil::SetDefault($object, "nutrition", 0);
-            ValueUtil::SetDefault($object, "calories", 0);
         }
 
         // handle properties that are modified by addition/multiplication
         // the property is removed after application, since each template reference can have its own modifiers
         if (isset($object->relative)) {
             foreach ($object->relative as $relkey => $relvalue) {
-                if(isset($object->{$relkey}))
-                $object->{$relkey} += $relvalue;
+                if (isset($object->{$relkey})) {
+                    $object->{$relkey} += $relvalue;
+                }
             }
             unset($object->relative);
         }
 
         if (isset($object->proportional)) {
             foreach ($object->proportional as $proportionkey => $proportionvalue) {
-                if (is_array($object->{$proportionkey})) continue;
+                if (is_array($object->{$proportionkey})) {
+                    continue;
+                }
                 $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
             }
             unset($object->proportional);
         }
 
         // items with enough damage might be good melee weapons.
-        $damagecheck=0;
-        if(isset($object->bashing))$damagecheck+=$object->bashing;
-        if(isset($object->cutting))$damagecheck+=$object->cutting;
-        if(isset($object->to_hit))$damagecheck+=$object->to_hit;
-        if($damagecheck>=8 && strtoupper($object->type) != "VEHICLE_PART" && isset($object->weight) && $object->weight < 15000 && (!isset($object->dispersion) || $object->dispersion==0)) {
-            $repo->append("melee",$object->id);
+        $damagecheck = 0;
+        if (isset($object->bashing)) {
+            $damagecheck += $object->bashing;
+        }
+        if (isset($object->cutting)) {
+            $damagecheck += $object->cutting;
+        }
+        if (isset($object->to_hit)) {
+            $damagecheck += $object->to_hit;
+        }
+        if ($damagecheck >= 8 && strtoupper($object->type) != "VEHICLE_PART" && isset($object->weight) && $object->weight < 15000 && (!isset($object->dispersion) || $object->dispersion == 0)) {
+            $repo->append("melee", $object->id);
         }
 
         $is_armor = in_array($object->type, ["ARMOR", "TOOL_ARMOR"]);
@@ -229,7 +237,7 @@ class Item implements IndexerInterface
                 $repo->addUnique("armorParts", $part);
             }
         }
-        
+
         // handle "ml" indicators in volume/container volume
         if (isset($object->volume) && is_string($object->volume)) {
             if (stripos($object->volume, "ml") !== false) {
@@ -309,16 +317,14 @@ class Item implements IndexerInterface
         }
 
         if ($object->type == "COMESTIBLE") {
-            //if (!array_key_exists("comestible_type", $object)) {
-                //print "comestible_type missing: ".$object->id."\n";
-                //$object->comestible_type = "N/A";
-            //}
-
-            //if (isset($object->calories)) {
-                //$object->nutrition = floor($object->calories/2500.0*288.0);
-            //}
-            
-            $object->calories = floor( floor($object->calories/2500.0*288.0) * 2500.0/288.0 );
+            if (!isset($object->calories) && isset($object->nutrition)) {
+                $object->calories = floor($object->nutrition * 2500.0 / 288.0);
+            } elseif (isset($object->calories)) {
+                $object->calories = floor(floor($object->calories / 2500.0 * 288.0) * 2500.0 / 288.0);
+            } else {
+                ValueUtil::SetDefault($object, "nutrition", 0);
+                ValueUtil::SetDefault($object, "calories", 0);
+            }
             $object->nutrition = $object->calories;
 
             $type = strtolower($object->comestible_type);
@@ -341,7 +347,7 @@ class Item implements IndexerInterface
         if (isset($object->material)) {
             $materials = (array) $object->material;
             $repo->append("material.$materials[0]", $object->id);
-            if (count($object->material)>1 and $materials[1]!="null") {
+            if (count($object->material) > 1 and $materials[1] != "null") {
                 $repo->append("material.$materials[1]", $object->id);
             }
         }
@@ -349,10 +355,11 @@ class Item implements IndexerInterface
         if (isset($object->flags)) {
             $flags = (array) $object->flags;
             foreach ($flags as $flag) {
-                $repo->append("flag.$flag", $object->id);
-                $repo->addUnique("flags", $flag);
+                if ($flag != "") {
+                    $repo->append("flag.$flag", $object->id);
+                    $repo->addUnique("flags", $flag);
+                }
             }
         }
-
     }
 }

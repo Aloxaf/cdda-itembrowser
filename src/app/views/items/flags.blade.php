@@ -15,7 +15,7 @@ Please select an entry from the menu on the left.
 @else
 <ul class="list-unstyled">
 @foreach($items as $item)
-  <li>{{ $item->symbol }} <a href="{{route('item.view', $item->id)}}">{{ $item->name }}</a></li>
+  <li>{{ $item->symbol }} <a href="{{route('item.view', $item->id)}}">{{ $item->name }} {{ $item->modLabel }}</a></li>
 @endforeach
 </ul>
 @endif

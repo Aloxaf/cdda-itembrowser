@@ -24,17 +24,17 @@ class Monster implements Robbo\Presenter\PresentableInterface
 
     public function getMinDamage()
     {
-        return $this->melee_dice+$this->melee_cut;
+        return $this->melee_dice + $this->melee_cut;
     }
 
     public function getMaxDamage()
     {
-        return ($this->melee_dice*$this->melee_dice_sides)+$this->melee_cut;
+        return ($this->melee_dice * $this->melee_dice_sides) + $this->melee_cut;
     }
 
     public function getAvgDamage()
     {
-        return ($this->minDamage+$this->maxDamage)/2;
+        return ($this->minDamage + $this->maxDamage) / 2;
     }
 
     public function getSpecies()
@@ -44,8 +44,10 @@ class Monster implements Robbo\Presenter\PresentableInterface
 
     public function getFlags()
     {
-        if(!isset($this->data->flags))
+        if (!isset($this->data->flags)) {
             return array();
+        }
+
         return (array) $this->data->flags;
     }
 
@@ -54,11 +56,12 @@ class Monster implements Robbo\Presenter\PresentableInterface
         return $this->data->id;
     }
 
-    public function matches($search) 
+    public function matches($search)
     {
         $search = trim($search);
-        if($search == "")
+        if ($search == "" || !isset($this->data->name)) {
             return false;
+        }
 
         return stristr($this->data->name, $search);
     }

@@ -1,10 +1,8 @@
 <?php
+
 namespace Repositories;
 
-class LocalRepository extends Repository implements
-    RepositoryInterface,
-    RepositoryParserInterface,
-    RepositoryWriterInterface
+class LocalRepository extends Repository implements RepositoryInterface, RepositoryParserInterface, RepositoryWriterInterface
 {
     // provides a unique ID for each JSON entry added to cache, some JSON entries will overlap in text IDs
     private $id;
@@ -27,6 +25,10 @@ class LocalRepository extends Repository implements
 
     private $sublist;
 
+    // determine mod name when iterating through directories and attach
+    private $currentmod;
+    private $currentmodfoldername;
+
     public function __construct(
         \Illuminate\Events\Dispatcher $events,
         \Illuminate\Foundation\Application $app
@@ -40,10 +42,105 @@ class LocalRepository extends Repository implements
         $this->source = $source;
     }
 
+    public function get_moddeps($object)
+    {
+        $moddeps = null;
+        if (isset($object->modfoldername)) {
+            // \Log::info("getting dependencies for $object->modfoldername\n");
+            $resolvedmodident = $this->raw("modident.$object->modfoldername", null);
+
+            if ($resolvedmodident !== null) {
+                // \Log::info("getting dependencies for identified $resolvedmodident\n");
+                $moddeps = $this->raw("moddep.$resolvedmodident", null);
+            }
+        }
+
+        if ($moddeps !== null) {
+            // \Log::info("Found ".count($moddeps)." dependencies.\n");
+        }
+
+        return $moddeps;
+    }
+
+    public function build_modid_prefix($modname)
+    {
+        $result = "";
+        if ($modname !== null && $modname != "") {
+            $result = "mod_".$modname."__";
+        }
+
+        return $result;
+    }
+
+    // determine which copyfromid to use in searching for item inheritance
+    private function get_copyfrom_object($object, $modspacename)
+    {
+        $copyfromid = $modspacename.$object->{'copy-from'};
+        if (isset($object->type) && $object->type == "vehicle_part") {
+            $copyfromid = $modspacename."vpart_".$object->{'copy-from'};
+        }
+        // \Log::info("get_copyfrom_object checking $copyfromid\n");
+        if (isset($object->type) && $object->type == "recipe") {
+            $tempobj = $this->simplegetrecipe($copyfromid, null);
+        } elseif (isset($object->type) && $object->type == "uncraft") {
+            $tempobj = $this->simplegetuncraft($copyfromid, null);
+        } else {
+            $tempobj = $this->simpleget($copyfromid, null);
+        }
+
+        return $tempobj;
+    }
+
+    private function determine_copyfrom_origin($object)
+    {
+        $tempobj = null;
+
+        if (!isset($object->copyfrom_id) || $object->copyfrom_id != $object->{'copy-from'}) {
+            $tempobj = $this->get_copyfrom_object($object, $object->modspace);
+        }
+
+        // if the referenced template is not available, store it in $pending for later, or wait for the next $pending review loop
+        if ($tempobj === null) {
+            $moddeps = $this->get_moddeps($object);
+            if ($moddeps !== null) {
+                foreach ($moddeps as $modident) {
+                    // \Log::info("checking copy-from mod dependency $modident\n");
+                    $tempobj = $this->get_copyfrom_object($object, $this->build_modid_prefix($modident));
+                    if ($tempobj !== null) {
+                        break;
+                    }
+                }
+            }
+
+            if ($tempobj === null) {
+                $tempobj = $this->get_copyfrom_object($object, "");
+            }
+        }
+
+        return $tempobj;
+    }
+
+    private function getidfield($object)
+    {
+        $result = "";
+        if (isset($object->result)) {
+            $result = $object->result;
+        }
+        if (isset($object->id)) {
+            $result = $object->id;
+        }
+        if (isset($object->abstract)) {
+            $result = $object->abstract;
+        }
+
+        return $result;
+    }
+
     private function newObject($object)
     {
         // skip snippets and talk topics for now
-        if ($object->type == "snippet" || $object->type =="talk_topic" || $object->type=="overmap_terrain") {
+        if ($object->type == "snippet" || $object->type == "talk_topic" || $object->type == "overmap_terrain" || $object->type == "scenario" || $object->type == "ammunition_type" ||
+        $object->type == "start_location" || $object->type == "harvest") {
             return;
         }
 
@@ -52,10 +149,10 @@ class LocalRepository extends Repository implements
             return;
         }
 
-        if(isset($object->type) && $object->type=="recipe" && isset($object->category) && $object->category=="CC_BUILDING"){
+        if (isset($object->type) && $object->type == "recipe" && isset($object->category) && $object->category == "CC_BUILDING") {
             return;
         }
-        
+
         if (isset($object->type) && $object->type == "requirement") {
             $object->id = "requirement_".$object->id;
         }
@@ -67,45 +164,86 @@ class LocalRepository extends Repository implements
 
         // move abstract field to id field so abstracts can be referenced in copy-from logic
         if (array_key_exists("abstract", $object)) {
-            if (isset($object->type)&&($object->type=="recipe"||$object->type=="uncraft")&&!isset($object->result)) {
+            if (isset($object->type) && ($object->type == "recipe" || $object->type == "uncraft") && !isset($object->result)) {
                 $object->result = $object->abstract;
             } elseif (!array_key_exists("id", $object)) {
                 $object->id = $object->abstract;
             }
         }
-        
         // handle vpart naming replacement here so abstracts are covered
-        if (isset($object->type) && $object->type == "vehicle_part") {
+        if (!isset($object->vpartadded) && isset($object->type) && $object->type == "vehicle_part") {
             $object->id = "vpart_".$object->id;
+            $object->vpartadded = true;
         }
+
+        if (!isset($object->modadded)) {
+            if (!isset($object->modspace)) {
+                if (isset($this->currentmodfoldername)) {
+                    $object->modspace = $this->build_modid_prefix($this->currentmodfoldername);
+                } else {
+                    $object->modspace = "_dda_";
+                }
+            }
+
+            if (isset($object->id)) {
+                $object->original_id = $object->id;
+            }
+            $object->modfoldername = $this->currentmodfoldername;
+            if ($object->modspace == "_dda_") {
+                $object->modspace = "";
+            } else {
+                $object->modspace = $this->build_modid_prefix($this->currentmodfoldername);
+            }
+            if ($object->type == "monstergroup") {
+                $this->append("monstergroup_multi.$object->name", $object->repo_id);
+            }
+            if (strtolower($object->type) == "monster") {
+                $this->append("monster_multi.$object->id", $object->repo_id);
+            }
+            if (isset($object->id) && $object->modspace != "_dda_") {
+                $object->copyfrom_id = $object->modspace.$object->id;
+                $this->append("item_multi.$object->id", $object->repo_id);
+                // \Log::info("item_multi.$object->id\n", array($this->raw("item_multi.$object->id")));
+            }
+            $object->modadded = true;
+        }
+
+        $display_object_id = "";
+        if (isset($object->id)) {
+            $display_object_id = $display_object_id.$object->id;
+        }
+        if (isset($object->result)) {
+            $display_object_id = $display_object_id.$object->result;
+        }
+        if (isset($object->abstract)) {
+            $display_object_id = $display_object_id."[$object->abstract]";
+        }
+        $display_object_id = $display_object_id.":$object->type";
+        if (isset($object->modspace)) {
+            $display_object_id = $display_object_id." ($object->modspace)";
+        }
+        // \Log::info($display_object_id);
 
         // handle template copying in cataclysm JSON
         if (array_key_exists("copy-from", $object)) {
-            $copyfromid = $object->{'copy-from'};
-            if (isset($object->type) && $object->type == "vehicle_part") {
-                $copyfromid = "vpart_".$copyfromid;
-            }
-            if (isset($object->type)&&$object->type=="recipe") {
-                $tempobj = $this->simplegetrecipe($copyfromid, null);
-            } elseif (isset($object->type)&&$object->type=="uncraft") {
-                $tempobj = $this->simplegetuncraft($copyfromid, null);
-            } else {
-                $tempobj = $this->simpleget($copyfromid, null);
-            }
-            
-            // if the referenced template is not available, store it in $pending for later, or wait for the next $pending review loop
+            // \Log::info("checking copy-from value ".$object->{'copy-from'}."\n");
+            $tempobj = $this->determine_copyfrom_origin($object);
             if ($tempobj === null) {
+                // \Log::info("copy-from: didn't find object\n");
                 if (isset($this->pending[$object->repo_id])) {
+                    // \Log::info("copy-from: object already in pending\n");
                     return;
                 } else {
                     $this->pending[$object->repo_id] = $object;
+                    // \Log::info("copy-from: object added to pending\n");
                     return;
                 }
             }
-            
+            // \Log::info("copy-from ".$this->getidfield($tempobj).":$tempobj->type ($tempobj->modspace)\n");
+
             // copy all template fields that are not already populated in the current item
             foreach ($tempobj as $subkey => $subobject) {
-                if (!array_key_exists($subkey, $object) && $subkey!="abstract") {
+                if (!array_key_exists($subkey, $object) && $subkey != "abstract") {
                     $object->{$subkey} = $subobject;
                 }
             }
@@ -115,7 +253,7 @@ class LocalRepository extends Repository implements
                 unset($this->pending[$object->repo_id]);
             }
         }
-        
+
         // handle delete tag
         if (array_key_exists("delete", $object)) {
             //iterate through each object defined in delete tag
@@ -124,24 +262,24 @@ class LocalRepository extends Repository implements
                     //iterate through each item in the array for a delete item
                     foreach ($delvalue as $inspectobjvalue) {
                         // if delete item is an array, compare arrays before deleting
-                        if(is_array($inspectobjvalue)){
-                            if(is_array($object->{$delkey})){
-                                for($i=0;$i<count($object->{$delkey});$i++){
-                                    if(is_array($object->{$delkey}[$i])){
+                        if (is_array($inspectobjvalue)) {
+                            if (is_array($object->{$delkey})) {
+                                for ($i = 0; $i < count($object->{$delkey}); $i++) {
+                                    if (is_array($object->{$delkey}[$i])) {
                                         // a matching array will be spliced out
-                                        if(count(array_diff($object->{$delkey}[$i],$inspectobjvalue))==0){
-                                            array_splice($object->{$delkey},$i,1);
+                                        if (count(array_diff($object->{$delkey}[$i], $inspectobjvalue)) == 0) {
+                                            array_splice($object->{$delkey}, $i, 1);
                                             $i--;
                                         }
                                     }
                                 }
                             }
-                        }else{
+                        } else {
                             // if delete item is a single item, compare array of single items to find matching items to delete
-                            if(is_array($object->{$delkey})){
-                                for($i=0;$i<count($object->{$delkey});$i++){
-                                    if($object->{$delkey}[$i]==$inspectobjvalue){
-                                        array_splice($object->{$delkey},$i,1);
+                            if (is_array($object->{$delkey})) {
+                                for ($i = 0; $i < count($object->{$delkey}); $i++) {
+                                    if ($object->{$delkey}[$i] == $inspectobjvalue) {
+                                        array_splice($object->{$delkey}, $i, 1);
                                         $i--;
                                     }
                                 }
@@ -150,14 +288,12 @@ class LocalRepository extends Repository implements
                     }
                 }
             }
-//            unset($object->relative);
         }
 
         // store basic ID into simple array for lookup later for resolving copy-from templates
-        if (isset($object->type)&&$object->type=="recipe") {
+        if (isset($object->type) && $object->type == "recipe") {
             $this->simplesetrecipe($object->result, $object->repo_id);
-        } elseif (isset($object->type)&&$object->type=="uncraft") {
-            // print $object->result."\n";
+        } elseif (isset($object->type) && $object->type == "uncraft") {
             $this->simplesetuncraft($object->result, $object->repo_id);
         } else {
             if (array_key_exists("id", $object)) {
@@ -171,11 +307,11 @@ class LocalRepository extends Repository implements
         } catch (Exception $e) {
             $str = "";
             if (isset($object->id)) {
-                $str=$object->id;
+                $str = $object->id;
             } elseif (isset($object->result)) {
-                $str=$object->result;
+                $str = $object->result;
             }
-            print $str." had an error.\n";
+            echo $str." had an error.\n";
             throw $e;
         }
 
@@ -214,6 +350,64 @@ class LocalRepository extends Repository implements
             $paths[] = $this->modDirectory($path, $mod);
         }
 
+        $modlist = array_filter(glob("$path/data/mods/*"), "is_dir");
+        $this->set("modlist", array());
+
+        foreach ($modlist as $mod) {
+            $modinfo = json_decode(file_get_contents("$mod/modinfo.json"));
+            $isolatedname = "dda";
+            if (stripos($mod, "data/mods") !== false) {
+                $aftermodstring = substr($mod, stripos($mod, "data/mods") + 10);
+                if (stripos($aftermodstring, "/") !== false) {
+                    $aftermodstringcutoff = stripos($aftermodstring, "/");
+                    $isolatedname = substr($aftermodstring, 0, $aftermodstringcutoff);
+                } else {
+                    $isolatedname = $aftermodstring;
+                }
+                $isolatedname = strtolower($isolatedname);
+            }
+
+            // JSON structure is different than earlier mod versions
+            if (is_array($modinfo)) {
+                if (!isset($modinfo[0]->obsolete) || $modinfo[0]->obsolete == false) {
+                    $paths[] = $mod;
+                }
+                $ident = "dda";
+                if (isset($modinfo[0]->ident)) {
+                    $ident = strtolower($modinfo[0]->ident);
+                }
+
+                if ($ident != "dda") {
+                    $this->append("modlist", $ident);
+                }
+
+                $this->set("modident.$isolatedname", $ident);
+                if (isset($modinfo[0]->dependencies)) {
+                    foreach ($modinfo[0]->dependencies as $dep) {
+                        if ($dep != "dda") {
+                            $this->append("moddep.$ident", strtolower($dep));
+                        }
+                    }
+                }
+            } else {
+                if (!isset($modinfo->obsolete) || $modinfo->obsolete == false) {
+                    $paths[] = $mod;
+                }
+                $ident = "dda";
+                if (isset($modinfo->ident)) {
+                    $ident = strtolower($modinfo->ident);
+                }
+                $this->set("modident.$isolatedname", $ident);
+                if (isset($modinfo->dependencies)) {
+                    foreach ($modinfo->dependencies as $dep) {
+                        if ($dep != "dda") {
+                            $this->append("moddep.$ident", strtolower($dep));
+                        }
+                    }
+                }
+            }
+        }
+
         return $paths;
     }
 
@@ -237,12 +431,28 @@ class LocalRepository extends Repository implements
 
         $paths = $this->dataPaths($path);
 
-        print "[Main] Processing objects...\n";
+        echo "[Main] Processing objects...\n";
 
         foreach ($paths as $currPath) {
             $it = new \RecursiveDirectoryIterator($currPath);
             foreach (new \RecursiveIteratorIterator($it) as $file) {
                 $data = (array) json_decode(file_get_contents($file));
+                if (stripos($currPath, "data/json") !== false || stripos($currPath, "data/core") !== false) {
+                    $this->currentmod = "_dda_";
+                    $this->currentmodfoldername = "";
+                }
+                if (stripos($currPath, "data/mods") !== false) {
+                    $aftermodstring = substr($currPath, stripos($currPath, "data/mods") + 10);
+                    if (stripos($aftermodstring, "/") !== false) {
+                        $aftermodstringcutoff = stripos($aftermodstring, "/");
+                        $isolatedname = substr($aftermodstring, 0, $aftermodstringcutoff);
+                    } else {
+                        $isolatedname = $aftermodstring;
+                    }
+                    $isolatedname = strtolower($isolatedname);
+                    $this->currentmod = "mod_".$isolatedname."__";
+                    $this->currentmodfoldername = $isolatedname;
+                }
 
                 if (count($data) > 0) {
                     // check if a data type is available, otherwise the JSON file isn't compatible
@@ -255,28 +465,28 @@ class LocalRepository extends Repository implements
             }
         }
 
-        print "[Main] Processing objects with copy-from dependencies...\n";
+        echo "[Main] Processing objects with copy-from dependencies...\n";
 
         // reprocess all pending array entries until array is empty
         $pendRetry = 0;
         $pendingIterations = 0;
         while (count($this->pending) > 0) {
             $pendingIterations++;
-            print "[Pending] Round $pendingIterations\n";
+            $pcount = count($this->pending);
+            echo "[Pending] Round $pendingIterations ($pcount)\n";
             $pendingCount = count($this->pending);
             array_walk($this->pending, array($this, 'newObject'));
 
             // in case no pending entries could be resolved in one cycle, loop is finished
             if (count($this->pending) >= $pendingCount) {
                 $pendRetry++;
-                if ($pendRetry>5) {
-                    print $pendingCount." pending items left out.\n";
-                    // var_dump($this->pending);
+                if ($pendRetry > 2) {
+                    echo $pendingCount." pending items left out.\n";
+                    var_dump($this->pending);
                     break;
                 }
             }
         }
-
 
         // load special replacements for ingame features
         if (!$this->get("item.toolset")) {
@@ -308,9 +518,9 @@ class LocalRepository extends Repository implements
 
         $this->version = $this->getVersion($path);
 
-        print "[Main] Post-processing for loaded objects...\n";
+        echo "[Main] Post-processing for loaded objects...\n";
         $this->events->fire("cataclysm.finishedLoading", array($this));
-        print "[Main] Post-processing for loaded objects finished.\n";
+        echo "[Main] Post-processing for loaded objects finished.\n";
 
         return array($this->database, $this->index);
     }
@@ -329,6 +539,7 @@ class LocalRepository extends Repository implements
         if (isset($this->sublist[$id])) {
             $result = $this->sublist[$id];
         }
+
         return $result;
     }
 
@@ -342,8 +553,10 @@ class LocalRepository extends Repository implements
     {
         if (isset($this->simpleindex[$index])) {
             $temprepokey = $this->simpleindex[$index];
+
             return $this->database[$temprepokey];
         }
+
         return $default;
     }
 
@@ -357,8 +570,10 @@ class LocalRepository extends Repository implements
     {
         if (isset($this->simplerecipeindex[$index])) {
             $temprepokey = $this->simplerecipeindex[$index];
+
             return $this->database[$temprepokey];
         }
+
         return $default;
     }
 
@@ -372,8 +587,10 @@ class LocalRepository extends Repository implements
     {
         if (isset($this->simpleuncraftindex[$index])) {
             $temprepokey = $this->simpleuncraftindex[$index];
+
             return $this->database[$temprepokey];
         }
+
         return $default;
     }
 
@@ -408,6 +625,29 @@ class LocalRepository extends Repository implements
         $this->index[$index][] = $value;
     }
 
+    public function appendUnique($index, $value)
+    {
+        $addnew = false;
+        if (isset($this->index[$index])) {
+            if (!in_array($value, $this->index[$index])) {
+                $addnew = true;
+            }
+        } else {
+            $addnew = true;
+        }
+        if ($addnew) {
+            $this->index[$index][] = $value;
+        }
+    }
+
+    public function appendcreate($index, $value)
+    {
+        if ($this->get($index) === null) {
+            $this->index[$index] = array();
+        }
+        $this->index[$index][] = $value;
+    }
+
     public function addUnique($index, $value)
     {
         $this->index[$index][$value] = $value;
@@ -436,5 +676,10 @@ class LocalRepository extends Repository implements
     public function version()
     {
         return $this->version;
+    }
+
+    public function getrepo($repo_id, $default = null)
+    {
+        return null;
     }
 }

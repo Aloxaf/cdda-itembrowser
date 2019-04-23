@@ -1,13 +1,14 @@
 @section('title')
-{{{$item->rawName}}} - Cataclysm: Dark Days Ahead
+{{{$itembunch[0]->rawName}}} - Cataclysm: Dark Days Ahead
 @endsection
 @section('description')
-{{{$item->rawName}}} has a volume of {{{ $item->volume }}} and a weight of {{{ $item->weight }}}. It does {{{ $item->bashing }}} bashing damage and {{{ $item->cutting }}} cutting damage. You can find more information here.
+{{{$itembunch[0]->rawName}}} has a volume of {{{ $itembunch[0]->volume }}} and a weight of {{{ $itembunch[0]->weight }}}. It does {{{ $itembunch[0]->bashing }}} bashing damage and {{{ $itembunch[0]->cutting }}} cutting damage. You can find more information here.
 @endsection
 @include('items.menu', array('active'=>'view'))
+@foreach($itembunch as $item)
 <div class="row">
   <div class="col-md-6">
-    <h1>{{$item->symbol}} {{$item->name}}</h1>
+    <h1>{{$item->symbol}} {{$item->name}} {{$item->modLabel}}</h1>
     {{$item->featureLabels}}
     @if ($item->isVehiclePart)
     <br>
@@ -267,6 +268,7 @@
     @endif
   </div>
 </div>
+@endforeach
 <script>
 $(function() {
   $(".tablesorter").tablesorter({

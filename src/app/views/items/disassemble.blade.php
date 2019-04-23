@@ -1,17 +1,17 @@
 @section('title')
-{{{$item->rawName}}} (disassemble) - Cataclysm: Dark Days Ahead
+{{{$itembunch[0]->rawName}}} (disassemble) - Cataclysm: Dark Days Ahead
 @endsection
 @section('description')
-@if ($item->count("disassembly")>0)
-{{{$item->rawName}}} can be disassembled. You can find more information here.
+@if ($itembunch[0]->count("disassembly")>0)
+{{{$itembunch[0]->rawName}}} can be disassembled. You can find more information here.
 @else
-{{{$item->rawName}}} can't be disassembled.
+{{{$itembunch[0]->rawName}}} can't be disassembled.
 @endif
 @endsection
 @include('items.menu', array('active'=>'disassemble'))
 <h1>
-  {{$item->symbol}} <a href="{{ route("item.view", array("id"=>$item->id)) }}">{{ $item->name }}</a>
-@if ($item->count("disassembly")>0)
+  {{$itembunch[0]->symbol}} <a href="{{ route("item.view", array("id"=>$itembunch[0]->id)) }}">{{ $itembunch[0]->name }}</a>
+@if ($itembunch[0]->count("disassembly")>0)
  can be disassembled to obtain the following components.<br>
 @else
  can't be disassembled.
@@ -19,7 +19,7 @@
 </h1>
 <div class="row">
 <div class="col-md-6">
-@foreach ($item->disassembly as $recipe)
+@foreach ($itembunch[0]->disassembly as $recipe)
   @if ($recipe->hasTools || $recipe->hasQualities)
   Tools required:<br>
   @if ($recipe->hasQualities)

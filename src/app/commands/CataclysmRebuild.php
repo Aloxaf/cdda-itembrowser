@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Repositories\Indexers;
 
@@ -23,8 +22,6 @@ class CataclysmCache extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -50,7 +47,7 @@ class CataclysmCache extends Command
         $repo->setSource($localrepo);
         $repo->read();
 
-        print "finished rebuilding database cache\n";
+        echo "finished rebuilding database cache\n";
     }
 
     /**
@@ -80,16 +77,19 @@ class CataclysmCache extends Command
     {
         //TODO: find a way to find the indexers automatically
         // instead of hardcoding them here.
-        $this->registerIndexer(new Indexers\Construction);
+
+        //TODO: also, Recipe needs to process before Item, otherwise
+        // another event series needs to be added
+        $this->registerIndexer(new Indexers\Construction());
         $this->registerIndexer(new Indexers\Material());
         $this->registerIndexer(new Indexers\Recipe());
         $this->registerIndexer(new Indexers\Item());
         $this->registerIndexer(new Indexers\Quality());
         $this->registerIndexer(new Indexers\Monster());
         $this->registerIndexer(new Indexers\MonsterGroup());
-        $this->registerIndexer(new Indexers\Terrain);
-        $this->registerIndexer(new Indexers\Furniture);
-        $this->registerIndexer(new Indexers\Requirement);
+        $this->registerIndexer(new Indexers\Terrain());
+        $this->registerIndexer(new Indexers\Furniture());
+        $this->registerIndexer(new Indexers\Requirement());
     }
 
     private function registerIndexer(Indexers\IndexerInterface $indexer)

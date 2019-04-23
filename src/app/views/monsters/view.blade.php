@@ -1,12 +1,14 @@
 @section('title')
-Monster: {{{$monster->name}}} - Cataclysm: Dark Days Ahead
+Monster: {{{$monsterbunch[0]->name}}} - Cataclysm: Dark Days Ahead
 @endsection
 @section('description')
-Monster: {{{$monster->name}}}
+Monster: {{{$monsterbunch[0]->name}}}
 @endsection
+
+@foreach($monsterbunch as $monster)
 <div class="row">
 <div class="col-md-6">
-<h4>{{ $monster->symbol }} {{$monster->niceName}}</h4>
+<h4>{{ $monster->symbol }} {{$monster->niceName}} {{$monster->modinfo}}</h4>
 <p>{{$monster->description}}</p>
 Monster ID: {{{$monster->id}}}
 <br>
@@ -89,3 +91,4 @@ Monster ID: {{{$monster->id}}}
 </table>
 </div>
 </div>
+@endforeach

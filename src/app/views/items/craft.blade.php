@@ -1,17 +1,17 @@
 @section('title')
-{{{$item->rawName}}} (craft) - Cataclysm: Dark Days Ahead
+{{{$itembunch[0]->rawName}}} (craft) - Cataclysm: Dark Days Ahead
 @endsection
 @section('description')
-@if ($item->count("recipes")>0)
-{{{$item->rawName}}} can be crafted. You can find more information here.
+@if ($itembunch[0]->count("recipes")>0)
+{{{$itembunch[0]->rawName}}} can be crafted. You can find more information here.
 @else
-{{{$item->rawName}}} can't be crafted.
+{{{$itembunch[0]->rawName}}} can't be crafted.
 @endif
 @endsection
 @include('items.menu', array('active'=>'craft'))
 <h1>
-  {{$item->symbol}} <a href="{{ route("item.view", array("id"=>$item->id)) }}">{{ $item->name }}</a>
-@if ($item->count("recipes")>0)
+  {{$itembunch[0]->symbol}} <a href="{{ route("item.view", array("id"=>$itembunch[0]->id)) }}">{{ $itembunch[0]->name }}</a>
+@if ($itembunch[0]->count("recipes")>0)
  can be crafted with the following recipes<br>
 @else
  can't be crafted
@@ -19,7 +19,7 @@
 </h1>
 <div class="row">
 <div class="col-md-6">
-@foreach ($item->recipes as $recipe)
+@foreach ($itembunch[0]->recipes as $recipe)
   {{ $recipe->labels }}
   Primary skill used: {{{ $recipe->skill_used }}}({{{ $recipe->difficulty }}})<br>
   Required skills: {{ $recipe->skillsRequired }} <br>

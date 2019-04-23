@@ -20,6 +20,34 @@ abstract class Repository implements RepositoryInterface
 
         return $model;
     }
+    
+    public function getMultiModelOrFail($model, $id)
+    {
+        $indexer = $this->app->make("Repositories\\Indexers\\$model");
+
+        $model1 = $this->app->make($model);
+        $data = $this->raw(strtolower($model)."_multi.".$id,null);
+
+        if (!$data) {
+            throw new ModelNotFoundException();
+        }
+
+        array_walk($data, 
+            function (&$value) use ($model) {
+                $data2 = $this->getrepo($value,null);
+
+                if(!$data2){
+                    throw new ModelNotFoundException;
+                }else{
+                    $model2 = $this->app->make($model);
+                    $model2->load($data2);
+                    $value = $model2;
+                }
+            }
+        );
+        
+        return $data;
+    }
 
     public function getModel($model, $id)
     {

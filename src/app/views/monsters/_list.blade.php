@@ -14,7 +14,7 @@
 @foreach ($data as $monster)
 <tr>
   <td>{{ $monster->symbol }}</td>
-  <td><a href="{{ route('monster.view', array($monster->id)) }}">{{ $monster->niceName }}</a></td>
+  <td><a href="{{ route('monster.view', array($monster->id)) }}">{{ $monster->niceName }} {{ $monster->modinfo }}</a></td>
   <td class="text-right">{{{ $monster->hp }}}</td>
   <td class="text-right">{{{ $monster->damage }}}</td>
   <td class="text-right">{{{ $monster->maxDamage }}}</td>

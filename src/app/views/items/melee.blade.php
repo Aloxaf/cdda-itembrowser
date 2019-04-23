@@ -23,7 +23,7 @@ Items with bashing damage + cutting damage + to-hit bonus higher than 7
 @foreach($items as $item)
 <tr>
   <td>{{ $item->symbol }}</td>
-  <td><a href="{{route('item.view', $item->id)}}">{{ $item->name }}</a></td>
+  <td><a href="{{route('item.view', $item->id)}}">{{ $item->name }} {{ $item->modLabel }}</a></td>
   <td>{{ $item->materials }}</td>
   <td>{{ $item->volume }}</td>
   <td>{{ $item->weight }}</td>
