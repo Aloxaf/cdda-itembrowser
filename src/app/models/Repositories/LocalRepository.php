@@ -323,7 +323,11 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
     {
         $mods = array_filter(glob("$path/data/mods/*"), "is_dir");
         foreach ($mods as $mod) {
-            $modinfo = json_decode(file_get_contents("$mod/modinfo.json"));
+            $modinfo = $this->find_modinfo_json($mod);
+            if ($modinfo === null) {
+                \Log::info("[modDirectory] Could not find modinfo.json in $mod");
+                continue;
+            }
             // JSON structure is different than earlier mod versions
             if (is_array($modinfo)) {
                 if ($modinfo[0]->ident == $id) {
@@ -335,6 +339,25 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 }
             }
         }
+    }
+
+    private function find_modinfo_json($path)
+    {
+        $filepath = "$path/modinfo.json";
+        if (!file_exists($filepath)) {
+            $otherpathlist = array_filter(glob("$path/data/mods/*"), "is_dir");
+            foreach ($otherpathlist as $otherpath) {
+                $filepath = "$otherpath/modinfo.json";
+                if (file_exists($filepath)) {
+                    break;
+                }
+            }
+        }
+        if (file_exists($filepath)) {
+            return json_decode(file_get_contents($filepath));
+        }
+
+        return null;
     }
 
     // retrieve the directories where JSON files are contained
@@ -354,7 +377,11 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         $this->set("modlist", array());
 
         foreach ($modlist as $mod) {
-            $modinfo = json_decode(file_get_contents("$mod/modinfo.json"));
+            $modinfo = $this->find_modinfo_json($mod);
+            if ($modinfo === null) {
+                \Log::info("[dataPaths] Could not find modinfo.json in $mod");
+                continue;
+            }
             $isolatedname = "dda";
             if (stripos($mod, "data/mods") !== false) {
                 $aftermodstring = substr($mod, stripos($mod, "data/mods") + 10);
