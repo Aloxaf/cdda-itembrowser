@@ -202,7 +202,7 @@ class Item implements IndexerInterface
 
         if (isset($object->proportional)) {
             foreach ($object->proportional as $proportionkey => $proportionvalue) {
-                if (is_array($object->{$proportionkey})) {
+                if (!isset($object->{$proportionkey}) || is_array($object->{$proportionkey})) {
                     continue;
                 }
                 $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
