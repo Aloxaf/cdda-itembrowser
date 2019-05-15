@@ -341,7 +341,10 @@ class Item implements Robbo\Presenter\PresentableInterface
 
         return $this->symbol == $text ||
         stristr($this->id, $text) ||
-        stristr($this->name, $text);
+        stristr($this->name, $text) ||
+        array_filter($this->data->qualities, function($q) {
+            return stristr($this->repo->getModel("Quality", $q[0]), $text)
+        });
     }
 
     public function getPresenter()
