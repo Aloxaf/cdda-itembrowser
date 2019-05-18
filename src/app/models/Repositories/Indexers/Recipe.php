@@ -335,7 +335,7 @@ class Recipe implements IndexerInterface
 
             sort($skills);
             $repo->set("skills", $skills);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "Exception encountered while linking recipe information.\n";
             throw $e;
         }
@@ -501,7 +501,7 @@ class Recipe implements IndexerInterface
                     }
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             var_dump($object);
             if (isset($object) && isset($object->result)) {
                 echo "Recipe for ".$object->result." has an error.\n";

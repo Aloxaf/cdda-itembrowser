@@ -14,30 +14,35 @@ class Construction implements IndexerInterface
             return;
         }
 
-        $repo->append(self::DEFAULT_INDEX, $object->repo_id);
-        $repo->set(self::DEFAULT_INDEX.".$object->repo_id", $object->repo_id);
+        try {
+            $repo->append(self::DEFAULT_INDEX, $object->repo_id);
+            $repo->set(self::DEFAULT_INDEX.".$object->repo_id", $object->repo_id);
 
-        $repo->append("construction.category.$object->category", $object->repo_id);
-        $repo->addUnique("construction.categories", $object->category);
+            $repo->append("construction.category.$object->category", $object->repo_id);
+            $repo->addUnique("construction.categories", $object->category);
 
-        if (isset($object->components)) {
-            foreach ($object->components as $group) {
-                foreach ($group as $component) {
-                    $item = $component[0];
-                    $repo->addUnique("construction.$item", $object->repo_id);
-                }
-            }
-        }
-
-        if (isset($object->tools)) {
-            foreach ($object->tools as $group) {
-                foreach ($group as $item) {
-                    if (is_array($item)) {
-                        list($item, $amount) = $item;
+            if (isset($object->components)) {
+                foreach ($object->components as $group) {
+                    foreach ($group as $component) {
+                        $item = $component[0];
+                        $repo->addUnique("construction.$item", $object->repo_id);
                     }
-                    $repo->addUnique("construction.$item", $object->repo_id);
                 }
             }
+
+            if (isset($object->tools)) {
+                foreach ($object->tools as $group) {
+                    foreach ($group as $item) {
+                        if (is_array($item)) {
+                            list($item, $amount) = $item;
+                        }
+                        $repo->addUnique("construction.$item", $object->repo_id);
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            var_dump($object);
+            echo "Construction object failed to parse: ".$e->getMessage()."\n";
         }
     }
 
