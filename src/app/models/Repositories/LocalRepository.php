@@ -304,7 +304,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         try {
             // ask each indexer to process the new object
             $this->events->fire("cataclysm.newObject", array($this, $object));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $str = "";
             if (isset($object->id)) {
                 $str = $object->id;
@@ -312,7 +312,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 $str = $object->result;
             }
             echo $str." had an error.\n";
-            throw $e;
+            // throw $e;
         }
 
         // store the updated object into the repo
