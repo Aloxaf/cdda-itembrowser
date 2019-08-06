@@ -7,11 +7,21 @@ class Recipe extends \Robbo\Presenter\Presenter
     public function presentTime()
     {
         $time = $this->object->time;
-        if ($time >= 1000) {
-            return ($time / 1000)." minutes";
+
+        if (stripos($time, " h")){
+            return ($time * 60)." minutes";
+        }
+        if (stripos($time, " m")){
+            return ($time * 1)." minutes";
+        }
+        if (stripos($time, " s")){
+            return ($time * 1)." seconds";
+        }
+        if ($time >= 6000) {
+            return ($time / 6000)." minutes";
         }
 
-        return ($time / 100)." turns";
+        return ($time / 100)." seconds";
     }
 
     public function presentSkillsRequired()
