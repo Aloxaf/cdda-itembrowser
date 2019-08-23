@@ -105,4 +105,34 @@ class Monster extends \Robbo\Presenter\Presenter
 
         return $this->object->special_when_hit[0]." (".$this->object->special_when_hit[1].")";
     }
+
+    public function presentSize()
+    {
+        if(stripos($this->object->volume, "ml"))
+        {
+            $value = $this->object->volume * 1.0;
+            $strvalue = "";
+            if($value <= 7500)
+            {
+                $strvalue = "Tiny";
+            }else if ($value <= 46250)
+            {
+                $strvalue = "Small";
+            }else if ($value <= 77500)
+            {
+                $strvalue = "Medium";
+            }else if ($value <= 483750)
+            {
+                $strvalue = "Large";
+            }else
+            {
+                $strvalue = "Huge";
+            }
+            return $strvalue." (".$this->object->volume.")";
+        }
+        else
+        {
+            return $this->object->size;
+        }
+    }
 }
