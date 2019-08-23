@@ -8,13 +8,13 @@ class Recipe extends \Robbo\Presenter\Presenter
     {
         $time = $this->object->time;
 
-        if (stripos($time, " h")){
+        if (stripos($time, "h")){
             return ($time * 60)." minutes";
         }
-        if (stripos($time, " m")){
+        if (stripos($time, "m")){
             return ($time * 1)." minutes";
         }
-        if (stripos($time, " s")){
+        if (stripos($time, "s") || stripos($time, "t")){
             return ($time * 1)." seconds";
         }
         if ($time >= 6000) {
