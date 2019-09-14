@@ -116,6 +116,15 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
     ));
   });
 
+  View::composer('items.vpart_menu', function ($view) {
+    $view->with('areas', array(
+      "view" => array(
+        "route" => "item.view",
+        "label" => "Viewing installed vehicle part",
+      ),
+    ));
+  });
+
   Route::get('/{id}/craft', array(
       'as' => 'item.craft',
       'uses' => 'ItemsController@craft', )

@@ -4,7 +4,11 @@
 @section('description')
 {{{$itembunch[0]->rawName}}} has a volume of {{{ $itembunch[0]->volume }}} and a weight of {{{ $itembunch[0]->weight }}}. It does {{{ $itembunch[0]->bashing }}} bashing damage and {{{ $itembunch[0]->cutting }}} cutting damage. You can find more information here.
 @endsection
+@if($itembunch[0]->isVehiclePart)
+@include('items.vpart_menu', array('active'=>'view'))
+@else
 @include('items.menu', array('active'=>'view'))
+@endif
 @foreach($itembunch as $item)
 <div class="row">
   <div class="col-md-6">
