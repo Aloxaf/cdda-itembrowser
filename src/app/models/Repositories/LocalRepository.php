@@ -259,8 +259,14 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             //iterate through each object defined in delete tag
             foreach ($object->delete as $delkey => $delvalue) {
                 if (isset($object->{$delkey})) {
+                    $delvaluearray = $delvalue;
+                    if (!is_array($delvalue)) {
+                        $delvaluearray = array();
+                        $delvaluearray[] = $delvalue;
+                    }
+
                     //iterate through each item in the array for a delete item
-                    foreach ($delvalue as $inspectobjvalue) {
+                    foreach ($delvaluearray as $inspectobjvalue) {
                         // if delete item is an array, compare arrays before deleting
                         if (is_array($inspectobjvalue)) {
                             if (is_array($object->{$delkey})) {
