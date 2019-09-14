@@ -170,7 +170,7 @@
       Fire: {{{  $item->protection('fire') }}}<br>
       Environmental protection: {{{ $item->environmental_protection }}}<br>
       Warmth: {{{ $item->warmth }}}<br>
-      Storage: {{{ $item->storage }}} L<br>
+      Storage: {{{ $item->storage }}}<br>
     @endif
 
     @if ($item->isBrewable)
