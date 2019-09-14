@@ -15,7 +15,9 @@ Items with bashing damage + cutting damage + to-hit bonus higher than 7
     <th><span title="Volume">V</span></th>
     <th><span title="Weight in pounds">W lbs</span></th>
     <th><span title="Moves per attack">M/A</span></th>
-    <th><span title="Bashing+Cutting">Dmg</span></th>
+    <th><span title="Bashing damage">Bash</span></th>
+    <th><span title="Cutting damage">Cut</span></th>
+    <th><span title="Piercing damage">Pierce</span></th>
     <th><span title="Damage per 100 moves">dpm</span></th>
     <th><span title="To-Hit">H</span></th>
   </tr>
@@ -28,7 +30,9 @@ Items with bashing damage + cutting damage + to-hit bonus higher than 7
   <td>{{ $item->volume }}</td>
   <td>{{ $item->weight }}</td>
   <td>{{ $item->movesPerAttack }}</td>
-  <td>{{ $item->bashing+$item->cutting }}</td>
+  <td>{{ $item->bashing }}</td>
+  <td>{{ $item->cutting }}</td>
+  <td>{{ $item->piercing }}</td>
   <td>{{ $item->damagePerMove }}</td>
   <td>{{ $item->to_hit }}</td>
 </tr>
