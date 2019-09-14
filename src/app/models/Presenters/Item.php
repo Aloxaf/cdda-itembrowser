@@ -24,6 +24,20 @@ class Item extends \Robbo\Presenter\Presenter
         return $this->object->volume === null ? "N/A" : $this->object->volume;
     }
 
+    public function presentStorage()
+    {
+        $storage = $this->object->storage;
+        if (stripos($storage, "ml")) {
+            return ($storage / 1000.0)." L";
+        }
+        
+        if (strpos($storage, "L")) {
+            return ($storage * 1.0)." L";
+        }
+
+        return ($storage / 4.0)." L";
+    }
+
     public function presentWeight()
     {
         $weight = $this->object->weight;
