@@ -27,7 +27,7 @@
     Volume: {{{ $item->volume/4.0 }}} L Weight: {{ $item->weight }} lbs /{{ $item->weightMetric }} kg<br>
       Bash: {{{ $item->bashing }}}
       @if ($item->hasFlag("SPEAR"))
-      Pierce: {{{ $item->cutting }}}
+      Pierce: {{{ $item->piercing }}}
       @elseif ($item->hasFlag("STAB"))
       Stab: {{{ $item->cutting }}}
       @else

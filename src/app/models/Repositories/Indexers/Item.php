@@ -224,6 +224,32 @@ class Item implements IndexerInterface
         }
         if ($damagecheck >= 8 && strtoupper($object->type) != "VEHICLE_PART" && isset($object->weight) && $object->weight < 15000 && (!isset($object->dispersion) || $object->dispersion == 0)) {
             $repo->append("melee", $object->id);
+
+            // handle preprocessing of piercing weapons after melee status is established
+            ValueUtil::SetDefault($object, "bashing", 0);
+            ValueUtil::SetDefault($object, "cutting", 0);
+            ValueUtil::SetDefault($object, "piercing", 0);
+
+            if (isset($object->flags)) {
+                $foundpiercing = false;
+                if (is_array($object->flags)) {
+                    foreach ($object->flags as $indexnum => $flag) {
+                        if (!is_array($flag) && $flag == "SPEAR") {
+                            $foundpiercing = true;
+                            break;
+                        }
+                    }
+                } else {
+                    if ($object->flags == "SPEAR") {
+                        $foundpiercing = true;
+                    }
+                }
+
+                if ($foundpiercing) {
+                    $object->piercing = $object->cutting;
+                    $object->cutting = 0;
+                }
+            }
         }
 
         $is_armor = in_array($object->type, ["ARMOR", "TOOL_ARMOR"]);
