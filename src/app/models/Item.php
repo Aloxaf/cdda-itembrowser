@@ -342,10 +342,12 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $this->symbol == $text ||
             stristr($this->id, $text) ||
             stristr($this->name, $text) ||
-            array_filter($this->data->qualities,
+            array_filter(
+                $this->data->qualities,
                 function ($q) use ($text) {
                     return stristr($q[0], $text);
-                });
+                }
+            );
     }
 
     public function getPresenter()
@@ -508,6 +510,7 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getEncumbrance()
     {
+        $result = 0;
         if (is_numeric($this->data->encumbrance) && $this->data->encumbrance > 0) {
             $result = "";
             $foundvarsize = false;
@@ -523,11 +526,13 @@ class Item implements Robbo\Presenter\PresentableInterface
             } else {
                 $result = $enc;
             }
-
-            return $result;
         }
 
-        return 0;
+        if ($this->data->max_encumbrance > 0) {
+            $result = $result." - ".$this->data->max_encumbrance." (0% - 100% total character volume)";
+        }
+
+        return $result;
     }
 
     public function getRangedDamage()
