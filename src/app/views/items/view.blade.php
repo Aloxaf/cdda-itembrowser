@@ -70,6 +70,7 @@
 
     @if ($item->isAmmo)
     Damage: {{{ $item->damage }}}<br>
+    Damage multiplier: {{{ $item->prop_damage }}}<br>
     Armor-pierce: {{{ $item->pierce }}}<br>
     Range: {{{ $item->range }}}<br>
     Dispersion: {{{ $item->dispersion }}}<br>
@@ -106,7 +107,7 @@
     </tr>
     @endforeach
     </table>
-    Damage: {{{ $item->ranged_damage }}}<br>
+    Base Ranged Damage: {{{ $item->ranged_damage }}}<br>
     Range: {{{ $item->range }}}<br>
     Armor-pierce: {{{ $item->pierce }}}<br>
     Dispersion: {{{ $item->dispersion }}}<br>
