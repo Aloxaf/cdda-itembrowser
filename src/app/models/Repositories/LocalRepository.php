@@ -157,6 +157,20 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         if (isset($object->description)) {
             $object->description = gettext($object->description);
         }
+        if (isset($object->skill)) {
+            $object->skill = gettext($object->skill);
+        }
+        if (isset($object->location)) {
+            $object->location = gettext($object->location);
+        }
+        if ($object->type == "GUNMOD") {
+            if (isset($object->mod_targets)) {
+                foreach ($object->mod_targets as $k => $target) {
+                    // gun_type_type 为 msgctxt
+                    $object->mod_targets[$k] = gettext("gun_type_type\004{$target}");
+                }
+            }
+        }
 
         // skip snippets and talk topics for now
         if ($object->type == "snippet" || $object->type == "talk_topic" || $object->type == "overmap_terrain" || $object->type == "scenario" || $object->type == "ammunition_type" ||

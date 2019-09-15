@@ -116,19 +116,19 @@ class Item extends \Robbo\Presenter\Presenter
     {
         $badges = array();
         if ($this->count("toolFor")) {
-            $badges[] = '<a href="'.route("item.recipes", $this->object->id).'"><span class="label label-success">recipes: '.$this->count("toolFor").'</span></a>';
+            $badges[] = '<a href="'.route("item.recipes", $this->object->id).'"><span class="label label-success">配方: '.$this->count("toolFor").'</span></a>';
         }
         if ($this->count("disassembly")) {
-            $badges[] = '<a href="'.route("item.disassemble", $this->object->id).'"><span class="label label-info">disassemble</span></a>';
+            $badges[] = '<a href="'.route("item.disassemble", $this->object->id).'"><span class="label label-info">拆解</span></a>';
         }
         if ($this->count("recipes")) {
-            $badges[] = '<a href="'.route("item.craft", $this->object->id).'"><span class="label label-default">craft: '.$this->count("recipes").'</span></a>';
+            $badges[] = '<a href="'.route("item.craft", $this->object->id).'"><span class="label label-default">制作: '.$this->count("recipes").'</span></a>';
         }
         if ($this->count("construction")) {
-            $badges[] = '<a href="'.route("item.construction", $this->object->id).'"><span class="label label-warning">construction: '.$this->count("construction").'</span></a>';
+            $badges[] = '<a href="'.route("item.construction", $this->object->id).'"><span class="label label-warning">建造: '.$this->count("construction").'</span></a>';
         }
         if ($this->count("uncraftToolFor")) {
-            $badges[] = '<span class="label label-warning">item disassembly: '.$this->count("uncraftToolFor").'</span>';
+            $badges[] = '<span class="label label-warning">拆解物品: '.$this->count("uncraftToolFor").'</span>';
         }
         if ($this->object->modspace != "_dda_" && $this->object->modspace != "") {
             $badges[] = '<span class="label label-warning">mod</span>';

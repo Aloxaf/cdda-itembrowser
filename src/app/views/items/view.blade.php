@@ -17,7 +17,7 @@
     @if ($item->isVehiclePart)
     <br>
     <br>
-    This vehicle part is installed from the item {{$item->sourcePart}}.
+    这个车辆部件是由 {{$item->sourcePart}} 安装而得到的。
     <br>
     <br>
     @endif
@@ -35,7 +35,7 @@
       @endif
       命中: {{{ $item->to_hit }}}<br>
       攻击消耗行动点: {{{ $item->movesPerAttack }}}<br>
-      攻击伤害: {{{ $item->damagePerMove }}}<br>
+      平均每回合伤害: {{{ $item->damagePerMove }}}<br>
       材质: {{ $item->materials }}<br>
     @endif
       @if ($item->hasFlags)
@@ -69,13 +69,13 @@
     @endif
 
     @if ($item->isAmmo)
-    Damage: {{{ $item->damage }}}<br>
-    Damage multiplier: {{{ $item->prop_damage }}}<br>
-    Armor-pierce: {{{ $item->pierce }}}<br>
-    Range: {{{ $item->range }}}<br>
-    Dispersion: {{{ $item->dispersion }}}<br>
-    Recoil: {{{ $item->recoil }}}<br>
-    Count: {{{ $item->count }}}<br>
+    伤害: {{{ $item->damage }}}<br>
+    伤害加成: {{{ $item->prop_damage }}}<br>
+    穿甲: {{{ $item->pierce }}}<br>
+    射程: {{{ $item->range }}}<br>
+    散步: {{{ $item->dispersion }}}<br>
+    后坐力: {{{ $item->recoil }}}<br>
+    数量: {{{ $item->count }}}<br>
     @endif
     @if ($item->isTool)
 
@@ -88,14 +88,14 @@
     @endif
     <br>
     @if($item->isGun)
-    Ammunition: {{{ $item->clip_size }}} rounds of:<br>
+    弹药: {{{ $item->clip_size }}} 回合:<br>
     <table class="tablesorter">
       <thead>
       <tr>
-        <th>Ammo</th>
-        <th style="width: 4em" class="text-right">Dmg</th>
-        <th style="width: 4em" class="text-right">Pierce</th>
-        <th style="width: 4em" class="text-right">Noise</th>
+        <th>弹药</th>
+        <th style="width: 4em" class="text-right">伤害</th>
+        <th style="width: 4em" class="text-right">穿甲</th>
+        <th style="width: 4em" class="text-right">噪音</th>
       </tr>
       </thead>
     @foreach($item->ammoTypes as $ammo)
@@ -107,14 +107,14 @@
     </tr>
     @endforeach
     </table>
-    Base Ranged Damage: {{{ $item->ranged_damage }}}<br>
-    Range: {{{ $item->range }}}<br>
-    Armor-pierce: {{{ $item->pierce }}}<br>
-    Dispersion: {{{ $item->dispersion }}}<br>
-    Recoil: {{{ $item->recoil }}}<br>
-    Reload time: {{{ $item->reload }}}<br>
+    基本远程伤害: {{{ $item->ranged_damage }}}<br>
+    射程: {{{ $item->range }}}<br>
+    穿甲: {{{ $item->pierce }}}<br>
+    散步: {{{ $item->dispersion }}}<br>
+    后坐力: {{{ $item->recoil }}}<br>
+    装填耗时: {{{ $item->reload }}}<br>
     @if ($item->burst==0)
-    Semi-automatic<br>
+    半自动<br>
     @else
     Burst size: {{{$item->burst}}}<br>
     @endif
@@ -143,39 +143,39 @@
       Burst: {{$item->burstModifier}}<br>
     @endif
     @if ($item->ammo_modifier!="NULL")
-      Ammo: {{$item->ammo_modifier}}<br>
+      弹药: {{$item->ammo_modifier}}<br>
     @endif
-      Used on: {{$item->modSkills}}<br>
-      Location: {{$item->location}}<br>
+      可安装于: {{$item->modSkills}}<br>
+      位置: {{$item->location}}<br>
     @endif
 
     <br>
     @if ($item->isConsumable)
-      Phase: {{{ $item->phase }}}<br>
-      <span title="(*actual amounts may depend on components)">Calories (kcal)*</span>: {{{ $item->nutrition }}}<br>
-      Quench: {{{ $item->quench }}}<br>
-      Enjoyability: {{{ $item->fun }}}<br>
+      状态: {{{ $item->phase }}}<br>
+      <span title="(*actual amounts may depend on components)">热量 (千卡)*</span>: {{{ $item->nutrition }}}<br>
+      解渴: {{{ $item->quench }}}<br>
+      享受: {{{ $item->fun }}}<br>
       @if ($item->spoils_in>0)
-      Spoils in {{{ $item->spoils_in }}}<br>
+      保质期: {{{ $item->spoils_in }}}<br>
       @endif
-      Charges: {{{ $item->charges }}}<br>
-      Healthy: {{{ $item->healthy }}}<br>
-      Stimulant: {{{ $item->stim }}}<br>
-      Addiction: {{{ $item->addiction_potential }}}<br>
+      分量: {{{ $item->charges }}}<br>
+      健康: {{{ $item->healthy }}}<br>
+      兴奋剂: {{{ $item->stim }}}<br>
+      上瘾: {{{ $item->addiction_potential }}}<br>
     @endif
     @if ($item->isArmor)
-      Covers: {{ $item->covers }}<br>
-      Coverage: {{{ $item->coverage }}}%<br>
-      Encumberment: {{{ $item->encumbrance }}}<br>
-      Protection: Bash:
+      覆盖部位: {{ $item->covers }}<br>
+      覆盖率: {{{ $item->coverage }}}%<br>
+      累赘度: {{{ $item->encumbrance }}}<br>
+      防护: 钝击:
       {{{ $item->protection('bash') }}}
-      Cut:  {{{  $item->protection('cut') }}}<br>
-      Acid: {{{  $item->protection('acid') }}}
+      斩击:  {{{  $item->protection('cut') }}}<br>
+      防酸: {{{  $item->protection('acid') }}}
       &nbsp;&nbsp;&nbsp;
-      Fire: {{{  $item->protection('fire') }}}<br>
-      Environmental protection: {{{ $item->environmental_protection }}}<br>
-      Warmth: {{{ $item->warmth }}}<br>
-      Storage: {{{ $item->storage }}}<br>
+      防火: {{{  $item->protection('fire') }}}<br>
+      环境 protection: {{{ $item->environmental_protection }}}<br>
+      保暖度: {{{ $item->warmth }}}<br>
+      容积: {{{ $item->storage }}}<br>
     @endif
 
     @if ($item->isBrewable)
@@ -189,91 +189,102 @@
       This item is rigid.<br>
     @endif
     @if ($item->seals=='y')
-      This container can be resealed.<br>
+      这个容器能能<info>重新封装</info>。<br>
     @endif
     @if ($item->watertight=='y')
-      This container is watertight.<br>
+      这个容器是<info>水密</info>的。<br>
     @endif
     @if ($item->preserves=='y')
-      This container preserves its contents from spoiling.<br>
+      这个容器能<good>防止腐坏</good>。<br>
     @endif
-      This container can store {{ $item->contains }} liters.<br>
+      这个容器能储存{{ $item->contains }}升液体。<br>
     @endif
 
     @if ($item->isBook)
     --<br>
     @if ($item->skill=="none")
-    Just for fun.<br>
+    仅供娱乐。<br>
     @else
     可以提升你的 {{ $item->skill }} 技能到 {{ $item->max_level }} 级<br>
 
     @if ($item->required_level==0)
-    It can be understood by beginners.<br>
+    适合<info>初学者</info>阅读。.<br>
     @else
-    Requires {{ $item->skill }} level {{ $item->required_level }} to understand.<br>
+    需要 <info>{{ $item->skill }} 技能</info> {{ $item->required_level }} 级才能理解。<br>
     @endif
     @endif
-    Requires intelligence of {{ $item->intelligence }} to easily read.<br>
+    需要 <info>智力</info> {{ $item->intelligence }} 点才能轻松阅读。<br>
     @if ($item->fun!=0)
-    Reading this book affects your morale by {{ $item->fun }}<br>
+    阅读此书对会使你的心情值 {{ $item->fun }}<br>
     @endif
-    This book takes {{ $item->time }} minutes to read.<br>
+    阅读此书的一个章节需要 {{ $item->time }} <info>分钟</info>。<br>
     @if ($item->chapters)
-    Chapters: {{ $item->chapters }}.<br>
+    章节: {{ $item->chapters }}.<br>
     @endif
     --<br>
-    This book contains {{ $item->count("learn") }} crafting recipes:<br>
+    这本书包含 {{ $item->count("learn") }} 个配方:<br>
     {{ $item->craftingRecipes }}
     @endif
     <br>
     {{{ $item->description }}}<br>
     @if ($item->hasFlag("FIT"))
-    <br>This piece of clothing fits you perfectly.<br>
+    <br>这件装备很<info>合身</info>。<br>
     @endif
     @if ($item->hasFlag("OVERSIZE"))
-    <br>This piece of clothing is large enough to accommodate mutated anatomy.<br>
+    <br>这件装备尺码足够大，能够容纳下 <info>大型变异肢体</info>。<br>
     @endif
     @if ($item->hasFlag("SKINTIGHT"))
     <br>This piece of clothing lies close to the skin and layers easily.<br>
     @endif
     @if ($item->hasFlag("POCKETS"))
-    <br>This piece of clothing has pockets to warm your hands.<br>
+    <br>这件装备有<info>口袋</info>，能在你空手时把手放在口袋里，为手部保暖。<br>
     @endif
     @if ($item->hasFlag("HOOD"))
-    <br>This piece of clothing has a hood to keep your head warm.<br>
+    <br>这件装备有<info>兜帽</info>，能在头部没有累赘时戴上兜帽，为头部保暖。<br>
     @endif
     @if ($item->hasFlag("RAINPROOF"))
-    <br>This piece of clothing is designed to keep you dry in the rain.<br>
+    <br>这件装备能够让你在雨中保持<info>干燥</info>。<br>
     @endif
     @if ($item->hasFlag("SUN_GLASSES"))
-    <br>This piece of clothing keeps the glare out of your eyes.<br>
+    <br>这件装备能<info>防眩光</info>。<br>
     @endif
     @if ($item->hasFlag("WATER_FRIENDLY"))
-    <br>This piece of clothing performs well even when soaking wet. This can feel good.<br>
+    <br>这件装备在<info>湿透</info>时依旧<good>性能良好</good>，不受心情值惩罚。<br>
     @endif
     @if ($item->hasFlag("WATERPROOF"))
-    <br>This piece of clothing won't let water through.  Unless you jump in the river or something like that.<br>
+    <br>这件装备<info>不透水</info>，除非你跳进河里或者被水淹没。<br>
     @endif
     @if ($item->hasFlag("STURDY"))
-    <br>This piece of clothing is designed to protect you from harm and withstand a lot of abuse<br>
+    <br>这件装备具有<good>良好防护</good>，能使你免于受伤并<info>承受大量伤害</info>。<br>
     @endif
     @if ($item->hasFlag("SWIM_GOGGLES"))
-    <br>This piece of clothing allows you to see much further under water.<br>
+    <br>这件装备能让你在<info>水下</info><good>看得更远</good>。<br>
     @endif
     @if ($item->hasFlag("LEAK_DAM") && $item->hasFlag("RADIOACTIVE"))
-    <br>The casing of this item has cracked, revealing an ominous green glow. (when damaged).<br>
+    <br>这件物品的外壳已经 <neutral>裂开</neutral> ，露出 <info>不祥的绿光</info>。<br>
     @endif
     @if ($item->hasFlag("LEAK_ALWAYS") && $item->hasFlag("RADIOACTIVE"))
-    <br>This object is surrounded by a sickly green glow.<br>
+    <br>这件物品 <neutral>发出</neutral> 了 <info>奇异的绿光</info>。<br>
     @endif
 
     @if ($item->hasVpartlist)
-    <br>This item can be installed into vehicles as:<br>
+    <br>这件物品可以安装到载具上，作为:<br>
     {{$item->VpartFor}}
     @endif
   </div>
 </div>
 @endforeach
+<style>
+info {
+  color: cyan;
+}
+bad {
+  color: red;
+}
+good {
+  color: green;
+}
+</style>
 <script>
 $(function() {
   $(".tablesorter").tablesorter({

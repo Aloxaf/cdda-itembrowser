@@ -26,6 +26,8 @@ function colorPairToCSS($color)
     // handle seasonal color array by taking only the spring color for now
     if (is_array($color)) {
         $activecolor = $color[0];
+    } else {
+        return array(str_replace("_", "", $color), "black");
     }
     if (count($activecolor) > 1 && $activecolor[1] == "_") {
         $activecolor = substr($activecolor, 2);
