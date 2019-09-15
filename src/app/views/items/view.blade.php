@@ -24,19 +24,19 @@
     @if (!$item->isVehiclePart)
     <br>
     <br>
-    Volume: {{{ $item->volume/4.0 }}} L Weight: {{ $item->weight }} lbs /{{ $item->weightMetric }} kg<br>
-      Bash: {{{ $item->bashing }}}
+    体积: {{{ $item->volume/4.0 }}} 升 重量: {{ $item->weight }} 磅 /{{ $item->weightMetric }} 千克<br>
+      钝击: {{{ $item->bashing }}}
       @if ($item->hasFlag("SPEAR"))
-      Pierce: {{{ $item->piercing }}}
+      刺击: {{{ $item->piercing }}}
       @elseif ($item->hasFlag("STAB"))
-      Stab: {{{ $item->cutting }}}
+      斩击: {{{ $item->cutting }}}
       @else
-      Cut: {{{ $item->cutting }}}
+      斩击: {{{ $item->cutting }}}
       @endif
-      To-hit bonus: {{{ $item->to_hit }}}<br>
-      Moves per attack: {{{ $item->movesPerAttack }}}<br>
-      Damage per move: {{{ $item->damagePerMove }}}<br>
-      Materials: {{ $item->materials }}<br>
+      命中: {{{ $item->to_hit }}}<br>
+      攻击消耗行动点: {{{ $item->movesPerAttack }}}<br>
+      攻击伤害: {{{ $item->damagePerMove }}}<br>
+      材质: {{ $item->materials }}<br>
     @endif
       @if ($item->hasFlags)
       Flags: {{ $item->flags }}<br>
@@ -45,21 +45,21 @@
       Techniques: {{$item->techniques}}<br>
       @endif
       @foreach ($item->qualities as $quality)
-      Has level {{{ $quality["level"] }}} <a href="{{ route("item.qualities", $quality["quality"]->id) }}">{{{ $quality["quality"]->name }}}</a> quality.<br>
+      具有 {{{ $quality["level"] }}} 级 <a href="{{ route("item.qualities", $quality["quality"]->id) }}">{{{ $quality["quality"]->name }}}</a> 特性。<br>
       @endforeach
     @if ($item->canBeCut)
-    Can be cut into: 
+    可以被切割为: 
     @foreach($item->cutResult as $cutResult)
       {{{ $cutResult['amount'] }}} <a href="{{ route('item.view', $cutResult['item']->id) }}">{{ str_plural($cutResult['item']->name) }}</a>,
     @endforeach
     <br>
     @endif
     @if ($item->isResultOfCutting)
-    Can be obtained if you cut items made of <a href="{{ route('item.materials', $item->materialToCut) }}">{{{ $item->materialToCut }}}</a><br>
+    可以通过切割 <a href="{{ route('item.materials', $item->materialToCut) }}">{{{ $item->materialToCut }}} </a>材质的物品获得<br>
     @endif
 
     @if ($item->count("disassembledFrom"))
-    Can be obtained when disassembling:
+    可以通过拆解以下物品获得:
     @foreach($item->disassembledFrom as $recipe)
     {{ link_to_route("item.disassemble", $recipe->result->name, $recipe->result->id) }},
     @endforeach
@@ -205,7 +205,7 @@
     @if ($item->skill=="none")
     Just for fun.<br>
     @else
-    Can bring your {{ $item->skill }} skill to {{ $item->max_level }}<br>
+    可以提升你的 {{ $item->skill }} 技能到 {{ $item->max_level }} 级<br>
 
     @if ($item->required_level==0)
     It can be understood by beginners.<br>

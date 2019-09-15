@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      {{ link_to_route($areas["view"]["route"], "Menu", array("id"=>$itembunch[0]->id), array("class"=>"navbar-brand")) }}
+      {{ link_to_route($areas["view"]["route"], "菜单", array("id"=>$itembunch[0]->id), array("class"=>"navbar-brand")) }}
     </div>
 
     <div class="collapse navbar-collapse" id="item-menu">

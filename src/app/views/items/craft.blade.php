@@ -5,7 +5,7 @@
 @if ($itembunch[0]->count("recipes")>0)
 {{{$itembunch[0]->rawName}}} can be crafted. You can find more information here.
 @else
-{{{$itembunch[0]->rawName}}} can't be crafted.
+{{{$itembunch[0]->rawName}}} 无法被制作出来。
 @endif
 @endsection
 @include('items.menu', array('active'=>'craft'))

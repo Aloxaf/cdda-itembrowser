@@ -91,23 +91,23 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
     $view->with('areas', array(
       "view" => array(
         "route" => "item.view",
-        "label" => "View item",
+        "label" => "查看物品",
       ),
       "craft" => array(
         "route" => "item.craft",
-        "label" => "Craft",
+        "label" => "制作",
       ),
       "recipes" => array(
         "route" => "item.recipes",
-        "label" => "Recipes",
+        "label" => "配方",
       ),
       "disassemble" => array(
         "route" => "item.disassemble",
-        "label" => "Disassemble",
+        "label" => "拆解",
       ),
       'construction' => array(
         'route' => 'item.construction',
-        'label' => 'Construction'
+        'label' => '建造'
       ),
       "wiki" => array(
         "route" => "item.wiki",

@@ -152,8 +152,6 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 }
             } else if (is_string($object->name)) {
                 $object->name = gettext($object->name);
-            } else {
-                echo var_dump($object->name);
             }
         }
         if (isset($object->description)) {
