@@ -24,7 +24,7 @@
     @if (!$item->isVehiclePart)
     <br>
     <br>
-    Volume: {{{ $item->volume/4.0 }}} L Weight: {{ $item->weight }} lbs /{{ $item->weightMetric }} kg<br>
+    Volume: {{{ $item->volume }}} L Weight: {{ $item->weight }} lbs /{{ $item->weightMetric }} kg<br>
       Bash: {{{ $item->bashing }}}
       @if ($item->hasFlag("SPEAR"))
       Pierce: {{{ $item->piercing }}}
@@ -185,16 +185,16 @@
     @endif
 
     @if ($item->isContainer)
-    @if ($item->rigid=='y')
+    @if ($item->rigid=='R')
       This item is rigid.<br>
     @endif
-    @if ($item->seals=='y')
+    @if ($item->seals=='S')
       This container can be resealed.<br>
     @endif
-    @if ($item->watertight=='y')
+    @if ($item->watertight=='W')
       This container is watertight.<br>
     @endif
-    @if ($item->preserves=='y')
+    @if ($item->preserves=='P')
       This container preserves its contents from spoiling.<br>
     @endif
       This container can store {{ $item->contains }} liters.<br>
