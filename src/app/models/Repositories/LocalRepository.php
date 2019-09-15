@@ -2,6 +2,13 @@
 
 namespace Repositories;
 
+putenv('LANG=zh_CN.utf8');   
+setlocale(LC_ALL, 'zh_CN.utf8');  //指定要用的语系，如：en_US、zh_CN、zh_TW   
+$domain = 'cataclysm-dda';                     //域名，可以任意取个有意义的名字，不过要跟相应的.mo文件的文件名相同（不包括扩展名）。
+bindtextdomain($domain , "locale/"); //设置某个域的mo文件路径    
+bind_textdomain_codeset($domain, 'UTF-8');  //设置mo文件的编码为UTF-8    
+textdomain($domain);                    //设置gettext()函数从哪个域去找mo文件 
+
 class LocalRepository extends Repository implements RepositoryInterface, RepositoryParserInterface, RepositoryWriterInterface
 {
     // provides a unique ID for each JSON entry added to cache, some JSON entries will overlap in text IDs
@@ -138,6 +145,21 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
 
     private function newObject($object)
     {
+        if (isset($object->name)) {
+            if (is_array($object->name)) {
+                if (is_string($object->name[0])) {
+                    $object->name[0] = gettext($object->name[0]);
+                }
+            } else if (is_string($object->name)) {
+                $object->name = gettext($object->name);
+            } else {
+                echo var_dump($object->name);
+            }
+        }
+        if (isset($object->description)) {
+            $object->description = gettext($object->description);
+        }
+
         // skip snippets and talk topics for now
         if ($object->type == "snippet" || $object->type == "talk_topic" || $object->type == "overmap_terrain" || $object->type == "scenario" || $object->type == "ammunition_type" ||
         $object->type == "start_location" || $object->type == "harvest") {
