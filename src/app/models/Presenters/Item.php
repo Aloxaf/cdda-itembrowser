@@ -250,27 +250,22 @@ class Item extends \Robbo\Presenter\Presenter
 
     public function presentRigid()
     {
-        return $this->object->rigid ? "y" : "n";
+        return $this->object->rigid ? "R" : "";
     }
 
     public function presentSeals()
     {
-        return $this->object->seals ? "y" : "n";
+        return $this->object->seals ? "S" : "";
     }
 
     public function presentWatertight()
     {
-        return $this->object->watertight ? "y" : "n";
+        return $this->object->watertight ? "W" : "";
     }
 
     public function presentPreserves()
     {
-        return $this->object->preserves ? "y" : "n";
-    }
-
-    public function presentContains()
-    {
-        return number_format($this->object->contains, 2);
+        return $this->object->preserves ? "P" : "";
     }
 
     public function presentTechniques()
