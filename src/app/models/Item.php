@@ -331,7 +331,9 @@ class Item implements Robbo\Presenter\PresentableInterface
             }
     
             $result = $ammotype->damage;
-            $result = $result + ($this->data->ranged_damage * $ammo_damage_multiplier);
+            if (isset($this->data->ranged_damage)) {
+                $result = $result + ($this->data->ranged_damage * $ammo_damage_multiplier);
+            }
             $ammotype->damage = $result;
         }
         unset($ammotype);

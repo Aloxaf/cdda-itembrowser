@@ -10,78 +10,78 @@ Monster: {{{$monsterbunch[0]->name}}}
 <div class="col-md-6">
 <h4>{{ $monster->symbol }} {{$monster->niceName}} {{$monster->modinfo}}</h4>
 <p>{{$monster->description}}</p>
-Monster ID: {{{$monster->id}}}
+怪物 ID: {{{$monster->id}}}
 <br>
 <br>
 <table>
 <tr>
-  <td colspan="2" width="50%"><b>General</b></td>
-  <td colspan="2" width="50%"><b>Combat</b></td>
+  <td colspan="2" width="50%"><b>常规</b></td>
+  <td colspan="2" width="50%"><b>战斗</b></td>
 </tr>
 <tr>
-  <td>HP:</td>
+  <td>HP：</td>
   <td>{{{$monster->hp}}}</td>
 
-  <td>Melee skill:</td>
+  <td>近战技能：</td>
   <td>{{{$monster->melee_skill}}}</td>
 </tr>
 <tr>
-  <td>Species:</td>
+  <td>种类：</td>
   <td>{{$monster->species}}</td>
 
-  <td>Dodge skill:</td>
+  <td>闪避技能：</td>
   <td>{{{$monster->dodge}}}</td>
 </tr>
 <tr>
-  <td>Size:</td>
+  <td>体型：</td>
   <td>{{$monster->size}}</td>
 
-  <td>Damage:</td>
+  <td>伤害：</td>
   <td>{{$monster->damage }}</td>
 </tr>
 <tr>
-  <td>Material:</td>
+  <td>材质：</td>
   <td>{{{ is_array($monster->material) ? implode(", ",$monster->material) : $monster->material }}}</td>
 </tr>
 <tr>
-  <td>Speed:</td>
+  <td>速度：</td>
   <td>{{{$monster->speed}}}</td>
 </tr>
 <tr>
-  <td colspan="2"><br><b>Protection</b></td>
-  <td colspan="2"><br><b>Triggers</b></td>
+  <td colspan="2"><br><b>防护</b></td>
+  <td colspan="2"><br><b>触发器</b></td>
 </tr>
 <tr>
-  <td>Bash armor:</td>
+  <td>钝击防护：</td>
   <td>{{{$monster->armor_bash}}}</td>
 
-  <td>Death:</td>
+  <td>死亡：</td>
   <td>{{{$monster->death_function}}}</td>
 </tr>
 <tr>
-  <td>Cut armor:</td>
+  <td>斩击防护：</td>
   <td>{{{$monster->armor_cut}}}</td>
 
-  <td valign="top">Attacking:</td>
+  <td valign="top">攻击：</td>
   <td>{{$monster->special_attacks}}</td>
 </tr>
 <tr>
   <td></td>
   <td></td>
-  <td>When hit:</td>
+  <td>击中时：</td>
   <td>{{{$monster->specialWhenHit}}}</td>
 </tr>
 <tr>
-  <td colspan="4"><br><b>Other</b></td>
+  <td colspan="4"><br><b>其他</b></td>
 </tr>
 <tr>
-  <td>Aggresiveness:</td>
+  <td>攻击性：</td>
   <td>{{{$monster->aggression}}}</td>
-  <td>Morale:</td>
+  <td>士气：</td>
   <td>{{{$monster->morale}}}</td>
 </tr>
 <tr>
-  <td>Difficulty:</td>
+  <td>难度：</td>
   <td>{{{$monster->diff}}}</td>
 </tr>
 <tr>

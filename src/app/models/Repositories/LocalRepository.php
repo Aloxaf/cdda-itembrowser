@@ -143,6 +143,18 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         return $result;
     }
 
+    private function translate_skill($name)
+    {
+        $text = gettext($name);
+        if ($text != $name) {
+            return $text;
+        }
+        $text = gettext($name."ing");
+        if ($text != $name."ing") {
+            return $text;
+        }
+    }
+
     private function newObject($object)
     {
         if (isset($object->name)) {
@@ -163,11 +175,35 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         if (isset($object->location)) {
             $object->location = gettext($object->location);
         }
+        if (isset($object->skill_used)) {
+            $object->skill_used = $this->translate_skill($object->skill_used);
+        }
+        if (isset($object->skills_required)) {
+            foreach ($object->skills_required as $k => $skill) {
+                if (is_string($skill)) {
+                    $object->skills_required[$k] = $this->translate_skill($skill);
+                } else if (is_array($skill)) {
+                    $object->skills_required[$k][0] = $this->translate_skill($skill[0]);
+                }
+            }
+        }
+        /*if (isset($object->material)) {
+            if (is_array($object->material)) {
+                foreach ($object->material as $k => $v) {
+                    $object->material[$k] = gettext(ucfirst($v));
+                }
+            } else {
+                $object->material = gettext(ucfirst($object->material));
+            }
+        }*/
         if ($object->type == "GUNMOD") {
             if (isset($object->mod_targets)) {
                 foreach ($object->mod_targets as $k => $target) {
                     // gun_type_type 为 msgctxt
-                    $object->mod_targets[$k] = gettext("gun_type_type\004{$target}");
+                    $text = gettext("gun_type_type\004{$target}");
+                    if ($text != "gun_type_type\004{$target}") {
+                        $object->mod_targets[$k] = gettext("gun_type_type\004{$target}");
+                    }
                 }
             }
         }

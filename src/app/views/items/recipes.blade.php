@@ -24,9 +24,9 @@ var show_recipe = function(id)
 <h1>
   {{$itembunch[0]->symbol}} <a href="{{ route("item.view", array("id"=>$itembunch[0]->id)) }}">{{ $itembunch[0]->name }}</a>
 @if ($itembunch[0]->count("toolFor"))
- can be used to craft the following recipes:<br>
+ 可以用于制造下列物品：<br>
 @else
- can't be used to craft anything.
+ 无法被用来制造任何东西。
 @endif
 </h1>
 <ul class="nav nav-tabs">
@@ -51,19 +51,19 @@ var show_recipe = function(id)
 $recipe->result->name,
 array("id"=>$recipe->result->id)) }}<br>
   {{ $recipe->labels }}
-  Category: {{{ $recipe->category }}}<br>
-  SubCategory: {{{ $recipe->subcategory }}}<br>
-  Primary skill used: {{{ $recipe->skill_used }}}({{{ $recipe->difficulty }}})<br>
-  Required skills: {{ $recipe->skillsRequired }} <br>
-  Time to complete: {{{ $recipe->time }}}<br>
-  Auto-learn: {{{ $recipe->autolearn? "Yes": "No" }}}<br>
+  类别: {{{ $recipe->category }}}<br>
+  子类别: {{{ $recipe->subcategory }}}<br>
+  主要技能: {{{ $recipe->skill_used }}}({{{ $recipe->difficulty }}})<br>
+  其他技能: {{ $recipe->skillsRequired }} <br>
+  完成耗时: {{{ $recipe->time }}}<br>
+  自动学会: {{{ $recipe->autolearn? "是": "否" }}}<br>
   <br>
 
   @if ($recipe->hasTools || $recipe->hasQualities)
-  Tools required:<br>
+  需要工具:<br>
   @if ($recipe->hasQualities)
   @foreach ($recipe->qualities as $q)
-  &gt; {{{$q["amount"]}}} tool with <a href="{{ route("item.qualities", $q["quality"]->id) }}">{{{ $q["quality"]->name }}}</a> quality of {{{ $q["level"] }}}<br>
+  &gt; {{{$q["amount"]}}} 个 <a href="{{ route("item.qualities", $q["quality"]->id) }}">{{{ $q["quality"]->name }}}</a> 功能至少 {{{ $q["level"] }}} 级的工具<br>
   @endforeach
   @endif
   @if ($recipe->hasTools)
@@ -72,7 +72,7 @@ array("id"=>$recipe->result->id)) }}<br>
   @endif
 
   @if ($recipe->hasComponents)
-  Components required:<br>
+  需要材料：<br>
   {{$recipe->components}}<br>
   @endif
 

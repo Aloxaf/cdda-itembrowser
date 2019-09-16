@@ -9,19 +9,19 @@ class Recipe extends \Robbo\Presenter\Presenter
         $time = $this->object->time;
 
         if (stripos($time, "h")){
-            return ($time * 60)." minutes";
+            return ($time * 60)." 分钟";
         }
         if (stripos($time, "m")){
-            return ($time * 1)." minutes";
+            return ($time * 1)." 分钟";
         }
         if (stripos($time, "s") || stripos($time, "t")){
-            return ($time * 1)." seconds";
+            return ($time * 1)." 秒";
         }
         if ($time >= 6000) {
-            return ($time / 6000)." minutes";
+            return ($time / 6000)." 分钟";
         }
 
-        return ($time / 100)." seconds";
+        return ($time / 100)." 秒";
     }
 
     public function presentSkillsRequired()
@@ -43,9 +43,9 @@ class Recipe extends \Robbo\Presenter\Presenter
             $inner = array();
             foreach ($group as $gi) {
                 list($item, $amount) = $gi;
-                $inner[] = link_to_route("item.view", $item->name, array("id" => $item->id))." ".($amount > 0 ? "($amount&nbsp;charges)" : "");
+                $inner[] = link_to_route("item.view", $item->name, array("id" => $item->id))." ".($amount > 0 ? "($amount&nbsp;单位)" : "");
             }
-            $tools[] = implode(" OR ", $inner);
+            $tools[] = implode(" 或 ", $inner);
         }
 
         return "&gt; ".implode("<br>&gt; ", $tools)."\n";
@@ -60,7 +60,7 @@ class Recipe extends \Robbo\Presenter\Presenter
                 list($item, $amount) = $gi;
                 $inner[] = "{$amount}x ".link_to_route("item.view", $item->name, array("id" => $item->id));
             }
-            $components[] = implode(" OR ", $inner);
+            $components[] = implode(" 或 ", $inner);
         }
         $label = $this->object->category == "CC_NONCRAFT" ? "obtained" : "required";
 

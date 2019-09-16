@@ -79,9 +79,9 @@
     @endif
     @if ($item->isTool)
 
-    Maximum {{ $item->max_charges }} charges
+    最大 {{ $item->max_charges }} 单位
     @if ($item->ammo!="NULL")
-    of: @foreach($item->ammoTypes as $ammo)
+    的: @foreach($item->ammoTypes as $ammo)
       <a href="{{ route("item.view", $ammo->id) }}">{{$ammo->name}}</a>,
     @endforeach
     @endif
@@ -173,7 +173,7 @@
       防酸: {{{  $item->protection('acid') }}}
       &nbsp;&nbsp;&nbsp;
       防火: {{{  $item->protection('fire') }}}<br>
-      环境 protection: {{{ $item->environmental_protection }}}<br>
+      环境保护: {{{ $item->environmental_protection }}}<br>
       保暖度: {{{ $item->warmth }}}<br>
       容积: {{{ $item->storage }}}<br>
     @endif
@@ -274,17 +274,6 @@
   </div>
 </div>
 @endforeach
-<style>
-info {
-  color: cyan;
-}
-bad {
-  color: red;
-}
-good {
-  color: green;
-}
-</style>
 <script>
 $(function() {
   $(".tablesorter").tablesorter({

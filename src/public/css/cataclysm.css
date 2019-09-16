@@ -81,3 +81,13 @@ table.tablesorter thead tr .headerSortDown {
 table tr:hover a {
   color: #ffa;
 }
+
+info {
+    color: cyan;
+  }
+bad {
+    color: red;
+}
+good {
+    color: green;
+}

@@ -114,19 +114,19 @@ class Monster extends \Robbo\Presenter\Presenter
             $strvalue = "";
             if($value <= 7500)
             {
-                $strvalue = "Tiny";
+                $strvalue = "很小";
             }else if ($value <= 46250)
             {
-                $strvalue = "Small";
+                $strvalue = "小";
             }else if ($value <= 77500)
             {
-                $strvalue = "Medium";
+                $strvalue = "中等";
             }else if ($value <= 483750)
             {
-                $strvalue = "Large";
+                $strvalue = "大";
             }else
             {
-                $strvalue = "Huge";
+                $strvalue = "巨大";
             }
             return $strvalue." (".$this->object->volume.")";
         }
