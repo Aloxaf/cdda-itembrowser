@@ -24,7 +24,7 @@
     @if (!$item->isVehiclePart)
     <br>
     <br>
-    体积: {{{ $item->volume/4.0 }}} 升 重量: {{ $item->weight }} 磅 /{{ $item->weightMetric }} 千克<br>
+    体积: {{{ $item->volume }}} 升 重量: {{ $item->weightMetric }} 千克<br>
       钝击: {{{ $item->bashing }}}
       @if ($item->hasFlag("SPEAR"))
       刺击: {{{ $item->piercing }}}
@@ -185,16 +185,16 @@
     @endif
 
     @if ($item->isContainer)
-    @if ($item->rigid=='y')
+    @if ($item->rigid=='R')
       This item is rigid.<br>
     @endif
-    @if ($item->seals=='y')
+    @if ($item->seals=='S')
       这个容器能能<info>重新封装</info>。<br>
     @endif
-    @if ($item->watertight=='y')
+    @if ($item->watertight=='W')
       这个容器是<info>水密</info>的。<br>
     @endif
-    @if ($item->preserves=='y')
+    @if ($item->preserves=='P')
       这个容器能<good>防止腐坏</good>。<br>
     @endif
       这个容器能储存{{ $item->contains }}升液体。<br>

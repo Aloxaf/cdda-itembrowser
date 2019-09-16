@@ -268,13 +268,17 @@ class Item implements IndexerInterface
         // handle "ml" indicators in volume/container volume
         if (isset($object->volume) && is_string($object->volume)) {
             if (stripos($object->volume, "ml") !== false) {
-                $object->volume = (substr($object->volume, 0, -2) * 4.0) / 1000.0;
+                $object->volume = $object->volume / 1000.0;
             }
+
+            $object->volume = $object->volume * 1.0;
         }
         if (isset($object->contains) && is_string($object->contains)) {
             if (stripos($object->contains, "ml") !== false) {
-                $object->contains = substr($object->contains, 0, -2) / 1000.0;
+                $object->contains = $object->contains / 1000.0;
             }
+
+            $object->contains = $object->contains * 1.0;
         }
         // adjust volume for low volume large stack size ammunition
         if ($object->type == "AMMO") {
@@ -285,8 +289,25 @@ class Item implements IndexerInterface
             }
         }
 
-        if ($object->type == "CONTAINER") {
+        if ($object->type == "CONTAINER" || isset($object->container_data)) {
             $repo->append("container", $object->id);
+            if (isset($object->container_data)) {
+                if (isset($object->container_data->contains)) {
+                    $object->contains = $object->container_data->contains;
+                }
+                if (isset($object->container_data->watertight)) {
+                    $object->watertight = $object->container_data->watertight;
+                }
+                if (isset($object->container_data->seals)) {
+                    $object->seals = $object->container_data->seals;
+                }
+            }
+
+            if (stripos($object->contains, "ml") !== false) {
+                $object->contains = $object->contains / 1000.0;
+            }
+            $object->contains = $object->contains * 1.0;
+
         }
         if ($object->type == "COMESTIBLE") {
             $repo->append("food", $object->id);
