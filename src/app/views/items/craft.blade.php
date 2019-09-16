@@ -41,21 +41,21 @@
   {{$recipe->components}}<br>
   @endif
 
-  Byproducts:<br>
+  副产品:<br>
   @if ($recipe->hasByproducts)
   {{$recipe->byproducts}}<br>
   @else
-  (none)<br>
+  (无)<br>
   @endif
 @if ($recipe->canBeLearned)
 --<br>
-当 <info>{{$recipe->skill_used}}</info> 技能满足最低要求时，这个配方可以再下列书籍中找到：<br>
+当 <info>{{$recipe->skill_used}}</info> 技能满足最低要求时，这个配方可以于下列书籍中找到：<br>
 @foreach($recipe->booksTeaching as $book)
 <a href="{{ route('item.view', $book[0]->id) }}">{{{ $book[0]->name }}}
 @if ($book[1]<0)
-(any level)
+(任何等级)
 @else
-(level {{{ $book[1] }}})
+(等级 {{{ $book[1] }}})
 @endif
 </a><br>
 @endforeach

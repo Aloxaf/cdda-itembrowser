@@ -119,7 +119,7 @@
     Burst size: {{{$item->burst}}}<br>
     @endif
     @if ($item->isModdable)
-      Mod Locations:<br>
+      模组:<br>
       {{ $item->validModLocations }}
     @endif
     @endif

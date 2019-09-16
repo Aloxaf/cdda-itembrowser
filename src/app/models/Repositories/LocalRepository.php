@@ -145,14 +145,10 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
 
     private function translate_skill($name)
     {
-        $text = gettext($name);
-        if ($text != $name) {
-            return $text;
+        if (isset($trans[$name])) {
+            return $trans[$name];
         }
-        $text = gettext($name."ing");
-        if ($text != $name."ing") {
-            return $text;
-        }
+        return gettext($name);
     }
 
     private function newObject($object)
@@ -169,9 +165,6 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         if (isset($object->description)) {
             $object->description = gettext($object->description);
         }
-        if (isset($object->skill)) {
-            $object->skill = gettext($object->skill);
-        }
         if (isset($object->location)) {
             $object->location = gettext($object->location);
         }
@@ -187,15 +180,6 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 }
             }
         }
-        /*if (isset($object->material)) {
-            if (is_array($object->material)) {
-                foreach ($object->material as $k => $v) {
-                    $object->material[$k] = gettext(ucfirst($v));
-                }
-            } else {
-                $object->material = gettext(ucfirst($object->material));
-            }
-        }*/
         if ($object->type == "GUNMOD") {
             if (isset($object->mod_targets)) {
                 foreach ($object->mod_targets as $k => $target) {

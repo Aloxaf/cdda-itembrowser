@@ -1,7 +1,7 @@
 @section('title')
-Books - Cataclysm: Dark Days Ahead
+书籍 - Cataclysm: Dark Days Ahead
 @endsection
-<h1>Books</h1>
+<h1>书籍</h1>
 
 <ul class="nav nav-tabs">
 @foreach($types as $value)
@@ -12,13 +12,13 @@ Books - Cataclysm: Dark Days Ahead
   <thead>
   <tr>
     <th></th>
-    <th>Name</th>
-    <th>Skill</th>
-    <th><span title="Required Level">RL</span></th>
-    <th><span title="Max Level">ML</span></th>
-    <th>Time</th>
-    <th>Fun</th>
-    <th>Recipes</th>
+    <th>名称</th>
+    <th>技能</th>
+    <th><span title="阅读需求">RL</span></th>
+    <th><span title="最大等级">ML</span></th>
+    <th>阅读耗时</th>
+    <th>心情</th>
+    <th>配方</th>
   </tr>
 </thead>
 @foreach($items as $item)
