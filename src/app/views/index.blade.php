@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-md-6">
-<h1>Item browser</h1>
+<h1>CDDA 物品浏览器</h1>
 
 <p>
-Version: {{{ $version }}}
+版本: {{{ $version }}}
 </p>
 
 <p>
@@ -27,7 +27,7 @@ Version: {{{ $version }}}
 然后你就可以
 {{ link_to_route("item.craft", "制作一根木针", "needle_wood") }}，
 接着你需要
-{{ link_to_route("item.view", "线", "thread") }}，
+{{ link_to_route("item.view", "缝衣线", "thread") }}，
 这个可以通过
 {{ link_to_route("item.disassemble", "拆解一块布条", "rag") }} 来获得，
 而布条可以通过切割
@@ -35,10 +35,10 @@ Version: {{{ $version }}}
 <br>
 </p>
 
-<h2>There are two copies of the database</h2>
+<h2>这个数据库有三个拷贝</h2>
 <p>
-On the top bar, there are two links, stable and development, each one points to a copy of the database for the latest stable release and a frequently updated git master copy, respectively.
-</p>
+顶栏有三个链接，分别指向英文的稳定版和实验版及中文实验版。
+稳定版的内容来源于最新的稳定版数据，而实验版则是 git 版的数据。</p>
 
 <hr>
 <p>

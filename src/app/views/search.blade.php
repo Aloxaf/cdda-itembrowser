@@ -1,9 +1,9 @@
 @section('title')
-Searching for {{$search}} - Cataclysm: Dark Days Ahead Item Browser
+搜索结果： {{$search}} - CDDA 物品浏览器
 @stop
-<h3>Search: {{ $search }} </h3>
+<h3>搜索: {{ $search }} </h3>
 @if (!empty($items))
-<h3>Item matches:</h3>
+<h3>匹配物品：</h3>
 @foreach ($items as $item)
 <div class="row">
 
@@ -17,7 +17,7 @@ Searching for {{$search}} - Cataclysm: Dark Days Ahead Item Browser
 @endif
 
 @if (!empty($monsters))
-<h3>Monster matches:</h3>
+<h3>匹配怪物：</h3>
 <ul class="list-unstyled">
 @foreach($monsters as $monster)
   <li>{{$monster->symbol}} {{ link_to_route("monster.view", $monster->name, array($monster->id)) }}

@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="@yield('description', 'Item/recipe Browser for the Cataclysm: Dark Days Ahead roguelike game. You can look at items and plan ahead!')">
+    <meta name="description" content="@yield('description', 'roguelike 游戏 CDDA 的物品/配方浏览器。借助它你可以查询物品并提前计划！')">
     <meta name="author" content="Sergio Duran">
 
-    <title>@yield('title', 'Cataclysm: Dark Days Ahead Item Browser')</title>
+    <title>@yield('title', 'Cataclysm: Dark Days Ahead 物品浏览器')</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
@@ -37,7 +37,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url("/") }}">CDDA Item Browser</a>
+          <a class="navbar-brand" href="{{ url("/") }}">CDDA 物品浏览器</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
