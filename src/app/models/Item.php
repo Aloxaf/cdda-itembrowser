@@ -326,12 +326,12 @@ class Item implements Robbo\Presenter\PresentableInterface
         $ammotypes = $this->repo->allModels("Item", "ammo.$this->ammo");
         foreach ($ammotypes as &$ammotype) {
             $ammo_damage_multiplier = 1.0;
-            if ($ammotype->prop_damage > 0) {
+            if ($this->data->type == "GUN" && $ammotype->prop_damage > 0) {
                 $ammo_damage_multiplier = $ammotype->prop_damage;
             }
     
             $result = $ammotype->damage;
-            if (isset($this->data->ranged_damage)) {
+            if ($this->data->type == "GUN") {
                 $result = $result + ($this->data->ranged_damage * $ammo_damage_multiplier);
             }
             $ammotype->damage = $result;
