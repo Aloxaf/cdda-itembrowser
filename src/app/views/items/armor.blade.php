@@ -1,28 +1,46 @@
 @section('title')
-Armor - Cataclysm: Dark Days Ahead
+装备 - Cataclysm: Dark Days Ahead
 @endsection
-<h1>Armor</h1>
+<h1>装备</h1>
 <ul class="nav nav-tabs">
 @foreach($parts as $value)
-<li @if($value==$part) class="active" @endif><a href="{{ route(Route::currentRouteName(), $value) }}">{{{ucfirst($value)}}}</a></li>
+<li @if($value==$part) class="active" @endif><a href="{{ route(Route::currentRouteName(), $value) }}">
+{{{
+array(
+  "arm_either" => "单臂",
+  "arms" => "双臂",
+  "eyes" => "眼部",
+  "feet" => "双脚",
+  "foot_either" => "单脚",
+  "hand_either" => "单手",
+  "hand_r" => "右手",
+  "hands" => "双手",
+  "head" => "头部",
+  "leg_either" => "单腿",
+  "legs" => "双腿",
+  "mouth" => "嘴巴",
+  "torso" => "躯干",
+)[$value]
+}}}
+</a></li>
 @endforeach
 </ul>
 <table class="table table-bordered table-hover tablesorter">
   <thead>
   <tr>
     <th></th>
-    <th>Name</th>
-    <th>Material</th>
-    <th><span title="Volume">V</span></th>
-    <th><span title="Weight">W</span></th>
-    <th><span title="Encumbrance">E</span></th>
-    <th><span title="Bash protection">BP</span></th>
-    <th><span title="Cutting protection">CP</span></th>
-    <th><span title="Warmth">Wa</span></th>
-    <th><span title="Storage (liters)">St</span></th>
-    <th><span title="Environmental protection">Env</span></th>
-    <th><span title="Acid resist">Acid</span></th>
-    <th><span title="Fire resist">Fire</span></th>
+    <th>名称</th>
+    <th>材质</th>
+    <th>体积(L)</th>
+    <th>重量(KG)</th>
+    <th>累赘</th>
+    <th>钝击防护></th>
+    <th>斩击防护</th>
+    <th>保暖</th>
+    <th>存储空间(L)</th>
+    <th>环境防护</th>
+    <th>抗酸</th>
+    <th>防火</th>
   </tr>
 </thead>
 <tbody>
@@ -32,7 +50,7 @@ Armor - Cataclysm: Dark Days Ahead
   <td><a href="{{route('item.view', $item->id)}}">{{ $item->name }} {{ $item->modLabel }}</a></td>
   <td>{{ $item->materials }}</td>
   <td>{{ $item->volume }}</td>
-  <td>{{ $item->weight }}</td>
+  <td>{{ $item->weightMetric }}</td>
   <td>{{ $item->encumbrance }}</td>
   <td>{{ $item->protection('bash') }}</td>
   <td>{{ $item->protection('cut') }}</td>

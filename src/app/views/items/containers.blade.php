@@ -1,19 +1,19 @@
 @section('title')
-Containers - Cataclysm: Dark Days Ahead
+容器 - Cataclysm: Dark Days Ahead
 @endsection
-<h1>Containers</h1>
+<h1>容器</h1>
 
 <table class="table table-bordered table-hover tablesorter">
   <thead>
   <tr>
     <th></th>
-    <th>Name</th>
-    <th>Material</th>
-    <th><span title="Rigid">R</span></th>
-    <th><span title="Resealable">S</span></th>
-    <th><span title="Watertight">W</span></th>
-    <th><span title="Preserves from spoiling">P</span></th>
-    <th><span title="Capacity">C</span></th>
+    <th>名称</th>
+    <th>材料</th>
+    <th>柔性</th>
+    <th>可重封</th>
+    <th>水密</th>
+    <th>防止腐坏</th>
+    <th>容量(L)</th>
   </tr>
 </thead>
 @foreach($items as $item)

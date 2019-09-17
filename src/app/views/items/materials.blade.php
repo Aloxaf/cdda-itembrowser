@@ -1,7 +1,7 @@
 @section('title')
-Materials - Cataclysm: Dark Days Ahead
+材料 - Cataclysm: Dark Days Ahead
 @endsection
-<h1>Materials</h1>
+<h1>材料</h1>
 
 <div class="row">
   <div class="col-md-3">
@@ -20,9 +20,9 @@ Please select an entry from the menu on the left.
   <thead>
   <tr>
     <th></th>
-    <th>Name</th>
-    <th>Volume</th>
-    <th>Weight</th>
+    <th>名称</th>
+    <th>体积(L)</th>
+    <th>质量(KG)</th>
   </tr>
 </thead>
 @foreach($items as $item)
@@ -30,7 +30,7 @@ Please select an entry from the menu on the left.
   <td>{{ $item->symbol }}</td>
   <td><a href="{{route('item.view', $item->id)}}">{{ $item->name }} {{ $item->modLabel }}</a></td>
   <td>{{{ $item->volume }}}</td>
-  <td>{{{ $item->weight }}}</td>
+  <td>{{{ $item->weightMetric }}}</td>
 </tr>
 </tr>
 @endforeach

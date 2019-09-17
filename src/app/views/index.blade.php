@@ -54,7 +54,7 @@
 <ul class="nav nav-pills nav-stacked">
 <h2>物品分类</h2>
 
-<li><a href="{{ route('item.armors') }}">衣物</a></li>
+<li><a href="{{ route('item.armors') }}">装备</a></li>
 <li><a href="{{ route("item.melee") }}">近战武器</a></li>
 <li><a href="{{ route('item.guns') }}">远程武器</a></li>
 <li><a href="{{ route('item.consumables') }}">可消耗物品</a></li>

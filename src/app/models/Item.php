@@ -547,7 +547,7 @@ class Item implements Robbo\Presenter\PresentableInterface
                 }
             }
             if ($foundvarsize == true) {
-                $result = $enc." (poor fit), ".max(floor($enc / 2), $enc - 10)." (fitted)";
+                $result = $enc." (不合身), ".max(floor($enc / 2), $enc - 10)." (合身)";
             } else {
                 $result = $enc;
             }

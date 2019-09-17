@@ -175,11 +175,11 @@ class Item extends \Robbo\Presenter\Presenter
     {
         if (is_numeric($this->object->spoils_in)) {
             if ($this->object->spoils_in < 24) {
-                return $this->object->spoils_in." hours";
+                return $this->object->spoils_in." 小时";
             }
 
             $weeks = 0;
-            $days = $this->object->spoils_in / 24;
+            $days = floor($this->object->spoils_in / 24);
             $hours = $this->object->spoils_in % 24;
             while ($days > 6) {
                 $weeks++;
@@ -187,24 +187,28 @@ class Item extends \Robbo\Presenter\Presenter
             }
             $result = "";
             if ($weeks > 0) {
-                $result = $result."$weeks weeks ";
+                $result = $result."$weeks 周 ";
             }
             if ($days > 0) {
-                $result = $result."$days days ";
+                $result = $result."$days 天 ";
             }
             if ($hours > 0) {
-                $result = $result."$hours days ";
+                $result = $result."$hours 小时 ";
             }
 //            return ($this->object->spoils_in / 24)." days";
             return $result;
         }
-
-        return $this->object->spoils_in;
+        $result = str_replace(
+            array("weeks", "week", "days", "day", "hours", "hour", "d"),
+            array("周", "周", "天", "天", "小时", "小时", "天"),
+            $this->object->spoils_in
+        );
+        return $result;
     }
 
     public function presentStim()
     {
-        return ($this->object->stim * 5)." mins";
+        return ($this->object->stim * 5)." 分钟";
     }
 
     public function presentValidModLocations()
@@ -250,22 +254,22 @@ class Item extends \Robbo\Presenter\Presenter
 
     public function presentRigid()
     {
-        return $this->object->rigid ? "R" : "";
+        return $this->object->rigid ? "是" : "否";
     }
 
     public function presentSeals()
     {
-        return $this->object->seals ? "S" : "";
+        return $this->object->seals ? "是" : "否";
     }
 
     public function presentWatertight()
     {
-        return $this->object->watertight ? "W" : "";
+        return $this->object->watertight ? "是" : "否";
     }
 
     public function presentPreserves()
     {
-        return $this->object->preserves ? "P" : "";
+        return $this->object->preserves ? "是" : "否";
     }
 
     public function presentTechniques()

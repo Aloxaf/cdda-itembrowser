@@ -1,7 +1,7 @@
 @section('title')
-Qualities - Cataclysm: Dark Days Ahead
+功能 - Cataclysm: Dark Days Ahead
 @endsection
-<h1>Qualities</h1>
+<h1>功能</h1>
 
 <div class="row">
   <div class="col-md-3">
@@ -19,10 +19,10 @@ Please select an entry from the menu on the left.
   <thead>
   <tr>
     <th></th>
-    <th>Name</th>
-    <th>Level</th>
-    <th>Recipes</th>
-    <th>Construction</th>
+    <th>名称</th>
+    <th>等级</th>
+    <th>配方</th>
+    <th>建造</th>
   </tr>
 </thead>
 @foreach($items as $item)
