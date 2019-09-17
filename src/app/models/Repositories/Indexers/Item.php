@@ -132,6 +132,16 @@ class Item implements IndexerInterface
                 $repo->set("item.count.$id.construction", $count);
             }
 
+            $recipes = count($repo->raw("item.deconstructFrom.$id"));
+            if ($recipes > 0) {
+                $repo->set("item.count.$id.deconstructFrom", $recipes);
+            }
+
+            $recipes = count($repo->raw("item.bashFromTerrain.$id"));
+            if ($recipes > 0) {
+                $repo->set("item.count.$id.bashFromTerrain", $recipes);
+            }
+
             // sort item recipes, by difficulty
             $categories = $repo->raw("item.categories.$id");
             foreach ($categories as $category) {

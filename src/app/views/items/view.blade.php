@@ -64,9 +64,26 @@
     {{ link_to_route("item.disassemble", $recipe->result->name, $recipe->result->id) }},
     @endforeach
     <br>
-    --
+    @endif
+
+    @if ($item->count("deconstructFrom"))
+    可以通过拆解以下家具获得:
+    @foreach($item->deconstructFrom as $recipe)
+    {{ $recipe->name }},
+    @endforeach
     <br>
     @endif
+
+
+    @if ($item->count("bashFromTerrain"))
+    可以通过破坏以下特殊地形获得:
+    @foreach($item->bashFromTerrain as $recipe)
+    {{ $recipe->name }},
+    @endforeach
+    <br>
+    @endif
+    --
+    <br>
 
     @if ($item->isAmmo)
     伤害: {{{ $item->damage }}}<br>

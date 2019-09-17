@@ -107,6 +107,16 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $this->repo->allModels("Recipe", "item.disassembledFrom.$this->id");
     }
 
+    public function getDeconstructFrom()
+    {
+        return $this->repo->allModels("Furniture", "item.deconstructFrom.$this->id");
+    }
+
+    public function getBashFromTerrain()
+    {
+        return $this->repo->allModels("Terrain", "item.bashFromTerrain.$this->id");
+    }
+
     public function getToolFor()
     {
         return $this->repo->allModels("Item", "item.toolFor.$this->id");

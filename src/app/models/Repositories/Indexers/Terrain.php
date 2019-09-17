@@ -17,6 +17,16 @@ class Terrain implements IndexerInterface
         $repo->append(self::DEFAULT_INDEX, $object->id);
         $repo->set(self::DEFAULT_INDEX.".$object->id", $object->repo_id);
         $repo->set("all.$object->id", $object->repo_id);
+
+        if (isset($object->bash) && isset($object->id) && isset($object->bash->items)) {
+            if (is_array($object->bash->items)) {
+                foreach ($object->bash->items as $item) {
+                    if (isset($item->item)) {
+                        $repo->append("item.bashFromTerrain.$item->item", $object->id);
+                    }
+                }
+            }
+        }
     }
 
     public function onFinishedLoading(RepositoryWriterInterface $repo)
