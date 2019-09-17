@@ -179,7 +179,7 @@ class Item extends \Robbo\Presenter\Presenter
             }
 
             $weeks = 0;
-            $days = $this->object->spoils_in / 24;
+            $days = floor($this->object->spoils_in / 24);
             $hours = $this->object->spoils_in % 24;
             while ($days > 6) {
                 $weeks++;
@@ -193,7 +193,7 @@ class Item extends \Robbo\Presenter\Presenter
                 $result = $result."$days days ";
             }
             if ($hours > 0) {
-                $result = $result."$hours days ";
+                $result = $result."$hours hours ";
             }
 //            return ($this->object->spoils_in / 24)." days";
             return $result;
