@@ -143,14 +143,6 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         return $result;
     }
 
-    private function translate_skill($name)
-    {
-        if (isset($trans[$name])) {
-            return $trans[$name];
-        }
-        return gettext($name);
-    }
-
     private function newObject($object)
     {
         if (isset($object->name)) {
@@ -169,14 +161,14 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             $object->location = gettext($object->location);
         }
         if (isset($object->skill_used)) {
-            $object->skill_used = $this->translate_skill($object->skill_used);
+            $object->skill_used = gettext($object->skill_used);
         }
         if (isset($object->skills_required)) {
             foreach ($object->skills_required as $k => $skill) {
                 if (is_string($skill)) {
-                    $object->skills_required[$k] = $this->translate_skill($skill);
+                    $object->skills_required[$k] = gettext($skill);
                 } else if (is_array($skill)) {
-                    $object->skills_required[$k][0] = $this->translate_skill($skill[0]);
+                    $object->skills_required[$k][0] = gettext($skill[0]);
                 }
             }
         }
@@ -186,11 +178,12 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                     // gun_type_type 为 msgctxt
                     $text = gettext("gun_type_type\004{$target}");
                     if ($text != "gun_type_type\004{$target}") {
-                        $object->mod_targets[$k] = gettext("gun_type_type\004{$target}");
+                        $object->mod_targets[$k] = $text;
                     }
                 }
             }
         }
+        // 武器可用模组
         if (isset($object->valid_mod_locations)) {
             foreach ($object->valid_mod_locations as $k => $v) {
                 $object->valid_mod_locations[$k][0] = gettext($v[0]);

@@ -1,5 +1,5 @@
 @section('title')
-Skills - Cataclysm: Dark Days Ahead
+改装模组 - Cataclysm: Dark Days Ahead
 @endsection
 <div class="row">
   <div class="col-md-3">
