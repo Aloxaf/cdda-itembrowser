@@ -191,6 +191,11 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 }
             }
         }
+        if (isset($object->valid_mod_locations)) {
+            foreach ($object->valid_mod_locations as $k => $v) {
+                $object->valid_mod_locations[$k][0] = gettext($v[0]);
+            }
+        }
 
         // skip snippets and talk topics for now
         if ($object->type == "snippet" || $object->type == "talk_topic" || $object->type == "overmap_terrain" || $object->type == "scenario" || $object->type == "ammunition_type" ||
