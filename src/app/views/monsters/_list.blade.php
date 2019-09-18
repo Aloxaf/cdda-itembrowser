@@ -2,13 +2,13 @@
 <thead>
 <tr>
   <th></th>
-  <th>Name</th>
+  <th>名称</th>
   <th>HP</th>
-  <th>Dmg</th>
-  <th>MaxDmg</th>
-  <th>AvgDmg</th>
-  <th>Melee sk</th>
-  <th>Dodge sk</th>
+  <th>攻击</th>
+  <th>最大攻击</th>
+  <th>平均攻击</th>
+  <th>近战技能</th>
+  <th>闪避技能</th>
 </tr>
 </thead>
 @foreach ($data as $monster)

@@ -67,7 +67,7 @@
 <li><a href="{{ route("item.gunmods", array("rifle", "sights")) }}">改装模组</a></li>
 
 <h2>怪物分类</h2>
-<li>{{ link_to_route('monster.groups', '组') }}</li>
+<li>{{ link_to_route('monster.groups', 'GROUP') }}</li>
 <li>{{ link_to_route('monster.species', '种族') }}</li>
 
 <h2>建造</h2>

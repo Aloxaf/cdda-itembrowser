@@ -1,8 +1,8 @@
 @section('title')
-Monster: {{{$monsterbunch[0]->name}}} - Cataclysm: Dark Days Ahead
+怪物: {{{$monsterbunch[0]->name}}} - Cataclysm: Dark Days Ahead
 @endsection
 @section('description')
-Monster: {{{$monsterbunch[0]->name}}}
+怪物: {{{$monsterbunch[0]->name}}}
 @endsection
 
 @foreach($monsterbunch as $monster)
