@@ -8,7 +8,7 @@
 {{{
 array(
   "archery" => "弓",
-  "launcher" => "发射器",
+  "launcher" => "重武器",
   "melee" => "火器",
   "pistol" => "手枪",
   "rifle" => "步枪",

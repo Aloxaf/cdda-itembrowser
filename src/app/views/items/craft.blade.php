@@ -21,7 +21,7 @@
 <div class="col-md-6">
 @foreach ($itembunch[0]->recipes as $recipe)
   {{ $recipe->labels }}
-  主要技能: {{{ $recipe->skill_used }}} {{{ $recipe->difficulty }}} 级<br>
+  主要技能: {{{ $recipe->skill_used }}}({{{ $recipe->difficulty }}})<br>
   其他技能: {{ $recipe->skillsRequired }} <br>
   完成耗时: {{{ $recipe->time }}}<br>
   @if ($recipe->hasTools || $recipe->hasQualities)

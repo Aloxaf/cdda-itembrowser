@@ -152,6 +152,32 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         return gettext($string);
     }
 
+    private function translate_skill($name)
+    {
+        if (gettext($name) != $name) {
+            return gettext($name);
+        } else {
+            $trans = array(
+                "firstaid" => "急救",
+                "gun" => "枪法",
+                "launcher" => "重武器",
+                "tailor" => "裁缝",
+                "traps" => "陷阱",
+                "pistol" => "手枪",
+                "rifle" => "步枪",
+                "shotgun" => "霰弹枪",
+                "stabbing" => "刺击武器",
+                "bashing" => "钝击武器",
+                "computer" => "计算机",
+            );
+            if (!isset($trans[$name])) {
+                // debug_print_backtrace(1, 2);
+                return $name;
+            }
+            return $trans[$name];
+        }
+    }
+
     private function newObject($object)
     {
         if (isset($object->name)) {
@@ -170,14 +196,14 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             $object->location = $this->trans($object->location);
         }
         if (isset($object->skill_used)) {
-            $object->skill_used = $this->trans($object->skill_used);
+            $object->skill_used = $this->translate_skill($object->skill_used);
         }
         if (isset($object->skills_required)) {
             foreach ($object->skills_required as $k => $skill) {
                 if (is_string($skill)) {
-                    $object->skills_required[$k] = $this->trans($skill);
+                    $object->skills_required[$k] = $this->translate_skill($skill);
                 } else if (is_array($skill)) {
-                    $object->skills_required[$k][0] = $this->trans($skill[0]);
+                    $object->skills_required[$k][0] = $this->translate_skill($skill[0]);
                 }
             }
         }
