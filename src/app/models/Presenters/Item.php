@@ -213,10 +213,22 @@ class Item extends \Robbo\Presenter\Presenter
 
     public function presentValidModLocations()
     {
+        $trans = array(
+            "archery" => "弓",
+            "rifle" => "步枪",
+            "smg" => "冲锋枪",
+            "shotgun" => "霰弹枪",
+            "pistol" => "手枪",
+        );
         $ret = array();
         $parts = $this->object->valid_mod_locations;
         foreach ($parts as $part) {
-            $ret[] = "$part[1] ".link_to_route("item.gunmods", $part[0], array($this->object->skill, $part[0]));
+            if (isset($trans[$this->object->skill])) {
+                $skill = $trans[$this->object->skill];
+            } else {
+                $skill = $this->object->skill;
+            }
+            $ret[] = "$part[1] ".link_to_route("item.gunmods", $part[0], array($skill, $part[0]));
         }
 
         return implode("; ", $ret);

@@ -143,32 +143,41 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         return $result;
     }
 
+    private function trans($string)
+    {
+        if (!is_string($string)) {
+            echo "NOT STRING: ".var_dump($string)."\n";
+            debug_print_backtrace(1, 2);
+        }
+        return gettext($string);
+    }
+
     private function newObject($object)
     {
         if (isset($object->name)) {
             if (is_array($object->name)) {
                 if (is_string($object->name[0])) {
-                    $object->name[0] = gettext($object->name[0]);
+                    $object->name[0] = $this->trans($object->name[0]);
                 }
             } else if (is_string($object->name)) {
-                $object->name = gettext($object->name);
+                $object->name = $this->trans($object->name);
             }
         }
-        if (isset($object->description)) {
-            $object->description = gettext($object->description);
+        if (isset($object->description) && is_string($object->description)) {
+            $object->description = $this->trans($object->description);
         }
         if (isset($object->location)) {
-            $object->location = gettext($object->location);
+            $object->location = $this->trans($object->location);
         }
         if (isset($object->skill_used)) {
-            $object->skill_used = gettext($object->skill_used);
+            $object->skill_used = $this->trans($object->skill_used);
         }
         if (isset($object->skills_required)) {
             foreach ($object->skills_required as $k => $skill) {
                 if (is_string($skill)) {
-                    $object->skills_required[$k] = gettext($skill);
+                    $object->skills_required[$k] = $this->trans($skill);
                 } else if (is_array($skill)) {
-                    $object->skills_required[$k][0] = gettext($skill[0]);
+                    $object->skills_required[$k][0] = $this->trans($skill[0]);
                 }
             }
         }
@@ -176,7 +185,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             if (isset($object->mod_targets)) {
                 foreach ($object->mod_targets as $k => $target) {
                     // gun_type_type 为 msgctxt
-                    $text = gettext("gun_type_type\004{$target}");
+                    $text = $this->trans("gun_type_type\004{$target}");
                     if ($text != "gun_type_type\004{$target}") {
                         $object->mod_targets[$k] = $text;
                     }
@@ -186,7 +195,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         // 武器可用模组
         if (isset($object->valid_mod_locations)) {
             foreach ($object->valid_mod_locations as $k => $v) {
-                $object->valid_mod_locations[$k][0] = gettext($v[0]);
+                $object->valid_mod_locations[$k][0] = $this->trans($v[0]);
             }
         }
 
