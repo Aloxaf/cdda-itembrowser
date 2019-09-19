@@ -68,18 +68,14 @@
 
     @if ($item->count("deconstructFrom"))
     可以通过拆解以下家具获得:
-    @foreach($item->deconstructFrom as $recipe)
-    {{ $recipe->name }},
-    @endforeach
+    {{{ implode(", ", $item->deconstructFrom) }}}
     <br>
     @endif
 
 
     @if ($item->count("bashFromTerrain"))
     可以通过破坏以下特殊地形获得:
-    @foreach($item->bashFromTerrain as $recipe)
-    {{ $recipe->name }},
-    @endforeach
+    {{{ implode(", ", $item->bashFromTerrain) }}}
     <br>
     @endif
     --
