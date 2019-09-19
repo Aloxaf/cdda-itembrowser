@@ -7,7 +7,7 @@
 
 @foreach($monsterbunch as $monster)
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-8">
 <h4>{{ $monster->symbol }} {{$monster->niceName}} {{$monster->modinfo}}</h4>
 <p>{{$monster->description}}</p>
 怪物 ID: {{{$monster->id}}}
@@ -83,6 +83,8 @@
 <tr>
   <td>难度：</td>
   <td>{{$monster->difficulty}}</td>
+  <td>视力：</td>
+  <td>{{"{$monster->vision_day} (日) / {$monster->vision_night} (夜)"}}</td>
 </tr>
 <tr>
   <td valign="top">Flags:</td>
