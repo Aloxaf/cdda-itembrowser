@@ -2,17 +2,14 @@
 function colorToCSS($color)
 {
     $assoc = array(
-    "" => "black",
-    "ltgray" => "LightGray",
-    "ltgreen" => "LightGreen",
-    "ltblue" => "DodgerBlue",
-    "dkgray" => "DarkGray",
-    "ltcyan" => "Cyan",
-    "cyan" => "DarkCyan",
-    "ltred" => "LightCoral",
-    "magenta" => "DarkMagenta",
-    "pink" => "HotPink",
-  );
+        "" => "black",
+        "lightblue" => "DodgerBlue",
+        "lightcyan" => "Cyan",
+        "cyan" => "DarkCyan",
+        "lightred" => "LightCoral",
+        "magenta" => "DarkMagenta",
+        "pink" => "HotPink",
+    );
     if (isset($assoc[$color])) {
         return $assoc[$color];
     }
@@ -22,20 +19,20 @@ function colorToCSS($color)
 
 function colorPairToCSS($color)
 {
-    $activecolor = "";
     // handle seasonal color array by taking only the spring color for now
     if (is_array($color)) {
         $activecolor = $color[0];
     } else {
-        return array(str_replace("_", "", $color), "black");
-    }
-    if (count($activecolor) > 1 && $activecolor[1] == "_") {
-        $activecolor = substr($activecolor, 2);
+        $activecolor = str_replace(array("light_", "dark_", "i_"), array("light", "dark", ""), $color);
     }
 
-    $activecolor = explode("_", "{$activecolor}_");
-    $foreground = $activecolor[0];
-    $background = $activecolor[1];
+    if (strpos($activecolor, '_') === false) {
+        return array(colorToCSS($activecolor), "black");
+    }
+
+    $colors = explode("_", "${activecolor}_");
+    $foreground = $colors[0];
+    $background = $colors[1];
 
     return array(
         colorToCSS($foreground),
