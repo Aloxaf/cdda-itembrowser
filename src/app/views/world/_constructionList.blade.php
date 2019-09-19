@@ -16,7 +16,7 @@
     <td>{{$d->pre_terrain->name}}</td>
 @elseif ($d->pre_flags)
     <td></td>
-    <td>is:{{$d->pre_flags}}</td>
+    <td>is:{{is_array($d->pre_flags) ? implode(", ", $d->pre_flags) : $d->pre_flags}}</td>
 @else
     <td></td>
     <td></td>
