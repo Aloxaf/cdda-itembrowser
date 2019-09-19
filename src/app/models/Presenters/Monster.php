@@ -135,4 +135,25 @@ class Monster extends \Robbo\Presenter\Presenter
             return $this->object->size;
         }
     }
+
+
+    public function presentDifficulty()
+    {
+        $diff = $this->object->difficulty;
+        if ($diff < 3) {
+            $strvalue = 'Minimal threat.';
+        } else if ($diff < 10) {
+            $strvalue = 'Mildly dangerous.';
+        } else if ($diff < 20) {
+            $strvalue = 'Dangerous.';
+        } else if ($diff < 30) {
+            $strvalue = 'Very dangerous.';
+        } else if ($diff < 50) {
+            $strvalue = 'Extremely dangerous.';
+        } else {
+            $strvalue = 'Fatally dangerous!';
+        }
+        $diff = floor($diff);
+        return "$diff ($strvalue)";
+    }
 }
