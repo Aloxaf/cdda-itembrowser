@@ -82,7 +82,7 @@
 </tr>
 <tr>
   <td>难度：</td>
-  <td>{{{$monster->diff}}}</td>
+  <td>{{$monster->difficulty}}</td>
 </tr>
 <tr>
   <td valign="top">Flags:</td>
