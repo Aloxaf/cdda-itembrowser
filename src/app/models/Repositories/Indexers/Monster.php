@@ -35,11 +35,12 @@ class Monster implements IndexerInterface
                 "aggression" => 0,
                 "morale" => 0,
                 "dodge" => 0,
-                "vision_day" => 40,
+                "diff" => 0,
                 "armor_cut" => 0,
                 "armor_bash" => 0,
                 "emit_fields" => array(),
-                "vision_night" => 1, // TODO: This is not correct!
+                "vision_day" => 40,
+                "vision_night" => 1,
                 "special_attacks" => array(),
                 "speed" => 100,
                 "attack_cost" => 100,
@@ -48,11 +49,9 @@ class Monster implements IndexerInterface
                 ValueUtil::SetDefault($object, $k, $v);
             }
 
-            $diff_base = isset($object->diff) ? $object->diff : 0;
-            $diff = ($object->melee_skill + 1) * $object->melee_dice *
-                ($object->melee_cut + $object->melee_dice_sides) * 0.04 +
+            $diff = ($object->melee_skill + 1) * $object->melee_dice * ($object->melee_cut + $object->melee_dice_sides) * 0.04 +
                 ($object->dodge + 1) * (3 + $object->armor_bash + $object->armor_cut) * 0.04 +
-                ($diff_base + count($object->special_attacks) + 8 * count($object->emit_fields));
+                ($object->diff + count($object->special_attacks) + 8 * count($object->emit_fields));
             $diff *= ($object->hp + $object->speed - $object->attack_cost + ($object->morale + $object->aggression) * 0.1) * 0.01 +
                 ($object->vision_day + 2 * $object->vision_night) * 0.01;
             $object->difficulty = $diff;
