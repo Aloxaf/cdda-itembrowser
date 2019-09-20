@@ -27,12 +27,34 @@ class Monster implements IndexerInterface
                 $repo->addUnique("monster.species", $species);
             }
 
-            ValueUtil::SetDefault($object, "melee_skill", 0);
-            ValueUtil::SetDefault($object, "melee_dice_sides", 0);
-            ValueUtil::SetDefault($object, "melee_cut", 0);
-            ValueUtil::SetDefault($object, "melee_dice", 0);
-            ValueUtil::SetDefault($object, "aggression", 0);
-            ValueUtil::SetDefault($object, "morale", 0);
+            $default_values = array(
+                "melee_skill" => 0,
+                "melee_dice_sides" => 0,
+                "melee_cut" => 0,
+                "melee_dice" => 0,
+                "aggression" => 0,
+                "morale" => 0,
+                "dodge" => 0,
+                "diff" => 0,
+                "armor_cut" => 0,
+                "armor_bash" => 0,
+                "emit_fields" => array(),
+                "vision_day" => 40,
+                "vision_night" => 1,
+                "special_attacks" => array(),
+                "speed" => 100,
+                "attack_cost" => 100,
+            );
+            foreach ($default_values as $k => $v) {
+                ValueUtil::SetDefault($object, $k, $v);
+            }
+
+            $diff = ($object->melee_skill + 1) * $object->melee_dice * ($object->melee_cut + $object->melee_dice_sides) * 0.04 +
+                ($object->dodge + 1) * (3 + $object->armor_bash + $object->armor_cut) * 0.04 +
+                ($object->diff + count($object->special_attacks) + 8 * count($object->emit_fields));
+            $diff *= ($object->hp + $object->speed - $object->attack_cost + ($object->morale + $object->aggression) * 0.1) * 0.01 +
+                ($object->vision_day + 2 * $object->vision_night) * 0.01;
+            $object->difficulty = $diff;
 
             return;
         }
