@@ -12,7 +12,7 @@
 */
 
 App::before(function ($request) {
-    //
+    Request::setTrustedProxies( [ $request->getClientIp() ] );
 });
 
 App::after(function ($request, $response) {
