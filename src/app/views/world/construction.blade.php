@@ -13,7 +13,7 @@ Time: {{$data->time}} minutes<br>
 Required terrain: {{$data->pre_terrain->symbol}} {{$data->pre_terrain->name}}<br>
 @endif
 @if ($data->pre_flags)
-Required flags: {{$data->pre_flags}}<br>
+Required flags: {{is_array($data->pre_flags) ? implode(", ", $data->pre_flags) : $data->pre_flags}}<br>
 @endif
 @if ($data->has_post_terrain)
 Result: {{$data->post_terrain->symbol}} {{$data->post_terrain->name}}<br>
