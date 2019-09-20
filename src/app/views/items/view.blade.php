@@ -11,7 +11,7 @@
 @endif
 @foreach($itembunch as $item)
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-8">
     <h1>{{$item->symbol}} {{$item->name}} {{$item->modLabel}}</h1>
     {{$item->featureLabels}}
     @if ($item->isVehiclePart)

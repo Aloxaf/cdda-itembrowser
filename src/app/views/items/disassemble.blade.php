@@ -18,7 +18,7 @@
 @endif
 </h1>
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-8">
 @foreach ($itembunch[0]->disassembly as $recipe)
   @if ($recipe->hasTools || $recipe->hasQualities)
   工具需求：<br>

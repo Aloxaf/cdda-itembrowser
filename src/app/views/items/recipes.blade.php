@@ -76,7 +76,7 @@ array("id"=>$recipe->result->id)) }}<br>
   {{$recipe->components}}<br>
   @endif
 
-  Byproducts:<br>
+  副产品:<br>
   @if ($recipe->hasByproducts)
   {{$recipe->byproducts}}<br>
   @else

@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-8">
 <h1>CDDA 物品浏览器</h1>
 
 <p>

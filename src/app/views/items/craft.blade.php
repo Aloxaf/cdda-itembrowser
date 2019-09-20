@@ -18,7 +18,7 @@
 @endif
 </h1>
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-8">
 @foreach ($itembunch[0]->recipes as $recipe)
   {{ $recipe->labels }}
   主要技能: {{{ $recipe->skill_used }}}({{{ $recipe->difficulty }}})<br>
