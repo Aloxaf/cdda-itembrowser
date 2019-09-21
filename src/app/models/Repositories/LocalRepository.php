@@ -509,6 +509,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                         }
                     }
                 }
+                $this->set("modname.$isolatedname", gettext($modinfo[0]->name));
             } else {
                 if (!isset($modinfo->obsolete) || $modinfo->obsolete == false) {
                     $paths[] = $mod;
@@ -525,6 +526,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                         }
                     }
                 }
+                $this->set("modname.$isolatedname", gettext($modinfo->name));
             }
         }
 

@@ -144,7 +144,7 @@ class Item extends \Robbo\Presenter\Presenter
     {
         $badges = array();
         if ($this->object->modspace != "") {
-            $badges[] = '<span class="label label-warning">'.$this->object->modfoldername.'</span>';
+            $badges[] = '<span class="label label-warning">'.$this->object->modname.'</span>';
         }
 
         return implode(" ", $badges);

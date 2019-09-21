@@ -587,4 +587,10 @@ class Item implements Robbo\Presenter\PresentableInterface
 
         return $this->data->ranged_damage;
     }
+
+    public function getModName()
+    {
+        $ident = $this->data->modfoldername;
+        return $this->repo->raw("modname.$ident");
+    }
 }

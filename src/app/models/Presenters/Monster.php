@@ -67,7 +67,7 @@ class Monster extends \Robbo\Presenter\Presenter
     public function presentModinfo()
     {
         if ($this->object->modspace != "_dda_" && $this->object->modspace != "") {
-            return '<span class="label label-warning">'.$this->object->modfoldername.'</span>';
+            return '<span class="label label-warning">'.$this->object->modname.'</span>';
         }
 
         return "";

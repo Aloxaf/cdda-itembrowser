@@ -20,7 +20,7 @@
 <div class="row">
 <div class="col-md-8">
 @foreach ($itembunch[0]->recipes as $recipe)
-  {{ $recipe->labels }}
+  {{ $recipe->labels }}<br>
   主要技能: {{{ $recipe->skill_used }}}({{{ $recipe->difficulty }}})<br>
   其他技能: {{ $recipe->skillsRequired }} <br>
   完成耗时: {{{ $recipe->time }}}<br>

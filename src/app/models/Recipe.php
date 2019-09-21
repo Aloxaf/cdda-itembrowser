@@ -124,4 +124,10 @@ class Recipe implements Robbo\Presenter\PresentableInterface
     {
         return $this->data->repo_id;
     }
+
+    public function getModName()
+    {
+        $ident = $this->data->modfoldername;
+        return $this->repo->raw("modname.$ident");
+    }
 }

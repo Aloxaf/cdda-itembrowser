@@ -83,24 +83,24 @@ class Recipe extends \Robbo\Presenter\Presenter
         $labelArray = [];
         $neverlearn = $this->object->never_learn;
         if ($neverlearn) {
-            $labelArray[] = '<span class="label label-warning">无法被记住</span><br>';
+            $labelArray[] = '<span class="label label-warning">无法被记住</span>';
         }
         if ($this->object->autolearn == true) {
-            $labelArray[] = '<span class="label label-success">自动学会</span><br>';
+            $labelArray[] = '<span class="label label-success">自动学会</span>';
         }
 
         $suffix = $this->object->id_suffix;
         if (stripos($suffix, "npc") !== false) {
-            $labelArray[] = '<span class="label label-warning">NPC 配方</span><br>';
+            $labelArray[] = '<span class="label label-warning">NPC 配方</span>';
         } else {
-            $labelArray[] = '<span class="label label-success">玩家配方</span><br>';
+            $labelArray[] = '<span class="label label-success">玩家配方</span>';
         }
         if ($this->object->modspace != "" && $this->object->modspace != "_dda_") {
-            $labelArray[] = '<span class="label label-warning">'.$this->object->modfoldername.'</span>';
+            $labelArray[] = '<span class="label label-warning">'.$this->object->modname.'</span>';
         }
         $obsolete = $this->object->obsolete;
         if ($obsolete === true) {
-            $labelArray[] = '<span class="label label-danger">过时</span><br>';
+            $labelArray[] = '<span class="label label-danger">过时</span>';
         }
         if ($this->object->override == true) {
             $labelArray[] = '<span class="label label-warning">基础配方重载</span>';
@@ -122,7 +122,7 @@ class Recipe extends \Robbo\Presenter\Presenter
     public function presentModLabel()
     {
         if ($this->object->modspace != "" && $this->object->modspace != "_dda_") {
-            return '<span class="label label-warning">'.$this->object->modfoldername.'</span>';
+            return '<span class="label label-warning">'.$this->object->modname.'</span>';
         }
 
         return "";

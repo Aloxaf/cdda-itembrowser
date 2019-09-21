@@ -5,6 +5,12 @@ class Monster implements Robbo\Presenter\PresentableInterface
     use MagicModel;
 
     protected $data;
+    protected $repo;
+
+    public function __construct(Repositories\RepositoryInterface $repo)
+    {
+        $this->repo = $repo;
+    }
 
     public function load($data)
     {
@@ -64,5 +70,11 @@ class Monster implements Robbo\Presenter\PresentableInterface
         }
 
         return stristr($this->data->name, $search);
+    }
+
+    public function getModName()
+    {
+        $ident = $this->data->modfoldername;
+        return $this->repo->raw("modname.$ident");
     }
 }
