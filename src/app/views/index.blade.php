@@ -40,6 +40,16 @@
 顶栏有三个链接，分别指向英文的稳定版和实验版及中文实验版。
 稳定版的内容来源于最新的稳定版数据，而实验版则是 git 版的数据。</p>
 
+<h2>变异路线</h2>
+<p>
+<a href="https://cdda-trunk.aloxaf.cn/mutations.svg" target='_blank'>变异路线图(剧透警告)</a>
+<a href="https://cdda-trunk.aloxaf.cn/mutation_threshold.svg" target='_blank'>变异阈值(剧透警告)</a>
+<br>
+注1：前置1/前置2 - 两组前置突变，满足任意一组才能向下一个方向突变
+<br>
+注2：阈值 - 使这个突变成为可能需要的阈值
+</p>
+
 <hr>
 <p>
 原版物品浏览器项目地址: <a href="https://github.com/Sheco/cdda-itembrowser">Github</a>.
