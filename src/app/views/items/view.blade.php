@@ -81,6 +81,11 @@
     --
     <br>
 
+    @if ($item->isBionicItem)
+    安装难度：{{ $item->difficulty }}
+    <br>
+    @endif
+
     @if ($item->isAmmo)
     伤害: {{{ $item->damage }}}<br>
     伤害加成: {{{ $item->prop_damage }}}<br>

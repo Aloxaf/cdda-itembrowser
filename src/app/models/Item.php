@@ -208,6 +208,16 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $this->data->type == "GUN";
     }
 
+    public function getIsBionicItem()
+    {
+        return $this->data->type == "BIONIC_ITEM";
+    }
+
+    public function getDifficulty()
+    {
+        return isset($this->data->difficulty) ? $this->data->difficulty : 0;
+    }
+
     public function protection($type)
     {
         $mat1 = $this->material1;
