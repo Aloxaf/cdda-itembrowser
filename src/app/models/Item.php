@@ -85,7 +85,12 @@ class Item implements Robbo\Presenter\PresentableInterface
             return;
         }
 
-        return ($this->type == "bionic" ? "CBM: " : "").$this->data->name; //." (".$this->data->id.")";
+        $name = $this->data->name;
+        if (is_array($this->data->name)) {
+            $name = $this->data->name[0];
+        }
+
+        return ($this->type == "bionic" ? "CBM: " : "").$name; //." (".$this->data->id.")";
     }
 
     public function getRecipes()
