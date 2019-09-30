@@ -603,4 +603,10 @@ class Item implements Robbo\Presenter\PresentableInterface
         $ident = $this->data->modfoldername;
         return $this->repo->raw("modname.$ident");
     }
+
+    public function getUsedby()
+    {
+        $guns = $this->repo->allModels("Item", "ammo.{$this->data->id}.usedby");
+        return $guns;
+    }
 }

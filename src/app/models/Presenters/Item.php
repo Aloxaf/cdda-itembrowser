@@ -303,4 +303,13 @@ class Item extends \Robbo\Presenter\Presenter
 
         return link_to_route("item.view", $sourcepart->name, array("id" => $sourcepart->id));
     }
+
+    public function presentUsedBy()
+    {
+        $ret = array();
+        foreach ($this->object->usedby as $usedby) {
+            $ret[] = link_to_route("item.view", $usedby->name, array("id" => $usedby->id));
+        }
+        return implode(", ", $ret);
+    }
 }

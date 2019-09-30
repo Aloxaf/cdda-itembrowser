@@ -94,6 +94,7 @@
     散步: {{{ $item->dispersion }}}<br>
     后坐力: {{{ $item->recoil }}}<br>
     数量: {{{ $item->count }}}<br>
+    可用于: {{ $item->usedby }}
     @endif
     @if ($item->isTool)
 

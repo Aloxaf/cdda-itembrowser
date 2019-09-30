@@ -389,6 +389,10 @@ class Item implements IndexerInterface
             }
             $repo->append("gun.$object->skill", $object->id);
             $repo->addUnique("gunSkills", $object->skill);
+            if (isset($object->ammo)) {
+                $ammo = $object->ammo;
+                $repo->append("ammo.$ammo.usedby", $object->id);
+            }
         }
 
         if ($object->type == "GUNMOD") {
