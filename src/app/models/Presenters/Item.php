@@ -308,7 +308,7 @@ class Item extends \Robbo\Presenter\Presenter
     {
         $ret = array();
         foreach ($this->object->usedby as $usedby) {
-            $ret[] = link_to_route("item.view", $usedby->name, array("id" => $usedby->id));
+            $ret[] = link_to_route("item.view", $usedby->fullname, array("id" => $usedby->id));
         }
         return implode(", ", $ret);
     }

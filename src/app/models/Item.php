@@ -394,6 +394,7 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $this->symbol == $text ||
             stristr($this->id, $text) ||
             stristr($this->name, $text) ||
+            stristr($this->fullname, $text) ||
             array_filter(
                 $this->data->qualities,
                 function ($q) use ($text) {
@@ -617,5 +618,15 @@ class Item implements Robbo\Presenter\PresentableInterface
     {
         $guns = $this->repo->allModels("Item", "ammo.{$this->data->ammo_type}.usedby");
         return $guns;
+    }
+
+    public function getFullName()
+    {
+        $name = $this->repo->raw("item_multi.name.$this->id");
+        if ($name) {
+            return implode(" / ", $name);
+        } else {
+            return $this->name;
+        }
     }
 }

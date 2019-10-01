@@ -289,6 +289,21 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             }
             if (isset($object->id) && $object->modspace != "_dda_") {
                 $object->copyfrom_id = $object->modspace.$object->id;
+
+                // 重复 ID 的话, 每次都将先前的名称加到现在名称的前面
+                if (isset($object->name) && is_string($object->name)) {
+                    $this->appendUnique("item_multi.name.$object->id", $object->name);
+                    /*
+                    $name = $this->raw("item_multi.name.$object->id");
+                    if ($name) {
+                        $name = $name." / ".$object->name;
+                        $this->set("item_multi.name.$object->id", $name);
+                    } else {
+                        $this->set("item_multi.name.$object->id", $object->name);
+                    }
+                    */
+                }
+
                 $this->append("item_multi.$object->id", $object->repo_id);
                 // \Log::info("item_multi.$object->id\n", array($this->raw("item_multi.$object->id")));
             }

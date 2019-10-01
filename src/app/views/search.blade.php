@@ -7,8 +7,8 @@
 @foreach ($items as $item)
 <div class="row">
 
-<div class="col-md-6">
-  {{$item->symbol}} <a href="{{ route("item.view", array("id"=>$item->id)) }}">{{$item->name}}</a>
+<div class="col-md-8">
+  {{$item->symbol}} <a href="{{ route("item.view", array("id"=>$item->id)) }}">{{$item->fullname}}</a>
   {{ $item->featureLabels }}
 </div>
 

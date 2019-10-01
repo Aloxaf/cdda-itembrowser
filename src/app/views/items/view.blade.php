@@ -119,7 +119,7 @@
       </thead>
     @foreach($item->ammoTypes as $ammo)
     <tr>
-      <td><a href="{{ route("item.view", $ammo->id) }}">{{$ammo->name}}</a></td>
+      <td><a href="{{ route("item.view", $ammo->id) }}">{{$ammo->fullname}}</a></td>
       <td class="text-right">{{ $ammo->damage }}</td>
       <td class="text-right">{{ $ammo->pierce }}</td>
       <td class="text-right">{{ round($item->noise($ammo)) }}</td>
