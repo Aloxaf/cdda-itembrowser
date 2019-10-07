@@ -392,11 +392,11 @@ class Item implements IndexerInterface
             if (isset($object->ammo)) {
                 if (is_array($object->ammo)) {
                     foreach ($object->ammo as $ammo) {
-                        $repo->append("ammo.$ammo.usedby", $object->id);
+                        $repo->addUnique("ammo.$ammo.usedby", $object->id);
                     }
                 } else {
                     $ammo = $object->ammo;
-                    $repo->append("ammo.$ammo.usedby", $object->id);
+                    $repo->addUnique("ammo.$ammo.usedby", $object->id);
                 }
             }
         }

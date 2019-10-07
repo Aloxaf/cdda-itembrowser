@@ -97,7 +97,7 @@ abstract class Repository implements RepositoryInterface
             $index = $class::DEFAULT_INDEX;
         }
 
-        $data = $this->raw($index);
+        $data = array_unique($this->raw($index));
 
         array_walk($data, 
             function (&$value) use ($model) {
