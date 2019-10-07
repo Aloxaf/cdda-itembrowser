@@ -187,6 +187,8 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 }
             } else if (is_string($object->name)) {
                 $object->name = $this->trans($object->name);
+            } else if (is_object($object->name) && isset($object->name->ctxt)) {
+                $object->name = trans("{$object->name->ctxt}\004{$object->name->str}");
             }
         }
         if (isset($object->description) && is_string($object->description)) {
