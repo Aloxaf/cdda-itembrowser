@@ -8,6 +8,11 @@ STORAGE_PATH="src/storage"
 
 cd "$BASE_PATH"
 
+if [ ! -e src/.env ]
+then
+    cp src/.env.example src/.env
+fi
+
 if [ -e Cataclysm-DDA-master ]
 then
     rm -r Cataclysm-DDA-master

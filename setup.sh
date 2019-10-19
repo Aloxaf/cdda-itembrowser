@@ -8,6 +8,11 @@ STORAGE_PATH="src/storage"
 
 cd "$BASE_PATH"
 
+if [ ! -e src/.env ]
+then
+    cp src/.env.example src/.env
+fi
+
 # download the cataclysm dda's source code
 if [ ! -e master.zip ]
 then
@@ -19,7 +24,12 @@ echo "Unzipping..."
 unzip -qo master.zip
 
 # download php dependencies
-php composer.phar -dsrc install
+if [ ! -e src/composer.lock ]
+then
+    php composer.phar -dsrc install
+    php artisan key:generate
+fi
+
 php src/artisan cataclysm:rebuild Cataclysm-DDA-master
 
 echo "--------------------------"
