@@ -4,11 +4,9 @@ set -e
 
 # get the absolute path to the data files
 BASE_PATH=$(cd $(dirname $0 ) && pwd )
-STORAGE_PATH="src/app/storage"
+STORAGE_PATH="src/storage"
 
 cd "$BASE_PATH"
-cp bluehost_composer.json src/composer.json
-cp bluehost_artisan src/artisan
 
 if [ -e Cataclysm-DDA-master ]
 then
@@ -34,10 +32,8 @@ datetime="$(date -u)"
 echo "#define VERSION \"Last updated ${datetime}\"" | tee version.h
 cd ../../
 # download php dependencies
-alias php='/usr/local/bin/ea-php56'
 
-#/usr/local/bin/ea-php56 -c ./php.ini composer.phar -d=src install
-/usr/local/bin/ea-php56 -c ./php.ini src/artisan cataclysm:rebuild Cataclysm-DDA-master
+php -c ./php.ini src/artisan cataclysm:rebuild Cataclysm-DDA-master
 
 echo "--------------------------"
 echo "You need to make sure the webserver can read/write to the storage path"

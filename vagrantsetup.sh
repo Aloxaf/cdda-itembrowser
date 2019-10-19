@@ -4,7 +4,7 @@ set -e
 
 # get the absolute path to the data files
 BASE_PATH=$(cd $(dirname $0 ) && pwd )
-STORAGE_PATH="src/app/storage"
+STORAGE_PATH="src/storage"
 
 cd "$BASE_PATH"
 

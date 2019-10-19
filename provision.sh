@@ -5,14 +5,14 @@
 
 BASE_PATH=/vagrant
 USER=vagrant
-STORAGE_PATH=/vagrant/src/app/storage
+STORAGE_PATH=/vagrant/src/storage
 
 # exit on error
 set -e
 
 # download packages
 apt-get update
-apt-get -y install php5 php5-mcrypt php-apc unzip php5-memcached memcached
+apt-get -y install php7.2 unzip
 
 # setup php
 php5enmod mcrypt
