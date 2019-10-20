@@ -603,6 +603,9 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function getRangedDamage()
     {
         $inner = array();
+        if (!isset($this->data->ranged_damage)) {
+            return 0;
+        }
         if (!is_numeric($this->data->ranged_damage)) {
             if (is_array($this->data->ranged_damage)) {
                 foreach ($this->data->ranged_damage as $indexnum => $damageunit) {
