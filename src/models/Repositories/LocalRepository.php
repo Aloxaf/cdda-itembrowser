@@ -140,7 +140,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
     {
         // skip snippets and talk topics for now
         if ($object->type == "snippet" || $object->type == "talk_topic" || $object->type == "overmap_terrain" || $object->type == "scenario" || $object->type == "ammunition_type" ||
-        $object->type == "start_location" || $object->type == "harvest") {
+        $object->type == "start_location" || $object->type == "harvest" || $object->type == "effect_type") {
             return;
         }
 
