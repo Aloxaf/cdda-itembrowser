@@ -98,14 +98,16 @@
         <th style="width: 4em" class="text-right">Noise</th>
       </tr>
       </thead>
-    @foreach($item->ammoTypes as $ammo)
-    <tr>
-      <td><a href="{{ route("item.view", $ammo->id) }}">{{$ammo->name}}</a></td>
-      <td class="text-right">{{ $ammo->damage }}</td>
-      <td class="text-right">{{ $ammo->pierce }}</td>
-      <td class="text-right">{{ round($item->noise($ammo)) }}</td>
-    </tr>
-    @endforeach
+    @if($item->hasAmmoTypes)
+      @foreach($item->ammoTypes as $ammo)
+      <tr>
+        <td><a href="{{ route("item.view", $ammo->id) }}">{{$ammo->name}}</a></td>
+        <td class="text-right">{{ $ammo->damage }}</td>
+        <td class="text-right">{{ $ammo->pierce }}</td>
+        <td class="text-right">{{ round($item->noise($ammo)) }}</td>
+      </tr>
+      @endforeach
+    @endif
     </table>
     Base Ranged Damage: {{{ $item->ranged_damage }}}<br>
     Range: {{{ $item->range }}}<br>

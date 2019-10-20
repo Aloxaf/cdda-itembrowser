@@ -326,6 +326,11 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $pairs[$this->id];
     }
 
+    public function getHasAmmoTypes()
+    {
+        return isset($this->data->ammo);
+    }
+
     public function getAmmoTypes()
     {
         $ammolist = $this->data->ammo;
