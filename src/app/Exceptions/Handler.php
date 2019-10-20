@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Request;
 
 class Handler extends ExceptionHandler
 {
@@ -34,6 +35,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        \Log::info("path: ".Request::path());
         parent::report($exception);
     }
 
