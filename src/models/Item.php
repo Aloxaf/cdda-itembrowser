@@ -491,7 +491,14 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getIsModdable()
     {
-        return count($this->valid_mod_locations) > 0;
+        if (isset($this->data->valid_mod_locations)) {
+            if (is_array($this->data->valid_mod_locations)) {
+                return count($this->data->valid_mod_locations) > 0;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function getIsBrewable()
