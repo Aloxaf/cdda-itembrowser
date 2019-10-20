@@ -20,7 +20,7 @@ Searching for {{$search}} - Cataclysm: Dark Days Ahead Item Browser
 <h3>Monster matches:</h3>
 <ul class="list-unstyled">
 @foreach($monsters as $monster)
-  <li>{!!$monster->symbol!!} <a href="{{ route('monster.view', array($monster->id)) }}">{{$monster->name}}</a>
+  <li>{!!$monster->symbol!!} <a href="{{ route('monster.view', array($monster->id)) }}">{{is_object($monster->name)?$monster->name->str:$monster->name}}</a>
 @endforeach
 </ul>
 @endif
