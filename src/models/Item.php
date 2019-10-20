@@ -248,10 +248,10 @@ class Item implements Robbo\Presenter\PresentableInterface
             return;
         }
         if ($this->isAmmo) {
-            return $this->data->weight * $this->data->count;
+            return floatval($this->data->weight) * $this->data->count;
         }
 
-        return $this->data->weight;
+        return floatval($this->data->weight);
     }
 
     public function getMovesPerAttack()
@@ -260,7 +260,7 @@ class Item implements Robbo\Presenter\PresentableInterface
             return;
         }
 
-        return floor(65 + 4 * $this->volume + $this->weight / 60);
+        return floor(65 + 4 * floatval($this->volume) + floatval($this->weight) / 60);
     }
 
     public function getToHit()

@@ -137,7 +137,7 @@ class Item extends \Robbo\Presenter\Presenter
             $badges[] = '<span class="label label-warning">overrides base item</span>';
         }
         if (is_string($this->object->abstract)) {
-            $badges[] = '<span class="label label-danger">abstract JSON</span>';
+            $badges[] = '<span class="label label-danger">JSON template/abstract</span>';
         }
 
         return implode(" ", $badges);
