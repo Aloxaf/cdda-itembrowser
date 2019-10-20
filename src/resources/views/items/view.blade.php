@@ -180,7 +180,7 @@
 
     @if ($item->isBrewable)
       <br>
-      {{$item->brewable}}
+      {!!$item->brewable!!}
       <br>
     @endif
 

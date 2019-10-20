@@ -502,12 +502,6 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function getBrewable()
     {
         $brewtime = $this->data->brewable->time;
-        $brewtimestring = "1 minute";
-        if ($brewtime >= 1000) {
-            $brewtimestring = number_format($brewtime / 600, 2)." hours";
-        } else {
-            $brewtimestring = ($brewtime / 10)." minutes";
-        }
 
         $brewresults = array();
         foreach ($this->data->brewable->results as $output) {
@@ -517,7 +511,7 @@ class Item implements Robbo\Presenter\PresentableInterface
 
         $brewproducts = implode(", ", $brewresults);
 
-        return "Fermenting this item for ".$brewtimestring." produces ".$brewproducts.".";
+        return "Fermenting this item for ".$brewtime." produces ".$brewproducts.".";
     }
 
     public function getIsGunMod()
