@@ -8,15 +8,18 @@ class Monster extends \Robbo\Presenter\Presenter
     {
         list($fg, $bg) = HelperCss::colorPairToCSS($this->object->color);
 
-        return sprintf("<span style=\"color: %s; background: %s\">%s</span>",
-            $fg, $bg,
-            $this->object->symbol);
+        return sprintf(
+            "<span style=\"color: %s; background: %s\">%s</span>",
+            $fg,
+            $bg,
+            $this->object->symbol
+        );
     }
 
     public function presentNiceName()
     {
         $name = $this->object->name;
-        if(is_object($this->object->name)){
+        if (is_object($this->object->name)) {
             $name = $this->object->name->str;
         }
         return ucfirst($name);
@@ -46,7 +49,11 @@ class Monster extends \Robbo\Presenter\Presenter
 
         array_walk($attacks, function (&$attack) {
             if (isset($attack->type)) {
-                $attack = "$attack->type: $attack->cooldown";
+                $attackstr = "$attack->type";
+                if (isset($attack->cooldown)) {
+                    $attackstr = $attackstr.": $attack->cooldown";
+                }
+                $attack = $attackstr;
             } elseif (isset($attack->id)) {
                 if (isset($attack->damage_max_instance)) {
                     $counter = 0;
@@ -112,30 +119,22 @@ class Monster extends \Robbo\Presenter\Presenter
 
     public function presentSize()
     {
-        if(stripos($this->object->volume, "ml"))
-        {
+        if (stripos($this->object->volume, "ml")) {
             $value = floatval($this->object->volume) * 1.0;
             $strvalue = "";
-            if($value <= 7500)
-            {
+            if ($value <= 7500) {
                 $strvalue = "Tiny";
-            }else if ($value <= 46250)
-            {
+            } elseif ($value <= 46250) {
                 $strvalue = "Small";
-            }else if ($value <= 77500)
-            {
+            } elseif ($value <= 77500) {
                 $strvalue = "Medium";
-            }else if ($value <= 483750)
-            {
+            } elseif ($value <= 483750) {
                 $strvalue = "Large";
-            }else
-            {
+            } else {
                 $strvalue = "Huge";
             }
             return $strvalue." (".$this->object->volume.")";
-        }
-        else
-        {
+        } else {
             return $this->object->size;
         }
     }
@@ -146,13 +145,13 @@ class Monster extends \Robbo\Presenter\Presenter
         $diff = $this->object->difficulty;
         if ($diff < 3) {
             $strvalue = 'Minimal threat.';
-        } else if ($diff < 10) {
+        } elseif ($diff < 10) {
             $strvalue = 'Mildly dangerous.';
-        } else if ($diff < 20) {
+        } elseif ($diff < 20) {
             $strvalue = 'Dangerous.';
-        } else if ($diff < 30) {
+        } elseif ($diff < 30) {
             $strvalue = 'Very dangerous.';
-        } else if ($diff < 50) {
+        } elseif ($diff < 50) {
             $strvalue = 'Extremely dangerous.';
         } else {
             $strvalue = 'Fatally dangerous!';
