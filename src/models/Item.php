@@ -353,8 +353,12 @@ class Item implements Robbo\Presenter\PresentableInterface
             }
 
             $result = $ammotype->damage;
+            $rdamage = $this->data->ranged_damage;
+            if (is_object($this->data->ranged_damage)) {
+                $rdamage = $this->data->ranged_damage->amount;
+            }
             if ($this->data->type == "GUN") {
-                $result = ($result + $this->data->ranged_damage) * $ammo_damage_multiplier;
+                $result = ($result + $rdamage) * $ammo_damage_multiplier;
             }
             $ammotype->damage = $result;
         }
@@ -583,6 +587,9 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function getEncumbrance()
     {
         $result = 0;
+        if (!isset($this->data->encumbrance)) {
+            return 0;
+        }
         if (is_numeric($this->data->encumbrance) && $this->data->encumbrance > 0) {
             $result = "";
             $foundvarsize = false;
@@ -612,6 +619,9 @@ class Item implements Robbo\Presenter\PresentableInterface
         $inner = array();
         if (!isset($this->data->ranged_damage)) {
             return 0;
+        }
+        if (isset($this->data->ranged_damage_type)) {
+            return $this->data->ranged_damage." (".$this->data->ranged_damage_type.")";
         }
         if (!is_numeric($this->data->ranged_damage)) {
             if (is_array($this->data->ranged_damage)) {

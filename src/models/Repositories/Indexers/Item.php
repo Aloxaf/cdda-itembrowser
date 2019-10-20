@@ -392,7 +392,12 @@ class Item implements IndexerInterface
 
         if ($object->type == "GUN") {
             if (is_object($object->ranged_damage)) {
-                $object->ranged_damage = "N/A";
+                if (isset($object->ranged_damage->amount)) {
+                    $object->ranged_damage_type = $object->ranged_damage->damage_type;
+                    $object->ranged_damage = $object->ranged_damage->amount;
+                } else {
+                    $object->ranged_damage = "N/A";
+                }
             }
             if (!isset($object->skill)) {
                 $object->skill = "none";
