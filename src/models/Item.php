@@ -342,6 +342,8 @@ class Item implements Robbo\Presenter\PresentableInterface
                     $ammotypes = array_merge($ammotypes, $nextammolist);
                 }
             }
+        } else {
+            $ammotypes = $this->repo->allModels("Item", "ammo.$ammolist");
         }
 
         foreach ($ammotypes as &$ammotype) {
@@ -352,7 +354,7 @@ class Item implements Robbo\Presenter\PresentableInterface
 
             $result = $ammotype->damage;
             if ($this->data->type == "GUN") {
-                $result = $result + ($this->data->ranged_damage * $ammo_damage_multiplier);
+                $result = ($result + $this->data->ranged_damage) * $ammo_damage_multiplier;
             }
             $ammotype->damage = $result;
         }
