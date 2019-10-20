@@ -356,9 +356,12 @@ class Item implements Robbo\Presenter\PresentableInterface
             if (is_object($result)) {
                 $result = $result->amount;
             }
-            $rdamage = $this->data->ranged_damage;
-            if (is_object($this->data->ranged_damage)) {
-                $rdamage = $this->data->ranged_damage->amount;
+            $rdamage=0;
+            if (isset($this->data->ranged_damage)) {
+                $rdamage = $this->data->ranged_damage;
+            }
+            if (is_object($rdamage)) {
+                $rdamage = $rdamage->amount;
             }
             if ($this->data->type == "GUN") {
                 $result = ($result + $rdamage) * $ammo_damage_multiplier;
