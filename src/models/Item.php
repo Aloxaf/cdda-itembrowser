@@ -353,6 +353,9 @@ class Item implements Robbo\Presenter\PresentableInterface
             }
 
             $result = $ammotype->damage;
+            if (is_object($result)) {
+                $result = $result->amount;
+            }
             $rdamage = $this->data->ranged_damage;
             if (is_object($this->data->ranged_damage)) {
                 $rdamage = $this->data->ranged_damage->amount;
@@ -463,6 +466,9 @@ class Item implements Robbo\Presenter\PresentableInterface
         }
 
         $ret = $ammo->damage;
+        if (is_object($ret)) {
+            $ret = $ret->amount;
+        }
         $ret *= 0.8;
         if ($ret > 5) {
             $ret += 20;
