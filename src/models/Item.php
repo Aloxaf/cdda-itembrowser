@@ -328,7 +328,17 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getAmmoTypes()
     {
-        $ammotypes = $this->repo->allModels("Item", "ammo.$this->ammo");
+        $ammolist = $this->data->ammo;
+        $ammotypes = array();
+        if (is_array($ammolist)) {
+            foreach ($ammolist as $ammoitem) {
+                $nextammolist = $this->repo->allModels("Item", "ammo.$ammoitem");
+                if (is_array($nextammolist)) {
+                    $ammotypes = array_merge($ammotypes, $nextammolist);
+                }
+            }
+        }
+
         foreach ($ammotypes as &$ammotype) {
             $ammo_damage_multiplier = 1.0;
             if ($this->data->type == "GUN" && $ammotype->prop_damage > 0) {
