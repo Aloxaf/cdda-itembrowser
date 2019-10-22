@@ -25,9 +25,11 @@ class MonsterGroup implements Robbo\Presenter\PresentableInterface
     public function getUniqueMonsters()
     {
         $monsters = array();
-        foreach ($this->monsters as $monster) {
-            $monster = $monster->monster;
-            $monsters[$monster] = true;
+        if (isset($this->data->monsters) && is_array($this->data->monsters) && count($this->data->monsters)>0) {
+            foreach ($this->data->monsters as $monster) {
+                $monster = $monster->monster;
+                $monsters[$monster] = true;
+            }
         }
         $uniqueMonsters = array_keys($monsters);
 
