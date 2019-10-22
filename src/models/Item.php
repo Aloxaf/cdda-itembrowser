@@ -648,4 +648,15 @@ class Item implements Robbo\Presenter\PresentableInterface
 
         return $this->data->ranged_damage;
     }
+
+    public function getDescription()
+    {
+        if (!isset($this->data->description)) {
+            return "";
+        }
+        if (is_object($this->data->description)) {
+            return $this->data->description->str;
+        }
+        return $this->data->description;
+    }
 }
