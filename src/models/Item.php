@@ -455,7 +455,12 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getSlug()
     {
-        return str_replace(" ", "_", $this->data->name);
+        $name = $this->data->name;
+        if (is_object($this->data->name)) {
+            $name = $this->data->name->str;
+        }
+
+        return str_replace(" ", "_", $name);
     }
 
     public function noise($ammo)
