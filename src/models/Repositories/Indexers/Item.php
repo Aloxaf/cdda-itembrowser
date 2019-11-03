@@ -147,6 +147,21 @@ class Item implements IndexerInterface
         return $val;
     }
 
+    public function flattenWeight($val)
+    {
+        if (isset($val) && is_string($val)) {
+            if (stripos($val, "kg") !== false) {
+                $val = floatval($val) * 1000.0;
+            } elseif (stripos($val, "mg") !== false) {
+                $val = floatval($val) / 1000.0;
+            } else {
+                $val = floatval($val);
+            }
+        }
+
+        return $val;
+    }
+
     public function onNewObject(RepositoryWriterInterface $repo, $object)
     {
         // capitalize type name to avoid failing on lowercase types
@@ -219,23 +234,12 @@ class Item implements IndexerInterface
 
         // flatten weight values (g, mg, kg) to g
         if (isset($object->weight) && is_string($object->weight)) {
-            if (stripos($object->weight, "kg") !== false) {
-                $object->weight = floatval($object->weight) * 1000.0;
-            } elseif (stripos($object->weight, "mg") !== false) {
-                $object->weight = floatval($object->weight) / 1000.0;
-            } else {
-                $object->weight = floatval($object->weight);
-            }
+            $object->weight = $this->flattenWeight($object->weight);
         }
 
         // handle "ml" indicators in volume/container volume and flatten volume values into numbers
         if (isset($object->volume) && is_string($object->volume)) {
             $object->volume = $this->flattenVolume($object->volume);
-            // if (stripos($object->volume, "ml") !== false) {
-            //     $object->volume = floatval($object->volume) / 1000.0;
-            // }
-
-            // $object->volume = floatval($object->volume);
         }
         if (isset($object->min_pet_vol) && is_string($object->min_pet_vol)) {
             $object->min_pet_vol = $this->flattenVolume($object->min_pet_vol);
@@ -286,8 +290,13 @@ class Item implements IndexerInterface
                     if ($relkey == "//") {
                         continue;
                     }
+
+                    // handle values containing unit measurements
                     if ($relkey == "volume") {
                         $tempval = $this->flattenVolume($relvalue);
+                        $object->{$relkey} += $tempval;
+                    } else if ($relkey == "weight") {
+                        $tempval = $this->flattenWeight($relvalue);
                         $object->{$relkey} += $tempval;
                     } else {
                         $object->{$relkey} += $relvalue;
@@ -305,6 +314,9 @@ class Item implements IndexerInterface
                 }
                 if ($proportionkey == "volume") {
                     $tempval = $this->flattenVolume($proportionvalue);
+                    $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
+                } else if ($proportionkey == "weight") {
+                    $tempval = $this->flattenWeight($proportionvalue);
                     $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
                 } else {
                     $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
