@@ -130,7 +130,7 @@ class Item extends \Robbo\Presenter\Presenter
         if ($this->count("uncraftToolFor")) {
             $badges[] = '<span class="label label-warning">item disassembly: '.$this->count("uncraftToolFor").'</span>';
         }
-        if ($this->object->modspace != "_dda_" && $this->object->modspace != "") {
+        if ($this->modname !== null) {
             $badges[] = '<span class="label label-warning">mod</span>';
         }
         if ($this->object->override == true) {
@@ -146,8 +146,8 @@ class Item extends \Robbo\Presenter\Presenter
     public function presentModLabel()
     {
         $badges = array();
-        if ($this->object->modspace != "") {
-            $badges[] = '<span class="label label-warning">'.$this->object->modfoldername.'</span>';
+        if ($this->modname !== null) {
+            $badges[] = '<span class="label label-warning">'.$this->modname.'</span>';
         }
 
         return implode(" ", $badges);

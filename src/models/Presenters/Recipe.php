@@ -95,8 +95,8 @@ class Recipe extends \Robbo\Presenter\Presenter
         } else {
             $labelArray[] = '<span class="label label-success">Player Recipe</span><br>';
         }
-        if ($this->object->modspace != "" && $this->object->modspace != "_dda_") {
-            $labelArray[] = '<span class="label label-warning">'.$this->object->modfoldername.'</span>';
+        if ($this->modname !== null) {
+            $labelArray[] = '<span class="label label-warning">'.$this->modname.'</span>';
         }
         $obsolete = $this->object->obsolete;
         if ($obsolete === true) {
@@ -121,8 +121,8 @@ class Recipe extends \Robbo\Presenter\Presenter
 
     public function presentModLabel()
     {
-        if ($this->object->modspace != "" && $this->object->modspace != "_dda_") {
-            return '<span class="label label-warning">'.$this->object->modfoldername.'</span>';
+        if ($this->modname !== null) {
+            return '<span class="label label-warning">'.$this->modname.'</span>';
         }
 
         return "";

@@ -444,6 +444,29 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         return $paths;
     }
 
+    private function cleanupModname($object)
+    {
+        if (isset($object->modspace)) {
+            if ($object->modspace=="_dda_" || $object->modspace=="") {
+                $object->modname="_";
+            } else {
+                $object->modname=$object->modfoldername;
+            }
+        }
+        if (isset($object->modname) && ($object->modname == "_" || $object->modname == "")) {
+            // $object->modname="_";
+            unset($object->modname);
+        }
+        unset($object->modspace);
+        unset($object->modfoldername);
+        unset($object->modadded);
+    }
+
+    private function cleanupFields($object)
+    {
+        unset($object->copyfrom_id);
+    }
+
     // main function to load JSON entries
     public function read()
     {
@@ -520,6 +543,10 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 }
             }
         }
+
+        // simplify mod reference variables to reduce cache size
+        array_walk($this->database, array($this, 'cleanupModname'));
+        array_walk($this->database, array($this, 'cleanupFields'));
 
         // load special replacements for ingame features
         if (!$this->get("item.toolset")) {
