@@ -352,7 +352,7 @@ class Item implements Robbo\Presenter\PresentableInterface
                 $ammo_damage_multiplier = $ammotype->prop_damage;
             }
 
-            $result = $ammotype->damage;
+            $result = floatval($ammotype->damage);
             if (is_object($result)) {
                 $result = $result->amount;
             }
@@ -513,6 +513,22 @@ class Item implements Robbo\Presenter\PresentableInterface
         }
 
         return false;
+    }
+
+    public function getDamage()
+    {
+        if ($this->data->damage !== null) {
+            if (is_object($this->data->damage)) {
+                $strval = $this->data->damage->amount;
+                if (isset($this->data->damage->damage_type)) {
+                    $strval.=" (".$this->data->damage->damage_type.")";
+                }
+
+                return $strval;
+            } else {
+                return $this->data->damage;
+            }
+        }
     }
 
     public function getDamagePerMove()
