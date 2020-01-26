@@ -254,6 +254,10 @@ class Item implements IndexerInterface
         // adjust volume for low volume large stack size ammunition
         if ($object->type == "AMMO") {
             if (isset($object->stack_size) && $object->stack_size > 0) {
+                if (!isset($object->volume) && isset($object->id)) {
+                    $object->volume = 0;
+                    echo $object->id." is missing volume data.\n";
+                }
                 if ((floatval($object->volume) * 1.0) / $object->stack_size < .004) {
                     $object->volume = .004 * $object->stack_size;
                 }
@@ -295,7 +299,7 @@ class Item implements IndexerInterface
                     if ($relkey == "volume") {
                         $tempval = $this->flattenVolume($relvalue);
                         $object->{$relkey} += $tempval;
-                    } else if ($relkey == "weight") {
+                    } elseif ($relkey == "weight") {
                         $tempval = $this->flattenWeight($relvalue);
                         $object->{$relkey} += $tempval;
                     } else {
@@ -315,7 +319,7 @@ class Item implements IndexerInterface
                 if ($proportionkey == "volume") {
                     $tempval = $this->flattenVolume($proportionvalue);
                     $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
-                } else if ($proportionkey == "weight") {
+                } elseif ($proportionkey == "weight") {
                     $tempval = $this->flattenWeight($proportionvalue);
                     $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
                 } else {
