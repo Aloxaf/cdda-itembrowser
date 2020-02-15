@@ -13,14 +13,14 @@ php src/artisan cataclysm:rebuild
 
 
 The code for this command is located in 
-[src/app/commands/CataclysmRebuild.php](src/app/commands/CataclsymRebuild.php).
+[src/app/Console/Commands/CataclysmRebuild.php](src/app/Console/Commands/CataclsymRebuild.php).
 
-When you run the console command, the fire() method is executed.
+When you run the console command, the handle() method is executed.
 
 The main players here are the repositories and the indexers.
 
 The repositories can be found in 
-[src/app/models/Repositories](src/app/models/Repositories), 
+[src/models/Repositories](src/models/Repositories), 
 there are two Repositories:
 
 * **LocalRepository** is the main database parser, it finds the json files 
@@ -29,7 +29,7 @@ in a given path and loads them into memory.
 LocalRepository and then stores the data in the cache.
 
 Then there are the indexers, found in 
-[src/app/models/Repositories/Indexers](src/app/models/Repositories/Indexers), 
+[src/models/Repositories/Indexers](src/models/Repositories/Indexers), 
 there is one indexer for each type of object.
 
 Each indexer will have two event listeners:
@@ -84,11 +84,11 @@ the last chance to reread everything and check some extra relationships.
 Web Interface
 -------------
 
-The web interface has a few [controllers](src/app/controllers), one for 
+The web interface has a few [controllers](src/app/Http/Controllers), one for 
 items and another for monsters. 
 
 Each controller action reads the repository to fetch the appropiate data, 
-and then sends those values to the right [view](src/app/views).
+and then sends those values to the right [view](src/resources/views).
 
 The repository interface has a few available methods:
 
@@ -100,7 +100,7 @@ object doesn't exist, raises an exception.
 * allModels($model, $index) fetches all the values from the index and converts
 each one to the appropiate model.
 
-**Models** are an instance of a class found in [src/app/models](src/app/models), models have a special meaning for function calls starting with "get", they override the object's value with the return value of the function.
+**Models** are an instance of a class found in [src/models](src/models), models have a special meaning for function calls starting with "get", they override the object's value with the return value of the function.
 
 **Presenters** are like a copy of the model, but can override the model values
-with escaped representations of it's former content. It can also provide new methods that are only available in the views, presenters have magic methods similar to the models, but start instead with "present".
+with escaped representations of its former content. It can also provide new methods that are only available in the views, presenters have magic methods similar to the models, but start instead with "present".
