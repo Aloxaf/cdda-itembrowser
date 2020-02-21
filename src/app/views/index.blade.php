@@ -44,6 +44,7 @@
 <p>
 <a href="https://cdda-trunk.aloxaf.cn/mutations.svg" target='_blank'>变异路线图(剧透警告)</a>
 <a href="https://cdda-trunk.aloxaf.cn/mutation_threshold.svg" target='_blank'>变异阈值(剧透警告)</a>
+<a href="https://cdda-trunk.aloxaf.cn/mutation_conflict.svg" target='_blank'>变异冲突(剧透警告)</a>
 <br>
 注1：前置1/前置2 - 两组前置突变，满足任意一组才能向下一个方向突变
 <br>
