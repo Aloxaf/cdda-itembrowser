@@ -15,6 +15,12 @@ h2
   font-size: 130%;
 }
 
+a.active
+{
+  background: #428bca;
+  color: white;
+}
+
 a.list-group-item {
 	background: black;
 	color: white;

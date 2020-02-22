@@ -1,11 +1,7 @@
-/src/bootstrap/compiled.php
-/src/app/config/local/*
-/src/composer.lock
 .DS_Store
 Thumbs.db
 .*.sw*
 .vagrant
 *.zip
-/src/vendor
-/src/app/storage
 Cataclysm-DDA*
+composer.phar
