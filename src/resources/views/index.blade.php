@@ -23,7 +23,7 @@
 为了修复你的装备和衣服，你可以切割一些
 <a href="{{ route('item.materials', 'wood') }}">木质物品</a>
 来获得
-<a href="{{ route('item.view', 'skewer') }}">木刺</a>，
+<a href="{{ route('item.view', 'splinter') }}">碎木</a>，
 然后你就可以
 <a href="{{ route('item.craft', 'needle_wood') }}">制作一根木针</a>,
 接着你需要
