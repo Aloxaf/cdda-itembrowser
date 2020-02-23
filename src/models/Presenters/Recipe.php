@@ -43,7 +43,7 @@ class Recipe extends \Robbo\Presenter\Presenter
             $inner = array();
             foreach ($group as $gi) {
                 list($item, $amount) = $gi;
-                $inner[] = '<a href="'.route("item.view", array("id" => $item->id))." ".($amount > 0 ? "($amount&nbsp;charges)" : "").'">'.$item->name.'</a>';
+                $inner[] = '<a href="'.route("item.view", array("id" => $item->id)).'">'.$item->name." ".($amount > 0 ? "($amount&nbsp;charges)" : "").'</a>';
             }
             $tools[] = implode(" OR ", $inner);
         }
