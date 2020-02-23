@@ -113,6 +113,13 @@ class Monster extends \Robbo\Presenter\Presenter
             "worm" => "蠕虫",
             "zombie" => "丧尸",
             "none" => "无",
+            "cracker" => "饼干",
+            "cookie" => "曲奇饼",
+            "chewgum" => "口香糖",
+            "gummy" => "软糖",
+            "leech_plant" => "吸血植物",
+            "lizardfolk" => "蜥蜴人",
+            "marshmallow" => "棉花糖",
         );
         $links = array_map(function ($species) use ($trans) {
             return '<a href="'.route('monster.species', array($species)).'">'.$trans[strtolower($species)].'</a>';
