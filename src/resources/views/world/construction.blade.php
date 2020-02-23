@@ -6,26 +6,26 @@ Construction: Cataclysm Dark Days Ahead
 ({{$data->comment}})
 @endif
 </h3>
-Category: <a href="{{ route('construction.categories', $data->category) }}">{{ $data->category }}</a><br>
+类别: <a href="{{ route('construction.categories', $data->category) }}">{{ $data->category }}</a><br>
 Difficulty: {{$data->difficulty}} ({{$data->skill}})<br>
-Time: {{$data->time}} minutes<br>
+耗时: {{$data->time}} 分钟<br>
 @if ($data->has_pre_terrain)
-Required terrain: {!!$data->pre_terrain->symbol!!} {{$data->pre_terrain->name}}<br>
+需要地形: {!!$data->pre_terrain->symbol!!} {{$data->pre_terrain->name}}<br>
 @endif
 @if ($data->pre_flags)
 Required flags: {{is_array($data->pre_flags) ? implode(", ", $data->pre_flags) : $data->pre_flags}}<br>
 @endif
 @if ($data->has_post_terrain)
-Result: {!!$data->post_terrain->symbol!!} {{$data->post_terrain->name}}<br>
+产品: {!!$data->post_terrain->symbol!!} {{$data->post_terrain->name}}<br>
 @endif
 @if ($data->requiresQualities)
-Tools required:<br>
+需要工具:<br>
 {!!$data->qualities!!}<br>
 @if ($data->requiresTools)
 {!!$data->tools!!}<br>
 @endif
 @endif
 @if ($data->requiresComponents)
-Components required:<br>
+需要材料:<br>
 {!!$data->components!!}<br>
 @endif
