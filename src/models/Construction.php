@@ -115,6 +115,6 @@ class Construction implements Robbo\Presenter\PresentableInterface
 
     public function getJson()
     {
-        return json_encode($this->data, JSON_PRETTY_PRINT);
+        return json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 }
