@@ -97,3 +97,16 @@ bad {
 good {
     color: green;
 }
+
+details summary {
+  cursor: pointer;
+}
+
+summary {
+  display: list-item;
+}
+
+details pre {
+  padding: 0px;
+  border: 0px;
+}

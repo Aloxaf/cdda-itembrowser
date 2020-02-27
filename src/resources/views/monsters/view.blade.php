@@ -91,6 +91,19 @@
   <td colspan="3">{{{$monster->flags}}}</td>
 </tr>
 </table>
+<br>
+<details>
+  <summary>查看 JSON</summary>
+  {!!$monster->json!!}
+</details>
 </div>
 </div>
 @endforeach
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre code').forEach((block) => {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>

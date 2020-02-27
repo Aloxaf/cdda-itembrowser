@@ -16,6 +16,10 @@
     {!!$item->featureLabels!!}
     @if ($item->isVehiclePart)
     <br>
+    伤害系数: {{{ $item->damage_modifier }}} <br>
+    耐久: {{{ $item->durability }}} <br>
+    滚动阻力: {{{ $item->rolling_resistance }}} <br>
+    轮胎类型: {{{ $item->wheel_type }}} <br>
     <br>
     这个车辆部件是由 {!!$item->sourcePart!!} 安装而得到的。
     <br>
@@ -37,6 +41,10 @@
       攻击消耗行动点: {{{ $item->movesPerAttack }}}<br>
       平均每回合伤害: {{{ $item->damagePerMove }}}<br>
       材质: {!! $item->materials !!}<br>
+    @endif
+    @if ($item->type == "WHEEL")
+    直径: {{{ $item->diameter }}}<br>
+    宽度: {{{ $item->width }}}<br>
     @endif
       @if ($item->hasFlags)
       Flags: {!! $item->flags !!}<br>
@@ -292,6 +300,11 @@
     <br>这件物品可以安装到载具上，作为:<br>
     {!!$item->VpartFor!!}
     @endif
+    <br>
+    <details>
+      <summary>查看 JSON</summary>
+      {!!$item->json!!}
+    </details>
   </div>
 </div>
 @endforeach
@@ -299,6 +312,11 @@
 $(function() {
   $(".tablesorter").tablesorter({
     sortList: [[1,0]]
+  });
+});
+document.addEventListener('DOMContentLoaded', (event) => {
+  document.querySelectorAll('pre code').forEach((block) => {
+    hljs.highlightBlock(block);
   });
 });
 </script>

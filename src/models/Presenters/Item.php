@@ -315,4 +315,9 @@ class Item extends \Robbo\Presenter\Presenter
         }
         return implode(", ", $ret);
     }
+
+    public function presentJson()
+    {
+        return '<pre><code class="language-json">'.$this->object->json.'</code></pre>';
+    }
 }

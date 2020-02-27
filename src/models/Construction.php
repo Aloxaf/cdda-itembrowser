@@ -112,4 +112,9 @@ class Construction implements Robbo\Presenter\PresentableInterface
     {
         return $this->repo->getModelAuto($this->data->post_terrain);
     }
+
+    public function getJson()
+    {
+        return json_encode($this->data, JSON_PRETTY_PRINT);
+    }
 }

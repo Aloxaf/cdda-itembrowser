@@ -733,4 +733,9 @@ class Item implements Robbo\Presenter\PresentableInterface
         }
         return $this->data->description;
     }
+
+    public function getJson()
+    {
+        return json_encode($this->data, JSON_PRETTY_PRINT);
+    }
 }

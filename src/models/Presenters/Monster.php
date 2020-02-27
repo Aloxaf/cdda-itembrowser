@@ -193,4 +193,9 @@ class Monster extends \Robbo\Presenter\Presenter
         $diff = floor($diff);
         return "$diff ($strvalue)";
     }
+
+    public function presentJson()
+    {
+        return '<pre><code class="language-json">'.$this->object->json.'</code></pre>';
+    }
 }

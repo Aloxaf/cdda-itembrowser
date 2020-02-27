@@ -83,4 +83,9 @@ class Monster implements Robbo\Presenter\PresentableInterface
             return $this->repo->raw("modname.$ident");
         }
     }
+
+    public function getJson()
+    {
+        return json_encode($this->data, JSON_PRETTY_PRINT);
+    }
 }

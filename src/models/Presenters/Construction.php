@@ -62,4 +62,9 @@ class Construction extends \Robbo\Presenter\Presenter
 
         return implode("<br> ", $out);
     }
+
+    public function presentJson()
+    {
+        return '<pre><code class="language-json">'.$this->object->json.'</code></pre>';
+    }
 }

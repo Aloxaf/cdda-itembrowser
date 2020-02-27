@@ -18,6 +18,7 @@
     <link href="/css/starter-template.css" rel="stylesheet">
 
     <link href="/css/cataclysm.css?v=3" rel="stylesheet">
+    <link href="/css/highlight/tomorrow-night-bright.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -64,6 +65,7 @@
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="/js/jquery.tablesorter.min.js"></script>
 <script src="/js/jquery.tinysort.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
     <div class="container">
         {!! $content !!}
 <br><br>

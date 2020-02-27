@@ -29,3 +29,18 @@ Required flags: {{is_array($data->pre_flags) ? implode(", ", $data->pre_flags) :
 需要材料:<br>
 {!!$data->components!!}<br>
 @endif
+
+<br>
+<details>
+  <summary>查看 JSON</summary>
+  {!!$data->json!!}
+</details>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightBlock(block);
+        });
+    });
+</script>
