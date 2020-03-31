@@ -296,6 +296,12 @@ class Item implements IndexerInterface
 
             $object->contains = floatval($object->contains);
         }
+
+        // handle "ml" in barrel length info
+        if (isset($object->barrel_length) && is_string($object->barrel_length)) {
+            $object->barrel_length = $this->flattenVolume($object->barrel_length);
+        }
+
         // adjust volume for low volume large stack size ammunition
         if ($object->type == "AMMO") {
             if (isset($object->stack_size) && $object->stack_size > 0) {
@@ -341,14 +347,34 @@ class Item implements IndexerInterface
                     }
 
                     // handle values containing unit measurements
-                    if ($relkey == "volume") {
+                    if ($relkey == "volume" || $relkey == "barrel_length") {
                         $tempval = $this->flattenVolume($relvalue);
                         $object->{$relkey} += $tempval;
                     } elseif ($relkey == "weight") {
                         $tempval = $this->flattenWeight($relvalue);
                         $object->{$relkey} += $tempval;
+                    } elseif ($relkey == "vitamins" && is_array($relvalue)) {
+                        // special processing for vitamins (array with 2 indices, vitamin and count)
+                        foreach ($relvalue as $vitamin_unit_key => $vitamin_unit) {
+                            $found_vitamin = false;
+                            foreach ($object->{$relkey} as $dest_vitamin_unit_key => $dest_vitamin_unit) {
+                                if ($dest_vitamin_unit[0] == $vitamin_unit[0]) {
+                                    $found_vitamin = true;
+                                    $object->{$relkey}[$dest_vitamin_unit_key][1] += $vitamin_unit[1];
+                                    break;
+                                }
+                            }
+                            if (!$found_vitamin) {
+                                array_push($object->{$relkey}, $vitamin_unit);
+                            }
+                        }
                     } else {
-                        $object->{$relkey} += $relvalue;
+                        try {
+                            $object->{$relkey} += $relvalue;
+                        } catch (\Exception $e) {
+                            echo "$object->id has a relative key that did not process correctly: $relkey"."\n";
+                            throw $e;
+                        }
                     }
                 }
             }

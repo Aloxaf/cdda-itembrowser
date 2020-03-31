@@ -234,7 +234,8 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             return;
         }
         if ($object->type == "snippet" || $object->type == "talk_topic" || $object->type == "overmap_terrain" || $object->type == "scenario" || $object->type == "ammunition_type" ||
-        $object->type == "start_location" || $object->type == "harvest" || $object->type == "effect_type" || $object->type == "MIGRATION") {
+        $object->type == "start_location" || $object->type == "harvest" || $object->type == "effect_type" || $object->type == "MIGRATION" || $object->type == "item_action" ||
+        $object->type == "item_group" || $object->type == "ITEM_CATEGORY") {
             return;
         }
 
