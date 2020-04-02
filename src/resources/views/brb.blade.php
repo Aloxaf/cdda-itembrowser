@@ -1,12 +1,12 @@
 @section('title')
-Maintenance mode
+维护模式
 @endsection
-The Item Browser is temporarily unavailable as we run some maintentance routines.<br>
+CDDA 物品浏览器当前不可用，因为我们正在进行维护。<br>
 <br>
-It might be for a few reasons:<br>
+可能原因如下：<br>
 <ul>
-<li>An update requiring to recompile the database.</li>
-<li>A more complicated update requiring some maintenance tasks.</li>
-<li>An automatic recompilation of the database (dev nightly update).</li>
+<li>更新导致需要重新编译数据库。</li>
+<li>需要人工介入的复杂更新。</li>
+<li>数据库自动升级。</li>
 </ul>
-Please try again in a couple of minutes.
+请稍等几分钟后再尝试访问。
