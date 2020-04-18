@@ -512,9 +512,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
 
             // JSON structure is different than earlier mod versions
             if (is_array($modinfo)) {
-                if (!isset($modinfo[0]->obsolete) || $modinfo[0]->obsolete == false) {
-                    $paths[] = $mod;
-                }
+                $paths[] = $mod;
                 $ident = "dda";
                 if (isset($modinfo[0]->ident)) {
                     $ident = strtolower($modinfo[0]->ident);
@@ -532,11 +530,13 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                         }
                     }
                 }
-                $this->set("modname.$isolatedname", gettext($modinfo[0]->name));
-            } else {
-                if (!isset($modinfo->obsolete) || $modinfo->obsolete == false) {
-                    $paths[] = $mod;
+                $modname = gettext($modinfo[0]->name);
+                if (isset($modinfo[0]->obsolete) && $modinfo[0]->obsolete == true) {
+                    $modname = "过时：".$modname;
                 }
+                $this->set("modname.$isolatedname", $modname);
+            } else {
+                $paths[] = $mod;
                 $ident = "dda";
                 if (isset($modinfo->ident)) {
                     $ident = strtolower($modinfo->ident);
@@ -549,7 +549,11 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                         }
                     }
                 }
-                $this->set("modname.$isolatedname", gettext($modinfo->name));
+                $modname = gettext($modinfo->name);
+                if (isset($modinfo->obsolete) && $modinfo->obsolete == true) {
+                    $modname = "过时：".$modname;
+                }
+                $this->set("modname.$isolatedname", $modname);
             }
         }
 

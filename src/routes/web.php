@@ -120,7 +120,7 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
     $view->with('areas', array(
       "view" => array(
         "route" => "item.view",
-        "label" => "Viewing installed vehicle part",
+        "label" => "查看已安装的车辆部件",
       ),
     ));
   });
