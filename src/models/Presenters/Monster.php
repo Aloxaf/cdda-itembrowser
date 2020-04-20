@@ -51,7 +51,10 @@ class Monster extends \Robbo\Presenter\Presenter
             if (isset($attack->type)) {
                 $attackstr = "$attack->type";
                 if (isset($attack->cooldown)) {
-                    $attackstr = $attackstr.": $attack->cooldown";
+                    $attackstr = $attackstr." / 冷却：$attack->cooldown";
+                }
+                if (isset($attack->max_range)) {
+                    $attackstr = $attackstr." / 范围：$attack->max_range";
                 }
                 $attack = $attackstr;
             } elseif (isset($attack->id)) {
@@ -60,7 +63,7 @@ class Monster extends \Robbo\Presenter\Presenter
                     $attackstr = "$attack->id: ";
                     $attackarray = [];
                     foreach ($attack->damage_max_instance as $inst) {
-                        $attackarray[] = "($inst->damage_type for $inst->amount damage)";
+                        $attackarray[] = "($inst->amount 点".gettext("damage type\004$inst->damage_type")."伤害)";
                     }
                     $attackstr = $attackstr.implode(" ", $attackarray);
                     $attack = $attackstr;
@@ -68,7 +71,7 @@ class Monster extends \Robbo\Presenter\Presenter
                     $attack = "$attack->id";
                 }
             } else {
-                $attack = "$attack[0]: $attack[1]";
+                $attack = "$attack[0] / 冷却：$attack[1]";
             }
         });
 
