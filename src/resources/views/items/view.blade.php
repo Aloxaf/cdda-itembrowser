@@ -28,18 +28,18 @@
     @if (!$item->isVehiclePart)
     <br>
     <br>
-    体积: {{{ $item->volume }}} 升 重量: {{ $item->weightMetric }} 千克<br>
-      钝击: {{{ $item->bashing }}}
+    体积: <yellow>{{{ $item->volume }}}</yellow> 升&nbsp;&nbsp;重量: <yellow>{{ $item->weightMetric }}</yellow> 千克<br>
+      钝击: <yellow>{{{ $item->bashing }}}</yellow>
       @if ($item->hasFlag("SPEAR"))
-      刺击: {{{ $item->piercing }}}
+      &nbsp;刺击: <yellow>{{{ $item->piercing }}}</yellow>
       @elseif ($item->hasFlag("STAB"))
-      斩击: {{{ $item->cutting }}}
+      &nbsp;斩击: <yellow>{{{ $item->cutting }}}</yellow>
       @else
-      斩击: {{{ $item->cutting }}}
+      &nbsp;斩击: <yellow>{{{ $item->cutting }}}</yellow>
       @endif
-      命中: {{{ $item->to_hit }}}<br>
-      攻击消耗行动点: {{{ $item->movesPerAttack }}}<br>
-      平均每回合伤害: {{{ $item->damagePerMove }}}<br>
+      &nbsp;命中: <yellow>{{{ $item->to_hit }}}</yellow><br>
+      攻击消耗行动点: <yellow>{{{ $item->movesPerAttack }}}</yellow><br>
+      平均每回合伤害: <yellow>{{{ $item->damagePerMove }}}</yellow><br>
       材质: {!! $item->materials !!}<br>
     @endif
     @if ($item->type == "WHEEL")
@@ -80,14 +80,37 @@
     <br>
     @endif
 
-
     @if ($item->count("bashFromTerrain"))
     可以通过破坏以下特殊地形获得:
     {{{ implode(", ", $item->bashFromTerrain) }}}
     <br>
     @endif
+
+    价格：{!! "$<yellow>".round($item->price / 100, 2)."</yellow>" !!}<br>
+    @if ($item->price_postapoc)
+    交换价值：{!! "$<yellow>".round($item->price_postapoc / 100, 2)."</yellow>" !!}<br>
+    @endif
     --
     <br>
+
+    @if ($item->isPetArmor)
+    @php
+      $pet = isset($item->pet_armor_data) ? $item->pet_armor_data : $item;
+      function parse_storage($storage) {
+        if (stripos($storage, "ml")) {
+            return (floatval($storage) / 1000.0);
+        } else if (strpos($storage, "L")) {
+            return (floatval($storage)* 1.0);
+        }
+        return (floatval($storage) / 4.0);
+      }
+    @endphp
+    适用宠物：<yellow>{{ $pet->pet_bodytype }}</yellow><br>
+    最大宠物体积：<yellow>{{ parse_storage($pet->max_pet_vol) }}</yellow> L<br>
+    最小宠物体积：<yellow>{{ parse_storage($pet->min_pet_vol) }}</yellow> L<br>
+    环境防护：<yellow>{{ $pet->environmental_protection ?: 0 }}</yellow> <br>
+    材料厚度：<yellow>{{ $pet->material_thickness }}</yellow> mm<br>
+    @endif
 
     @if ($item->seed_data)
     种植得到：<a href="{{ route('item.view', $item->seed_data->fruit) }}">{{ gettext($item->seed_data->plant_name) }}</a><br>
@@ -199,17 +222,17 @@
     @endif
     @if ($item->isArmor)
       覆盖部位: {!! $item->covers !!}<br>
-      覆盖率: {{{ $item->coverage }}}%<br>
-      累赘度: {{{ $item->encumbrance }}}<br>
-      防护: 钝击:
-      {{{ $item->protection('bash') }}}
-      斩击:  {{{  $item->protection('cut') }}}<br>
-      防酸: {{{  $item->protection('acid') }}}
-      &nbsp;&nbsp;&nbsp;
-      防火: {{{  $item->protection('fire') }}}<br>
-      环境保护: {{{ $item->environmental_protection }}}<br>
-      保暖度: {{{ $item->warmth }}}<br>
-      容积: {{{ $item->storage }}}<br>
+      覆盖率: <yellow>{{{ $item->coverage }}}</yellow>%<br>
+      材料厚度：<yellow>{{{ $item->material_thickness }}}</yellow><br>
+      累赘度: {!! $item->encumbrance !!}<br>
+      防护:<br>
+      &nbsp;钝击: <yellow>{{{ $item->protection('bash') }}}</yellow>
+      &nbsp;斩击: <yellow>{{{  $item->protection('cut') }}}</yellow><br>
+      &nbsp;防酸: <yellow>{{{ $item->protection('acid') }}}</yellow>
+      &nbsp;防火: <yellow>{{{ $item->protection('fire') }}}</yellow><br>
+      &nbsp;环境保护: <yellow>{{{ $item->environmental_protection }}}</yellow><br>
+      保暖度: <yellow>{{{ $item->warmth }}}</yellow><br>
+      容积: {!! $item->storage !!}<br>
     @endif
 
     @if ($item->isBrewable)

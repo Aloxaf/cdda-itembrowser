@@ -611,6 +611,11 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $this->type == "CONTAINER";
     }
 
+    public function getIsPetArmor()
+    {
+        return $this->type == "PET_ARMOR" || isset($this->pet_armor_data);
+    }
+
     public function getModGuns()
     {
         return $this->repo->allModels("Item", "gunmodGuns.{$this->data->id}");
@@ -660,7 +665,7 @@ class Item implements Robbo\Presenter\PresentableInterface
                 }
             }
             if ($foundvarsize == true) {
-                $result = $enc." (不合身), ".max(floor($enc / 2), $enc - 10)." (合身)";
+                $result = "<yellow>".$enc."</yellow> (不合身), <yellow>".max(floor($enc / 2), $enc - 10)."</yellow> (合身)";
             } else {
                 $result = $enc;
             }

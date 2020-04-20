@@ -98,6 +98,10 @@ good {
     color: green;
 }
 
+yellow {
+  color: yellow;
+}
+
 details summary {
   cursor: pointer;
 }

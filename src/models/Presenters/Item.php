@@ -28,14 +28,13 @@ class Item extends \Robbo\Presenter\Presenter
     {
         $storage = $this->object->storage;
         if (stripos($storage, "ml")) {
-            return (floatval($storage) / 1000.0)." L";
+            $storage = (floatval($storage) / 1000.0);
+        } else if (strpos($storage, "L")) {
+            $storage = (floatval($storage)* 1.0);
+        } else {
+            $storage = (floatval($storage) / 4.0);
         }
-        
-        if (strpos($storage, "L")) {
-            return (floatval($storage)* 1.0)." L";
-        }
-
-        return (floatval($storage) / 4.0)." L";
+        return "<yellow>$storage</yellow> 升";
     }
 
     public function presentWeight()
