@@ -21,9 +21,21 @@
 <div class="col-md-8">
 @foreach ($itembunch[0]->recipes as $recipe)
   {!! $recipe->labels !!}<br>
-  主要技能: {{{ $recipe->skill_used }}}({{{ $recipe->difficulty }}})<br>
+  主要技能: {{{ $recipe->skill_used }}}（{{{ $recipe->difficulty }}}）<br>
   其他技能: {{ $recipe->skillsRequired }} <br>
-  完成耗时: {{{ $recipe->time }}}<br>
+  完成耗时: <info>{{{ $recipe->time }}}</info><br>
+  @if ($recipe->batch_time_factors)
+  批量耗时减少：<info>{{ "{$recipe->batch_time_factors[0]}%（至少 {$recipe->batch_time_factors[1]} 批）" }}</info><br>
+  @endif
+  @if (is_array($recipe->flags))
+    @foreach ($recipe->flags as $flag)
+      @if ($flag === "BLIND_EASY")
+      暗处制作：<info>简单</info><br>
+      @elseif ($flag === "BLIND_HARD")
+      暗处制作：<info>困难</info><br>
+      @endif
+    @endforeach
+  @endif
   @if ($recipe->hasTools || $recipe->hasQualities)
   需要工具：<br>
   @if ($recipe->hasQualities)

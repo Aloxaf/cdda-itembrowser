@@ -268,7 +268,7 @@
     <br>这件装备尺码足够大，能够容纳下 <info>大型变异肢体</info>。<br>
     @endif
     @if ($item->hasFlag("SKINTIGHT"))
-    <br>This piece of clothing lies close to the skin and layers easily.<br>
+    <br>这件衣服属于<info>贴身衣物</info>。<br>
     @endif
     @if ($item->hasFlag("POCKETS"))
     <br>这件装备有<info>口袋</info>，能在你空手时把手放在口袋里，为手部保暖。<br>
