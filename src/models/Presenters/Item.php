@@ -251,6 +251,26 @@ class Item extends \Robbo\Presenter\Presenter
         return sprintf("%+d", $this->object->clip_size_modifier);
     }
 
+    public function presentDispersionModifier()
+    {
+        return sprintf("%+d", $this->object->dispersion_modifier);
+    }
+
+    public function presentRangeModifier()
+    {
+        return sprintf("%+d", $this->object->range_modifier);
+    }
+
+    public function presentHandlingModifier()
+    {
+        return sprintf("%+d", $this->object->handling_modifier);
+    }
+
+    public function presentLoudnessModifier()
+    {
+        return sprintf("%+d", $this->object->loudness_modifier);
+    }
+
     public function presentDamageModifier()
     {
         return sprintf("%+d", $this->object->damage_modifier);
@@ -318,5 +338,17 @@ class Item extends \Robbo\Presenter\Presenter
     public function presentJson()
     {
         return '<pre><code class="language-json">'.$this->object->json.'</code></pre>';
+    }
+
+    public function presentMinSkills()
+    {
+        if (!$this->object->min_skills) {
+            return;
+        }
+        $ret = array();
+        foreach ($this->object->min_skills as $skill) {
+            $ret[] = gettext($skill[0])."（$skill[1]）";
+        }
+        return implode(',', $ret);
     }
 }

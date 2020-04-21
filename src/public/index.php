@@ -52,7 +52,7 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 putenv('LANG=zh_CN.utf8');
 setlocale(LC_ALL, 'zh_CN.utf8');
 $domain = 'cataclysm-dda';
-bindtextdomain($domain , "locale/");
+bindtextdomain($domain , "/cdda/locale/");
 bind_textdomain_codeset($domain, 'UTF-8');
 textdomain($domain);
 

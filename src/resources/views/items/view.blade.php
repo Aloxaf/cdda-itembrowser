@@ -41,6 +41,9 @@
       攻击消耗行动点: <yellow>{{{ $item->movesPerAttack }}}</yellow><br>
       平均每回合伤害: <yellow>{{{ $item->damagePerMove }}}</yellow><br>
       材质: {!! $item->materials !!}<br>
+    @if ($item->min_strength)
+    力量需求：<yellow>{{{ $item->min_strength }}}</yellow><br>
+    @endif
     @endif
     @if ($item->type == "WHEEL")
     直径: {{{ $item->diameter }}}<br>
@@ -50,7 +53,7 @@
       Flags: {!! $item->flags !!}<br>
       @endif
       @if ($item->hasTechniques)
-      Techniques: {{$item->techniques}}<br>
+      手持战技: {!! $item->techniques !!}<br>
       @endif
       @foreach ($item->qualities as $quality)
       具有 {{{ $quality["level"] }}} 级 <a href="{{ route("item.qualities", $quality["quality"]->id) }}">{{{ $quality["quality"]->name }}}</a> 特性。<br>
@@ -123,13 +126,13 @@
     @endif
 
     @if ($item->isAmmo)
-    伤害: {{{ $item->damage }}}<br>
-    伤害加成: {{{ $item->prop_damage }}}<br>
-    穿甲: {{{ $item->pierce }}}<br>
-    射程: {{{ $item->range }}}<br>
-    散步: {{{ $item->dispersion }}}<br>
-    后坐力: {{{ $item->recoil }}}<br>
-    数量: {{{ $item->count }}}<br>
+    伤害: <yellow>{{{ $item->damage }}}</yellow><br>
+    伤害加成: <yellow>{{{ $item->prop_damage }}}</yellow><br>
+    穿甲: <yellow>{{{ $item->pierce }}}</yellow><br>
+    射程: <yellow>{{{ $item->range }}}</yellow><br>
+    散步: <yellow>{{{ $item->dispersion }}}</yellow><br>
+    后坐力: <yellow>{{{ $item->recoil }}}</yellow><br>
+    数量: <yellow>{{{ $item->count }}}</yellow><br>
     可用于: {!! $item->usedby !!}
     @endif
     @if ($item->isTool)
@@ -164,12 +167,12 @@
       @endforeach
     @endif
     </table>
-    基本远程伤害: {{{ $item->ranged_damage }}}<br>
-    射程: {{{ $item->range }}}<br>
-    穿甲: {{{ $item->pierce }}}<br>
-    散步: {{{ $item->dispersion }}}<br>
-    后坐力: {{{ $item->recoil }}}<br>
-    装填耗时: {{{ $item->reload }}}<br>
+    基本远程伤害: <yellow>{{{ $item->ranged_damage }}}</yellow><br>
+    射程: <yellow>{{{ $item->range }}}</yellow><br>
+    穿甲: <yellow>{{{ $item->pierce }}}</yellow><br>
+    散步: <yellow>{{{ $item->dispersion }}}</yellow><br>
+    后坐力: <yellow>{{{ $item->recoil }}}</yellow><br>
+    装填耗时: <yellow>{{{ $item->reload }}}</yellow><br>
     @if ($item->burst==0)
     半自动<br>
     @else
@@ -182,27 +185,43 @@
     @endif
 
     @if ($item->isGunMod)
-    @if ($item->dispersion!=0)
-      Dispersion: {{$item->dispersion}}<br>
-    @endif
-
-    @if ($item->damageModifier!=0)
-      Damage: {{$item->damageModifier}}<br>
-    @endif
-
-    @if ($item->clipSizeModifier!=0)
-      Magazine: {{$item->clipSizeModifier}}%<br>
-    @endif
-    @if ($item->recoilModifier!=0)
-      Recoil: {{$item->recoilModifier}}<br>
-    @endif
-    @if ($item->burstModifier!=0)
-      Burst: {{$item->burstModifier}}<br>
-    @endif
-    @if ($item->ammo_modifier!="NULL")
-      弹药: {{$item->ammo_modifier}}<br>
-    @endif
-      可安装于: {!!$item->modSkills!!}<br>
+      @if ($item->min_skills)
+        技能需求：{{{ $item->min_skills }}}<br>
+      @endif
+      @if ($item->sight_dispersion)
+        瞄准散布：<yellow>{{ $item->sight_dispersion }}</yellow><br>
+      @endif
+      @if ($item->aim_speed)
+        瞄准速度：<yellow>{{ $item->aim_speed }}</yellow><br>
+      @endif
+      @if ($item->dispersionModifier != 0)
+        散布修正: <yellow>{{ $item->dispersionModifier }}</yellow><br>
+      @endif
+      @if ($item->handlingModifier != 0)
+        操作性修正：<yellow>{{ $item->handlingModifier }}</yellow><br>
+      @endif
+      @if ($item->loudnessModifier != 0)
+        噪音修正：<yellow>{{ $item->loudnessModifier }}</yellow><br>
+      @endif
+      @if ($item->damageModifier!=0)
+        伤害: <yellow>{{$item->damageModifier}}</yellow><br>
+      @endif
+      @if ($item->clipSizeModifier!=0)
+        弹匣: {{$item->clipSizeModifier}}%<br>
+      @endif
+      @if ($item->rangeModifier != 0)
+        范围：<yellow>{{ $item->rangeModifier }}</yellow><br>
+      @endif
+      @if ($item->recoilModifier!=0)
+        后坐力: <yellow>{{$item->recoilModifier}}</yellow><br>
+      @endif
+      @if ($item->burstModifier!=0)
+        爆炸: <yellow>{{$item->burstModifier}}</yellow><br>
+      @endif
+      @if ($item->ammoModifier)
+        弹药: {!! implode(", ", $item->ammoModifier) !!}<br>
+      @endif
+      可用于: {!!$item->modSkills!!}<br>
       位置: {{$item->location}}<br>
     @endif
 

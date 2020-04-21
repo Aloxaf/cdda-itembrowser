@@ -743,4 +743,30 @@ class Item implements Robbo\Presenter\PresentableInterface
     {
         return json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
+
+    public function getTechniques()
+    {
+        if (isset($this->data->techniques)) {
+            return array_map(
+                function($id) {
+                    $model = $this->repo->getMultiModelOrFail("Item", $id);
+                    return "<stat>".$model[0]->name."</stat>：<info>".$model[0]->description."</info>";
+                },
+                $this->data->techniques
+            );
+        }
+    }
+
+    public function getAmmoModifier()
+    {
+        if (isset($this->data->ammo_modifier)) {
+            return array_map(
+                function ($id) {
+                    $model = $this->repo->getModel("Item", $id);
+                    return "<a href=\"".route("item.view", $id)."\">".$model->name."</a>";
+                },
+                $this->data->ammo_modifier
+            );
+        }
+    }
 }
