@@ -1,7 +1,7 @@
 @section('title')
-Construction categories - Cataclysm: Dark Days Ahead
+建造类别 - Cataclysm: Dark Days Ahead
 @endsection
-<h1>Construction categories</h1>
+<h1>建造类别</h1>
 
 <div class="row">
   <div class="col-md-3">

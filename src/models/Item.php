@@ -114,20 +114,12 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getDeconstructFrom()
     {
-        $furnitures = $this->repo->allModels("Furniture", "item.deconstructFrom.$this->id");
-        array_walk($furnitures, function (&$furniture) {
-            $furniture = $furniture->name;
-        });
-        return array_unique($furnitures);
+        return $this->repo->allModels("Furniture", "item.deconstructFrom.$this->id");
     }
 
     public function getBashFromTerrain()
     {
-        $terrains = $this->repo->allModels("Terrain", "item.bashFromTerrain.$this->id");
-        array_walk($terrains, function (&$terrain) {
-            $terrain = $terrain->name;
-        });
-        return array_unique($terrains);
+        return $this->repo->allModels("Terrain", "item.bashFromTerrain.$this->id");
     }
 
     public function getToolFor()

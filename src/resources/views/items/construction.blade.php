@@ -1,5 +1,5 @@
 @section('title')
-{{{$itembunch[0]->rawName}}} (construction) - Cataclysm: Dark Days Ahead
+{{{$itembunch[0]->rawName}}} (建造) - Cataclysm: Dark Days Ahead
 @endsection
 @include('items.menu', array('active'=>'construction'))
 <h1>

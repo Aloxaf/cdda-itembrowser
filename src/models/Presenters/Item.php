@@ -91,6 +91,20 @@ class Item extends \Robbo\Presenter\Presenter
         }, $this->object->disassembly);
     }
 
+    public function presentDeconstructFrom()
+    {
+        return array_unique(array_map(function ($n) {
+            return $n->getPresenter()->name;
+        }, $this->object->DeconstructFrom));
+    }
+
+    public function presentBashFromTerrain()
+    {
+        return array_unique(array_map(function ($n) {
+            return $n->getPresenter()->name;
+        }, $this->object->bashFromTerrain));
+    }
+
     public function presentMaterials()
     {
         return implode(", ", array_map(function ($material) {
@@ -350,5 +364,31 @@ class Item extends \Robbo\Presenter\Presenter
             $ret[] = gettext($skill[0])."（$skill[1]）";
         }
         return implode(',', $ret);
+    }
+
+    function normalize_price($data)
+    {
+        if (strpos($data, "USD")) {
+            return floatval($data) * 1.0;
+        } else if (strpos($data, "kUSD")) {
+            return floatval($data) * 1000.0;
+        }
+        return floatval($data) / 100.0;
+    }
+
+    public function presentPrice()
+    {
+        if (!isset($this->object->price)) {
+            $price = $this->normalize_price($this->object->price);
+            return round($price * floatval($this->object->count ?? 1) / floatval($this->object->stack_size ?? 1), 2);
+        }
+    }
+
+    public function presentPricePostapoc()
+    {
+        if (!isset($this->object->price_postapoc)) {
+            $price = $this->normalize_price($this->object->price_postapoc);
+            return round($price * floatval($this->object->count ?? 1) / floatval($this->object->stack_size ?? 1), 2);
+        }
     }
 }

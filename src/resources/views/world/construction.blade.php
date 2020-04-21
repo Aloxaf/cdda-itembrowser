@@ -1,5 +1,5 @@
 @section("title")
-Construction: Cataclysm Dark Days Ahead
+建造: Cataclysm Dark Days Ahead
 @stop
 <h3>{{$data->description}}
 @if ($data->comment!="")

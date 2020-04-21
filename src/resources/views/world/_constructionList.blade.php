@@ -1,11 +1,11 @@
 <table class="table table-bordered">
 <thead>
 <tr>
-    <th>Construction</th>
+    <th>建造</th>
     <th></th>
-    <th>Source</th>
+    <th>原料</th>
     <th></th>
-    <th>Result</th>
+    <th>结果</th>
 </tr>
 </thead>
 @foreach($data as $d) 

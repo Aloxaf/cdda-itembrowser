@@ -89,9 +89,9 @@
     <br>
     @endif
 
-    价格：{!! "$<yellow>".round($item->price / 100, 2)."</yellow>" !!}<br>
+    价格：{!! "$<yellow>".$item->price."</yellow>" !!}<br>
     @if ($item->price_postapoc)
-    交换价值：{!! "$<yellow>".round($item->price_postapoc / 100, 2)."</yellow>" !!}<br>
+    交换价值：{!! "$<yellow>".$item->price_postapoc."</yellow>" !!}<br>
     @endif
     --
     <br>
