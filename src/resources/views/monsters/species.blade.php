@@ -36,7 +36,6 @@
         "worm" => "蠕虫",
         "zombie" => "丧尸",
         "none" => "无",
-
         "cracker" => "饼干",
         "cookie" => "曲奇饼",
         "chewgum" => "口香糖",
@@ -44,6 +43,9 @@
         "leech_plant" => "吸血植物",
         "lizardfolk" => "蜥蜴人",
         "marshmallow" => "棉花糖",
+        "alien" => "外星人",
+        "biocrystal" => "晶体生物",
+        "wildalien" => "外星动物",
     )[strtolower($s)]
 }}</a></li>
 @endforeach

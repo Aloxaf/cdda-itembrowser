@@ -88,4 +88,43 @@ class Monster implements Robbo\Presenter\PresentableInterface
     {
         return json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
+
+    public function getMaterial()
+    {
+        if (!isset($this->data->material)) {
+            return array();
+        }
+        $materials = array();
+        foreach ($this->data->material as $material) {
+            if ($material != "null") {
+                $materials[] = $this->repo->getModel("Material", $material);
+            }
+        }
+
+        return $materials;
+    }
+
+    public function getUpgradesTo()
+    {
+        if (isset($this->data->upgrades->into)) {
+            $mon = $this->data->upgrades->into;
+            $mon = $this->repo->getModel("Monster", $mon);
+            return array((object)array(
+                "monster" => $mon,
+                "freq" => 1000,
+                "cost_multiplier" => 1,
+            ));
+        } else {
+            $group = $this->data->upgrades->into_group;
+            $group = $this->repo->getModel("MonsterGroup", $group);
+            return array_map(
+                function ($mon) {
+                    $model = $this->repo->getModel("Monster", $mon->monster);
+                    $mon->monster = $model;
+                    return $mon;
+                },
+                $group->monsters
+            );
+        }
+    }
 }

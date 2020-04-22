@@ -90,6 +90,14 @@
   <td valign="top">Flags:</td>
   <td colspan="3">{{{$monster->flags}}}</td>
 </tr>
+@if ($monster->upgrades)
+<tr>
+  <td>半数进化期：</td>
+  <td>{{ $monster->upgrades->half_life }}</td>
+  <td>进化为：</td>
+  <td>{!! $monster->upgrades_to !!}</td>
+</tr>
+@endif
 </table>
 <br>
 <details>

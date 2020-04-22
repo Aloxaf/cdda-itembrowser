@@ -123,6 +123,9 @@ class Monster extends \Robbo\Presenter\Presenter
             "leech_plant" => "吸血植物",
             "lizardfolk" => "蜥蜴人",
             "marshmallow" => "棉花糖",
+            "alien" => "外星人",
+            "biocrystal" => "晶体生物",
+            "wildalien" => "外星动物",
         );
         $links = array_map(function ($species) use ($trans) {
             return '<a href="'.route('monster.species', array($species)).'">'.$trans[strtolower($species)].'</a>';
@@ -152,7 +155,7 @@ class Monster extends \Robbo\Presenter\Presenter
             return "";
         }
 
-        return $this->object->special_when_hit[0]." (".$this->object->special_when_hit[1].")";
+        return $this->object->special_when_hit[1]."% 触发 ".$this->object->special_when_hit[0];
     }
 
     public function presentSize()
@@ -200,5 +203,31 @@ class Monster extends \Robbo\Presenter\Presenter
     public function presentJson()
     {
         return '<pre><code class="language-json">'.$this->object->json.'</code></pre>';
+    }
+
+    public function presentMaterial()
+    {
+        return implode(",", array_map(function($m) {
+            return $m->name;
+        }, $this->object->material));
+    }
+
+    public function presentUpgradesTo()
+    {
+        $monsters = $this->object->upgrades_to;
+        return implode("<br>", array_map(
+            function ($mon) {
+                $ret = "";
+                $name = $mon->monster->name;
+                if (is_object($name)) {
+                    $name = $name->str;
+                }
+                $freq = $mon->freq / 10;
+                $ret .= '<a href="'.route("monster.view", $mon->monster->id).'">'.$mon->monster->name->str."</a>";
+                $ret .= " （{$freq}%）(计算权重：{$mon->cost_multiplier})";
+                return $ret;
+            },
+            $monsters
+        ));
     }
 }
