@@ -761,4 +761,21 @@ class Item implements Robbo\Presenter\PresentableInterface
             );
         }
     }
+
+    public function getModSkills()
+    {
+        if (isset($this->data->mod_targets)) {
+            return implode(",", array_map(
+                function ($id) {
+                    try {
+                        $item = $this->repo->getModelOrFail("Item", $id);
+                        return '<a href="'.route("item.view", $id, $item->name).'">'.$item->name.'</a>';
+                    } catch (\Exception $e) {
+                        return '<a href="'.route("item.guns", $id, $id).'">'.$id.'</a>';
+                    }
+                },
+                $this->data->mod_targets
+            ));
+        }
+    }
 }

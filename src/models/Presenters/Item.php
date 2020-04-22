@@ -250,16 +250,6 @@ class Item extends \Robbo\Presenter\Presenter
         return implode("; ", $ret);
     }
 
-    public function presentModSkills()
-    {
-        $ret = array();
-        foreach ($this->mod_targets as $target) {
-            $ret[] = '<a href="'.route("item.guns", $target, $target).'">'.$target.'</a>';
-        }
-
-        return implode(", ", $ret);
-    }
-
     public function presentClipSizeModifier()
     {
         return sprintf("%+d", $this->object->clip_size_modifier);

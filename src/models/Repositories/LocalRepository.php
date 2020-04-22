@@ -216,7 +216,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 foreach ($object->mod_targets as $k => $target) {
                     // gun_type_type 为 msgctxt
                     $text = $this->trans("gun_type_type\004{$target}");
-                    if ($text != "gun_type_type\004{$target}") {
+                    if ($text != "gun_type_type\004{$target}" && target != "ar15") {
                         $object->mod_targets[$k] = $text;
                     }
                 }

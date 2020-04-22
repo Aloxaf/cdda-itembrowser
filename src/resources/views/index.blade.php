@@ -75,7 +75,7 @@
 <li><a href="{{ route('item.containers') }}">容器</a></li>
 <li><a href="{{ route('item.flags') }}">Flags</a></li>
 <li><a href="{{ route('item.skills') }}">技能</a></li>
-<li><a href="{{ route('item.gunmods', array('rifle', 'sights')) }}">改装模组</a></li>
+<li><a href="{{ route('item.gunmods', array('步枪', '瞄准器')) }}">改装模组</a></li>
 
 <h2>怪物分类</h2>
 <li><a href="{{ route('monster.groups') }}">Groups</a></li>

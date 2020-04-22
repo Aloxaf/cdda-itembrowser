@@ -182,7 +182,17 @@ class ItemsController extends Controller
 
     public function gunmods($skill = null, $part = null)
     {
-        $skills = $this->repo->raw("gunmodSkills");
+        $skills = array_map(
+            function ($id) {
+                try {
+                    $item = $this->repo->getModelOrFail("Item", $id);
+                    return $item->name;
+                } catch (\Exception $e) {
+                    return $id;
+                }
+            },
+            $this->repo->raw("gunmodSkills")
+        );
         $parts = $this->repo->raw("gunmodParts");
         $mods = $this->repo->allModels("Item", "gunmods.$skill.$part");
 
