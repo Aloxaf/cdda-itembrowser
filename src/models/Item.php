@@ -87,7 +87,13 @@ class Item implements Robbo\Presenter\PresentableInterface
 
         $name = $this->data->name;
         if (is_object($this->data->name)) {
-            $name = $this->data->name->str;
+            if (isset($this->data->name->str)) {
+                $name = $this->data->name->str;
+            } elseif (isset($this->data->name->str_sp)) {
+                $name = $this->data->name->str_sp;
+            } else {
+                $name = '';
+            }
         }
 
         return ($this->type == "bionic" ? "CBM: " : "").$name; //." (".$this->data->id.")";
@@ -540,7 +546,13 @@ class Item implements Robbo\Presenter\PresentableInterface
     {
         if ($this->data->damage !== null) {
             if (is_object($this->data->damage)) {
-                $strval = $this->data->damage->amount;
+                $strval = '';
+                if (isset($this->data->damage->amount)) {
+                    $strval = $this->data->damage->amount;
+                }
+                if (isset($this->data->damage->constant_damage_multiplier)) {
+                    $strval .= 'x'.$this->data->damage->constant_damage_multiplier;
+                }
                 if (isset($this->data->damage->damage_type)) {
                     $strval.=" (".$this->data->damage->damage_type.")";
                 }

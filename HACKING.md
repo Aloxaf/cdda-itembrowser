@@ -13,7 +13,7 @@ php src/artisan cataclysm:rebuild
 
 
 The code for this command is located in 
-[src/app/Console/Commands/CataclysmRebuild.php](src/app/Console/Commands/CataclsymRebuild.php).
+[src/app/Console/Commands/CataclysmRebuild.php](src/app/Console/Commands/CataclysmRebuild.php).
 
 When you run the console command, the handle() method is executed.
 
