@@ -676,7 +676,7 @@ class Item implements Robbo\Presenter\PresentableInterface
         }
 
         if ($this->data->max_encumbrance > 0) {
-            $result = $result." - ".$this->data->max_encumbrance." (0% - 100% total character volume)";
+            $result = $result." - ".$this->data->max_encumbrance." (0% - 100% 体积)";
         }
 
         return $result;

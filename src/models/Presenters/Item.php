@@ -381,4 +381,25 @@ class Item extends \Robbo\Presenter\Presenter
             return round($price * floatval($this->object->count ?? 1) / floatval($this->object->stack_size ?? 1), 2);
         }
     }
+
+    public function presentModes()
+    {
+        if ($this->object->modes != NULL) {
+            $ret = array();
+            foreach ($this->object->modes as $mode) {
+                switch ($mode[1]) {
+                    case 'semi-auto':
+                        $ret[] = "半自动（{$mode[2]}）";
+                        break;
+                    case 'auto':
+                        $ret[] = "全自动（{$mode[2]}）";
+                        break;
+                    default:
+                        $ret[] = "点射（{$mode[2]}）";
+                        break;
+                }
+            }
+            return implode("，", $ret);
+        }
+    }
 }

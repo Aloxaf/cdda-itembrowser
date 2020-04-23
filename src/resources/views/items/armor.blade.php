@@ -54,7 +54,7 @@ array(
   <td>{{ $item->clothingLayer }}</td>
   <td>{{ $item->volume }}</td>
   <td>{{ $item->weightMetric }}</td>
-  <td>{{ $item->encumbrance }}</td>
+  <td>{!! $item->encumbrance !!}</td>
   <td>{{ $item->protection('bash') }}</td>
   <td>{{ $item->protection('cut') }}</td>
   <td>{{ $item->warmth }}</td>

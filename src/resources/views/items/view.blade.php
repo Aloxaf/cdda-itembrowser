@@ -89,9 +89,9 @@
     <br>
     @endif
 
-    价格：{!! "$<yellow>".$item->price."</yellow>" !!}<br>
+    交换价值：{!! "$<yellow>".$item->price."</yellow>" !!}<br>
     @if ($item->price_postapoc)
-    交换价值：{!! "$<yellow>".$item->price_postapoc."</yellow>" !!}<br>
+    灾后价值：{!! "$<yellow>".$item->price_postapoc."</yellow>" !!}<br>
     @endif
     --
     <br>
@@ -173,10 +173,11 @@
     散步: <yellow>{{{ $item->dispersion }}}</yellow><br>
     后坐力: <yellow>{{{ $item->recoil }}}</yellow><br>
     装填耗时: <yellow>{{{ $item->reload }}}</yellow><br>
-    @if ($item->burst==0)
-    半自动<br>
-    @else
-    Burst size: {{{$item->burst}}}<br>
+    @if ($item->modes)
+    射击模式：{!! $item->modes !!}<br>
+    @endif
+    @if ($item->burst !=0 )
+    连发大小: <yellow>{{{$item->burst}}}</yellow><br>
     @endif
     @if ($item->isModdable)
       模组:<br>
@@ -216,7 +217,7 @@
         后坐力: <yellow>{{$item->recoilModifier}}</yellow><br>
       @endif
       @if ($item->burstModifier!=0)
-        爆炸: <yellow>{{$item->burstModifier}}</yellow><br>
+        连发伤害: <yellow>{{$item->burstModifier}}</yellow><br>
       @endif
       @if ($item->ammoModifier)
         弹药: {!! implode(", ", $item->ammoModifier) !!}<br>
