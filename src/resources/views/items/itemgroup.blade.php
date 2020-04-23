@@ -18,13 +18,16 @@
   @elseif ($group->type == "harvest")
     @foreach ($group->harvest as $harvest)
       收获
-      @if ($harvest->mass_ratio)
+      @if (isset($harvest->mass_ratio))
         质量占比 <yellow>{{ $harvest->mass_ratio * 100.0 }}</yellow>% 的
       @endif
+      @if (isset($harvest->max))
+        最多 <yellow>{{ $harvest->max }}</yellow>个
+      @endif
       @if (strpos($harvest->type, "_group") != false)
-        <a href="{{ route("item.itemgroup", $harvest->id)}}">{{ $harvest->id }}</a><br>
+        <a href="{{ route("item.itemgroup", $harvest->drop->id)}}">{{ $harvest->drop->id }}</a><br>
       @else
-        <a href="{{ route("item.view", $harvest->id)}}">{{ $harvest->fullname }}</a><br>
+        <a href="{{ route("item.view", $harvest->drop->id)}}">{{ $harvest->drop->fullname }}</a><br>
     @endif
   @endforeach
 @endif

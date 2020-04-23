@@ -106,15 +106,15 @@ class ItemGroup implements Robbo\Presenter\PresentableInterface
 
     public function getHarvest()
     {
-        $ret = array();
-        foreach ($this->data->entries as $entry) {
+        $entries = $this->data->entries;
+        foreach ($entries as $entry) {
             if (strpos($entry->type, "_group") == false) {
-                $ret[] = $this->repo->getModel("Item", $entry->drop);
+                $entry->drop = $this->repo->getModel("Item", $entry->drop);
             } else {
-                $ret[] = $this->repo->getModel("ItemGroup", $entry->drop);
+                $entry->drop = $this->repo->getModel("ItemGroup", $entry->drop);
             }
         }
-        return $ret;
+        return $entries;
     }
 
     public function getJson()
