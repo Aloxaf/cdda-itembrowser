@@ -45,7 +45,7 @@
         "marshmallow" => "棉花糖",
         "alien" => "外星人",
         "biocrystal" => "晶体生物",
-        "wildalien" => "外星动物",
+        "wildalien" => "外星野人",
     )[strtolower($s)]
 }}</a></li>
 @endforeach

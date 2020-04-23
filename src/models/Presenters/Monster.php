@@ -129,7 +129,7 @@ class Monster extends \Robbo\Presenter\Presenter
             "marshmallow" => "棉花糖",
             "alien" => "外星人",
             "biocrystal" => "晶体生物",
-            "wildalien" => "外星动物",
+            "wildalien" => "外星野人",
         );
         $links = array_map(function ($species) use ($trans) {
             return '<a href="'.route('monster.species', array($species)).'">'.$trans[strtolower($species)].'</a>';
