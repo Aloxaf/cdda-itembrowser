@@ -223,7 +223,7 @@ class Monster extends \Robbo\Presenter\Presenter
                     $name = $name->str;
                 }
                 $freq = $mon->freq / 10;
-                $ret .= '<a href="'.route("monster.view", $mon->monster->id).'">'.$mon->monster->name->str."</a>";
+                $ret .= '<a href="'.route("monster.view", $mon->monster->id).'">'.$name."</a>";
                 $ret .= " （{$freq}%）(占位：{$mon->cost_multiplier})";
                 return $ret;
             },
