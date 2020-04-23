@@ -307,7 +307,8 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                         }
                     } else if (is_string($object->name)) {
                         $name = $object->name;
-                    } else if (is_object($object->name)) {
+                    // TODO: 更多 name 格式
+                    } else if (is_object($object->name) && isset($object->name->str)) {
                         $name = $object->name->str;
                     }
                     $this->appendUnique("item_multi.name.$object->id", $name);
