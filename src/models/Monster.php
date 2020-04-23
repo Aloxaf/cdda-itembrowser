@@ -65,7 +65,13 @@ class Monster implements Robbo\Presenter\PresentableInterface
 
         $name = $this->data->name;
         if(is_object($this->data->name)){
-            $name = $this->data->name->str;
+            if (isset($this->data->name->str)) {
+                $name = $this->data->name->str;
+            } elseif (isset($this->data->name->str_sp)) {
+                $name = $this->data->name->str_sp;
+            } else {
+                $name = '';
+            }
         }
         return stristr($name, $search);
     }
