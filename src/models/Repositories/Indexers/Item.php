@@ -373,7 +373,7 @@ class Item implements IndexerInterface
                             $object->{$relkey} += $relvalue;
                         } catch (\Exception $e) {
                             echo "$object->id has a relative key that did not process correctly: $relkey"."\n";
-                            throw $e;
+                            // throw $e;
                         }
                     }
                 }
@@ -384,7 +384,7 @@ class Item implements IndexerInterface
         if (isset($object->proportional)) {
             foreach ($object->proportional as $proportionkey => $proportionvalue) {
                 // echo $proportionkey."\n";
-                if (!isset($object->{$proportionkey}) || is_array($object->{$proportionkey})) {
+                if (!isset($object->{$proportionkey}) || !is_numeric($object->{$proportionkey})) {
                     continue;
                 }
                 if ($proportionkey == "volume") {

@@ -234,8 +234,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             return;
         }
         if ($object->type == "snippet" || $object->type == "talk_topic" || $object->type == "overmap_terrain" || $object->type == "scenario" || $object->type == "ammunition_type" ||
-        $object->type == "start_location" || $object->type == "harvest" || $object->type == "effect_type" || $object->type == "MIGRATION" || $object->type == "item_action" ||
-        $object->type == "item_group" || $object->type == "ITEM_CATEGORY") {
+        $object->type == "start_location" || $object->type == "effect_type" || $object->type == "MIGRATION" || $object->type == "item_action" || $object->type == "ITEM_CATEGORY") {
             return;
         }
 
@@ -291,6 +290,8 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             }
             if ($object->type == "monstergroup") {
                 $this->append("monstergroup_multi.$object->name", $object->repo_id);
+            } else if ($object->type == "item_group" || $object->type == "harvest") {
+                $this->append("itemgroup_multi.{$object->id}", $object->repo_id);
             }
             if (strtolower($object->type) == "monster") {
                 $this->append("monster_multi.$object->id", $object->repo_id);
@@ -299,17 +300,17 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 $object->copyfrom_id = $object->modspace.$object->id;
 
                 // 重复 ID 的话, 每次都将先前的名称加到现在名称的前面
-                if (isset($object->name) && is_string($object->name)) {
-                    $this->appendUnique("item_multi.name.$object->id", $object->name);
-                    /*
-                    $name = $this->raw("item_multi.name.$object->id");
-                    if ($name) {
-                        $name = $name." / ".$object->name;
-                        $this->set("item_multi.name.$object->id", $name);
-                    } else {
-                        $this->set("item_multi.name.$object->id", $object->name);
+                if (isset($object->name)) {
+                    if (is_array($object->name)) {
+                        if (is_string($object->name[0])) {
+                            $name = $object->name[0];
+                        }
+                    } else if (is_string($object->name)) {
+                        $name = $object->name;
+                    } else if (is_object($object->name) && isset($object->name->ctxt)) {
+                        $name = $object->name->str;
                     }
-                    */
+                    $this->appendUnique("item_multi.name.$object->id", $name);
                 }
 
                 $this->append("item_multi.$object->id", $object->repo_id);

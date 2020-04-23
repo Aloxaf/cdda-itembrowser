@@ -224,10 +224,50 @@ class Monster extends \Robbo\Presenter\Presenter
                 }
                 $freq = $mon->freq / 10;
                 $ret .= '<a href="'.route("monster.view", $mon->monster->id).'">'.$mon->monster->name->str."</a>";
-                $ret .= " （{$freq}%）(计算权重：{$mon->cost_multiplier})";
+                $ret .= " （{$freq}%）(占位：{$mon->cost_multiplier})";
                 return $ret;
             },
             $monsters
         ));
+    }
+
+    private function parseEntries($entries)
+    {
+        $ret = array();
+        foreach ($entries as $entry) {
+            $prob = $entry->prob ?? 100;
+            if (isset($entry->group)) {
+                $ret[] = '<a href="'.route('item.itemgroup', $entry->group->id).'">'."{$entry->group->id}</a>（{$prob}%）";
+            } else if (isset($entry->item)) {
+                $ret[] = '<a href="'.route('item.view', $entry->item->id).'">'."{$entry->item->name}</a>（{$prob}%）";
+            } else if (isset($entry->distribution)) {
+                $ret[] = '必定掉落以下物品之一：';
+                $ret = array_merge($ret, array($this->parseEntries($entry->distribution)));
+            } else {
+                $ret[] = '可能掉落以下物品：';
+                $ret = array_merge($ret, array($this->parseEntries($entry->collection)));
+            }
+        }
+        return implode("<br>", $ret);
+    }
+
+    public function presentDeathDrops()
+    {
+        if ($this->object->death_drops == NULL) {
+            return;
+        }
+        $death_drops = $this->object->death_drops;
+        if (is_object($death_drops) && $death_drops->id != NULL) {
+            return '<a href="'.route('item.itemgroup', $death_drops->id)."\">{$death_drops->id}";
+        } else if (is_array($death_drops)) {
+            return "必定掉落以下物品之一：<br><ul>".$this->parseEntries($death_drops)."</ul>";
+        } else {
+            if (isset($death_drops->subtype) && $death_drops->subtype == "collection") {
+                $ret = "可能掉落以下物品：<br><ul>";
+            } else {
+                $ret = "必定掉落以下物品之一：<br><ul>";
+            }
+            return $ret.$this->parseEntries($death_drops->entries)."</ul>";
+        }
     }
 }

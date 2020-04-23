@@ -98,6 +98,18 @@
   <td>{!! $monster->upgrades_to !!}</td>
 </tr>
 @endif
+<tr>
+  <td>可收获：</td>
+  <td><a href="{{ route("item.itemgroup", $monster->harvest) }}">{{ $monster->harvest }}</a></td>
+  <td>燃烧进化：</td>
+  @if ($monster->burn_into != NULL)
+  <td><a href="{{ route("monster.view", $monster->burn_into->id) }}">{{ $monster->burn_into->nicename }}</a></td>
+  @endif
+</tr>
+<tr>
+  <td>死亡掉落：</td>
+  <td>{!! $monster->death_drops !!}</td>
+</tr>
 </table>
 <br>
 <details>
@@ -115,3 +127,9 @@
     });
   });
 </script>
+
+<style>
+  ul {
+    padding-left: 15px;
+  }
+</style>

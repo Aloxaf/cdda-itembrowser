@@ -127,4 +127,29 @@ class Monster implements Robbo\Presenter\PresentableInterface
             );
         }
     }
+
+    public function getDeathDrops()
+    {
+        if (!isset($this->data->death_drops)) {
+            return;
+        }
+        if (is_string($this->data->death_drops)) {
+            return $this->repo->getModel("ItemGroup", $this->data->death_drops);
+        } else if (is_object($this->data->death_drops)) {
+            $group = new ItemGroup($this->repo);
+            $group->load($this->data->death_drops);
+            return $group;
+        } else {
+            $group = new ItemGroup($this->repo);
+            return $group->parseEntries($this->data->death_drops);
+        }
+    }
+
+    public function getBurnInto()
+    {
+        if (!isset($this->data->burn_into)) {
+            return;
+        }
+        return $this->repo->getModel("Monster", $this->data->burn_into);
+    }
 }

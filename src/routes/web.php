@@ -191,6 +191,11 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
     'as' => 'item.gunmods',
     'uses' => 'ItemsController@gunmods', )
   );
+
+  Route::get('/itemgroup/{id}', array(
+    'as' => "item.itemgroup",
+    'uses' => 'ItemsController@itemgroup',
+  ));
 });
 
 // Route::get('/sitemap.xml', array(
