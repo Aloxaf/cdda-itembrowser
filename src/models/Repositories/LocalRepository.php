@@ -307,7 +307,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                         }
                     } else if (is_string($object->name)) {
                         $name = $object->name;
-                    } else if (is_object($object->name) && isset($object->name->ctxt)) {
+                    } else if (is_object($object->name)) {
                         $name = $object->name->str;
                     }
                     $this->appendUnique("item_multi.name.$object->id", $name);
