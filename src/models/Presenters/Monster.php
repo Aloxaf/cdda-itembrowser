@@ -20,7 +20,7 @@ class Monster extends \Robbo\Presenter\Presenter
     {
         $name = $this->object->name;
         if (is_object($this->object->name)) {
-            $name = $this->object->name->str;
+            $name = isset($this->object->name->str) ? $this->object->name->str : $this->object->name->str_sp;
         }
         return ucfirst($name);
     }
