@@ -133,10 +133,15 @@ class ItemGroup implements Robbo\Presenter\PresentableInterface
     {
         return array_map(
             function ($id) {
-                try {
-                    return $this->repo->getModel("Monster", $id);
-                } catch (\Exception $e) {
+                // TODO: This is hack
+                if (strpos($id, "mon") === false) {
                     return $this->repo->getModel("ItemGroup", $id);
+                } else {
+                    try {
+                        return $this->repo->getModel("Monster", $id);
+                    } catch (\Exception $e) {
+                        return $this->repo->getModel("ItemGroup", $id);
+                    }
                 }
             },
             $this->repo->raw("itemgroup.dropfrom.$this->id")
@@ -147,7 +152,15 @@ class ItemGroup implements Robbo\Presenter\PresentableInterface
     {
         return array_map(
             function ($id) {
-                return $this->repo->getModel("Monster", $id);
+                if (strpos($id, "mon") === false) {
+                    return $this->repo->getModel("ItemGroup", $id);
+                } else {
+                    try {
+                        return $this->repo->getModel("Monster", $id);
+                    } catch (\Exception $e) {
+                        return $this->repo->getModel("ItemGroup", $id);
+                    }
+                }
             },
             $this->repo->raw("itemgroup.harvestfrom.$this->id")
         );
