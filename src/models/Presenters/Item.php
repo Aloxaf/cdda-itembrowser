@@ -402,4 +402,23 @@ class Item extends \Robbo\Presenter\Presenter
             return implode("，", $ret);
         }
     }
+
+    public function presentDropFrom()
+    {
+        $ret = implode(", ", array_map(
+            function ($drop) {
+                if ($drop->type == "MONSTER") {
+                    return '<a href="'.route('monster.view', $drop->id).'">'.$drop->nicename.'</a>';
+                } else {
+                    return '<a href="'.route('item.itemgroup', $drop->id).'">'.$drop->id.'</a>';
+                }
+            },
+            $this->object->dropfrom
+        ));
+        if ($ret == "") {
+            return;
+        } else {
+            return "掉落自：$ret<br>";
+        }
+    }
 }

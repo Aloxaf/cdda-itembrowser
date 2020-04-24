@@ -237,6 +237,7 @@ class Monster extends \Robbo\Presenter\Presenter
 
     private function parseEntries($entries)
     {
+        // TODO: container 等玩意儿？
         $ret = array();
         foreach ($entries as $entry) {
             $prob = $entry->prob ?? 100;
@@ -266,12 +267,16 @@ class Monster extends \Robbo\Presenter\Presenter
         } else if (is_array($death_drops)) {
             return "必定掉落以下物品之一：<br><ul>".$this->parseEntries($death_drops)."</ul>";
         } else {
+            $entries = $death_drops->entries;
+            if ($entries == NULL) {
+                return;
+            }
             if (isset($death_drops->subtype) && $death_drops->subtype == "collection") {
                 $ret = "可能掉落以下物品：<br><ul>";
             } else {
                 $ret = "必定掉落以下物品之一：<br><ul>";
             }
-            return $ret.$this->parseEntries($death_drops->entries)."</ul>";
+            return $ret.$this->parseEntries($entries)."</ul>";
         }
     }
 }

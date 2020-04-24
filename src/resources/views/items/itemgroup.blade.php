@@ -5,6 +5,9 @@
 <ul class="nav nav-tabs">
 @foreach ($groups as $group)
   <h1>{{ $group->id }} {!! $group->modinfo !!}</h1>
+  {!! $group->dropfrom !!}
+  {!! $group->harvestfrom !!}
+  <br>
   @if ($group->type == "item_group")
     @if ($group->ammo)
       <yellow>{{ $group->ammo }}</yellow>% 的几率和弹药一起掉落<br>

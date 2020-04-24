@@ -50,10 +50,16 @@ class ItemGroup extends \Robbo\Presenter\Presenter
             );
             foreach ($keys as $k => $v) {
                 if (isset($entry->{$k})) {
-                    if ($v[0] == "item.view") {
-                        $pre .= $v[1].' <a href="'.route($v[0], $entry->{$k}->id).'">'.$entry->{$k}->name.'</a> '.$v[2];
-                    } else {
-                        $pre .= $v[1].' <a href="'.route($v[0], $entry->{$k}->id).'">'.$entry->{$k}->id.'</a> '.$v[2];
+                    $tmp = $entry->{$k};
+                    if (!is_array($tmp)) {
+                        $tmp = array($tmp);
+                    }
+                    foreach ($tmp as $tk) {
+                        if ($v[0] == "item.view") {
+                            $pre .= $v[1].' <a href="'.route($v[0], $tk->id).'">'.$tk->name.'</a> '.$v[2];
+                        } else {
+                            $pre .= $v[1].' <a href="'.route($v[0], $tk->id).'">'.$tk->id.'</a> '.$v[2];
+                        }
                     }
                 }
             }
@@ -88,5 +94,39 @@ class ItemGroup extends \Robbo\Presenter\Presenter
             $ret = "必定掉落以下物品之一：<br><ul>";
         }
         return $ret.$this->parseEntries($this->object->entries)."</ul>";
+    }
+
+    public function presentDropFrom()
+    {
+        $ret = implode(", ", array_map(
+            function ($drop) {
+                if ($drop->type == "MONSTER") {
+                    return '<a href="'.route('monster.view', $drop->id).'">'.$drop->getPresenter()->nicename.'</a>';
+                } else {
+                    return '<a href="'.route('item.itemgroup', $drop->id).'">'.$drop->id.'</a>';
+                }
+            },
+            $this->object->dropfrom
+        ));
+        if ($ret == "") {
+            return;
+        } else {
+            return "掉落自：$ret<br>";
+        }
+    }
+
+    public function presentHarvestFrom()
+    {
+        $ret = implode(", ", array_map(
+            function ($drop) {
+                return '<a href="'.route('monster.view', $drop->id).'">'.$drop->getPresenter()->nicename.'</a>';
+            },
+            $this->object->harvestfrom
+        ));
+        if ($ret == "") {
+            return;
+        } else {
+            return "解剖自：$ret<br>";
+        }
     }
 }

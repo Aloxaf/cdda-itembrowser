@@ -89,6 +89,8 @@
     <br>
     @endif
 
+    {!! $item->dropfrom !!}
+
     交换价值：{!! "$<yellow>".$item->price."</yellow>" !!}<br>
     @if ($item->price_postapoc)
     灾后价值：{!! "$<yellow>".$item->price_postapoc."</yellow>" !!}<br>

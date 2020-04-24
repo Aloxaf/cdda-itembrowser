@@ -790,4 +790,18 @@ class Item implements Robbo\Presenter\PresentableInterface
             ));
         }
     }
+
+    public function getDropFrom()
+    {
+        return array_map(
+            function ($id) {
+                try {
+                    return $this->repo->getModel("Monster", $id);
+                } catch (\Exception $e) {
+                    return $this->repo->getModel("ItemGroup", $id);
+                }
+            },
+            $this->repo->raw("item.dropfrom.$this->id")
+        );
+    }
 }

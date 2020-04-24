@@ -58,8 +58,15 @@ class ItemGroup implements Robbo\Presenter\PresentableInterface
             );
             foreach ($keys as $k => $v) {
                 if (isset($entry->{$k})) {
-                    $tmp = $this->repo->getModel($v, $entry->{$k});
-                    $entry->{$k} = $tmp;
+                    if (is_string($entry->{$k})) {
+                        $tmp = $this->repo->getModel($v, $entry->{$k});
+                        $entry->{$k} = $tmp;
+                    } else {
+                        foreach ($entry->{$k} as $tk => $tv) {
+                            $tmp = $this->repo->getModel($v, $tv);
+                            $entry->{$k}[$tk] = $tmp;
+                        }
+                    }
                 }
             }
             $keys = array("damage", "count", "charges");
@@ -120,5 +127,29 @@ class ItemGroup implements Robbo\Presenter\PresentableInterface
     public function getJson()
     {
         return $this->json;
+    }
+
+    public function getDropFrom()
+    {
+        return array_map(
+            function ($id) {
+                try {
+                    return $this->repo->getModel("Monster", $id);
+                } catch (\Exception $e) {
+                    return $this->repo->getModel("ItemGroup", $id);
+                }
+            },
+            $this->repo->raw("itemgroup.dropfrom.$this->id")
+        );
+    }
+
+    public function getHarvestFrom()
+    {
+        return array_map(
+            function ($id) {
+                return $this->repo->getModel("Monster", $id);
+            },
+            $this->repo->raw("itemgroup.harvestfrom.$this->id")
+        );
     }
 }

@@ -56,7 +56,68 @@ class Monster implements IndexerInterface
                 ($object->vision_day + 2 * $object->vision_night) * 0.01;
             $object->difficulty = $diff;
 
+            if (isset($object->death_drops)) {
+                if (is_string($object->death_drops)) {
+                    $repo->append("itemgroup.dropfrom.{$object->death_drops}", $object->id);
+                } else if (is_object($object->death_drops) && isset($object->death_drops->id)) {
+                    $repo->append("itemgroup.{$object->death_drops->id}", $object->id);
+                } else if (is_array($object->death_drops)) {
+                    foreach ($object->death_drops as $tmp) {
+                        $this->parseEntry($repo, $tmp, $object->id);
+                    }
+                } else if (isset($object->death_drops->entries)) {
+                    foreach ($object->entries as $tmp) {
+                        $this->parseEntry($repo, $tmp, $object->id);
+                    }
+                } else if (isset($object->death_drops->item)) {
+                    $repo->append("item.dropfrom.{$entry->death_drops->item}", $object->id);
+                } else if (isset($object->death_drops->group)) {
+                    $repo->append("itemgroup.dropfrom.{$entry->death_drops->group}", $object->id);
+                } else if (isset($object->death_drops->groups)) {
+                    foreach ($object->death_drops->groups as $group) {
+                        if (is_array($group)) {
+                            $repo->append("itemgroup.dropfrom.{$group[0]}", $object->id);
+                        } else {
+                            $this->parseEntry($repo, $group, $object->id);
+                        }
+                    }
+                } else if (isset($object->death_drops->items)) {
+                    foreach ($object->death_drops->items as $item) {
+                        if (is_array($item)) {
+                            $repo->append("item.dropfrom.{$item[0]}", $object->id);
+                        } else {
+                            $this->parseEntry($repo, $item, $object->id);
+                        }
+                    }
+                } else {
+                    echo "ERROR Monster:".$object->id."\n";
+                }
+            }
+            if (isset($object->harvest)) {
+                $repo->append("itemgroup.harvestfrom.{$object->harvest}", $object->id);
+            }
+
             return;
+        }
+    }
+
+    private function parseEntry(RepositoryWriterInterface $repo, $entry, $id)
+    {
+        // TODO: container 等玩意儿？
+        if (isset($entry->group)) {
+            $repo->append("itemgroup.dropfrom.{$entry->group}", $id);
+        } else if (isset($entry->item)) {
+            $repo->append("item.dropfrom.{$entry->item}", $id);
+        } else if (isset($entry->distribution)) {
+            foreach ($entry->distribution as $tmp) {
+                $this->parseEntry($repo, $tmp, $id);
+            }
+        } else if (isset($entry->collection)) {
+            foreach ($entry->collection as $tmp) {
+                $this->parseEntry($repo, $tmp, $id);
+            }
+        } else {
+            echo "ERROR Monster:".$id."\n";
         }
     }
 
