@@ -99,7 +99,7 @@
 </tr>
 @endif
 <tr>
-  <td>解剖收获：</td>
+  <td>可收获：</td>
   @if ($monster->harvest != NULL)
   <td><a href="{{ route("item.itemgroup", $monster->harvest) }}">{{ $monster->harvest }}</a></td>
   @endif

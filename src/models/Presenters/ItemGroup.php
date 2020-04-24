@@ -130,7 +130,7 @@ class ItemGroup extends \Robbo\Presenter\Presenter
         if ($ret == "") {
             return;
         } else {
-            return "解剖自：$ret<br>";
+            return "收获自：$ret<br>";
         }
     }
 }

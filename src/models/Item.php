@@ -804,4 +804,14 @@ class Item implements Robbo\Presenter\PresentableInterface
             $this->repo->raw("item.dropfrom.$this->id")
         );
     }
+
+    public function getHarvestFrom()
+    {
+        return array_map(
+            function ($id) {
+                return $this->repo->getModel("ItemGroup", $id);
+            },
+            $this->repo->raw("item.harvestfrom.$this->id")
+        );
+    }
 }

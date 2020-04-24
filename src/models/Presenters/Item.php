@@ -421,4 +421,19 @@ class Item extends \Robbo\Presenter\Presenter
             return "掉落自：$ret<br>";
         }
     }
+
+    public function presentHarvestFrom()
+    {
+        $ret = implode(", ", array_map(
+            function ($drop) {
+                return '<a href="'.route('item.itemgroup', $drop->id).'">'.$drop->id.'</a>';
+            },
+            $this->object->harvestfrom
+        ));
+        if ($ret == "") {
+            return;
+        } else {
+            return "收获自：$ret<br>";
+        }
+    }
 }

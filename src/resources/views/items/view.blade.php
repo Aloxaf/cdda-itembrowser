@@ -90,6 +90,7 @@
     @endif
 
     {!! $item->dropfrom !!}
+    {!! $item->harvestfrom !!}
 
     交换价值：{!! "$<yellow>".$item->price."</yellow>" !!}<br>
     @if ($item->price_postapoc)
