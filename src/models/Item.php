@@ -594,15 +594,15 @@ class Item implements Robbo\Presenter\PresentableInterface
     {
         $brewtime = $this->data->brewable->time;
 
-        $brewresults = array();
+        $brewresults = array("* 一旦在瓮中设置，将会需要约 $brewtime 小时来发酵");
         foreach ($this->data->brewable->results as $output) {
             $brewitem = $this->repo->getModel("Item", $output);
-            $brewresults[] = '<a href="'.route("item.view", array("id" => $brewitem->id)).'">'.$brewitem->name.'</a>';
+            $brewresults[] = '* 这件物品发酵后将产出 <a href="'.route("item.view", array("id" => $brewitem->id)).'">'.$brewitem->name.'</a>';
         }
 
-        $brewproducts = implode(", ", $brewresults);
+        $brewproducts = implode("<br>", $brewresults);
 
-        return "Fermenting this item for ".$brewtime." produces ".$brewproducts.".";
+        return $brewproducts;
     }
 
     public function getIsGunMod()
@@ -763,13 +763,20 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getAmmoModifier()
     {
+        if (!isset($this->data->ammo_modifier)) {
+            return;
+        }
+        $ammo_modifier = $this->data->ammo_modifier;
+        if (!is_array($ammo_modifier)) {
+            $ammo_modifier = array($ammo_modifier);
+        }
         if (isset($this->data->ammo_modifier)) {
             return array_map(
                 function ($id) {
                     $model = $this->repo->getModel("Item", $id);
                     return "<a href=\"".route("item.view", $id)."\">".$model->name."</a>";
                 },
-                $this->data->ammo_modifier
+                $ammo_modifier
             );
         }
     }
