@@ -20,7 +20,7 @@ class ItemGroup extends \Robbo\Presenter\Presenter
 
     private function parseEntries($entries)
     {
-        $ret = array();
+        $ret = "";
         foreach ($entries as $entry) {
             $pre = "";
             $prob = $entry->prob ?? 100;
@@ -28,16 +28,16 @@ class ItemGroup extends \Robbo\Presenter\Presenter
 
             if (isset($entry->count)) {
                 if (is_array($entry->count)) {
-                    $pre .= " {$entry->count[0]}~{$entry->count[1]} 个 ";
+                    $pre .= " <yellow>{$entry->count[0]}</yellow>~<yellow>{$entry->count[1]}</yellow> 个 ";
                 } else {
-                    $pre .= " {$entry->count} 个 ";
+                    $pre .= " <yellow>{$entry->count}</yellow> 个 ";
                 }
             }
             if (isset($entry->charges)) {
                 if (is_array($entry->charges)) {
-                    $pre .= " {$entry->charges[0]}~{$entry->charges[1]} 单位的 ";
+                    $pre .= " <yellow>{$entry->charges[0]}</yellow>~<yellow>{$entry->charges[1]}</yellow> 单位的 ";
                 } else {
-                    $pre .= " {$entry->charges} 单位 ";
+                    $pre .= " <yellow>{$entry->charges}</yellow> 单位 ";
                 }
             }
             $keys = array(
@@ -59,25 +59,25 @@ class ItemGroup extends \Robbo\Presenter\Presenter
             }
             if (isset($entry->damage)) {
                 if (is_array($entry->damage)) {
-                    $pre .= " 损坏程度 {$entry->damage[0]}~{$entry->damage[1]} 的 ";
+                    $pre .= " 损坏程度 <yellow>{$entry->damage[0]}</yellow>~<yellow>{$entry->damage[1]}</yellow> 的 ";
                 } else {
-                    $pre .= " 损坏程度 {$entry->damage} 的 ";
+                    $pre .= " 损坏程度 <yellow>{$entry->damage}</yellow> 的 ";
                 }
             }
 
             if (isset($entry->group)) {
-                $ret[] = $pre.'<a href="'.route('item.itemgroup', $entry->group->id).'">'."{$entry->group->id}</a>";
+                $ret .= $pre.'<a href="'.route('item.itemgroup', $entry->group->id).'">'."{$entry->group->id}</a><br>";
             } else if (isset($entry->item)) {
-                $ret[] = $pre.'<a href="'.route('item.view', $entry->item->id).'">'."{$entry->item->name}</a>";
+                $ret .= $pre.'<a href="'.route('item.view', $entry->item->id).'">'."{$entry->item->name}</a><br>";
             } else if (isset($entry->distribution)) {
-                $ret[] = '必定掉落以下物品之一：';
-                $ret = array_merge($ret, array("<ul>".$this->parseEntries($entry->distribution)."</ul>"));
+                $ret .= '必定掉落以下物品之一：<br>';
+                $ret .= "<ul>".$this->parseEntries($entry->distribution)."</ul>";
             } else {
-                $ret[] = '可能掉落以下物品：';
-                $ret = array_merge($ret, array("<ul>".$this->parseEntries($entry->collection)."</ul>"));
+                $ret .= '可能掉落以下物品：<br>';
+                $ret .= "<ul>".$this->parseEntries($entry->collection)."</ul>";
             }
         }
-        return implode("<br>", $ret);
+        return $ret;
     }
 
     public function presentItems()

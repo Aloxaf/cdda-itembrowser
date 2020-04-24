@@ -17,18 +17,26 @@
     <br>
   @elseif ($group->type == "harvest")
     @foreach ($group->harvest as $harvest)
+      <p>
       收获
       @if (isset($harvest->mass_ratio))
         质量占比 <yellow>{{ $harvest->mass_ratio * 100.0 }}</yellow>% 的
       @endif
+      @if (isset($harvest->base_num))
+        基数为 <yellow>{{ $harvest->base_num[0] }}</yellow>~<yellow>{{ $harvest->base_num[1] }}</yellow> 的
+      @endif
+      @if (isset($harvest->scale_num))
+        额外奖励 生存技能x(<yellow>{{ $harvest->scale_num[0] }}</yellow>~<yellow>{{ $harvest->scale_num[1] }}</yellow>) 的
+      @endif
       @if (isset($harvest->max))
-        最多 <yellow>{{ $harvest->max }}</yellow>个
+        最多 <yellow>{{ $harvest->max }}</yellow> 个
       @endif
       @if (strpos($harvest->type, "_group") != false)
         <a href="{{ route("item.itemgroup", $harvest->drop->id)}}">{{ $harvest->drop->id }}</a><br>
       @else
         <a href="{{ route("item.view", $harvest->drop->id)}}">{{ $harvest->drop->fullname }}</a><br>
-    @endif
+      @endif
+      </p>
   @endforeach
 @endif
 
