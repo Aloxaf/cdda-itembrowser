@@ -141,7 +141,7 @@
           <thead>
             <tr>
               <th>弹药</th>
-              <th style="width: 4em" class="text-right">伤害</th>
+              <th style="width: auto" class="text-right">伤害（暴击）</th>
               <th style="width: 4em" class="text-right">穿甲</th>
               <th style="width: 4em" class="text-right">噪音</th>
             </tr>
@@ -150,7 +150,11 @@
             @foreach($item->ammoTypes as $ammo)
               <tr>
                 <td><a href="{{ route("item.view", $ammo->id) }}">{{ $ammo->name }}</a></td>
-                <td class="text-right">{{ $ammo->damage }}</td>
+                <td class="text-right">{{ $ammo->damage }}
+                  @if ($ammo->critical_multiplier > 0)
+                  ({{ $ammo->damage * $ammo->critical_multiplier }})
+                  @endif
+                </td>
                 <td class="text-right">{{ $ammo->pierce }}</td>
                 <td class="text-right">{{ round($item->noise($ammo)) }}</td>
               </tr>
