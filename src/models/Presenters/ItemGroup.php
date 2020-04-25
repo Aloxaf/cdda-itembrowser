@@ -23,7 +23,7 @@ class ItemGroup extends \Robbo\Presenter\Presenter
         $ret = "";
         $total = 1.0;
         if ($is_distro) {
-            $total = array_sum(array_map(function($t) { return $t->prob ?? 100; }, $entries)) / 100;
+            $total = array_sum(array_map(function($t) { return $t->prob ?? 100; }, $entries)) / 100 ?: 1;
         }
         foreach ($entries as $entry) {
             $pre = "";

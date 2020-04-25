@@ -241,7 +241,7 @@ class Monster extends \Robbo\Presenter\Presenter
         $ret = array();
         $total = 1.0;
         if ($is_distro) {
-            $total = array_sum(array_map(function($t) { return $t->prob ?? 100; }, $entries)) / 100;
+            $total = array_sum(array_map(function($t) { return $t->prob ?? 100; }, $entries)) / 100 ?: 1;
         }
         foreach ($entries as $entry) {
             $prob = round(($entry->prob ?? 100) / $total, 3);

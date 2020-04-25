@@ -389,6 +389,7 @@
       @endif
       {!! $item->dropfrom !!}
       {!! $item->harvestfrom !!}
+      <br>
       <details>
         <summary>查看 JSON</summary>
         {!!$item->json!!}
