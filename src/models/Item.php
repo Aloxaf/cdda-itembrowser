@@ -300,7 +300,12 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getPierce()
     {
-        return isset($this->data->pierce) ? $this->data->pierce : 0;
+        if (isset($this->data->damage->armor_penetration)) {
+            return $this->data->damage->armor_penetration;
+        } else if (isset($this->data->pierce)) {
+            return $this->data->pierce;
+        }
+        return 0;
     }
 
     public function getMaterial1()
@@ -374,8 +379,12 @@ class Item implements Robbo\Presenter\PresentableInterface
 
         foreach ($ammotypes as &$ammotype) {
             $ammo_damage_multiplier = 1.0;
-            if ($this->data->type == "GUN" && $ammotype->prop_damage > 0) {
-                $ammo_damage_multiplier = $ammotype->prop_damage;
+            if ($this->data->type == "GUN") {
+                if ($ammotype->prop_damage > 0) {
+                    $ammo_damage_multiplier = $ammotype->prop_damage;
+                } else if (isset($ammotype->data->damage->constant_damage_multiplier)) {
+                    $ammo_damage_multiplier = $ammotype->data->damage->constant_damage_multiplier;
+                }
             }
 
             $result = floatval($ammotype->damage);
@@ -554,7 +563,7 @@ class Item implements Robbo\Presenter\PresentableInterface
                     $strval .= 'x'.$this->data->damage->constant_damage_multiplier;
                 }
                 if (isset($this->data->damage->damage_type)) {
-                    $strval.=" (".$this->data->damage->damage_type.")";
+                    $strval.=" (".gettext("damage type\004{$this->data->damage->damage_type}").")";
                 }
 
                 return $strval;
@@ -689,7 +698,7 @@ class Item implements Robbo\Presenter\PresentableInterface
             return 0;
         }
         if (isset($this->data->ranged_damage_type)) {
-            return $this->data->ranged_damage." (".$this->data->ranged_damage_type.")";
+            return $this->data->ranged_damage." (".gettext("damage type\004{$this->data->ranged_damage_type}").")";
         }
         if (!is_numeric($this->data->ranged_damage)) {
             if (is_array($this->data->ranged_damage)) {
@@ -820,5 +829,30 @@ class Item implements Robbo\Presenter\PresentableInterface
             },
             $this->repo->raw("item.harvestfrom.$this->id")
         );
+    }
+
+    public function effective_dps($mon)
+    {
+        $hits_by_accuracy = array(
+            0,    1,   2,   3,   7, // -20 to -16
+            13,   26,  47,   82,  139, // -15 to -11
+            228,   359,  548,  808, 1151, // -10 to -6
+            1587, 2119, 2743, 3446, 4207, // -5 to -1
+            5000,  // 0
+            5793, 6554, 7257, 7881, 8413, // 1 to 5
+            8849, 9192, 9452, 9641, 9772, // 6 to 10
+            9861, 9918, 9953, 9974, 9987, // 11 to 15
+            9993, 9997, 9998, 9999, 10000 // 16 to 20
+        );
+        $mon_dodge = $mon->dodge;
+        $base_hit = 8 / 4 + (4 / 3) + (4 / 2) + $this->data->to_hit;
+        $base_hit *= max(0.25, 1 - 20 / 100.0);
+        $mon_defense = $mon->dodge + 0 / 5.0;
+        $hit_trials = 10000.0;
+        $rng_mean = max(min(intval($base_hit - $mon_defense), 20), -20) + 20;
+
+        $num_all_hits = $hits_by_accuracy[$rng_mean];
+        $rng_high_mean = max(min(intval($base_hit - 1.5 * $mon->dodge), 20), -20) + 20;
+        $rng_high_hits = $hits_by_accuracy[$rng_high_mean] * $num_all_hits / $hit_trials;
     }
 }
