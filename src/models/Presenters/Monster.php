@@ -235,22 +235,26 @@ class Monster extends \Robbo\Presenter\Presenter
         ));
     }
 
-    private function parseEntries($entries)
+    private function parseEntries($entries, $is_distro)
     {
         // TODO: container 等玩意儿？
         $ret = array();
+        $total = 1.0;
+        if ($is_distro) {
+            $total = array_sum(array_map(function($t) { return $t->prob ?? 100; }, $entries)) / 100;
+        }
         foreach ($entries as $entry) {
-            $prob = $entry->prob ?? 100;
+            $prob = round(($entry->prob ?? 100) / $total, 3);
             if (isset($entry->group)) {
                 $ret[] = '<a href="'.route('item.itemgroup', $entry->group->id).'">'."{$entry->group->id}</a>（{$prob}%）";
             } else if (isset($entry->item)) {
                 $ret[] = '<a href="'.route('item.view', $entry->item->id).'">'."{$entry->item->name}</a>（{$prob}%）";
             } else if (isset($entry->distribution)) {
-                $ret[] = '必定掉落以下物品之一：';
-                $ret = array_merge($ret, array($this->parseEntries($entry->distribution)));
+                $ret[] = '掉落以下物品之一：';
+                $ret = array_merge($ret, array($this->parseEntries($entry->distribution, true)));
             } else {
                 $ret[] = '可能掉落以下物品：';
-                $ret = array_merge($ret, array($this->parseEntries($entry->collection)));
+                $ret = array_merge($ret, array($this->parseEntries($entry->collection, false)));
             }
         }
         return implode("<br>", $ret);
@@ -265,7 +269,7 @@ class Monster extends \Robbo\Presenter\Presenter
         if (is_object($death_drops) && $death_drops->id != NULL) {
             return '<a href="'.route('item.itemgroup', $death_drops->id)."\">{$death_drops->id}";
         } else if (is_array($death_drops)) {
-            return "必定掉落以下物品之一：<br><ul>".$this->parseEntries($death_drops)."</ul>";
+            return "掉落以下物品之一：<br><ul>".$this->parseEntries($death_drops, true)."</ul>";
         } else {
             $entries = $death_drops->entries;
             if ($entries == NULL) {
@@ -273,10 +277,11 @@ class Monster extends \Robbo\Presenter\Presenter
             }
             if (isset($death_drops->subtype) && $death_drops->subtype == "collection") {
                 $ret = "可能掉落以下物品：<br><ul>";
+                return $ret.$this->parseEntries($entries, false)."</ul>";
             } else {
-                $ret = "必定掉落以下物品之一：<br><ul>";
+                $ret = "掉落以下物品之一：<br><ul>";
+                return $ret.$this->parseEntries($entries, true)."</ul>";
             }
-            return $ret.$this->parseEntries($entries)."</ul>";
         }
     }
 }

@@ -18,12 +18,16 @@ class ItemGroup extends \Robbo\Presenter\Presenter
         return '<pre><code class="language-json">'.$this->object->json.'</code></pre>';
     }
 
-    private function parseEntries($entries)
+    private function parseEntries($entries, $is_distro)
     {
         $ret = "";
+        $total = 1.0;
+        if ($is_distro) {
+            $total = array_sum(array_map(function($t) { return $t->prob ?? 100; }, $entries)) / 100;
+        }
         foreach ($entries as $entry) {
             $pre = "";
-            $prob = $entry->prob ?? 100;
+            $prob = round(($entry->prob ?? 100) / $total, 3);
             $pre .= "<yellow>$prob</yellow>% 掉落 ";
 
             if (isset($entry->count)) {
@@ -76,11 +80,11 @@ class ItemGroup extends \Robbo\Presenter\Presenter
             } else if (isset($entry->item)) {
                 $ret .= $pre.'<a href="'.route('item.view', $entry->item->id).'">'."{$entry->item->name}</a><br>";
             } else if (isset($entry->distribution)) {
-                $ret .= '必定掉落以下物品之一：<br>';
-                $ret .= "<ul>".$this->parseEntries($entry->distribution)."</ul>";
+                $ret .= '掉落以下物品之一：<br>';
+                $ret .= "<ul>".$this->parseEntries($entry->distribution, true)."</ul>";
             } else {
                 $ret .= '可能掉落以下物品：<br>';
-                $ret .= "<ul>".$this->parseEntries($entry->collection)."</ul>";
+                $ret .= "<ul>".$this->parseEntries($entry->collection, false)."</ul>";
             }
         }
         return $ret;
@@ -90,10 +94,11 @@ class ItemGroup extends \Robbo\Presenter\Presenter
     {
         if ($this->object->subtype == "collection") {
             $ret = "可能掉落以下物品：<br><ul>";
+            return $ret.$this->parseEntries($this->object->entries, false)."</ul>";
         } else {
-            $ret = "必定掉落以下物品之一：<br><ul>";
+            $ret = "掉落以下物品之一：<br><ul>";
+            return $ret.$this->parseEntries($this->object->entries, true)."</ul>";
         }
-        return $ret.$this->parseEntries($this->object->entries)."</ul>";
     }
 
     public function presentDropFrom()
