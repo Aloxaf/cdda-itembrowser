@@ -187,10 +187,16 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 }
             } else if (is_string($object->name)) {
                 $object->name = $this->trans($object->name);
-            } else if (is_object($object->name) && isset($object->name->ctxt)) {
-                $object->name = trans("{$object->name->ctxt}\004{$object->name->str}");
-            } else if (is_object($object->name) && isset($object->name->str)) {
-                $object->name->str = $this->trans($object->name->str);
+            } else {
+                if (isset($object->name->ctxt)) {
+                    $object->name = trans("{$object->name->ctxt}\004{$object->name->str}");
+                } else if (isset($object->name->str)) {
+                    $object->name->str = $this->trans($object->name->str);
+                } else if (isset($object->name->str_sp)) {
+                    $object->name->str_sp = $this->trans($object->name->str_sp);
+                } else {
+                    echo "ERROR Name".var_dump($object->name)."\n";
+                }
             }
         }
         if (isset($object->description) && is_string($object->description)) {
@@ -307,9 +313,10 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                         }
                     } else if (is_string($object->name)) {
                         $name = $object->name;
-                    // TODO: 更多 name 格式
                     } else if (is_object($object->name) && isset($object->name->str)) {
                         $name = $object->name->str;
+                    } else {
+                        $name = $object->name->str_sp;
                     }
                     if (isset($name)) {
                         $this->appendUnique("item_multi.name.$object->id", $name);
