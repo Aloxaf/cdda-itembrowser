@@ -280,7 +280,12 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getPierce()
     {
-        return isset($this->data->pierce) ? $this->data->pierce : 0;
+        if (isset($this->data->damage->armor_penetration)) {
+            return $this->data->damage->armor_penetration;
+        } else if (isset($this->data->pierce)) {
+            return $this->data->pierce;
+        }
+        return 0;
     }
 
     public function getMaterial1()
@@ -354,8 +359,12 @@ class Item implements Robbo\Presenter\PresentableInterface
 
         foreach ($ammotypes as &$ammotype) {
             $ammo_damage_multiplier = 1.0;
-            if ($this->data->type == "GUN" && $ammotype->prop_damage > 0) {
-                $ammo_damage_multiplier = $ammotype->prop_damage;
+            if ($this->data->type == "GUN") {
+                if ($ammotype->prop_damage > 0) {
+                    $ammo_damage_multiplier = $ammotype->prop_damage;
+                } else if (isset($ammotype->data->damage->constant_damage_multiplier)) {
+                    $ammo_damage_multiplier = $ammotype->data->damage->constant_damage_multiplier;
+                }
             }
 
             $result = floatval($ammotype->damage);
