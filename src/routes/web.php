@@ -129,32 +129,32 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
       'as' => 'item.craft',
       'uses' => 'ItemsController@craft', )
   )
-    ->where('id', '[A-Za-z0-9_-]+');
+    ->where('id', '[&A-Za-z0-9_-]+');
 
   Route::get('/{id}/recipes/{category?}', array(
       'as' => 'item.recipes',
       'uses' => 'ItemsController@recipes', )
   )
-    ->where('id', '[A-Za-z0-9_-]+')
+    ->where('id', '[&A-Za-z0-9_-]+')
     ->where('category', '[A-Z_]+');
 
   Route::get('/{id}', array(
         'as' => 'item.view',
         'uses' => "ItemsController@view", )
   )
-    ->where('id', '[A-Za-z0-9_-]+');
+    ->where('id', '[&A-Za-z0-9_-]+');
 
   Route::get('/{id}/disassemble', array(
       'as' => 'item.disassemble',
       'uses' => 'ItemsController@disassemble', )
   )
-    ->where('id', '[A-Za-z0-9_-]+');
+    ->where('id', '[&A-Za-z0-9_-]+');
 
   Route::get('/{id}/construction', array(
       'as'=>'item.construction',
       'uses'=>'ItemsController@construction',
   ))
-  ->where('id', '[A-Za-z0-9_-]+');
+  ->where('id', '[&A-Za-z0-9_-]+');
 
   Route::get("/construction/view/{id}", array(
       "as"=>"construction.view",
@@ -170,7 +170,7 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
       'as' => 'item.wiki',
       'uses' => 'ItemsController@wiki', )
   )
-    ->where('id', '[A-Za-z0-9_-]+');
+    ->where('id', '[&A-Za-z0-9_-]+');
 
   Route::get('/monsters/groups/{id?}', array(
     'as' => 'monster.groups',
