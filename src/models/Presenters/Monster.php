@@ -19,12 +19,8 @@ class Monster extends \Robbo\Presenter\Presenter
     public function presentNiceName()
     {
         $name = $this->object->name;
-        if (is_object($name)) {
-            if (isset($name->str)) {
-                $name = $name->str;
-            } else {
-                $name = $name->str_sp;
-            }
+        if (is_object($this->object->name)) {
+            $name = isset($this->object->name->str) ? $this->object->name->str : $this->object->name->str_sp;
         }
         return ucfirst($name);
     }

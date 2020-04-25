@@ -1,8 +1,8 @@
 @section('title')
-怪物: {{is_object($monsterbunch[0]->name)?$monsterbunch[0]->name->str:$monsterbunch[0]->name}} - Cataclysm: Dark Days Ahead
+怪物: {{$monsterbunch[0]->niceName}} - Cataclysm: Dark Days Ahead
 @endsection
 @section('description')
-怪物: {{is_object($monsterbunch[0]->name)?$monsterbunch[0]->name->str:$monsterbunch[0]->name}}
+怪物: {{$monsterbunch[0]->niceName}}
 @endsection
 
 @foreach($monsterbunch as $monster)

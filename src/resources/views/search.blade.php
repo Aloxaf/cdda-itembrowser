@@ -20,7 +20,7 @@
 <h3>匹配怪物：</h3>
 <ul class="list-unstyled">
 @foreach($monsters as $monster)
-  <li>{!!$monster->symbol!!} <a href="{{ route('monster.view', array($monster->id)) }}">{{is_object($monster->name)?$monster->name->str:$monster->name}}</a>
+  <li>{!!$monster->symbol!!} <a href="{{ route('monster.view', array($monster->id)) }}">{{$monster->niceName}}</a>
 @endforeach
 </ul>
 @endif
