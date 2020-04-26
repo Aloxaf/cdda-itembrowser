@@ -295,6 +295,7 @@
       @if($item->isArmor)
         --<br>
         覆盖：{!! $item->covers !!}<br>
+        衣物层：<info>{{ $item->clothing_layer }}</info><br>
         覆盖率：<yellow>{{ $item->coverage }}</yellow>%
         &nbsp;保暖度：<yellow>{{ $item->warmth }}</yellow><br>
         --<br>
@@ -360,45 +361,62 @@
         {!!$item->brewable!!}
         <br>
       @endif
+      @if($item->hasFlag("ALARMCLOCK"))
+        * 这件装备具有 <info>闹钟</info> 功能。<br>
+      @endif
+      @if($item->hasFlag("THERMOMETER"))
+        * 这件装备具有 <info>精准温度计</info> 功能。<br>
+      @endif
+      @if($item->hasFlag("WATCH"))
+        * 这件装备具有 <info>精准计时</info> 功能。<br>
+      @endif
+      @if($item->hasFlag("CLIMATE_CONTROL"))
+        * 这件装备拥有 <info>恒温机构</info>，让你保持 <good>舒适体温</good>。<br>
+      @endif
+      @if($item->hasFlag("ELECTRIC_IMMUNE"))
+        * 这件装备能 <good>完全保护</good> 你 <info>免被点击</info>。<br>
+      @endif
+      @if($item->hasFlag("RAD_PROOF"))
+        * 这件装备能 <good>完全保护</good> 你 <info>不受辐射影响</info>。<br>
+      @endif
       @if($item->hasFlag('DISABLE_SIGHTS'))
-        * 这个模组<bad>阻挡</bad>主武器的<bad>视线</bad>。<br>
+        * 这个模组 <bad>阻挡</bad> 主武器的 <bad>视线</bad>。<br>
       @endif
       @if($item->hasFlag('EATEN_COLD'))
-        * 这件食物<info>冷藏</info>后<good>风味更佳</good>。<br>
+        * 这件食物 <info>冷藏</info> 后 <good>风味更佳</good>。<br>
       @endif
       @if($item->hasFlag("FIT"))
-        * 这件装备很<info>合身</info>。<br>
+        * 这件装备很 <info>合身</info>。<br>
       @endif
       @if($item->hasFlag("OVERSIZE"))
         * 这件装备尺码足够大，能够容纳下 <info>大型变异肢体</info>。<br>
       @endif
       @if($item->hasFlag("SKINTIGHT"))
-        * 这件衣服属于<info>贴身衣物</info>。<br>
+        * 这件衣服属于 <info>贴身衣物</info>。<br>
       @endif
       @if($item->hasFlag("POCKETS"))
-        * 这件装备有<info>口袋</info>，能在你空手时把手放在口袋里，为手部保暖。<br>
+        * 这件装备有 <info>口袋</info>，能在你空手时把手放在口袋里，为手部保暖。<br>
       @endif
       @if($item->hasFlag("HOOD"))
-        * 这件装备有<info>兜帽</info>，能在头部没有累赘时戴上兜帽，为头部保暖。<br>
+        * 这件装备有 <info>兜帽</info>，能在头部没有累赘时戴上兜帽，为头部保暖。<br>
       @endif
       @if($item->hasFlag("RAINPROOF"))
-        * 这件装备能够让你在雨中保持<info>干燥</info>。<br>
+        * 这件装备能够让你在雨中保持 <info>干燥</info>。<br>
       @endif
       @if($item->hasFlag("SUN_GLASSES"))
-        * 这件装备能<info>防眩光</info>。<br>
+        * 这件装备能 <info>防眩光</info>。<br>
       @endif
       @if($item->hasFlag("WATER_FRIENDLY"))
-        * 这件装备在<info>湿透</info>时依旧<good>性能良好</good>，不受心情值惩罚。<br>
+        * 这件装备在 <info>湿透</info> 时依旧 <good>性能良好</good>，不受心情值惩罚。<br>
       @endif
       @if($item->hasFlag("WATERPROOF"))
-        * 这件装备<info>不透水</info>，除非你跳进河里或者被水淹没。<br>
+        * 这件装备 <info>不透水</info>，除非你跳进河里或者被水淹没。<br>
       @endif
       @if($item->hasFlag("STURDY"))
-        * 这件装备具有<good>良好防护</good>，能使你免于受伤并<info>承受大量伤害</info>。<br>
+        * 这件装备具有 <good>良好防护</good>，能使你免于受伤并 <info>承受大量伤害</info>。<br>
       @endif
       @if($item->hasFlag("SWIM_GOGGLES"))
-        * 这件装备能让你在<info>水下</info>
-        <good>看得更远</good>。<br>
+        * 这件装备能让你在 <info>水下</info> <good>看得更远</good>。<br>
       @endif
       @if($item->hasFlag("LEAK_DAM") && $item->hasFlag("RADIOACTIVE"))
         * 这件物品的外壳已经 <neutral>裂开</neutral> ，露出 <info>不祥的绿光</info>。<br>

@@ -2,6 +2,8 @@
 
 namespace Repositories;
 
+use function DeepCopy\deep_copy;
+
 putenv('LANG=zh_CN.utf8');   
 setlocale(LC_ALL, 'zh_CN.utf8');  //指定要用的语系，如：en_US、zh_CN、zh_TW   
 $domain = 'cataclysm-dda';                     //域名，可以任意取个有意义的名字，不过要跟相应的.mo文件的文件名相同（不包括扩展名）。
@@ -96,6 +98,35 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         }
 
         return $tempobj;
+    }
+
+    // TODO: Item.php 里也有一份，使用那里的而不是复制过来
+    public function flattenVolume($val)
+    {
+        if (isset($val) && is_string($val)) {
+            if (stripos($val, "ml") !== false) {
+                $val = floatval($val) / 1000.0;
+            } else {
+                $val = floatval($val);
+            }
+        }
+
+        return $val;
+    }
+
+    public function flattenWeight($val)
+    {
+        if (isset($val) && is_string($val)) {
+            if (stripos($val, "kg") !== false) {
+                $val = floatval($val) * 1000.0;
+            } elseif (stripos($val, "mg") !== false) {
+                $val = floatval($val) / 1000.0;
+            } else {
+                $val = floatval($val);
+            }
+        }
+
+        return $val;
     }
 
     private function determine_copyfrom_origin($object)
@@ -360,6 +391,8 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                     return;
                 }
             }
+            // 避免处理 relative tag 时牵一发而动全身
+            $tempobj = deep_copy($tempobj);
             // \Log::info("copy-from ".$this->getidfield($tempobj).":$tempobj->type ($tempobj->modspace)\n");
 
             // copy all template fields that are not already populated in the current item
@@ -373,6 +406,63 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             if (isset($this->pending[$object->repo_id])) {
                 unset($this->pending[$object->repo_id]);
             }
+        }
+
+        // handle properties that are modified by addition/multiplication
+        // the property is removed after application, since each template reference can have its own modifiers
+        // 提前处理，因为需要 copy-from 时前一个物品的 relative 已经被处理了
+        if (array_key_exists("relative", $object)) {
+            foreach ($object->relative as $relkey => $relvalue) {
+                if (isset($object->{$relkey})) {
+                    // echo $relkey."\n";
+                    if ($relkey == "//") {
+                        continue;
+                    }
+
+                    // handle values containing unit measurements
+                    if ($relkey == "volume" || $relkey == "barrel_length") {
+                        $tempval = $this->flattenVolume($relvalue);
+                        $object->{$relkey} = $this->flattenVolume($object->{$relkey});
+                        $object->{$relkey} += $tempval;
+                    } elseif ($relkey == "weight") {
+                        $tempval = $this->flattenWeight($relvalue);
+                        $object->{$relkey} += $tempval;
+                    } elseif ($relkey == "vitamins" && is_array($relvalue)) {
+                        // special processing for vitamins (array with 2 indices, vitamin and count)
+                        foreach ($relvalue as $vitamin_unit_key => $vitamin_unit) {
+                            $found_vitamin = false;
+                            foreach ($object->{$relkey} as $dest_vitamin_unit_key => $dest_vitamin_unit) {
+                                if ($dest_vitamin_unit[0] == $vitamin_unit[0]) {
+                                    $found_vitamin = true;
+                                    $object->{$relkey}[$dest_vitamin_unit_key][1] += $vitamin_unit[1];
+                                    break;
+                                }
+                            }
+                            if (!$found_vitamin) {
+                                array_push($object->{$relkey}, $vitamin_unit);
+                            }
+                        }
+                    } elseif (($relkey == "damage" || $relkey == "ranged_damage") && is_object($relvalue)) {
+                        foreach ($relvalue as $k => $v) {
+                            if (isset($object->{$relkey}->{$k}) && is_numeric($object->{$relkey}->{$k})) {
+                                $object->{$relkey}->{$k} += $v;
+                            } elseif (isset($object->{$relkey}->{$k})) {
+                                $object->{$relkey}->{$k} = $v;
+                            } else {
+                                echo "$object->id has a relative key that did not process correctly: $relkey"."\n";
+                            }
+                        }
+                    } else {
+                        try {
+                            $object->{$relkey} += $relvalue;
+                        } catch (\Exception $e) {
+                            echo "$object->id has a relative key that did not process correctly: $relkey"."\n";
+                            // throw $e;
+                        }
+                    }
+                }
+            }
+            unset($object->relative);
         }
 
         // handle delete tag

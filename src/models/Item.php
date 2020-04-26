@@ -454,19 +454,19 @@ class Item implements Robbo\Presenter\PresentableInterface
             return "";
         }
         if (isset($this->data->flags["PERSONAL"])) {
-            return "Personal";
+            return "自体光环";
         } elseif (isset($this->data->flags["SKINTIGHT"])) {
-            return "Skintight";
+            return "贴身";
         } elseif (isset($this->data->flags["WAIST"])) {
-            return "Waist";
+            return "腰部";
         } elseif (isset($this->data->flags["OUTER"])) {
-            return "Outer";
+            return "外套";
         } elseif (isset($this->data->flags["BELTED"])) {
-            return "Belted";
+            return "背系";
         } elseif (isset($this->data->flags["AURA"])) {
-            return "Aura";
+            return "外部光环";
         } else {
-            return "Regular";
+            return "普通";
         }
     }
 
