@@ -84,6 +84,7 @@
       @endif
 
       @if($item->isPetArmor)
+        --<br>
         @php
           $pet = isset($item->pet_armor_data) ? $item->pet_armor_data : $item;
           function parse_storage($storage) {
@@ -103,11 +104,51 @@
       @endif
 
       @if($item->seed_data)
+        --<br>
         种植得到：<a href="{{ route('item.view', $item->seed_data->fruit) }}">{{ gettext($item->seed_data->plant_name) }}</a><br>
         成熟时间：{{ $item->seed_data->grow }}<br>
       @endif
 
+      @if($item->isBionic)
+        --<br>
+        @if($item->getbodyparts("occupied_bodyparts"))
+          占据槽位：{!! $item->getbodyparts("occupied_bodyparts") !!} <br>
+        @endif
+        @if($item->getbodyparts("encumbrance"))
+          累赘：{!! $item->getbodyparts("encumbrance") !!} <br>
+        @endif
+        @if($item->getbodyparts("env_protec"))
+          环境防护：{!! $item->getbodyparts("env_protec") !!} <br>
+        @endif
+        @if($item->getbodyparts("bash_protec"))
+          钝击防护：{!! $item->getbodyparts("bash_protec") !!} <br>
+        @endif
+        @if($item->getbodyparts("cut_protec"))
+          斩击防护：{!! $item->getbodyparts("cut_protec") !!} <br>
+        @endif
+        @if($item->fuel_options)
+          燃料：{!! $item->fuel_options !!}<br>
+        @endif
+        @if($item->fuel_capacity > 0)
+          燃料容量：<yellow>{{ $item->fuel_capacity }}</yellow> 毫升<br>
+        @endif
+        @if($item->fuel_efficiency > 0)
+          燃料效率：<yellow>{{ $item->fuel_efficiency }}</yellow><br>
+        @endif
+        --<br>
+        @if($item->exothermic_power_gen)
+          * 这件装备在生产能量时会<info>放热</info>。<br>
+        @endif
+        @if($item->hasFlag("BIONIC_TOGGLED"))
+          * 这件装备可以被<info>开关</info>。<br>
+        @endif
+        @if($item->hasFlag("BIONIC_NPC_USABLE"))
+          * 这件装备可以被 NPC 使用。
+        @endif
+      @endif
+
       @if($item->isBionicItem)
+        --<br>
         安装难度：{{ $item->difficulty }}
         <br>
       @endif
@@ -121,8 +162,20 @@
         后坐力：<yellow>{{ $item->recoil }}</yellow><br>
         伤害加成：<yellow>{{ $item->prop_damage }}</yellow><br>
         数量：<yellow>{{ $item->count }}</yellow><br>
-        可用于：{!! $item->usedby !!}
+        可用于：{!! $item->usedby !!}<br>
       @endif
+
+      @if($item->fuel != NULL)
+        --<br>
+        能量比：<yellow>{{ $item->fuel->energy }}</yellow> 单位/毫升<br>
+        @if($item->fuel->explosion_data)
+          爆炸几率：
+          热武器攻击：<yellow>{{ $item->fuel->explosion_data->chance_hot / 100 }}</yellow>%&nbsp;
+          冷兵器攻击：<yellow>{{ $item->fuel->explosion_data->chance_cold / 100 }}</yellow>%<br>
+        @endif
+        爆炸威力：<yellow>{{ $item->fuel->explosion_data->factor }}</yellow><br>
+      @endif
+
       @if($item->isTool)
         --<br>
         最大 {{ $item->max_charges }} 单位
@@ -151,8 +204,8 @@
               <tr>
                 <td><a href="{{ route("item.view", $ammo->id) }}">{{ $ammo->name }}</a></td>
                 <td class="text-right">{{ $ammo->damage }}
-                  @if ($ammo->critical_multiplier > 0)
-                  ({{ $ammo->damage * $ammo->critical_multiplier }})
+                  @if($ammo->critical_multiplier > 0)
+                    ({{ $ammo->damage * $ammo->critical_multiplier }})
                   @endif
                 </td>
                 <td class="text-right">{{ $ammo->pierce }}</td>
@@ -169,14 +222,14 @@
         后坐力：<yellow>{{ $item->recoil }}</yellow><br>
         装填耗时：<yellow>{{ $item->reload }}</yellow><br>
         @if($item->modes)
-        --<br>
+          --<br>
           射击模式：{!! $item->modes !!}<br>
         @endif
         @if($item->burst !=0 )
           连发大小：<yellow>{{ $item->burst }}</yellow><br>
         @endif
         @if($item->isModdable)
-        --<br>
+          --<br>
           模组：<br>
           {!! $item->validModLocations !!}<br>
         @endif

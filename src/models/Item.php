@@ -211,6 +211,11 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $this->data->type == "GUN";
     }
 
+    public function getIsBionic()
+    {
+        return $this->data->type == "bionic";
+    }
+
     public function getIsBionicItem()
     {
         return $this->data->type == "BIONIC_ITEM";
@@ -829,6 +834,44 @@ class Item implements Robbo\Presenter\PresentableInterface
             },
             $this->repo->raw("item.harvestfrom.$this->id")
         );
+    }
+
+    public function getbodyparts($data)
+    {
+        $trans = array(
+            "TORSO" => "躯干",
+            "HEAD" => "头部",
+            "EYES" => "眼部",
+            "ARM_L" => "左臂",
+            "ARM_R" => "右臂",
+            "HAND_L" => "左手",
+            "HAND_R" => "右手",
+            "LEG_L" => "左腿",
+            "LEG_R" => "右腿",
+            "FOOT_L" => "左脚",
+            "FOOT_R" => "右脚",
+        );
+        if (isset($this->data->{$data})) {
+            return implode(",", array_map(
+                function($t) use($trans) {
+                    return "{$trans[$t[0]]}（<yellow>{$t[1]}</yellow>）";
+                },
+                $this->data->{$data}
+            ));
+        }
+    }
+
+    public function getFuelOptions()
+    {
+        if (isset($this->data->fuel_options)) {
+            return implode(",", array_map(
+                function ($id) {
+                    $model = $this->repo->getModel("Item", $id);
+                    return '<a href="'.route("item.view", $id).'">'.$model->name.'</a>';
+                },
+                $this->data->fuel_options
+            ));
+        }
     }
 
     public function effective_dps($mon)
