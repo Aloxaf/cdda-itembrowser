@@ -158,7 +158,8 @@
       @if($item->fuel != NULL)
         --<br>
         能量比：<yellow>{{ $item->fuel->energy }}</yellow> 单位/毫升<br>
-        @if(isset($item->fuel->explosion_data))
+        {{-- 此处 isset 不可？ --}}
+        @if(array_key_exists("explosion_data", $item->fuel))
           爆炸几率：
           热武器攻击：<yellow>{{ $item->fuel->explosion_data->chance_hot / 100 }}</yellow>%&nbsp;
           冷兵器攻击：<yellow>{{ $item->fuel->explosion_data->chance_cold / 100 }}</yellow>%<br>
