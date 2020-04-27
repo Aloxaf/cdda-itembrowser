@@ -233,6 +233,10 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         if (isset($object->description) && is_string($object->description)) {
             $object->description = $this->trans($object->description);
         }
+        // data/json/flags.json 里的 flag 描述
+        if (isset($object->info)) {
+            $object->info = $this->trans($object->info);
+        }
         if (isset($object->location)) {
             $object->location = $this->trans($object->location);
         }

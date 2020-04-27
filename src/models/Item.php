@@ -874,6 +874,32 @@ class Item implements Robbo\Presenter\PresentableInterface
         }
     }
 
+    public function getFlagDescriptions()
+    {
+        if (!is_array($this->data->flags)) {
+            return "";
+        }
+        $trans = array(
+            "DIMENSIONAL_ANCHOR" => "这件装备能 <good>稳定</good> 你周围的空间。",
+            "PSYSHIELD_PARTIAL" => "这件装备能 <good>部分防护</good> 你 <info>免受精神攻击</info>。"
+        );
+        $ret = array();
+        foreach ($this->data->flags as $flag => $v) {
+            try {
+                $raw = $this->repo->getMultiModelOrFail("Item", $flag);
+                // echo "item.$flag".var_dump($raw[0]->data);
+                if (isset($raw[0]->data->info)) {
+                    $ret[] = "* ".$raw[0]->data->info;
+                }
+            } catch (\Exception $e) {
+                if (array_key_exists($flag, $trans)) {
+                    $ret[] = "* ".$trans[$flag];
+                }
+            }
+        }
+        return implode("<br>", $ret);
+    }
+
     public function effective_dps($mon)
     {
         $hits_by_accuracy = array(
