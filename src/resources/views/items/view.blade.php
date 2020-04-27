@@ -16,10 +16,43 @@
       {!!$item->featureLabels!!}
       @if($item->isVehiclePart)
         <br>
-        伤害系数：{{ $item->damage_modifier }} <br>
-        耐久：{{ $item->durability }} <br>
-        滚动阻力：{{ $item->rolling_resistance }} <br>
-        轮胎类型：{{ $item->wheel_type }} <br>
+        伤害系数：<yellow>{{ $item->damage_modifier }}</yellow><br>
+        耐久：<yellow>{{ $item->durability }}</yellow><br>
+        @if($item->rolling_resistance)
+          滚动阻力：{{ $item->rolling_resistance }}<br>
+        @endif
+        @if($item->wheel_type)
+          轮胎类型：{{ $item->wheel_type }}<br>
+        @endif
+        @if($item->power)
+          功率：<yellow>{{ $item->power }}</yellow><br>
+        @endif
+        @if($item->energy_consumption)
+          能量消耗：<yellow>{{ $item->energy_consumption }}</yellow><br>
+        @endif
+        @if($item->epower)
+          电力生产：<yellow>{{ $item->epower }}</yellow><br>
+        @endif
+        @if($item->hasFlag("ENGINE"))
+          --<br>
+            巡航功率：<yellow>{{ $item->m2c }}</yellow>%<br>
+          @if($item->backfire_threshold > 0)
+            逆火耐久：<yellow>{{ $item->backfire_threshold * 100 }}</yellow>%<br>
+            逆火概率：<yellow>{{ round(1 / $item->backfire_freq * 100, 2) }}</yellow>%<br>
+          @endif
+          噪音系数：<yellow>{{ $item->noise_factor }}</yellow><br>
+          @if($item->damaged_power_factor)
+            伤害功率下降系数：<yellow>{{ $item->damaged_power_factor }}</yellow><br>
+          @endif
+          @if($item->muscle_power_factor)
+            肌肉能量转换系数：<yellow>{{ $item->muscle_power_factor }}</yellow><br>
+          @endif
+        @else
+          --<br>
+          舒适度：<yellow>{{ $item->comfort ?: 0 }}</yellow><br>
+          火焰温度奖励：<yellow>{{ $item->bonus_fire_warmth_feet ?: 0 }}</yellow><br>
+          地板睡眠温度加成：<yellow>{{ $item->floor_bedding_warmth ?: 0 }}</yellow><br>
+        @endif
         --<br>
         {{ $item->description }}<br>
         --<br>
