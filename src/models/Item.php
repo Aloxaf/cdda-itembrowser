@@ -889,15 +889,15 @@ class Item implements Robbo\Presenter\PresentableInterface
                 $raw = $this->repo->getMultiModelOrFail("Item", $flag);
                 // echo "item.$flag".var_dump($raw[0]->data);
                 if (isset($raw[0]->data->info)) {
-                    $ret[] = "* ".$raw[0]->data->info;
+                    $ret[] = "* ".$raw[0]->data->info."<br>";
                 }
             } catch (\Exception $e) {
                 if (array_key_exists($flag, $trans)) {
-                    $ret[] = "* ".$trans[$flag];
+                    $ret[] = "* ".$trans[$flag]."<br>";
                 }
             }
         }
-        return implode("<br>", $ret);
+        return implode("", $ret);
     }
 
     public function effective_dps($mon)

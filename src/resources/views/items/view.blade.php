@@ -20,10 +20,10 @@
         耐久：{{ $item->durability }} <br>
         滚动阻力：{{ $item->rolling_resistance }} <br>
         轮胎类型：{{ $item->wheel_type }} <br>
-        <br>
-        这个车辆部件是由 {!!$item->sourcePart!!} 安装而得到的。
-        <br>
-        <br>
+        --<br>
+        {{ $item->description }}<br>
+        --<br>
+        这个车辆部件是由 {!!$item->sourcePart!!} 安装而得到的。<br>
       @endif
       @if(!$item->isVehiclePart)
         <br>
@@ -134,16 +134,6 @@
         @endif
         @if($item->fuel_efficiency > 0)
           燃料效率：<yellow>{{ $item->fuel_efficiency }}</yellow><br>
-        @endif
-        --<br>
-        @if($item->exothermic_power_gen)
-          * 这件装备在生产能量时会<info>放热</info>。<br>
-        @endif
-        @if($item->hasFlag("BIONIC_TOGGLED"))
-          * 这件装备可以被<info>开关</info>。<br>
-        @endif
-        @if($item->hasFlag("BIONIC_NPC_USABLE"))
-          * 这件装备可以被 NPC 使用。
         @endif
       @endif
 
@@ -273,6 +263,9 @@
         @if($item->ammoModifier)
           弹药：{!! implode(", ", $item->ammoModifier) !!}<br>
         @endif
+        @if($item->ups_charges_multiplier != NULL)
+          UPS 能量消耗：x<yellow>{{ $item->ups_charges_multiplier }}</yellow><br>
+        @endif
         --<br>
         可用：{!!$item->modSkills!!}<br>
         位置：{{ $item->location }}<br>
@@ -361,7 +354,13 @@
         {!!$item->brewable!!}
         <br>
       @endif
-      {!! $item->flag_descriptions !!}<br>
+      {!! $item->flag_descriptions !!}
+      @if($item->exothermic_power_gen)
+        * 这件装备在生产能量时会<info>放热</info>。<br>
+      @endif
+      @if($item->hasFlag("BIONIC_TOGGLED"))
+        * 这件装备可以被<info>开关</info>。<br>
+      @endif
       @if($item->hasFlag('DISABLE_SIGHTS'))
         * 这个模组 <bad>阻挡</bad> 主武器的 <bad>视线</bad>。<br>
       @endif
