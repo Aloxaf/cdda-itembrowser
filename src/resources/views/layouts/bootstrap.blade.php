@@ -12,13 +12,13 @@
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 
     <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/css/starter-template.css" rel="stylesheet">
 
     <link href="/css/cataclysm.css?v=3" rel="stylesheet">
-    <link href="/css/highlight/tomorrow-night-bright.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.0.0/styles/tomorrow-night-bright.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -72,10 +72,11 @@
       </div>
     </div>
 
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="/js/jquery.tablesorter.min.js"></script>
 <script src="/js/jquery.tinysort.min.js"></script>
-<script src="/js/highlight.pack.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.0.0/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.0.0/languages/json.min.js"></script>
     <div class="container">
         {!! $content !!}
 <br><br>
@@ -83,6 +84,6 @@
     @include('layouts.extra_footer')
 @endif
 </div>
-<script src="/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
   </body>
 </html>
