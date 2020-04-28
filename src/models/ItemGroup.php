@@ -133,10 +133,14 @@ class ItemGroup implements Robbo\Presenter\PresentableInterface
     {
         return array_map(
             function ($id) {
-                // TODO: This is hack
-                if (strpos($id, "mon") === false) {
-                    return $this->repo->getModel("ItemGroup", $id);
-                } else {
+                try {
+                    // TODO: This is hack
+                    if (strpos($id, "mon") === false) {
+                        return $this->repo->getModel("ItemGroup", $id);
+                    } else {
+                        throw new Exception("Not Found");
+                    }
+                } catch (\Exception $e) {
                     try {
                         return $this->repo->getModel("Monster", $id);
                     } catch (\Exception $e) {
