@@ -170,6 +170,11 @@
         @endif
       @endif
 
+      @if($item->fake_item != NULL)
+        --<br>
+        对应物品：<a href="{{ route("item.view", $item->fake_item->id) }}">{{ $item->fake_item->name }}</a><br>
+      @endif
+
       @if($item->isBionicItem)
         --<br>
         安装难度：{{ $item->difficulty }}
@@ -212,18 +217,18 @@
         <br>
       @endif
       @if($item->isGun)
-        --<br>
-        弹药：{{ $item->clip_size }} 回合：<br>
-        <table class="tablesorter">
-          <thead>
-            <tr>
-              <th>弹药</th>
-              <th style="width: auto" class="text-right">伤害（暴击）</th>
-              <th style="width: 4em" class="text-right">穿甲</th>
-              <th style="width: 4em" class="text-right">噪音</th>
-            </tr>
-          </thead>
-          @if($item->hasAmmoTypes)
+        @if($item->hasAmmoTypes)
+          --<br>
+          弹药：{{ $item->clip_size }} 回合：<br>
+          <table class="tablesorter">
+            <thead>
+              <tr>
+                <th>弹药</th>
+                <th style="width: auto" class="text-right">伤害（暴击）</th>
+                <th style="width: 4em" class="text-right">穿甲</th>
+                <th style="width: 4em" class="text-right">噪音</th>
+              </tr>
+            </thead>
             @foreach($item->ammoTypes as $ammo)
               <tr>
                 <td><a href="{{ route("item.view", $ammo->id) }}">{{ $ammo->name }}</a></td>
@@ -236,8 +241,8 @@
                 <td class="text-right">{{ round($item->noise($ammo)) }}</td>
               </tr>
             @endforeach
-          @endif
-        </table>
+          </table>
+        @endif
         --<br>
         基本远程伤害：<yellow>{{ $item->ranged_damage }}</yellow><br>
         射程：<yellow>{{ $item->range }}</yellow><br>

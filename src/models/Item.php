@@ -832,6 +832,7 @@ class Item implements Robbo\Presenter\PresentableInterface
             "TORSO" => "躯干",
             "HEAD" => "头部",
             "EYES" => "眼部",
+            "MOUTH" => "嘴部",
             "ARM_L" => "左臂",
             "ARM_R" => "右臂",
             "HAND_L" => "左手",
@@ -888,6 +889,13 @@ class Item implements Robbo\Presenter\PresentableInterface
             }
         }
         return implode("", $ret);
+    }
+
+    public function getFakeItem()
+    {
+        if(isset($this->data->fake_item)) {
+            return $this->repo->getModel("Item", $this->data->fake_item);
+        }
     }
 
     public function effective_dps($mon)
