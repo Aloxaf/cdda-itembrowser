@@ -196,6 +196,11 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
     'as' => "item.itemgroup",
     'uses' => 'ItemsController@itemgroup',
   ));
+
+  Route::get('/latest/item', array(
+    'as' => "item.latestchanges",
+    'uses' => 'ItemsController@latestchanges',
+  ));
 });
 
 // Route::get('/sitemap.xml', array(
