@@ -100,6 +100,9 @@ class Monster implements Robbo\Presenter\PresentableInterface
         if (!isset($this->data->material)) {
             return array();
         }
+        if (is_string($this->data->material)) {
+            return array($this->repo->getModel("Material", $this->data->material));
+        }
         $materials = array();
         foreach ($this->data->material as $material) {
             if ($material != "null") {

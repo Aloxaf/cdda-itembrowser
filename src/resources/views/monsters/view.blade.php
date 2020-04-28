@@ -41,7 +41,7 @@
 </tr>
 <tr>
   <td>材质：</td>
-  <td>{{{ is_array($monster->material) ? implode(", ",$monster->material) : $monster->material }}}</td>
+  <td>{{{ $monster->material }}}</td>
 </tr>
 <tr>
   <td>速度：</td>

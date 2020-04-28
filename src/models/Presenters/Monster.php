@@ -160,8 +160,11 @@ class Monster extends \Robbo\Presenter\Presenter
 
     public function presentSize()
     {
-        if (stripos($this->object->volume, "ml")) {
+        if (stripos($this->object->volume, "ml") || stripos($this->object->volume, "L")) {
             $value = floatval($this->object->volume) * 1.0;
+            if (stripos($this->object->volume, "L")) {
+                $value *= 1000;
+            }
             $strvalue = "";
             if ($value <= 7500) {
                 $strvalue = "很小";
