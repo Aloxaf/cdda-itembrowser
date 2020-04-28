@@ -426,21 +426,8 @@ class Item implements Robbo\Presenter\PresentableInterface
             return false;
         }
 
-        $name = $this->name;
-        if (is_object($this->name)) {
-            $name = $this->name->str;
-        }
-
-        return $this->symbol == $text ||
-            stristr($this->id, $text) ||
-            stristr($this->fullname, $text) ||
-            stristr($name, $text) ||
-            array_filter(
-                $this->data->qualities,
-                function ($q) use ($text) {
-                    return stristr($q[0], $text);
-                }
-            );
+        return stristr($this->id, $text) ||
+            stristr($this->fullname, $text);
     }
 
     public function getPresenter()
