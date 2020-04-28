@@ -23,6 +23,36 @@ class Monster implements Robbo\Presenter\PresentableInterface
         $this->load($data);
     }
 
+    public function getRawName()
+    {
+        if (!isset($this->data->name)) {
+            return;
+        }
+
+        $name = $this->data->name;
+        if (is_object($this->data->name)) {
+            if (isset($this->data->name->str)) {
+                $name = $this->data->name->str;
+            } elseif (isset($this->data->name->str_sp)) {
+                $name = $this->data->name->str_sp;
+            } else {
+                $name = '';
+            }
+        }
+
+        return $name;
+    }
+
+    public function getName()
+    {
+        $name = $this->repo->raw("item_multi.name.$this->id");
+        if ($name) {
+            return implode(" / ", $name);
+        } else {
+            return $this->rawname;
+        }
+    }
+
     public function getPresenter()
     {
         return new Presenters\Monster($this);

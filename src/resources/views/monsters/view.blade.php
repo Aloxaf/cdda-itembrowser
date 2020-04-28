@@ -8,7 +8,7 @@
 @foreach($monsterbunch as $monster)
 <div class="row">
 <div class="col-md-8">
-<h4>{!! $monster->symbol !!} {{$monster->niceName}} {!!$monster->modinfo!!}</h4>
+<h4>{!! $monster->symbol !!} {{$monster->rawname}} {!!$monster->modinfo!!}</h4>
 <p>{{$monster->description}}</p>
 怪物 ID: {{{$monster->id}}}
 <br>

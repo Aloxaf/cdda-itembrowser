@@ -43,7 +43,7 @@
           @if(strpos($harvest->type, "_group") != false)
             <a href="{{ route("item.itemgroup", $harvest->drop->id) }}">{{ $harvest->drop->id }}</a><br>
           @else
-            <a href="{{ route("item.view", $harvest->drop->id) }}">{{ $harvest->drop->fullname }}</a><br>
+            <a href="{{ route("item.view", $harvest->drop->id) }}">{{ $harvest->drop->name }}</a><br>
           @endif
         </p>
       @endforeach

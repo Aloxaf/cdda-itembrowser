@@ -16,7 +16,7 @@ class Item extends \Robbo\Presenter\Presenter
 
     public function presentRawName()
     {
-        return ucfirst($this->object->name);
+        return ucfirst($this->object->rawname);
     }
 
     public function presentVolume()
@@ -334,7 +334,7 @@ class Item extends \Robbo\Presenter\Presenter
     {
         $ret = array();
         foreach ($this->object->usedby as $usedby) {
-            $ret[] = '<a href="'.route("item.view", array("id" => $usedby->id)).'">'.$usedby->fullname.'</a>';
+            $ret[] = '<a href="'.route("item.view", array("id" => $usedby->id)).'">'.$usedby->name.'</a>';
         }
         return implode(", ", $ret);
     }

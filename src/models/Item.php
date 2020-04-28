@@ -79,7 +79,7 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $this->data->symbol;
     }
 
-    public function getName()
+    public function getRawName()
     {
         if (!isset($this->data->name)) {
             return;
@@ -427,7 +427,7 @@ class Item implements Robbo\Presenter\PresentableInterface
         }
 
         return stristr($this->id, $text) ||
-            stristr($this->fullname, $text);
+            stristr($this->name, $text);
     }
 
     public function getPresenter()
@@ -726,13 +726,13 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $guns;
     }
 
-    public function getFullName()
+    public function getName()
     {
         $name = $this->repo->raw("item_multi.name.$this->id");
         if ($name) {
             return implode(" / ", $name);
         } else {
-            return $this->name;
+            return $this->rawname;
         }
     }
 

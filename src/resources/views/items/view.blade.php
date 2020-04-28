@@ -12,7 +12,7 @@
 @foreach($itembunch as $item)
   <div class="row">
     <div class="col-md-8">
-      <h1>{!!$item->symbol!!} {{ $item->name }} {!!$item->modLabel!!}</h1>
+      <h1>{!!$item->symbol!!} {{ $item->rawname }} {!!$item->modLabel!!}</h1>
       {!!$item->featureLabels!!}
       @if($item->isVehiclePart)
         <br>
