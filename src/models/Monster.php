@@ -99,17 +99,7 @@ class Monster implements Robbo\Presenter\PresentableInterface
             return false;
         }
 
-        $name = $this->data->name;
-        if(is_object($this->data->name)){
-            if (isset($this->data->name->str)) {
-                $name = $this->data->name->str;
-            } elseif (isset($this->data->name->str_sp)) {
-                $name = $this->data->name->str_sp;
-            } else {
-                $name = '';
-            }
-        }
-        return stristr($name, $search);
+        return stristr($this->name, $search);
     }
 
     public function getModName()
