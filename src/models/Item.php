@@ -719,6 +719,9 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getUsedby()
     {
+        if (!isset($this->data->ammo_type)) {
+            return array();
+        }
         $guns = $this->repo->allModels("Item", "ammo.{$this->data->ammo_type}.usedby");
         return $guns;
     }
