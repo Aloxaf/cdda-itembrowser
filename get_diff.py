@@ -57,7 +57,7 @@ def load_all_json(root: Path) -> Dict[str, Json]:
     ret: Dict[str, Json] = {}
     for file in data_dir.glob("**/*.json"):
         print(f"\rParsing {file}", end="")
-        json_data = json.load(file.open())
+        json_data = json.load(file.open('r', encoding='utf-8'))
         if not (isinstance(json_data, list) and isinstance(json_data[0], dict)):
             continue
         for entry in json_data:
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     target = Path(argv[3])
     diff = [*obj_add, *obj_del]
     if target.exists():
-        tmp = json.load(target.open())
+        tmp = json.load(target.open('r', encoding='utf-8'))
         diff.extend([i for i in tmp if i["op"] == "add"][:100])
         diff.extend([i for i in tmp if i["op"] == "del"][:100])
-    json.dump(diff, open(argv[3], "w"), indent=2, ensure_ascii=False)
+    json.dump(diff, open(argv[3], "w", encoding='utf-8'), indent=2, ensure_ascii=False)
