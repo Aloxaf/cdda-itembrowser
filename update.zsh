@@ -10,8 +10,7 @@ if [[ -d ./Cataclysm-DDA/.git ]]; then
   git merge origin/master
 elif [[ -d ./Cataclysm-DDA-master ]]; then
   dir=Cataclysm-DDA-master
-  rm -f master.zip
-  rm -rdf $dir.bak
+  rm -rdf master.zip $dir.bak
   mv -f $dir $dir.bak
   wget https://github.wuyanzheshui.workers.dev/CleverRaven/Cataclysm-DDA/archive/master.zip
   unzip master.zip
@@ -19,6 +18,7 @@ fi
 
 echo "#define VERSION \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"" > $dir/src/version.h
 msgfmt $dir/lang/po/zh_CN.po -o locale/zh_CN/LC_MESSAGES/cataclysm-dda.mo
+mv src/public/diff.json{,.bak}
 python3 get_diff.py Cataclysm-DDA-master.bak Cataclysm-DDA-master src/public/diff.json
 
 php src/artisan down

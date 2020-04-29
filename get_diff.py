@@ -3,7 +3,7 @@ import json
 import gettext
 from pathlib import Path
 from sys import argv
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Tuple
 
 Json = Union[List["Json"], Dict[str, "Json"], str, bool, int, float]
 
@@ -36,23 +36,30 @@ TRANS = gettext.translation("cataclysm-dda", localedir="locale", languages=["zh_
 TRANS.install()
 
 
-def parse_name(name: Json) -> str:
+def parse_name(name: Json) -> Tuple[bool, str]:
     if isinstance(name, dict):
-        if name.get("str_pl"):
-            return TRANS.ngettext(name["str"], name["str_pl"], n=1)
+        if name.get("str"):
+            s = name["str"]
         elif name.get("str_sp"):
-            return TRANS.ngettext(name["str_sp"], name["str_sp"], n=1)
+            s = name["str_sp"]
         elif name.get("ctxt"):
             try:
-                return TRANS.pgettext(name["ctxt"], name["str"])
+                trans = TRANS.pgettext(name["ctxt"], name["str"])
+                return (trans != name["str"], trans)
             except AttributeError:
-                return TRANS.gettext(f"{name['ctxt']}\004{name['str']}")
+                trans = TRANS.gettext(f"{name['ctxt']}\004{name['str']}")
+                return (trans != name["str"] and "\004" not in trans, trans)
         elif isinstance(name, list):
-            return TRANS.ngettext(name[0], name[1], n=1)
+            s = name[0]
         else:
-            return TRANS.ngettext(name["str"], f"{name['str']}s", n=1)
+            raise Exception(f"WTF: {name}")
     else:
-        return TRANS.ngettext(name, f"{name}s", n=1)
+        s = name
+
+    trans = TRANS.ngettext(s, s, n=1)
+    if trans == s:
+        trans = TRANS.gettext(s)
+    return (trans != s, trans)
 
 
 def load_all_json(root: Path) -> Dict[str, Json]:
@@ -60,14 +67,13 @@ def load_all_json(root: Path) -> Dict[str, Json]:
     ret: Dict[str, Json] = {}
     for file in data_dir.glob("**/*.json"):
         print(f"\rParsing {file}", end="")
-        json_data = json.load(file.open('r', encoding='utf-8'))
+        json_data = json.load(file.open("r", encoding="utf-8"))
         if not (isinstance(json_data, list) and isinstance(json_data[0], dict)):
             continue
         for entry in json_data:
             if entry.get("type", "").upper() not in WHITELIST_TYPE:
                 continue
             eid = entry.get("id") or entry.get("ident")
-            entry["name"] = parse_name(entry.get("name"))
             ret[eid] = {key: entry.get(key) for key in WHITELIST_KEY}
     return ret
 
@@ -102,7 +108,20 @@ if __name__ == "__main__":
     target = Path(argv[3])
     diff = [*obj_add, *obj_del]
     if target.exists():
-        tmp = json.load(target.open('r', encoding='utf-8'))
-        diff.extend([i for i in tmp if i["op"] == "add"][:100])
-        diff.extend([i for i in tmp if i["op"] == "del"][:100])
-    json.dump(diff, open(argv[3], "w", encoding='utf-8'), indent=2, ensure_ascii=False)
+        tmp = json.load(target.open("r", encoding="utf-8"))
+        diff.extend(tmp[:400])
+
+    for entry in diff:
+        name = entry.get("name")
+        if not isinstance(name, str) or name.isascii():
+            if entry.get("raw_name"):
+                (succ, trans) = parse_name(entry["raw_name"])
+            else:
+                (succ, trans) = parse_name(name)
+            entry["name"] = trans
+            if not succ and not entry.get("raw_name"):
+                entry["raw_name"] = name
+            elif succ and entry.get("raw_name"):
+                del entry["raw_name"]
+
+    json.dump(diff, open(argv[3], "w", encoding="utf-8"), indent=2, ensure_ascii=False)
