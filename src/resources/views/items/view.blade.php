@@ -75,7 +75,7 @@
           @if($item->hasFlag("SPEAR"))
             &nbsp;刺击：<yellow>{{ $item->piercing }}</yellow>
           @elseif($item->hasFlag("STAB"))
-            &nbsp;斩击：<yellow>{{ $item->cutting }}</yellow>
+            &nbsp;刺击：<yellow>{{ $item->cutting }}</yellow>
           @else
             &nbsp;斩击：<yellow>{{ $item->cutting }}</yellow>
           @endif

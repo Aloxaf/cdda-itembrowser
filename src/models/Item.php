@@ -845,7 +845,8 @@ class Item implements Robbo\Presenter\PresentableInterface
         if (isset($this->data->{$data})) {
             return implode(",", array_map(
                 function($t) use($trans) {
-                    return "{$trans[$t[0]]}（<yellow>{$t[1]}</yellow>）";
+                    $idx = strtoupper($t[0]);
+                    return "{$trans[$idx]}（<yellow>{$t[1]}</yellow>）";
                 },
                 $this->data->{$data}
             ));
