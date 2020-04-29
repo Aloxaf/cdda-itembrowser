@@ -18,6 +18,16 @@
         <br>
         伤害系数：<yellow>{{ $item->damage_modifier }}</yellow><br>
         耐久：<yellow>{{ $item->durability }}</yellow><br>
+        @if($item->size)
+          @if($item->hasFlag("FLUIDTANK"))
+            容量：<yellow>{{ $item->size / 1000 }}</yellow> 升<br>
+          @else
+            空间：<yellow>{{ $item->size / 4 }}</yellow> 升<br>
+          @endif
+        @endif
+        @if($item->cargo_weight_modifier !== NULL)
+          载重系数：<yellow>{{ $item->cargo_weight_modifier }}</yellow>%<br>
+        @endif
         @if($item->rolling_resistance)
           滚动阻力：{{ $item->rolling_resistance }}<br>
         @endif
@@ -49,12 +59,22 @@
           @endif
         @else
           --<br>
-          舒适度：<yellow>{{ $item->comfort ?: 0 }}</yellow><br>
-          火焰温度奖励：<yellow>{{ $item->bonus_fire_warmth_feet ?: 0 }}</yellow><br>
-          地板睡眠温度加成：<yellow>{{ $item->floor_bedding_warmth ?: 0 }}</yellow><br>
+          @if($item->comfort)
+            舒适度：<yellow>{{ $item->comfort ?: 0 }}</yellow><br>
+          @endif
+          @if($item->bonus_fire_warmth_feet)
+            火焰温度奖励：<yellow>{{ $item->bonus_fire_warmth_feet ?: 0 }}</yellow><br>
+          @endif
+          @if($item->floor_bedding_warmth)
+            地板睡眠温度加成：<yellow>{{ $item->floor_bedding_warmth ?: 0 }}</yellow><br>
+          @endif
         @endif
         --<br>
-        {{ $item->description }}<br>
+        破坏产生：{!! $item->breaks_into !!}<br>
+        @if($item->description)
+          --<br>
+          {{ $item->description }}<br>
+        @endif
         --<br>
         这个车辆部件是由 {!!$item->sourcePart!!} 安装而得到的。<br>
       @endif

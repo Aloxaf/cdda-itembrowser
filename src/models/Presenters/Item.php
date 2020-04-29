@@ -436,4 +436,15 @@ class Item extends \Robbo\Presenter\Presenter
             return "收获自：$ret<br>";
         }
     }
+
+    public function presentBreaksInto()
+    {
+        $breaks_into = $this->object->breaks_into;
+        if ($breaks_into == NULL) {
+            return;
+        }
+        return implode("，", array_map(function($entry) {
+            return '<a href="'.route("item.view", $entry->id).'">'.$entry->name.'</a>';
+        }, $breaks_into));
+    }
 }

@@ -1,7 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
-/public/diff.json
+/public/diff.json*
 /storage/*.key
 /vendor
 .env

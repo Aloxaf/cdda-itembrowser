@@ -899,6 +899,18 @@ class Item implements Robbo\Presenter\PresentableInterface
         }
     }
 
+    public function getBreaksInto()
+    {
+        if(isset($this->data->breaks_into)) {
+            return array_map(
+                function($item) {
+                    return $this->repo->getModel("Item", $item->item);
+                },
+                $this->data->breaks_into
+            );
+        }
+    }
+
     public function effective_dps($mon)
     {
         $hits_by_accuracy = array(
