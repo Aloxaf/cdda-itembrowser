@@ -46,13 +46,13 @@ def parse_name(name: Json) -> str:
             try:
                 return TRANS.pgettext(name["ctxt"], name["str"])
             except AttributeError:
-                return TRANS.gettext(f"name['ctxt']\004name['str']")
+                return TRANS.gettext(f"{name['ctxt']}\004{name['str']}")
         elif isinstance(name, list):
             return TRANS.ngettext(name[0], name[1], n=1)
         else:
             return TRANS.ngettext(name["str"], f"{name['str']}s", n=1)
     else:
-        return TRANS.gettext(name)
+        return TRANS.ngettext(name, f"{name}s", n=1)
 
 
 def load_all_json(root: Path) -> Dict[str, Json]:
