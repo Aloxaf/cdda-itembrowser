@@ -43,7 +43,10 @@ def parse_name(name: Json) -> str:
         elif name.get("str_sp"):
             return TRANS.ngettext(name["str_sp"], name["str_sp"], n=1)
         elif name.get("ctxt"):
-            return TRANS.pgettext(name["ctxt"], name["str"])
+            try:
+                return TRANS.pgettext(name["ctxt"], name["str"])
+            except AttributeError:
+                return TRANS.gettext(f"name['ctxt']\004name['str']")
         elif isinstance(name, list):
             return TRANS.ngettext(name[0], name[1], n=1)
         else:
