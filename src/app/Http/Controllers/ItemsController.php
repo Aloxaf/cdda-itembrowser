@@ -214,16 +214,7 @@ class ItemsController extends Controller
 
     public function latestchanges()
     {
-        $fp = fopen("latest.item.txt", "r");
-        $items = array();
-        while (!feof($fp)) {
-            $str = trim(fgets($fp));
-            try {
-                $items[] = $this->repo->getModelOrFail("Item", $str);
-            } catch (\Exception $e) {
-                ;
-            }
-        }
-        return $this->getLayout()->nest('content', 'items.latestchanges', compact('items'));
+        $diff = json_decode(file_get_contents("diff.json"));
+        return $this->getLayout()->nest('content', 'items.latestchanges', compact('diff'));
     }
 }

@@ -1,28 +1,6 @@
 #!/bin/zsh
 
-local -a whitelist=(
-  "AMMO" "GUN" "ARMOR" "TOOL" "TOOL_ARMOR" "BOOK" "COMESTIBLE"
-  "CONTAINER" "GUNMOD" "GENERIC" "BIONIC_ITEM" "VAR_VEH_PART"
-  "MAGAZINE" "WHEEL" "TOOLMOD" "ENGINE" "VEHICLE_PART"
-  "PET_ARMOR"
-)
-
-JQ="
-  .[]
-  | select(.id != null)
-  | select(.type | test(\"${(j:|:)whitelist}\"; \"i\"))
-  | .id
-"
-
-# {id:.id,type:.type}
-
-function diff_ids() {
-  mv new_id.txt old_id.txt
-  jq -r $JQ $dir/data/**/*.json > new_id.txt
-  local -a new=($(<new_id.txt)) old=($(<old_id.txt))
-  print -l ${new:|old} >> src/public/latest.item.txt
-  tail -n 200 src/public/latest.item.txt | sponge src/public/latest.item.txt
-}
+setopt errexit
 
 cd $0:A:h
 
@@ -32,14 +10,16 @@ if [[ -d ./Cataclysm-DDA/.git ]]; then
   git merge origin/master
 elif [[ -d ./Cataclysm-DDA-master ]]; then
   dir=Cataclysm-DDA-master
-  mv $dir $dir.bak
+  rm -f master.zip
+  rm -rdf $dir.bak
+  mv -f $dir $dir.bak
   wget https://github.wuyanzheshui.workers.dev/CleverRaven/Cataclysm-DDA/archive/master.zip
   unzip master.zip
 fi
 
 echo "#define VERSION \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"" > $dir/src/version.h
 msgfmt $dir/lang/po/zh_CN.po -o locale/zh_CN/LC_MESSAGES/cataclysm-dda.mo
-diff_ids
+python3 get_diff.py Cataclysm-DDA-master.bak Cataclysm-DDA-master src/public/diff.json
 
 php src/artisan down
 sudo -u www-data php src/artisan cache:clear
