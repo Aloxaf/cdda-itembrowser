@@ -16,7 +16,7 @@ cp -f src/public/diff.json{,.bak}
 python3 get_diff.py Cataclysm-DDA-master.bak Cataclysm-DDA-master src/public/diff.json
 
 php src/artisan down
-sudo -u www-data php -c ./php.ini src/artisan cache:clear
+# sudo -u www-data php -c ./php.ini src/artisan cache:clear
 sudo -u www-data php -c ./php.ini src/artisan cataclysm:rebuild $dir
 php src/artisan up
 
