@@ -36,6 +36,15 @@ TRANS = gettext.translation("cataclysm-dda", localedir="locale", languages=["zh_
 TRANS.install()
 
 
+# fuck python 3.6
+def is_ascii(s: str) -> bool:
+    return all(i < 127 for i in s.encode())
+
+
+def pgettext(ctxt: str, msgid: str) -> str:
+    return TRANS.gettext(f"{ctxt}\004{msgid}")
+
+
 def parse_name(name: Json) -> Tuple[bool, str]:
     if isinstance(name, dict):
         if name.get("str"):
@@ -43,12 +52,8 @@ def parse_name(name: Json) -> Tuple[bool, str]:
         elif name.get("str_sp"):
             s = name["str_sp"]
         elif name.get("ctxt"):
-            try:
-                trans = TRANS.pgettext(name["ctxt"], name["str"])
-                return (trans != name["str"], trans)
-            except AttributeError:
-                trans = TRANS.gettext(f"{name['ctxt']}\004{name['str']}")
-                return (trans != name["str"] and "\004" not in trans, trans)
+            trans = pgettext(name["ctxt"], name["str"])
+            return (trans != name["str"] and "\004" not in trans, trans)
         elif isinstance(name, list):
             s = name[0]
         else:
@@ -113,7 +118,7 @@ if __name__ == "__main__":
 
     for entry in diff:
         name = entry.get("name")
-        if not isinstance(name, str) or name.isascii():
+        if not isinstance(name, str) or is_ascii(name):
             if entry.get("raw_name"):
                 (succ, trans) = parse_name(entry["raw_name"])
             else:

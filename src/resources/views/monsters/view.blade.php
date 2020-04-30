@@ -92,8 +92,13 @@
 </tr>
 @if ($monster->upgrades)
 <tr>
-  <td>半数进化期：</td>
-  <td>{{ $monster->upgrades->half_life }}</td>
+  @if(array_key_exists("half_life", $monster->upgrades))
+    <td>半数进化期：</td>
+    <td>{{ $monster->upgrades->half_life }}</td>
+  @else
+    <td>进化期：</td>
+    <td>{{ $monster->upgrades->age_grow }}</td>
+  @endif
   <td>进化为：</td>
   <td>{!! $monster->upgrades_to !!}</td>
 </tr>

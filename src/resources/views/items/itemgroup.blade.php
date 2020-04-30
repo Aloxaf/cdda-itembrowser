@@ -66,6 +66,6 @@
   </script>
   <style>
     ul {
-      padding-left: 15px;
+      padding-left: 20px;
     }
   </style>

@@ -80,10 +80,10 @@ class ItemGroup extends \Robbo\Presenter\Presenter
             } else if (isset($entry->item)) {
                 $ret .= $pre.'<a href="'.route('item.view', $entry->item->id).'">'."{$entry->item->name}</a><br>";
             } else if (isset($entry->distribution)) {
-                $ret .= '掉落以下物品之一：<br>';
+                $ret .= $pre.'以下物品之一：<br>';
                 $ret .= "<ul>".$this->parseEntries($entry->distribution, true)."</ul>";
             } else {
-                $ret .= '可能掉落以下物品：<br>';
+                $ret .= $pre.'以下物品：<br>';
                 $ret .= "<ul>".$this->parseEntries($entry->collection, false)."</ul>";
             }
         }
