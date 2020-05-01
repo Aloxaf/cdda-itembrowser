@@ -911,6 +911,24 @@ class Item implements Robbo\Presenter\PresentableInterface
         }
     }
 
+    public function getVitamins()
+    {
+        if(isset($this->data->vitamins)) {
+            return implode("，", array_map(
+                function($id) {
+                    $model = $this->repo->getModel("Item", $id[0]);
+                    return "{$model->name}（<yellow>{$id[1]}</yellow>%）";
+                },
+                $this->data->vitamins
+            ));
+        }
+    }
+
+    public function hasKey($key)
+    {
+        return isset($this->data->{$key});
+    }
+
     public function effective_dps($mon)
     {
         $hits_by_accuracy = array(

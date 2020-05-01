@@ -333,16 +333,19 @@
       @if($item->isConsumable)
         --<br>
         状态：{{ $item->phase }}<br>
-        <span title="(*actual amounts may depend on components)">热量 (千卡)</span>：<yellow>{{ $item->nutrition }}</yellow>
+        <span title="(*actual amounts may depend on components)">热量</span>：<yellow>{{ $item->nutrition }}</yellow> 千卡
         &nbsp;解渴：<yellow>{{ $item->quench }}</yellow><br>
-        享受：<yellow>{{ $item->fun }}</yellow><br>
+        享受：<yellow>{{ $item->fun }}</yellow>&nbsp;
+        健康：<yellow>{{ $item->healthy }}</yellow><br>
+        分量：<yellow>{{ $item->charges }}</yellow><br>
         @if($item->spoils_in>0)
           保质期：<yellow>{{ $item->spoils_in }}</yellow><br>
         @endif
-        分量：<yellow>{{ $item->charges }}</yellow><br>
-        健康：<yellow>{{ $item->healthy }}</yellow><br>
-        兴奋剂：<yellow>{{ $item->stim }}</yellow><br>
-        上瘾：<yellow>{{ $item->addiction_potential }}</yellow><br>
+        @if($item->hasKey("vitamins"))
+          维生素：{!! $item->vitamins !!}<br>
+        @endif
+        兴奋剂：<yellow>{{ $item->stim }}</yellow>&nbsp;
+        上瘾概率：<yellow>{{ $item->addiction_potential }}</yellow>%<br>
       @endif
       @if($item->isArmor)
         --<br>
