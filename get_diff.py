@@ -7,7 +7,7 @@ from typing import Dict, List, Union, Tuple
 
 Json = Union[List["Json"], Dict[str, "Json"], str, bool, int, float]
 
-WHITELIST_KEY = ["id", "name", "type", "ident"]
+WHITELIST_KEY = ["id", "name", "type", "ident", "copy-from"]
 WHITELIST_TYPE = [
     "AMMO",
     "GUN",
@@ -78,9 +78,23 @@ def load_all_json(root: Path) -> Dict[str, Json]:
         for entry in json_data:
             if entry.get("type", "").upper() not in WHITELIST_TYPE:
                 continue
-            eid = entry.get("id") or entry.get("ident")
+            eid = entry.get("id") or entry.get("ident") or entry.get("abstract")
             ret[eid] = {key: entry.get(key) for key in WHITELIST_KEY}
+    handle_copy_from(ret)
     return ret
+
+
+def handle_copy_from(data: Dict[str, Dict[str, Json]]):
+    for k, v in data.items():
+        if v.get("copy-from"):
+            _id = v["id"]
+            idx = v["copy-from"]
+            assert isinstance(idx, str)
+            for k in v.keys():
+                if k != "id" and data[idx].get(k):
+                    v[k] = data[idx][k]
+            v["id"] = _id
+            del v["copy-from"]
 
 
 if __name__ == "__main__":
@@ -114,9 +128,10 @@ if __name__ == "__main__":
     diff = [*obj_add, *obj_del]
     if target.exists():
         tmp = json.load(target.open("r", encoding="utf-8"))
-        diff.extend(tmp[:400])
+        diff.extend(tmp[:700])
 
     for entry in diff:
+        assert isinstance(entry, dict)
         name = entry.get("name")
         if not isinstance(name, str) or is_ascii(name):
             if entry.get("raw_name"):

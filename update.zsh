@@ -6,7 +6,10 @@ cd $0:A:h
 
 dir=Cataclysm-DDA-master
 rm -f master.zip
-mv -f $dir $dir.bak
+if [[ -d $dir ]]; then
+  [[ ! -d $dir.bak ]] || rm -rdf $dir.bak
+  mv -f $dir $dir.bak
+fi
 curl -LOs https://github.wuyanzheshui.workers.dev/CleverRaven/Cataclysm-DDA/archive/master.zip
 unzip -qo master.zip
 
