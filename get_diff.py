@@ -91,7 +91,7 @@ def handle_copy_from(data: Dict[str, Dict[str, Json]]):
             idx = v["copy-from"]
             assert isinstance(idx, str)
             for k in v.keys():
-                if k != "id" and data[idx].get(k):
+                if v.get(k) is None:
                     v[k] = data[idx][k]
             v["id"] = _id
             del v["copy-from"]
