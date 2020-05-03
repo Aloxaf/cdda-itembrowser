@@ -241,7 +241,7 @@ class Monster extends \Robbo\Presenter\Presenter
         foreach ($entries as $entry) {
             $prob = round(($entry->prob ?? 100) / $total, 3);
             if (isset($entry->group)) {
-                $ret[] = '<a href="'.route('item.itemgroup', $entry->group->id).'">'."{$entry->group->id}</a>（{$prob}%）";
+                $ret[] = '<a href="'.route('special.itemgroup', $entry->group->id).'">'."{$entry->group->id}</a>（{$prob}%）";
             } else if (isset($entry->item)) {
                 $ret[] = '<a href="'.route('item.view', $entry->item->id).'">'."{$entry->item->name}</a>（{$prob}%）";
             } else if (isset($entry->distribution)) {
@@ -262,7 +262,7 @@ class Monster extends \Robbo\Presenter\Presenter
         }
         $death_drops = $this->object->death_drops;
         if (is_object($death_drops) && $death_drops->id != NULL) {
-            return '<a href="'.route('item.itemgroup', $death_drops->id)."\">{$death_drops->id}";
+            return '<a href="'.route('special.itemgroup', $death_drops->id)."\">{$death_drops->id}";
         } else if (is_array($death_drops)) {
             return "掉落以下物品之一：<br><ul>".$this->parseEntries($death_drops, true)."</ul>";
         } else {

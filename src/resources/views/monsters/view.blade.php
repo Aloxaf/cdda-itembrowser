@@ -106,7 +106,7 @@
 <tr>
   <td>可收获：</td>
   @if ($monster->harvest != NULL)
-  <td><a href="{{ route("item.itemgroup", $monster->harvest) }}">{{ $monster->harvest }}</a></td>
+  <td><a href="{{ route("special.itemgroup", $monster->harvest) }}">{{ $monster->harvest }}</a></td>
   @endif
   <td>燃烧进化：</td>
   @if ($monster->burn_into != NULL)

@@ -46,11 +46,11 @@ class ItemGroup extends \Robbo\Presenter\Presenter
             }
             $keys = array(
                 "contents-item" => array("item.view", "装着", "的"),
-                "contents-group" => array("item.itemgroup", "装着", "的"),
+                "contents-group" => array("special.itemgroup", "装着", "的"),
                 "container-item" => array("item.view", "用", "装着的"),
-                "container-group" => array("item.itemgroup", "用", "装着的"),
+                "container-group" => array("special.itemgroup", "用", "装着的"),
                 "ammo-item" => array("item.view", "装着", "的"),
-                "ammo-group" => array("item.itemgroup", "装着", "的"),
+                "ammo-group" => array("special.itemgroup", "装着", "的"),
             );
             foreach ($keys as $k => $v) {
                 if (isset($entry->{$k})) {
@@ -76,7 +76,7 @@ class ItemGroup extends \Robbo\Presenter\Presenter
             }
 
             if (isset($entry->group)) {
-                $ret .= $pre.'<a href="'.route('item.itemgroup', $entry->group->id).'">'."{$entry->group->id}</a><br>";
+                $ret .= $pre.'<a href="'.route('special.itemgroup', $entry->group->id).'">'."{$entry->group->id}</a><br>";
             } else if (isset($entry->item)) {
                 $ret .= $pre.'<a href="'.route('item.view', $entry->item->id).'">'."{$entry->item->name}</a><br>";
             } else if (isset($entry->distribution)) {
@@ -108,7 +108,7 @@ class ItemGroup extends \Robbo\Presenter\Presenter
                 if ($drop->type == "MONSTER") {
                     return '<a href="'.route('monster.view', $drop->id).'">'.$drop->getPresenter()->nicename.'</a>';
                 } else {
-                    return '<a href="'.route('item.itemgroup', $drop->id).'">'.$drop->id.'</a>';
+                    return '<a href="'.route('special.itemgroup', $drop->id).'">'.$drop->id.'</a>';
                 }
             },
             $this->object->dropfrom
@@ -127,7 +127,7 @@ class ItemGroup extends \Robbo\Presenter\Presenter
                 if ($drop->type == "MONSTER") {
                     return '<a href="'.route('monster.view', $drop->id).'">'.$drop->getPresenter()->nicename.'</a>';
                 } else {
-                    return '<a href="'.route('item.itemgroup', $drop->id).'">'.$drop->id.'</a>';
+                    return '<a href="'.route('special.itemgroup', $drop->id).'">'.$drop->id.'</a>';
                 }
             },
             $this->object->harvestfrom

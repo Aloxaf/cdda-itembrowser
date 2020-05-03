@@ -410,7 +410,7 @@ class Item extends \Robbo\Presenter\Presenter
                 if ($drop->type == "MONSTER") {
                     return '<a href="'.route('monster.view', $drop->id).'">'.$drop->nicename.'</a>';
                 } else {
-                    return '<a href="'.route('item.itemgroup', $drop->id).'">'.$drop->id.'</a>';
+                    return '<a href="'.route('special.itemgroup', $drop->id).'">'.$drop->id.'</a>';
                 }
             },
             $this->object->dropfrom
@@ -426,7 +426,7 @@ class Item extends \Robbo\Presenter\Presenter
     {
         $ret = implode(", ", array_map(
             function ($drop) {
-                return '<a href="'.route('item.itemgroup', $drop->id).'">'.$drop->id.'</a>';
+                return '<a href="'.route('special.itemgroup', $drop->id).'">'.$drop->id.'</a>';
             },
             $this->object->harvestfrom
         ));

@@ -1,6 +1,7 @@
 @section('title')
 物品组 - Cataclysm: Dark Days Ahead
 @endsection
+
 <h1>物品组</h1>
 <ul class="nav nav-tabs">
   @foreach($groups as $group)
@@ -41,7 +42,7 @@
             最多 <yellow>{{ $harvest->max }}</yellow> 个,
           @endif
           @if(strpos($harvest->type, "_group") != false)
-            <a href="{{ route("item.itemgroup", $harvest->drop->id) }}">{{ $harvest->drop->id }}</a><br>
+            <a href="{{ route("special.itemgroup", $harvest->drop->id) }}">{{ $harvest->drop->id }}</a><br>
           @else
             <a href="{{ route("item.view", $harvest->drop->id) }}">{{ $harvest->drop->name }}</a><br>
           @endif

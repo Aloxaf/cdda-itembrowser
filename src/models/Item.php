@@ -917,7 +917,7 @@ class Item implements Robbo\Presenter\PresentableInterface
             return implode("，", array_map(
                 function($id) {
                     $model = $this->repo->getModel("Item", $id[0]);
-                    return "{$model->name}（<yellow>{$id[1]}</yellow>%）";
+                    return '<a href="'.route('special.vitamin', $id[0])."\">{$model->name}</a>（<yellow>{$id[1]}</yellow>%）";
                 },
                 $this->data->vitamins
             ));

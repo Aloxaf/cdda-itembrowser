@@ -176,6 +176,9 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
 
     private function trans($string)
     {
+        if ($string === "") {
+            return "";
+        }
         if (!is_string($string)) {
             echo "NOT STRING: ".var_dump($string)."\n";
             debug_print_backtrace(1, 2);
@@ -213,8 +216,10 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
     {
         if (isset($object->name)) {
             if (is_array($object->name)) {
-                if (is_string($object->name[0])) {
-                    $object->name[0] = $this->trans($object->name[0]);
+                foreach ($object->name as $k => $name) {
+                    if (is_string($name)) {
+                        $object->name[$k] = $this->trans($name);
+                    }
                 }
             } else if (is_string($object->name)) {
                 $object->name = $this->trans($object->name);
@@ -275,7 +280,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             return;
         }
         if ($object->type == "snippet" || $object->type == "talk_topic" || $object->type == "overmap_terrain" || $object->type == "scenario" || $object->type == "ammunition_type" ||
-        $object->type == "start_location" || $object->type == "effect_type" || $object->type == "MIGRATION" || $object->type == "item_action" || $object->type == "ITEM_CATEGORY" ||
+        $object->type == "start_location" || $object->type == "MIGRATION" || $object->type == "item_action" || $object->type == "ITEM_CATEGORY" ||
         $object->type == "mapgen" || $object->type == "speech" || $object->type == "keybinding" ) {
             return;
         }

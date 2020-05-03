@@ -205,16 +205,4 @@ class ItemsController extends Controller
 
         return redirect()->to("http://cddawiki.chezzo.com/cdda_wiki/index.php?title=$item->slug");
     }
-
-    public function itemgroup($id)
-    {
-        $groups = $this->repo->getMultiModelOrFail("ItemGroup", $id);
-        return $this->getLayout()->nest('content', 'items.itemgroup', compact('groups'));
-    }
-
-    public function latestchanges()
-    {
-        $diff = json_decode(file_get_contents("diff.json"));
-        return $this->getLayout()->nest('content', 'items.latestchanges', compact('diff'));
-    }
 }

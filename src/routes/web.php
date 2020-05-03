@@ -193,13 +193,23 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
   );
 
   Route::get('/itemgroup/{id}', array(
-    'as' => "item.itemgroup",
-    'uses' => 'ItemsController@itemgroup',
+    'as' => "special.itemgroup",
+    'uses' => 'SpecialController@itemgroup',
   ));
 
-  Route::get('/latest/item', array(
-    'as' => "item.latestchanges",
-    'uses' => 'ItemsController@latestchanges',
+  Route::get('/latestchanges/all', array(
+    'as' => "special.latestchanges",
+    'uses' => 'SpecialController@latestchanges',
+  ));
+
+  Route::get('/vitamin/{id}', array(
+    'as' => 'special.vitamin',
+    'uses' => 'SpecialController@vitamin',
+  ));
+
+  Route::get('/effect/{id}', array(
+    'as' => 'special.effect',
+    'uses' => 'SpecialController@effect',
   ));
 });
 
