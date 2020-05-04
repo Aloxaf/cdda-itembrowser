@@ -46,7 +46,7 @@
         "alien" => "外星人",
         "biocrystal" => "晶体生物",
         "wildalien" => "外星野人",
-        "uplifted" => "擢升者",
+        "uplift" => "擢升者",
     )[strtolower($s)]
 }}</a></li>
 @endforeach
