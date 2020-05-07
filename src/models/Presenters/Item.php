@@ -277,7 +277,12 @@ class Item extends \Robbo\Presenter\Presenter
 
     public function presentDamageModifier()
     {
-        return sprintf("%+d", $this->object->damage_modifier);
+        $damage = $this->object->damage_modifier;
+        if (is_object($damage)) {
+            return sprintf("%+d（%s）", $damage->amount, gettext("damage type\004{$damage->damage_type}"));
+        } else {
+            return sprintf("%+d", $damage);
+        }
     }
 
     public function presentBurstModifier()
