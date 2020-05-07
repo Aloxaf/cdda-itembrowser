@@ -66,8 +66,8 @@
   <td>{!!$monster->special_attacks!!}</td>
 </tr>
 <tr>
-  <td></td>
-  <td></td>
+  <td>防弹：</td>
+  <td>{{{ $monster->armor_bullet }}}</td>
   <td>击中时：</td>
   <td>{{{$monster->specialWhenHit}}}</td>
 </tr>

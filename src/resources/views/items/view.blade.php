@@ -359,7 +359,9 @@
         &nbsp;容积：{!! $item->storage !!}<br>
         防护：
         钝击：<yellow>{{ $item->protection('bash') }}</yellow>
-        &nbsp;斩击：<yellow>{{ $item->protection('cut') }}</yellow><br>
+        &nbsp;斩击：<yellow>{{ $item->protection('cut') }}</yellow>
+        &nbsp;防弹：<yellow>{{ $item->protection('bullet') }}</yellow><br>
+        &nbsp;防电：<yellow>{{ $item->protection('elec') }}</yellow>
         &nbsp;防酸：<yellow>{{ $item->protection('acid') }}</yellow>
         &nbsp;防火：<yellow>{{ $item->protection('fire') }}</yellow>
         &nbsp;环境：<yellow>{{ $item->environmental_protection }}</yellow><br>
