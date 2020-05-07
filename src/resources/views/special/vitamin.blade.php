@@ -8,8 +8,8 @@
   类型：{{ $item->vit_type }}<br>
 
   --<br>
-  过量导致：{{ $item->excess }}<br>
-  不足导致：{{ $item->deficiency }}<br>
+  过量导致：{!! $item->excess !!}<br>
+  不足导致：{!! $item->deficiency !!}<br>
   --<br>
   最小值：<yellow>{{ $item->min }}</yellow> 单位<br>
   最大值：<yellow>{{ $item->max }}</yellow> 单位<br>

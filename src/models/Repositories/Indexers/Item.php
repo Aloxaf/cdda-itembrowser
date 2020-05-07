@@ -339,7 +339,7 @@ class Item implements IndexerInterface
         if (isset($object->proportional)) {
             foreach ($object->proportional as $proportionkey => $proportionvalue) {
                 // echo $proportionkey."\n";
-                if (!isset($object->{$proportionkey}) || !is_numeric($object->{$proportionkey})) {
+                if (!isset($object->{$proportionkey}) || is_array($object->{$proportionkey})) {
                     continue;
                 }
                 if ($proportionkey == "volume") {

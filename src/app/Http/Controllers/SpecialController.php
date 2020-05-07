@@ -26,13 +26,13 @@ class SpecialController extends Controller
 
     public function vitamin($id)
     {
-        $items = $this->repo->getMultiModelOrFail("Item", $id);
+        $items = array($this->repo->getModel("Special", $id));
         return $this->getLayout()->nest('content', 'special.vitamin', compact('items'));
     }
 
     public function effect($id)
     {
-        $items = $this->repo->getMultiModelOrFail("Item", $id);
+        $items = array($this->repo->getModel("Special", $id));
         return $this->getLayout()->nest('content', 'special.effect', compact('items'));
     }
 

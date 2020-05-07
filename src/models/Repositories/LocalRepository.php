@@ -238,6 +238,24 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         if (isset($object->description) && is_string($object->description)) {
             $object->description = $this->trans($object->description);
         }
+        // effect 的相关
+        if (isset($object->desc)) {
+            foreach ($object->desc as $k => $desc) {
+                $object->desc[$k] = $this->trans($desc);
+            }
+        }
+        if (isset(($object->decay_messages))) {
+            foreach ($object->decay_messages as $k => $msg) {
+                $object->decay_messages[$k][0] = $this->trans($msg[0]);
+            }
+        }
+        $keys = array("apply_message", "remove_message");
+        foreach ($keys as $key) {
+            if (isset($object->{$key})) {
+                $object->{$key} = $this->trans($object->{$key});
+            }
+        }
+
         // data/json/flags.json 里的 flag 描述
         if (isset($object->info)) {
             $object->info = $this->trans($object->info);

@@ -94,6 +94,8 @@ class Item implements Robbo\Presenter\PresentableInterface
             } else {
                 $name = '';
             }
+        } else if (is_array($name)) {
+            $name = $name[0];
         }
 
         return ($this->type == "bionic" ? "CBM: " : "").$name; //." (".$this->data->id.")";
