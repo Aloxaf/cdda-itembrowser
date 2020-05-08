@@ -131,7 +131,7 @@
       @if($item->canBeCut)
         可以被切割为：
         @foreach($item->cutResult as $cutResult)
-          {{ $cutResult['amount'] }} <a href="{{ route('item.view', $cutResult['item']->id) }}">{{ str_plural($cutResult['item']->name) }}</a>,
+          {{ $cutResult['amount'] }} <a href="{{ route('item.view', $cutResult['item']->id) }}">{{ $cutResult['item']->name }}</a>,
         @endforeach
         <br>
       @endif

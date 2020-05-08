@@ -144,4 +144,6 @@ if __name__ == "__main__":
             elif succ and entry.get("raw_name"):
                 del entry["raw_name"]
 
+    diff = [i for i in diff if not (i["id"] is None or i["name"] is None)]
+
     json.dump(diff, open(argv[3], "w", encoding="utf-8"), indent=2, ensure_ascii=False)

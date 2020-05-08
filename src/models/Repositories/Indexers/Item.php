@@ -348,8 +348,22 @@ class Item implements IndexerInterface
                 } elseif ($proportionkey == "weight") {
                     $tempval = $this->flattenWeight($proportionvalue);
                     $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
+                } elseif ($proportionkey == "damage") {
+                    if (is_numeric($proportionvalue)) {
+                        $object->damage = floor($object->damage * $proportionvalue);
+                    }
+                    if (isset($proportionvalue->amount) && isset($object->damage->amount)) {
+                        $object->damage->amount = floor($object->damage->amount * $proportionvalue->amount);
+                    }
+                    if (isset($proportionvalue->armor_penetration) && isset($object->damage->armor_penetration)) {
+                        $object->damage->armor_penetration = floor($object->damage->armor_penetration * $proportionvalue->armor_penetration);
+                    }
                 } else {
-                    $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
+                    try {
+                        $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
+                    } catch (\Exception $e) {
+                        echo "ERROR proportionkey: $proportionkey => ".var_dump($object->{$proportionkey});
+                    }
                 }
             }
             unset($object->proportional);

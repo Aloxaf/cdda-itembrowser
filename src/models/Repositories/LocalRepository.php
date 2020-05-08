@@ -230,7 +230,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                     $object->name->str = $this->trans($object->name->str);
                 } else if (isset($object->name->str_sp)) {
                     $object->name->str_sp = $this->trans($object->name->str_sp);
-                } else {
+                } else if (!isset($object->name->male)) {
                     echo "ERROR Name".var_dump($object->name)."\n";
                 }
             }
@@ -477,8 +477,18 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                                 $object->{$relkey}->{$k} += $v;
                             } elseif (isset($object->{$relkey}->{$k})) {
                                 $object->{$relkey}->{$k} = $v;
+                            } elseif ($relkey == "ranged_damage") {
+                                if ($k == "amount") {
+                                    $object->ranged_damage += $v;
+                                } else if ($k != "damage_type") {
+                                    echo "$object->id has a relative key that did not process correctly: $relkey =>".var_dump($relvalue)."\n";
+                                }
+                            } elseif ($relkey == "damage") {
+                                if ($k != "damage_type" && isset($object->damage->{$k})) {
+                                    $object->damage->{$k} += $v;
+                                }
                             } else {
-                                echo "$object->id has a relative key that did not process correctly: $relkey"."\n";
+                                echo "$object->id has a relative key that did not process correctly: $relkey =>".var_dump($relvalue)."\n";
                             }
                         }
                     } else {
@@ -544,6 +554,8 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         } else {
             if (array_key_exists("id", $object)) {
                 $this->simpleset($object->id, $object->repo_id);
+            } else if (array_key_exists("ident", $object)) {
+                $this->simpleset($object->ident, $object->repo_id);
             }
         }
 
