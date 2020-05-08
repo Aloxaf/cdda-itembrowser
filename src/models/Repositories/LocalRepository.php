@@ -454,6 +454,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                         $object->{$relkey} += $tempval;
                     } elseif ($relkey == "weight") {
                         $tempval = $this->flattenWeight($relvalue);
+                        $object->{$relkey} = $this->flattenWeight($relvalue);
                         $object->{$relkey} += $tempval;
                     } elseif ($relkey == "vitamins" && is_array($relvalue)) {
                         // special processing for vitamins (array with 2 indices, vitamin and count)

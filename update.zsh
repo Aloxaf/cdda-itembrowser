@@ -1,6 +1,10 @@
 #!/bin/zsh
 
-setopt errexit
+TRAPZERR() {
+  sudo -u www-data php -c ./php.ini src/artisan cataclysm:rebuild $dir.bak
+  php src/artisan up
+  exit
+}
 
 cd $0:A:h
 
