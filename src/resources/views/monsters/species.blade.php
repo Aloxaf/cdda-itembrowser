@@ -1,15 +1,14 @@
 @section('title')
-怪物种类: {{{$id}}} - Cataclysm: Dark Days Ahead
+怪物种类: {{ $id }} - Cataclysm: Dark Days Ahead
 @endsection
 @section('description')
-怪物种类: {{{$id}}}
+怪物种类: {{ $id }}
 @endsection
 <div class="row">
-<div class="col-md-3">
-<ul class="nav nav-pills nav-stacked">
-@foreach($species as $s)
-<li class="@if ($s==$id) active @endif"><a href="{{ route(Route::currentRouteName(), array($s)) }}">{{
-    array(
+  <div class="col-md-3">
+    <ul class="nav nav-pills nav-stacked">
+      @php
+        $trans = array(
         "aberration" => "畸变体",
         "amphibian" => "两栖动物",
         "bird" => "鸟",
@@ -47,12 +46,17 @@
         "biocrystal" => "晶体生物",
         "wildalien" => "外星野人",
         "uplift" => "擢升者",
-    )[strtolower($s)]
+        "goblin" => "哥布林",
+        );
+      @endphp
+      @foreach($species as $s)
+        <li class="@if ($s==$id) active @endif"><a href="{{ route(Route::currentRouteName(), array($s)) }}">{{
+isset($trans[strtolower($s)]) ? $trans[strtolower($s)] : strtolower($s)
 }}</a></li>
-@endforeach
-</ul>
-</div>
-<div class="col-md-9">
-@include("monsters/_list", array('data'=>$data))
-</div>
+      @endforeach
+    </ul>
+  </div>
+  <div class="col-md-9">
+    @include("monsters/_list", array('data'=>$data))
+  </div>
 </div>
