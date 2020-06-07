@@ -38,7 +38,7 @@ class ItemGroup implements Robbo\Presenter\PresentableInterface
         foreach ($entries as $entry) {
             if (isset($entry->group)) {
                 $entry->group = $this->repo->getModel("ItemGroup", $entry->group);
-            } else if (isset($entry->item)) {
+            } else if (isset($entry->item) && is_string($entry->item)) {
                 $entry->item = $this->repo->getModel("Item", $entry->item);
                 if (isset($entry->container_group)) {
                     $entry->container_group = $this->repo->getModel("ItemGroup", $entry->container_group);
