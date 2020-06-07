@@ -80,6 +80,7 @@
 <h2>怪物分类</h2>
 <li><a href="{{ route('monster.groups') }}">Groups</a></li>
 <li><a href="{{ route('monster.species') }}">种族</a></li>
+<li><a href="{{ route('monster.flags') }}">Flags</a></li>
 
 <h2>建造</h2>
 <li><a href="{{ route('construction.categories') }}">分类</a></li>

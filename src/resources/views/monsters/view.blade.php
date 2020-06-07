@@ -88,7 +88,7 @@
 </tr>
 <tr>
   <td valign="top">Flags:</td>
-  <td colspan="3">{{{$monster->flags}}}</td>
+  <td colspan="3">{!! $monster->flags !!}</td>
 </tr>
 @if ($monster->upgrades)
 <tr>

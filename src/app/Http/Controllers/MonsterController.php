@@ -52,4 +52,16 @@ class MonsterController extends Controller
 
         return $this->getLayout()->nest('content', 'monsters.view', compact('id', 'monsterbunch'));
     }
+
+    public function flags($id = null)
+    {
+        $flags = $this->repo->raw("monster_flags");
+
+        if ($id === null) {
+            return redirect()->route(Route::currentRouteName(), array(reset($flags)));
+        }
+        $mons = $this->repo->allModels("Monster", "monster_flag.$id");
+
+        return $this->getLayout()->nest('content', "monsters.flags", compact("mons", "flags", "id"));
+    }
 }

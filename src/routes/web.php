@@ -187,6 +187,11 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
     'uses' => 'MonsterController@view', )
   );
 
+  Route::get('/monster_flags/{id?}', array(
+    'as' => 'monster.flags',
+    'uses' => 'MonsterController@flags', )
+  );
+
   Route::get('/gunmods/{skill?}/{part?}', array(
     'as' => 'item.gunmods',
     'uses' => 'ItemsController@gunmods', )

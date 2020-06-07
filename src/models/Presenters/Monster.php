@@ -23,9 +23,16 @@ class Monster extends \Robbo\Presenter\Presenter
 
     public function presentFlags()
     {
-        return implode(", ", $this->object->flags);
-    }
+        $invert = array_flip($this->object->flags);
 
+        if (empty($invert)) {
+            return "None";
+        }
+
+        return implode(", ", array_map(function ($flag) {
+            return '<a href="'.route("monster.flags", $flag).'">'.$flag.'</a>';
+        }, $invert));
+    }
     public function presentDeathFunction()
     {
         $death = (array) $this->object->death_function;

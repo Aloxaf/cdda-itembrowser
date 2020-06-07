@@ -97,6 +97,16 @@ class Monster implements IndexerInterface
                 $repo->append("itemgroup.harvestfrom.{$object->harvest}", $object->id);
             }
 
+            if (isset($object->flags)) {
+                $flags = (array) $object->flags;
+                foreach ($flags as $flag) {
+                    if ($flag != "") {
+                        $repo->append("monster_flag.$flag", $object->id);
+                        $repo->addUnique("monster_flags", $flag);
+                    }
+                }
+            }
+
             return;
         }
     }
