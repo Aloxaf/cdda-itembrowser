@@ -23,7 +23,7 @@ class Monster extends \Robbo\Presenter\Presenter
 
     public function presentFlags()
     {
-        $invert = array_flip($this->object->flags);
+        $invert = $this->object->flags;
 
         if (empty($invert)) {
             return "None";
