@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Repositories;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Route;
 
 class MonsterController extends Controller
 {

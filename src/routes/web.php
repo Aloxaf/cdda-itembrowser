@@ -138,6 +138,12 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
     ->where('id', '[&A-Za-z0-9_-]+')
     ->where('category', '[A-Z_]+');
 
+  // NOTE: 必须放在这个 /{id} 前面否则不带参数时就会识别不到
+  Route::get('/monster_flags/{id?}', array(
+    'as' => 'monster.flags',
+    'uses' => 'MonsterController@flags', )
+  );
+
   Route::get('/{id}', array(
         'as' => 'item.view',
         'uses' => "ItemsController@view", )
@@ -185,11 +191,6 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
   Route::get('/monsters/{id}', array(
     'as' => 'monster.view',
     'uses' => 'MonsterController@view', )
-  );
-
-  Route::get('/monster_flags/{id?}', array(
-    'as' => 'monster.flags',
-    'uses' => 'MonsterController@flags', )
   );
 
   Route::get('/gunmods/{skill?}/{part?}', array(
