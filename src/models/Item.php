@@ -613,11 +613,6 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $this->type == "GUNMOD";
     }
 
-    public function getIsContainer()
-    {
-        return $this->type == "CONTAINER";
-    }
-
     public function getIsPetArmor()
     {
         return $this->type == "PET_ARMOR" || isset($this->pet_armor_data);
@@ -638,11 +633,6 @@ class Item implements Robbo\Presenter\PresentableInterface
         return array_map(function ($cover) {
             return strtolower(gettext($cover));
         }, isset($this->data->covers) ? $this->data->covers : []);
-    }
-
-    public function getContains()
-    {
-        return $this->data->contains;
     }
 
     public function getConstructionUses()

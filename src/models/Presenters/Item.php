@@ -24,19 +24,6 @@ class Item extends \Robbo\Presenter\Presenter
         return $this->object->volume === null ? "N/A" : $this->object->volume;
     }
 
-    public function presentStorage()
-    {
-        $storage = $this->object->storage;
-        if (stripos($storage, "ml")) {
-            $storage = (floatval($storage) / 1000.0);
-        } else if (strpos($storage, "L")) {
-            $storage = (floatval($storage)* 1.0);
-        } else {
-            $storage = (floatval($storage) / 4.0);
-        }
-        return "<yellow>$storage</yellow> 升";
-    }
-
     public function presentWeight()
     {
         $weight = $this->object->weight;
@@ -293,26 +280,6 @@ class Item extends \Robbo\Presenter\Presenter
     public function presentRecoilModifier()
     {
         return sprintf("%+d", $this->object->recoil_modifier);
-    }
-
-    public function presentRigid()
-    {
-        return $this->object->rigid ? "是" : "否";
-    }
-
-    public function presentSeals()
-    {
-        return $this->object->seals ? "是" : "否";
-    }
-
-    public function presentWatertight()
-    {
-        return $this->object->watertight ? "是" : "否";
-    }
-
-    public function presentPreserves()
-    {
-        return $this->object->preserves ? "是" : "否";
     }
 
     public function presentTechniques()

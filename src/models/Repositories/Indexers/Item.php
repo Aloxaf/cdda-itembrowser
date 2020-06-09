@@ -316,24 +316,26 @@ class Item implements IndexerInterface
         }
 
         // handle container values
-        if ($object->type == "CONTAINER" || isset($object->container_data)) {
+        if (isset($object->pocket_data) && $object->pocket_data[0]->pocket_type == "CONTAINER") {
             $repo->append("container", $object->id);
-            if (isset($object->container_data)) {
-                if (isset($object->container_data->contains)) {
-                    $object->contains = $object->container_data->contains;
-                }
-                if (isset($object->container_data->watertight)) {
-                    $object->watertight = $object->container_data->watertight;
-                }
-                if (isset($object->container_data->seals)) {
-                    $object->seals = $object->container_data->seals;
-                }
-            }
+            $pocket_data = $object->pocket_data[0];
 
-            if (stripos($object->contains, "ml") !== false) {
-                $object->contains = floatval($object->contains) / 1000.0;
+            $keys = array(
+                "max_contains_volume", "max_contains_weight", "min_item_volume", "max_item_volume",
+                "max_item_length", "magazine_well",
+            );
+            foreach ($keys as $key) {
+                if (isset($pocket_data->$key)) {
+                    if (
+                        strpos($pocket_data->$key, "kg") !== false 
+                        || strpos($pocket_data->$key, "L") !== false
+                        || strpos($pocket_data->$key, "meter") !== false) {
+                        $pocket_data->$key = floatval($pocket_data->$key);
+                    } else {
+                        $pocket_data->$key = floatval($pocket_data->$key) / 1000;
+                    }
+                }
             }
-            $object->contains = floatval($object->contains);
         }
 
         if (isset($object->proportional)) {

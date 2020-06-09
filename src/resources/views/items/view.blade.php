@@ -356,7 +356,6 @@
         --<br>
         材料厚度：<yellow>{{ $item->material_thickness }}</yellow>mm<br>
         累赘度：<yellow>{!! $item->encumbrance !!}</yellow>
-        &nbsp;容积：{!! $item->storage !!}<br>
         防护：
         钝击：<yellow>{{ $item->protection('bash') }}</yellow>
         &nbsp;斩击：<yellow>{{ $item->protection('cut') }}</yellow>
@@ -367,20 +366,62 @@
         &nbsp;环境：<yellow>{{ $item->environmental_protection }}</yellow><br>
       @endif
 
-      @if($item->isContainer)
-        @if($item->rigid=='R')
-          This item is rigid.<br>
+      @if($item->pocket_data !== NULL)
+        --<br>
+        @php
+          $pocket = $item->pocket_data[0];
+        @endphp
+        @if (isset($pocket->max_contains_volume))
+          最大容量：<yellow>{{ $pocket->max_contains_volume }} </yellow>L<br>
         @endif
-        @if($item->seals=='S')
-          这个容器能能<info>重新封装</info>。<br>
+        @if (isset($pocket->max_contains_weight))
+          最大重量：<yellow>{{ $pocket->max_contains_weight }} </yellow>千克<br>
         @endif
-        @if($item->watertight=='W')
-          这个容器是<info>水密</info>的。<br>
+        @if (isset($pocket->min_item_volumn))
+          最小物品体积：<yellow>{{ $pocket->min_item_volumn }} </yellow>L<br>
         @endif
-        @if($item->preserves=='P')
-          这个容器能<good>防止腐坏</good>。<br>
+        @if (isset($pocket->min_item_volumn))
+          最大物品体积：<yellow>{{ $pocket->max_item_volumn }} </yellow>L<br>
         @endif
-        这个容器能储存{{ $item->contains }}升液体。<br>
+        @if (isset($pocket->max_item_length))
+          最大物品长度：<yellow>{{ $pocket->max_item_length }} </yellow> 米<br>
+        @elseif(isset($pocket->max_contains_volume))
+          最大物品长度：<yellow>{{
+            round(pow($pocket->max_contains_volume, 1.0 / 3) * sqrt(2.0), 3)
+          }}
+          </yellow>米<br>
+        @endif
+        @if (isset($pocket->spoil_multiplier))
+          腐烂速度：<yellow>{{ $pocket->spoil_multiplier }}</yellow><br>
+        @endif
+        @if (isset($pocket->sealed_data))
+          @if (isset($pocket->sealed_data->spoil_multiplier))
+            腐烂速度（密封）：<yellow>{{ $pocket->sealed_data->spoil_multiplier }}</yellow> <br>
+          @endif
+        @endif
+        @if (isset($pocket->weight_multiplier))
+          重量系数：<yellow>{{ $pocket->weight_multiplier }}</yellow><br>
+        @endif
+        @if (isset($pocket->volume_multiplier))
+          体积系数：<yellow>{{ $pocket->volume_multiplier }}</yellow><br>
+        @endif
+        @if (isset($pocket->magazine_well))
+          原始容积：<yellow>{{ $pocket->magazine_well }}</yellow><br>
+        @endif
+        取出物品基础耗时：<yellow>{{ $pocket->moves ?? 100 }}</yellow><br>
+        @if ($pocket->rigid ?? true)
+          * 这个容器足够 <info>坚硬</info>。<br>
+        @endif
+        @if ($pocket->watertight ?? false)
+          * 这个容器可以容纳 <info>液体</info>。<br>
+        @endif
+        @if ($pocket->airtight ?? false)
+          * 这个容器可以容纳 <info>气体</info>。<br>
+        @endif
+        @if ($pocket->open_container ?? false)
+          * 穿戴或将其放入其他物品中会使 <bad>内容物掉落</bad>。<br>
+        @endif
+        {{-- TODO: 剩余部分，如弹夹类型 --}}
       @endif
 
       @if($item->isBook)
