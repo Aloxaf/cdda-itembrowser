@@ -29,7 +29,7 @@
           </thead>
           @foreach($muts as $mut)
             <tr>
-              <td><a href="{{ route('special.mutation', array($mut->id)) }}">{{ $mut->name }} {!! $mut->modinfo !!}</a></td>
+              <td><a href="{{ route('special.mutation', array($mut->id)) }}">{{ $mut->name }} {!! $mut->modLabel !!}</a></td>
               <td class="text-right">{{ $mut->points }}</td>
               <td class="text-right">{{ $mut->visibility ?: 0 }}</td>
               <td class="text-right">{{ $mut->ugliness ?: 0 }}</td>
