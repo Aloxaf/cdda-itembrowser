@@ -45,7 +45,7 @@ class SpecialController extends Controller
 
     public function mutation($id)
     {
-        $muts = array($this->repo->getModel("Mutation", $id));
+        $muts = $this->repo->getMultiModelOrFail("Mutation", $id);
         return $this->getLayout()->nest('content', 'special.mutation', compact('muts'));
     }
 

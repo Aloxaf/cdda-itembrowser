@@ -357,9 +357,10 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 $this->append("monstergroup_multi.$object->name", $object->repo_id);
             } else if ($object->type == "item_group" || $object->type == "harvest") {
                 $this->append("itemgroup_multi.{$object->id}", $object->repo_id);
-            }
-            if (strtolower($object->type) == "monster") {
+            } else if (strtolower($object->type) == "monster") {
                 $this->append("monster_multi.$object->id", $object->repo_id);
+            } else if ($object->type == "mutation") {
+                $this->append("mutation_multi.$object->id", $object->repo_id);
             }
             if (isset($object->id) && $object->modspace != "_dda_") {
                 $object->copyfrom_id = $object->modspace.$object->id;
@@ -427,6 +428,12 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             foreach ($tempobj as $subkey => $subobject) {
                 if (!array_key_exists($subkey, $object) && $subkey != "abstract") {
                     $object->{$subkey} = $subobject;
+                }
+            }
+
+            if (array_key_exists("extend", $object)) {
+                foreach ($object->extend as $k => $v) {
+                    $object->$k = array_merge($object->$k ?? array(), $v);
                 }
             }
 
