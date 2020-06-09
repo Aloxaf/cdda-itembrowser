@@ -42,6 +42,9 @@
 <tr>
   <td>材质：</td>
   <td>{{{ $monster->material }}}</td>
+  
+  <td>攻击消耗：</td>
+  <td>{{ $monster->attack_cost ?: 100 }}</td>
 </tr>
 <tr>
   <td>速度：</td>
@@ -104,12 +107,12 @@
 </tr>
 @endif
 <tr>
-  <td>可收获：</td>
   @if ($monster->harvest != NULL)
+  <td>可收获：</td>
   <td><a href="{{ route("special.itemgroup", $monster->harvest) }}">{{ $monster->harvest }}</a></td>
   @endif
-  <td>燃烧进化：</td>
   @if ($monster->burn_into != NULL)
+  <td>燃烧进化：</td>
   <td><a href="{{ route("monster.view", $monster->burn_into->id) }}">{{ $monster->burn_into->nicename }}</a></td>
   @endif
 </tr>

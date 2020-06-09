@@ -128,7 +128,7 @@ class Monster extends \Robbo\Presenter\Presenter
             "marshmallow" => "棉花糖",
             "alien" => "外星人",
             "biocrystal" => "晶体生物",
-            "wildalien" => "外星野人",
+            "wildalien" => "外星野生生物",
             "uplift" => "擢升者",
             "goblin" => "哥布林",
         );
