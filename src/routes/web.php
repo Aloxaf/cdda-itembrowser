@@ -144,6 +144,16 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
     'uses' => 'MonsterController@flags', )
   );
 
+  Route::get('/mutations/{id?}', array(
+    'as' => 'special.mutations',
+    'uses' => 'SpecialController@mutations'
+  ));
+
+  Route::get('/mutation/{id}', array(
+    'as' => 'special.mutation',
+    'uses' => 'SpecialController@mutation'
+  ));
+
   Route::get('/{id}', array(
         'as' => 'item.view',
         'uses' => "ItemsController@view", )
