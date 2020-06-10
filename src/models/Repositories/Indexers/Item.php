@@ -316,7 +316,7 @@ class Item implements IndexerInterface
         }
 
         // handle container values
-        if (isset($object->pocket_data) && $object->pocket_data[0]->pocket_type == "CONTAINER") {
+        if (isset($object->pocket_data) && ($object->pocket_data[0]->pocket_type ?? "CONTAINER") == "CONTAINER") {
             $repo->append("container", $object->id);
             $pocket_data = $object->pocket_data[0];
 

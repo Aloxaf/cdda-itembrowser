@@ -107,11 +107,16 @@ class Recipe implements Robbo\Presenter\PresentableInterface
     public function getQualities()
     {
         return array_map(function ($quality) {
-            return array(
-                "quality" => $this->repo->getModel("Quality", $quality->id),
-                "level" => $quality->level,
-                "amount" => $quality->amount,
-            );
+            if (!is_array($quality)) {
+                $quality = array($quality);
+            }
+            return array_map(function ($quality) {
+                return array(
+                    "quality" => $this->repo->getModel("Quality", $quality->id),
+                    "level" => $quality->level,
+                    "amount" => $quality->amount,
+                );
+            }, $quality);
         }, $this->data->qualities);
     }
 

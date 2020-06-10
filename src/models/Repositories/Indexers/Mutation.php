@@ -32,7 +32,7 @@ class Mutation implements IndexerInterface
         if ($object->type == "mutation_category") {
             $repo->appendUnique("mutation_category", $object->id);
         }
-        if (is_array($object->category)) {
+        if (isset($object->category)) {
             foreach ($object->category as $category) {
                 $repo->append("mutation_category.$category", $object->id);
             }

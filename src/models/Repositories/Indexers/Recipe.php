@@ -76,7 +76,13 @@ class Recipe implements IndexerInterface
                                 }
 
                                 foreach ($req->qualities as $quality_unit) {
-                                    ValueUtil::SetDefault($quality_unit, "amount", 1);
+                                    if (is_array($quality_unit)) {
+                                        foreach ($quality_unit as $tmp) {
+                                            ValueUtil::SetDefault($tmp, "amount", 1);
+                                        }
+                                    } else {
+                                        ValueUtil::SetDefault($quality_unit, "amount", 1);
+                                    }
                                     $recipe->qualities[] = $quality_unit;
                                 }
                             }
@@ -454,7 +460,13 @@ class Recipe implements IndexerInterface
 
                 if (isset($recipe->qualities)) {
                     foreach ($recipe->qualities as $group) {
-                        ValueUtil::SetDefault($group, "amount", 1);
+                        if (is_array($group)) {
+                            foreach ($group as $tmp) {
+                                ValueUtil::SetDefault($tmp, "amount", 1);
+                            }
+                        } else {
+                            ValueUtil::SetDefault($group, "amount", 1);
+                        }
                     }
                 }
 

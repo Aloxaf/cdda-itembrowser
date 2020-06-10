@@ -56,7 +56,7 @@ class Monster implements IndexerInterface
                 ($object->vision_day + 2 * $object->vision_night) * 0.01;
             $object->difficulty = $diff;
 
-            if (isset($object->death_drops)) {
+            if (isset($object->death_drops) && (array)$object->death_drops) {
                 if (is_string($object->death_drops)) {
                     $repo->append("itemgroup.dropfrom.{$object->death_drops}", $object->id);
                 } else if (is_object($object->death_drops) && isset($object->death_drops->id)) {

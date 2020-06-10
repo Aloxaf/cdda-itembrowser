@@ -61,9 +61,7 @@ array('id'=>$recipe->result->id)) }}">{{$recipe->result->name}}</a><br>
   @if ($recipe->hasTools || $recipe->hasQualities)
   需要工具:<br>
   @if ($recipe->hasQualities)
-  @foreach ($recipe->qualities as $q)
-  &gt; {{{$q["amount"]}}} 个 <a href="{{ route("item.qualities", $q["quality"]->id) }}">{{{ $q["quality"]->name }}}</a> 功能至少 {{{ $q["level"] }}} 级的工具<br>
-  @endforeach
+    {!! $recipe->qualities !!}
   @endif
   @if ($recipe->hasTools)
   {!!$recipe->tools!!}<br>

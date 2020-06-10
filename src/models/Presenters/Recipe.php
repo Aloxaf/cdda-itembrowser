@@ -137,4 +137,15 @@ class Recipe extends \Robbo\Presenter\Presenter
 
         return "";
     }
+
+    public function presentQualities()
+    {
+        $ret = "";
+        foreach ($this->object->qualities as $qualities) {
+            $ret .= "&gt; ".implode(" 或 ", array_map(function ($q) {
+                return "{$q['amount']} 个 <a href=\"".route("item.qualities", $q["quality"]->id)."\">{$q['quality']->name}</a> 功能至少 {$q['level']} 级的工具";
+            }, $qualities))."<br>";
+        }
+        return $ret;
+    }
 }
