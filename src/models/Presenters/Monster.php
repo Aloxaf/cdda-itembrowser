@@ -171,22 +171,22 @@ class Monster extends \Robbo\Presenter\Presenter
     {
         if (stripos($this->object->volume, "ml") || stripos($this->object->volume, "L")) {
             $value = floatval($this->object->volume) * 1.0;
-            if (stripos($this->object->volume, "L")) {
-                $value *= 1000;
+            if (stripos($this->object->volume, "ml")) {
+                $value /= 1000.0;
             }
             $strvalue = "";
-            if ($value <= 7500) {
+            if ($value <= 7.5) {
                 $strvalue = "很小";
-            } elseif ($value <= 46250) {
+            } elseif ($value <= 46.25) {
                 $strvalue = "小";
-            } elseif ($value <= 77500) {
+            } elseif ($value <= 77.5) {
                 $strvalue = "中等";
-            } elseif ($value <= 483750) {
+            } elseif ($value <= 483.75) {
                 $strvalue = "大";
             } else {
                 $strvalue = "巨大";
             }
-            return $strvalue." (".$this->object->volume.")";
+            return $strvalue." (".$value." 升)";
         } else {
             return $this->object->size;
         }

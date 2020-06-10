@@ -89,10 +89,6 @@
   <td>视力：</td>
   <td>{{"{$monster->vision_day} (日) / {$monster->vision_night} (夜)"}}</td>
 </tr>
-<tr>
-  <td valign="top">Flags:</td>
-  <td colspan="3">{!! $monster->flags !!}</td>
-</tr>
 @if ($monster->upgrades)
 <tr>
   @if(array_key_exists("half_life", $monster->upgrades))
@@ -117,8 +113,12 @@
   @endif
 </tr>
 <tr>
-  <td>死亡掉落：</td>
-  <td>{!! $monster->death_drops !!}</td>
+  <td valign="top">Flags:</td>
+  <td colspan="3">{!! $monster->flags !!}</td>
+</tr>
+<tr>
+  <td valign="top">死亡掉落：</td>
+  <td colspan="3">{!! $monster->death_drops !!}</td>
 </tr>
 </table>
 <br>
