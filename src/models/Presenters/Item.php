@@ -419,4 +419,23 @@ class Item extends \Robbo\Presenter\Presenter
             return '<a href="'.route("item.view", $entry->id).'">'.$entry->name.'</a>';
         }, $breaks_into));
     }
+
+    public function presentLongestSide()
+    {
+        $v = $this->object->longest_side;
+        if ($v === NULL) {
+            $v = round(pow($this->object->volume * 1000, 1.0 / 3.0));
+            return "<yellow>$v</yellow> 厘米";
+        } else {
+            $s = "<yellow>".floatval($v)."</yellow> ";
+            if (strpos($v, "mm") !== FALSE) {
+                $s .= "毫米";
+            } else if (strpos($v, "cm") !== FALSE) {
+                $s .= "厘米";
+            } else if (strpos($v, "meter") !== FALSE) {
+                $s .= "米";
+            }
+            return $s;
+        }
+    }
 }
