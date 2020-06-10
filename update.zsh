@@ -31,7 +31,7 @@ cp doxygen_conf.txt Cataclysm-DDA-master/doxygen_doc/doxygen_conf.txt
 pushd Cataclysm-DDA-master
 doxygen doxygen_doc/doxygen_conf.txt
 popd
-cp -r Cataclysm-DDA-master/doxygen_doc/html src/public/doc
+mv -Tr Cataclysm-DDA-master/doxygen_doc/html src/public/doc
 
 # https://juejin.im/entry/5901af2e1b69e60058be2134
 
