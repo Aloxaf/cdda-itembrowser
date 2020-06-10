@@ -27,6 +27,12 @@ php src/artisan down
 sudo -u www-data php -c ./php.ini src/artisan cataclysm:rebuild $dir
 php src/artisan up
 
+cp doxygen_conf.txt Cataclysm-DDA-master/doxygen_doc/doxygen_conf.txt
+pushd Cataclysm-DDA-master
+doxygen doxygen_doc/doxygen_conf.txt
+popd
+cp -r Cataclysm-DDA-master/doxygen_doc/html src/public/doc
+
 # https://juejin.im/entry/5901af2e1b69e60058be2134
 
 # cp locale/zh_CN/LC_MESSAGES/cataclysm-dda.mo /usr/share/locale/zh_CN/LC_MESSAGES/
