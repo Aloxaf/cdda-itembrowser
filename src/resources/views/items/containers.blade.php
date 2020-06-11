@@ -28,7 +28,7 @@
       <td>{{ isset($pocket_data->sealed_data) ? "否" : "是" }}</td>
       <td>{{ ($pocket_data->watertight ?? false) ? "是" : "否" }}</td>
       <td>{{ $pocket_data->spoil_multiplier ?? 1.0 }}</td>
-      <td>{{ $pocket_data->max_contains_volume }}</td>
+      <td>{{ $item->storage }}</td>
     </tr>
     </tr>
   @endforeach

@@ -316,25 +316,29 @@ class Item implements IndexerInterface
         }
 
         // handle container values
-        if (isset($object->pocket_data) && ($object->pocket_data[0]->pocket_type ?? "CONTAINER") == "CONTAINER") {
-            $repo->append("container", $object->id);
-            $pocket_data = $object->pocket_data[0];
-
-            $keys = array(
-                "max_contains_volume", "max_contains_weight", "min_item_volume", "max_item_volume",
-                "max_item_length", "magazine_well",
-            );
-            foreach ($keys as $key) {
-                if (isset($pocket_data->$key)) {
-                    if (
-                        strpos($pocket_data->$key, "kg") !== false 
-                        || strpos($pocket_data->$key, "L") !== false
-                        || strpos($pocket_data->$key, "meter") !== false) {
-                        $pocket_data->$key = floatval($pocket_data->$key);
-                    } else {
-                        $pocket_data->$key = floatval($pocket_data->$key) / 1000;
+        if (isset($object->pocket_data)) {
+            $is_container = false;
+            foreach ($object->pocket_data as $pocket_data) {
+                $keys = array(
+                    "max_contains_volume", "max_contains_weight", "min_item_volume", "max_item_volume",
+                    "max_item_length", "magazine_well",
+                );
+                foreach ($keys as $key) {
+                    if (isset($pocket_data->$key)) {
+                        $is_container = true;
+                        if (
+                            strpos($pocket_data->$key, "kg") !== false 
+                            || strpos($pocket_data->$key, "L") !== false
+                            || strpos($pocket_data->$key, "meter") !== false) {
+                            $pocket_data->$key = floatval($pocket_data->$key);
+                        } else {
+                            $pocket_data->$key = floatval($pocket_data->$key) / 1000;
+                        }
                     }
                 }
+            }
+            if ($is_container) {
+                $repo->append("container", $object->id);
             }
         }
 

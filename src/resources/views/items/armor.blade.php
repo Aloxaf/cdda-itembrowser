@@ -36,8 +36,9 @@ array(
     <th>体积(L)</th>
     <th>重量(KG)</th>
     <th>累赘</th>
-    <th>钝击防护></th>
-    <th>斩击防护</th>
+    <th>钝防</th>
+    <th>斩防</th>
+    <th>防弹</th>
     <th>保暖</th>
     <th>存储空间(L)</th>
     <th>环境防护</th>
@@ -57,8 +58,9 @@ array(
   <td>{!! $item->encumbrance !!}</td>
   <td>{{ $item->protection('bash') }}</td>
   <td>{{ $item->protection('cut') }}</td>
+  <td>{{ $item->protection('bullet') }}</td>
   <td>{{ $item->warmth }}</td>
-  <td>{{ floatval($item->storage)/4.0 }}</td>
+  <td>{{ $item->storage }}</td>
   <td>{{ $item->environmental_protection }}</td>
   <td>{{ $item->protection('acid') }}</td>
   <td>{{ $item->protection('fire') }}</td>

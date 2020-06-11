@@ -669,7 +669,7 @@ class Item implements Robbo\Presenter\PresentableInterface
         }
 
         if ($this->data->max_encumbrance > 0) {
-            $result = $result." - ".$this->data->max_encumbrance." (0% - 100% 体积)";
+            $result = $result." ~ <yellow>".$this->data->max_encumbrance."</yellow>";
         }
 
         return $result;
@@ -919,6 +919,18 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function hasKey($key)
     {
         return isset($this->data->{$key});
+    }
+
+    public function getStorage()
+    {
+        if (!isset($this->data->pocket_data)) {
+            return 0;
+        }
+        $sum = 0;
+        foreach ($this->data->pocket_data as $pocket_data) {
+            $sum += $pocket_data->max_contains_volume ?? 0;
+        }
+        return $sum;
     }
 
     public function effective_dps($mon)

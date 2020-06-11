@@ -356,7 +356,7 @@
         &nbsp;保暖度：<yellow>{{ $item->warmth }}</yellow><br>
         --<br>
         材料厚度：<yellow>{{ $item->material_thickness }}</yellow>mm<br>
-        累赘度：<yellow>{!! $item->encumbrance !!}</yellow>
+        累赘度：{!! $item->encumbrance !!}<br>
         防护：
         钝击：<yellow>{{ $item->protection('bash') }}</yellow>
         &nbsp;斩击：<yellow>{{ $item->protection('cut') }}</yellow>
@@ -368,60 +368,66 @@
       @endif
 
       @if($item->pocket_data !== NULL)
-        --<br>
-        @php
-          $pocket = $item->pocket_data[0];
-        @endphp
-        @if (isset($pocket->max_contains_volume))
-          最大容量：<yellow>{{ $pocket->max_contains_volume }} </yellow>L<br>
-        @endif
-        @if (isset($pocket->max_contains_weight))
-          最大重量：<yellow>{{ $pocket->max_contains_weight }} </yellow>千克<br>
-        @endif
-        @if (isset($pocket->min_item_volumn))
-          最小物品体积：<yellow>{{ $pocket->min_item_volumn }} </yellow>L<br>
-        @endif
-        @if (isset($pocket->min_item_volumn))
-          最大物品体积：<yellow>{{ $pocket->max_item_volumn }} </yellow>L<br>
-        @endif
-        @if (isset($pocket->max_item_length))
-          最大物品长度：<yellow>{{ $pocket->max_item_length }} </yellow> 米<br>
-        @elseif(isset($pocket->max_contains_volume))
-          最大物品长度：<yellow>{{
-            round(pow($pocket->max_contains_volume, 1.0 / 3) * sqrt(2.0), 3)
-          }}
-          </yellow>米<br>
-        @endif
-        @if (isset($pocket->spoil_multiplier))
-          腐烂速度：<yellow>{{ $pocket->spoil_multiplier }}</yellow><br>
-        @endif
-        @if (isset($pocket->sealed_data))
-          @if (isset($pocket->sealed_data->spoil_multiplier))
-            腐烂速度（密封）：<yellow>{{ $pocket->sealed_data->spoil_multiplier }}</yellow> <br>
+        @foreach ($item->pocket_data as $k => $pocket)
+          --<br>
+          @if (count($item->pocket_data) > 1)
+            @php
+              $k += 1;
+              echo "口袋 {$k}："
+            @endphp
+            <br>
           @endif
-        @endif
-        @if (isset($pocket->weight_multiplier))
-          重量系数：<yellow>{{ $pocket->weight_multiplier }}</yellow><br>
-        @endif
-        @if (isset($pocket->volume_multiplier))
-          体积系数：<yellow>{{ $pocket->volume_multiplier }}</yellow><br>
-        @endif
-        @if (isset($pocket->magazine_well))
-          原始容积：<yellow>{{ $pocket->magazine_well }}</yellow><br>
-        @endif
-        取出物品基础耗时：<yellow>{{ $pocket->moves ?? 100 }}</yellow><br>
-        @if ($pocket->rigid ?? true)
-          * 这个容器足够 <info>坚硬</info>。<br>
-        @endif
-        @if ($pocket->watertight ?? false)
-          * 这个容器可以容纳 <info>液体</info>。<br>
-        @endif
-        @if ($pocket->airtight ?? false)
-          * 这个容器可以容纳 <info>气体</info>。<br>
-        @endif
-        @if ($pocket->open_container ?? false)
-          * 穿戴或将其放入其他物品中会使 <bad>内容物掉落</bad>。<br>
-        @endif
+          @if (isset($pocket->max_contains_volume))
+            最大容量：<yellow>{{ $pocket->max_contains_volume }} </yellow>L<br>
+          @endif
+          @if (isset($pocket->max_contains_weight))
+            最大重量：<yellow>{{ $pocket->max_contains_weight }} </yellow>千克<br>
+          @endif
+          @if (isset($pocket->min_item_volumn))
+            最小物品体积：<yellow>{{ $pocket->min_item_volumn }} </yellow>L<br>
+          @endif
+          @if (isset($pocket->min_item_volumn))
+            最大物品体积：<yellow>{{ $pocket->max_item_volumn }} </yellow>L<br>
+          @endif
+          @if (isset($pocket->max_item_length))
+            最大物品长度：<yellow>{{ $pocket->max_item_length }} </yellow> 米<br>
+          @elseif(isset($pocket->max_contains_volume))
+            最大物品长度：<yellow>{{
+              round(pow($pocket->max_contains_volume, 1.0 / 3) * sqrt(2.0), 3)
+            }}
+            </yellow>米<br>
+          @endif
+          @if (isset($pocket->spoil_multiplier))
+            腐烂速度：<yellow>{{ $pocket->spoil_multiplier }}</yellow><br>
+          @endif
+          @if (isset($pocket->sealed_data))
+            @if (isset($pocket->sealed_data->spoil_multiplier))
+              腐烂速度（密封）：<yellow>{{ $pocket->sealed_data->spoil_multiplier }}</yellow> <br>
+            @endif
+          @endif
+          @if (isset($pocket->weight_multiplier))
+            重量系数：<yellow>{{ $pocket->weight_multiplier }}</yellow><br>
+          @endif
+          @if (isset($pocket->volume_multiplier))
+            体积系数：<yellow>{{ $pocket->volume_multiplier }}</yellow><br>
+          @endif
+          @if (isset($pocket->magazine_well))
+            原始容积：<yellow>{{ $pocket->magazine_well }}</yellow><br>
+          @endif
+          取出物品基础耗时：<yellow>{{ $pocket->moves ?? 100 }}</yellow><br>
+          @if ($pocket->rigid ?? true)
+            * 这个容器足够 <info>坚硬</info>。<br>
+          @endif
+          @if ($pocket->watertight ?? false)
+            * 这个容器可以容纳 <info>液体</info>。<br>
+          @endif
+          @if ($pocket->airtight ?? false)
+            * 这个容器可以容纳 <info>气体</info>。<br>
+          @endif
+          @if ($pocket->open_container ?? false)
+            * 穿戴或将其放入其他物品中会使 <bad>内容物掉落</bad>。<br>
+          @endif
+        @endforeach
         {{-- TODO: 剩余部分，如弹夹类型 --}}
       @endif
 
