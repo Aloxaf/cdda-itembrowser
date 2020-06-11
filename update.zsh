@@ -32,7 +32,7 @@ pushd Cataclysm-DDA-master
 doxygen doxygen_doc/doxygen_conf.txt
 popd
 if [[ -d src/public/doc ]]; then
-  rm -rdf src/pubic/doc
+  rm -rdf src/public/doc
 fi
 mv Cataclysm-DDA-master/doxygen_doc/html src/public/doc
 
