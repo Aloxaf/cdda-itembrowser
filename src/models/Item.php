@@ -548,21 +548,26 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function getDamage()
     {
         if ($this->data->damage !== null) {
-            if (is_object($this->data->damage)) {
+            $damage = $this->data->damage;
+            if (is_object($damage)) {
                 $strval = '';
-                if (isset($this->data->damage->amount)) {
-                    $strval = $this->data->damage->amount;
+                if (isset($damage->amount)) {
+                    $strval = $damage->amount;
                 }
-                if (isset($this->data->damage->constant_damage_multiplier)) {
-                    $strval .= 'x'.$this->data->damage->constant_damage_multiplier;
+                if (isset($damage->constant_damage_multiplier)) {
+                    $strval .= 'x'.$damage->constant_damage_multiplier;
                 }
-                if (isset($this->data->damage->damage_type)) {
-                    $strval.=" (".gettext("damage type\004{$this->data->damage->damage_type}").")";
+                if (isset($damage->damage_type)) {
+                    $damage_type = gettext("damage type\004{$damage->damage_type}");
+                    if (strpos($damage_type, "\004") !== FALSE) {
+                        $damage_type = gettext("damage_type\004{$damage->damage_type}");
+                    }
+                    $strval.=" (".$damage_type.")";
                 }
 
                 return $strval;
             } else {
-                return $this->data->damage;
+                return $damage;
             }
         }
     }
@@ -682,7 +687,11 @@ class Item implements Robbo\Presenter\PresentableInterface
             return 0;
         }
         if (isset($this->data->ranged_damage_type)) {
-            return $this->data->ranged_damage." (".gettext("damage type\004{$this->data->ranged_damage_type}").")";
+            $damage_type = gettext("damage type\004{$this->data->ranged_damage_type}");
+            if (strpos($damage_type, "\004") !== FALSE) {
+                $damage_type = gettext("damage_type\004{$this->data->ranged_damage_type}");
+            }
+            return $this->data->ranged_damage." (".$damage_type.")";
         }
         if (!is_numeric($this->data->ranged_damage)) {
             if (is_array($this->data->ranged_damage)) {
