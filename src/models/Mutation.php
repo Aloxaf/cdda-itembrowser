@@ -55,4 +55,28 @@ class Mutation implements Robbo\Presenter\PresentableInterface
         }
         return $name;
     }
+
+    public function getWetProtection() {
+        if (!isset($this->data->wet_protection)) {
+            return "";
+        }
+        $ret = array();
+        foreach ($this->data->wet_protection as $wet) {
+            $part = $this->repo->getModel("Item", $wet->part);
+            $ret[] = "{$part->name}（<yellow>{$wet->ignored}</yellow>）";
+        }
+        return "湿身防护：".implode("，", $ret)."<br>";
+    }
+
+    public function getEncumbranceCovered() {
+        if (!isset($this->data->encumbrance_covered)) {
+            return "";
+        }
+        $ret = array();
+        foreach ($this->data->encumbrance_covered as $en) {
+            $part = $this->repo->getModel("Item", $en[0]);
+            $ret[] = "{$part->name}（<yellow>{$en[1]}</yellow>）";
+        }
+        return "累赘：".implode("，", $ret)."<br>";
+    }
 }

@@ -8,6 +8,15 @@
     <h1>{{ $group->id }} {!! $group->modinfo !!}</h1>
     {!! $group->dropfrom !!}
     {!! $group->harvestfrom !!}
+    @switch($group->id)
+        @case("rare")
+            掉落自黄蜂巢、蜘蛛巢、军人尸体事件、科学家尸体事件<br>
+            @break
+        @case("nanofab_recipes")
+            掉落自纳米制造模板<br>
+            @break
+        @default
+    @endswitch
     <br>
     @if($group->type == "item_group")
       @if($group->ammo)

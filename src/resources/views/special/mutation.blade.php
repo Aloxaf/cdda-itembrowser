@@ -10,14 +10,16 @@
   可见性：<yellow>{{ $mut->visibility ?: 0 }}</yellow><br>
   丑陋：<yellow>{{ $mut->ugliness ?: 0 }}</yellow><br>
   --<br>
+  {!! $mut->wet_protection !!}
+  {!! $mut->encumbrance_covered !!}
   @if($mut->hasKey('cut_dmg_bonus'))
-    斩击防护：<yellow>{{ $mut->cut_dmg_bonus }}</yellow><br>
+    斩击加成：<yellow>{{ $mut->cut_dmg_bonus }}</yellow><br>
   @endif
   @if($mut->hasKey('pierce_dmg_bonus'))
-    刺击防护：<yellow>{{ $mut->pierce_dmg_bonus }}</yellow><br>
+    刺击加成：<yellow>{{ $mut->pierce_dmg_bonus }}</yellow><br>
   @endif
   @if($mut->hasKey('bash_dmg_bonus'))
-    钝击防护：<yellow>{{ $mut->bash_dmg_bonus }}</yellow><br>
+    钝击加成：<yellow>{{ $mut->bash_dmg_bonus }}</yellow><br>
   @endif
   @if($mut->hasKey('mana_regen_multiplier'))
     魔力回复速率：<yellow>{{ $mut->mana_regen_multiplier * 100 }}</yellow>%<br>
