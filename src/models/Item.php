@@ -944,7 +944,7 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getBookData()
     {
-        $book_data = $this->data->book_data;
+        $book_data = $this->data->book_data ?? NULL;
         if(!($book_data && isset($book_data->martial_art))) {
             return NULL;
         }
