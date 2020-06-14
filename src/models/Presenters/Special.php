@@ -23,4 +23,14 @@ class Special extends \Robbo\Presenter\Presenter
             return '<a href="'.route("special.effect", $this->object->excess->id).'">'.$this->object->excess->effect_name.'</a>';
         }
     }
+
+    public function presentRemovesEffects()
+    {
+        return implode("，", array_map(
+            function ($effect) {
+                return '<a href="'.route("special.effect", $effect->id).'">'.$effect->effect_name.'</a>';
+            },
+            $this->object->removes_effects
+        ));
+    }
 }

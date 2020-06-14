@@ -19,6 +19,11 @@ class Special implements Robbo\Presenter\PresentableInterface
         $this->data = $data;
     }
 
+    public function hasKey($key)
+    {
+        return isset($this->data->{$key});
+    }
+
     public function getRawName()
     {
         if (!isset($this->data->name)) {
@@ -41,7 +46,11 @@ class Special implements Robbo\Presenter\PresentableInterface
 
     public function getEffectName()
     {
-        return implode(" / ", $this->data->name);
+        if (isset($this->data->name)) {
+            return implode(" / ", array_unique($this->data->name));
+        } else {
+            return $this->data->id;
+        }
     }
 
     public function getPresenter()
@@ -66,6 +75,16 @@ class Special implements Robbo\Presenter\PresentableInterface
         if (isset($this->data->excess)) {
             return $this->repo->getModel("Special", $this->data->excess);
         }
+    }
+
+    public function getRemovesEffects()
+    {
+        if (!isset($this->data->removes_effects)) {
+            return array();
+        }
+        return array_map(function($id) {
+            return $this->repo->getModel("Special", $id);
+        }, $this->data->removes_effects);
     }
 }
 

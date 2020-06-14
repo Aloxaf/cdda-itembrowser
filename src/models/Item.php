@@ -942,6 +942,16 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $sum;
     }
 
+    public function getBookData()
+    {
+        $book_data = $this->data->book_data;
+        if(!($book_data && isset($book_data->martial_art))) {
+            return NULL;
+        }
+        $item = $this->repo->getModel("Item", $book_data->martial_art);
+        return $item->name;
+    }
+
     public function effective_dps($mon)
     {
         $hits_by_accuracy = array(

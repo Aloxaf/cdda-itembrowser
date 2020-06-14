@@ -462,6 +462,9 @@
       @endif
 
       --<br>
+      @if($item->book_data !== NULL)
+        包含武术：{{ $item->book_data }}<br>
+      @endif
       @if($item->isBrewable)
         {!!$item->brewable!!}
         <br>
