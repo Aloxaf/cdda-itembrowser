@@ -952,6 +952,34 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $item->name;
     }
 
+    public function getReinforcable()
+    {
+        $materials = $this->getMaterials();
+        foreach ($materials as $material) {
+            if ($material->reinforces ?? false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getConductive()
+    {
+        if ($this->hasFlag("CONDUCTIVE")) {
+            return true;
+        }
+        if ($this->hasFlag("NONCONDUCTIVE")) {
+            return false;
+        }
+        $materials = $this->getMaterials();
+        foreach ($materials as $material) {
+            if (($material->elec_resist ?? 0) < 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function effective_dps($mon)
     {
         $hits_by_accuracy = array(

@@ -469,6 +469,14 @@
         {!!$item->brewable!!}
         <br>
       @endif
+      @if($item->reinforcable)
+        * 这件物品可以被 <good>强化</good>。<br>
+      @endif
+      @if($item->conductive)
+        * 这件物品 <bad>导电</bad>。<br>
+      @else
+        * 这件物品 <good>不导电</good>。<br>
+      @endif
       {!! $item->flag_descriptions !!}
       @if($item->exothermic_power_gen)
         * 这件装备在生产能量时会<info>放热</info>。<br>
