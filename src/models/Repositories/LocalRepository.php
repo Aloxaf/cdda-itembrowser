@@ -379,7 +379,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         $paths = array("$path/data/core", "$path/data/json");
 
         // add default-loaded mods to the path list
-        foreach ($default_mods_data->dependencies as $mod) {
+        foreach ($default_mods_data[0]->dependencies as $mod) {
             $paths[] = $this->modDirectory($path, $mod);
         }
 
