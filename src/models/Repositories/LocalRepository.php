@@ -426,7 +426,12 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
 
             // copy all template fields that are not already populated in the current item
             foreach ($tempobj as $subkey => $subobject) {
-                if ((!array_key_exists($subkey, $object) || empty($object->{$subkey}) ) && $subkey != "abstract") {
+                if ((!array_key_exists($subkey, $object)
+                        || (
+                            (is_object($object->{$subkey}) || is_array($object->{$subkey}))
+                            && !(array) $object->{$subkey}))
+                    && $subkey != "abstract"
+                ) {
                     $object->{$subkey} = $subobject;
                 }
             }
