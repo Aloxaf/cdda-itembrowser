@@ -340,11 +340,11 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             }
             // JSON structure is different than earlier mod versions
             if (is_array($modinfo)) {
-                if ($modinfo[0]->ident == $id) {
+                if ($modinfo[0]->id == $id) {
                     return $mod;
                 }
             } else {
-                if ($modinfo->ident == $id) {
+                if ($modinfo->id == $id) {
                     return $mod;
                 }
             }
@@ -409,20 +409,20 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 if (!isset($modinfo[0]->obsolete) || $modinfo[0]->obsolete == false) {
                     $paths[] = $mod;
                 }
-                $ident = "dda";
-                if (isset($modinfo[0]->ident)) {
-                    $ident = strtolower($modinfo[0]->ident);
+                $id = "dda";
+                if (isset($modinfo[0]->id)) {
+                    $id = strtolower($modinfo[0]->id);
                 }
 
-                if ($ident != "dda") {
-                    $this->append("modlist", $ident);
+                if ($id != "dda") {
+                    $this->append("modlist", $id);
                 }
 
-                $this->set("modident.$isolatedname", $ident);
+                $this->set("modident.$isolatedname", $id);
                 if (isset($modinfo[0]->dependencies)) {
                     foreach ($modinfo[0]->dependencies as $dep) {
                         if ($dep != "dda") {
-                            $this->append("moddep.$ident", strtolower($dep));
+                            $this->append("moddep.$id", strtolower($dep));
                         }
                     }
                 }
@@ -430,15 +430,15 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 if (!isset($modinfo->obsolete) || $modinfo->obsolete == false) {
                     $paths[] = $mod;
                 }
-                $ident = "dda";
-                if (isset($modinfo->ident)) {
-                    $ident = strtolower($modinfo->ident);
+                $id = "dda";
+                if (isset($modinfo->id)) {
+                    $id = strtolower($modinfo->id);
                 }
-                $this->set("modident.$isolatedname", $ident);
+                $this->set("modident.$isolatedname", $id);
                 if (isset($modinfo->dependencies)) {
                     foreach ($modinfo->dependencies as $dep) {
                         if ($dep != "dda") {
-                            $this->append("moddep.$ident", strtolower($dep));
+                            $this->append("moddep.$id", strtolower($dep));
                         }
                     }
                 }
