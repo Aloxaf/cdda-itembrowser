@@ -563,12 +563,10 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             $this->simplesetrecipe($object->result, $object->repo_id);
         } elseif (isset($object->type) && $object->type == "uncraft") {
             $this->simplesetuncraft($object->result, $object->repo_id);
+        } elseif (array_key_exists("id", $object)) {
+            $this->simpleset($object->id, $object->repo_id);
         } else {
-            if (array_key_exists("id", $object)) {
-                $this->simpleset($object->id, $object->repo_id);
-            } else if (array_key_exists("ident", $object)) {
-                $this->simpleset($object->ident, $object->repo_id);
-            }
+            echo "There is not id for ".var_dump($object);
         }
 
         try {
@@ -669,7 +667,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 $paths[] = $mod;
                 $id = "dda";
                 if (isset($modinfo[0]->id)) {
-                    $ident = strtolower($modinfo[0]->id);
+                    $id = strtolower($modinfo[0]->id);
                 }
 
                 if ($id != "dda") {

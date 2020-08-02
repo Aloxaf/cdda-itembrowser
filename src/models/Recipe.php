@@ -133,8 +133,8 @@ class Recipe implements Robbo\Presenter\PresentableInterface
     public function getModName()
     {
         if (isset($this->data->modname)) {
-            $ident = $this->data->modname;
-            return $this->repo->raw("modname.$ident");
+            $id = $this->data->modname;
+            return $this->repo->raw("modname.$id");
         }
     }
 }

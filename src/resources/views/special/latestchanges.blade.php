@@ -19,7 +19,7 @@
           @if($item->type == "MONSTER")
             <td><a href="{{ route("monster.view", $item->id) }}">{{ $item->name }}</a></td>
           @elseif($item->type == "material")
-            <td><a href="{{ route("item.view", $item->ident) }}">{{ $item->name }}</a></td>
+            <td><a href="{{ route("item.view", $item->id) }}">{{ $item->name }}</a></td>
           @elseif($item->type == "vehicle_part")
             <td><a href="{{ route("item.view", "vpart_{$item->id}") }}">{{ $item->name }}</a></td>
           @else

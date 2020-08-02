@@ -7,7 +7,7 @@ from typing import Dict, List, Union, Tuple
 
 Json = Union[List["Json"], Dict[str, "Json"], str, bool, int, float]
 
-WHITELIST_KEY = ["id", "name", "type", "ident", "copy-from"]
+WHITELIST_KEY = ["id", "name", "type", "copy-from"]
 WHITELIST_TYPE = [
     "AMMO",
     "GUN",
@@ -78,7 +78,7 @@ def load_all_json(root: Path) -> Dict[str, Json]:
         for entry in json_data:
             if entry.get("type", "").upper() not in WHITELIST_TYPE:
                 continue
-            eid = entry.get("id") or entry.get("ident") or entry.get("abstract")
+            eid = entry.get("id") or entry.get("abstract")
             ret[eid] = {key: entry.get(key) for key in WHITELIST_KEY}
     handle_copy_from(ret)
     return ret

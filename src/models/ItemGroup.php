@@ -2,6 +2,10 @@
 
 // https://github.com/laravel/framework/issues/26229
 // 添加完新 Model 后需要 composer update
+// php artisan make:model Customer
+// php artisan make:controller CustomersController --resource 
+// OR
+// php artisan make:controller CustomersController --model=Customer
 
 class ItemGroup implements Robbo\Presenter\PresentableInterface
 {

@@ -240,7 +240,7 @@ class Item implements Robbo\Presenter\PresentableInterface
         }
 
         $val = 0;
-        if ($mat2 == "null" || $mat2->ident == "null") {
+        if ($mat2 == "null" || $mat2->id == "null") {
             $val = $thickness * $mat1->$variable;
         } else {
             $val = $thickness * (($mat1->$variable + $mat2->$variable) / 2);
@@ -330,8 +330,8 @@ class Item implements Robbo\Presenter\PresentableInterface
         if (!$this->volume) {
             return false;
         }
-        $material1 = $this->material1->ident;
-        $material2 = $this->material2->ident;
+        $material1 = $this->material1->id;
+        $material2 = $this->material2->id;
 
         return in_array($material1, array_keys($this->cut_pairs)) and
               in_array($material2, array_keys($this->cut_pairs));
@@ -345,7 +345,7 @@ class Item implements Robbo\Presenter\PresentableInterface
         foreach ($materials as $material) {
             $results[] = [
                 "amount" => $this->volume / count($materials),
-                "item" => $this->repo->getModel("Item", $this->cut_pairs[$material->ident]),
+                "item" => $this->repo->getModel("Item", $this->cut_pairs[$material->id]),
             ];
         }
 
@@ -521,7 +521,7 @@ class Item implements Robbo\Presenter\PresentableInterface
         $materials = array(
             $this->material1,
         );
-        if ($this->material2->ident != "null") {
+        if ($this->material2->id != "null") {
             $materials[] = $this->material2;
         }
 
@@ -713,8 +713,8 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function getModName()
     {
         if (isset($this->data->modname)) {
-            $ident = $this->data->modname;
-            return $this->repo->raw("modname.$ident");
+            $id = $this->data->modname;
+            return $this->repo->raw("modname.$id");
         }
     }
 

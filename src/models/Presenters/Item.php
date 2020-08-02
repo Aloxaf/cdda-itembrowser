@@ -95,7 +95,7 @@ class Item extends \Robbo\Presenter\Presenter
     public function presentMaterials()
     {
         return implode(", ", array_map(function ($material) {
-            return '<a href="'.route("item.materials", $material->ident).'">'.$material->name.'</a>';
+            return '<a href="'.route("item.materials", $material->id).'">'.$material->name.'</a>';
         }, $this->object->materials));
     }
 
