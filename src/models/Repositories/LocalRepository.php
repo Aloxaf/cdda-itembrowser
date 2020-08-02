@@ -38,12 +38,19 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
     private $currentmod;
     private $currentmodfoldername;
 
+    private $blacklist;
+
     public function __construct(
         \Illuminate\Events\Dispatcher $events,
         \Illuminate\Foundation\Application $app
     ) {
         $this->events = $events;
         $this->app = $app;
+        $this->blacklist = new \Ds\Set([
+            "snippet", "talk_topic", "overmap_terrain", "scenario", "ammunition_type", "start_location",
+            "MIGRATION", "item_action", "ITEM_CATEGORY", "mapgen", "speech", "keybinding", "region_overlay",
+            "mod_tileset", "MONSTER_FACTION"
+        ]);
     }
 
     public function setSource($source)
@@ -297,9 +304,8 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         if (!isset($object->type)) {
             return;
         }
-        if ($object->type == "snippet" || $object->type == "talk_topic" || $object->type == "overmap_terrain" || $object->type == "scenario" || $object->type == "ammunition_type" ||
-        $object->type == "start_location" || $object->type == "MIGRATION" || $object->type == "item_action" || $object->type == "ITEM_CATEGORY" ||
-        $object->type == "mapgen" || $object->type == "speech" || $object->type == "keybinding" ) {
+
+        if ($this->blacklist->contains($object->type)) {
             return;
         }
 
@@ -375,8 +381,10 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                         $name = $object->name;
                     } else if (is_object($object->name) && isset($object->name->str)) {
                         $name = $object->name->str;
-                    } else {
+                    } else if (isset($object->name->str_sp)) {
                         $name = $object->name->str_sp;
+                    } else {
+                        echo "There is no name for ".var_dump($object->id);
                     }
                     if (isset($name)) {
                         $this->appendUnique("item_multi.name.$object->id", $name);
@@ -566,7 +574,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         } elseif (array_key_exists("id", $object)) {
             $this->simpleset($object->id, $object->repo_id);
         } else {
-            echo "There is not id for ".var_dump($object);
+            echo "There is not id for an object\n"; //.var_dump($object);
         }
 
         try {
