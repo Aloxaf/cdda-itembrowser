@@ -148,7 +148,7 @@ class ItemsController extends Controller
         $materials = $this->repo->allModels("Material", "materials");
 
         if ($id === null) {
-            return redirect()->route(Route::currentRouteName(), array(reset($materials)->ident));
+            return redirect()->route(Route::currentRouteName(), array(reset($materials)->id));
         }
         $items = $this->repo->allModels("Item", "material.$id");
 

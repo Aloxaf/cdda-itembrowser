@@ -7,7 +7,7 @@ Materials - Cataclysm: Dark Days Ahead
   <div class="col-md-3">
 <ul class="nav nav-pills nav-stacked">
 @foreach($materials as $material)
-<li class="@if($material->ident==$id) active @endif"><a href="{{ route(Route::currentRouteName(), $material->ident) }}">{{{$material->name}}}</a></li>
+<li class="@if($material->id==$id) active @endif"><a href="{{ route(Route::currentRouteName(), $material->id) }}">{{{$material->name}}}</a></li>
 @endforeach
 </ul>
   </div>

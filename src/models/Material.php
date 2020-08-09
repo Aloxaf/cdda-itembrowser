@@ -18,6 +18,6 @@ class Material implements Robbo\Presenter\PresentableInterface
 
     public function getId()
     {
-        return $this->data->ident;
+        return $this->data->id;
     }
 }
