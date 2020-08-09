@@ -442,9 +442,11 @@ class Recipe implements IndexerInterface
                 $repo->set(self::DEFAULT_INDEX.".".$recipe->repo_id, $recipe->repo_id);
 
                 if (isset($recipe->book_learn)) {
-                    for ($i = 0; $i < count($recipe->book_learn); $i++) {
-                        if (count($recipe->book_learn[$i]) < 2) {
-                            $recipe->book_learn[$i][] = -1;
+                    if (is_array($recipe->book_learn)) {
+                        for ($i = 0; $i < count($recipe->book_learn); $i++) {
+                            if (count($recipe->book_learn[$i]) < 2) {
+                                $recipe->book_learn[$i][] = -1;
+                            }
                         }
                     }
                 }
@@ -452,8 +454,14 @@ class Recipe implements IndexerInterface
                 if (isset($recipe->result)) {
                     $this->linkIndexes($repo, "recipes", $recipe->result, $recipe);
                     if (isset($recipe->book_learn)) {
-                        foreach ($recipe->book_learn as $learn) {
-                            $this->linkIndexes($repo, "learn", $learn[0], $recipe);
+                        if (is_array($recipe->book_learn)) {
+                            foreach ($recipe->book_learn as $learn) {
+                                $this->linkIndexes($repo, "learn", $learn[0], $recipe);
+                            }
+                        } else {
+                            foreach ($recipe->book_learn as $key => $_) {
+                                $this->linkIndexes($repo, "learn", $key, $recipe);
+                            }
                         }
                     }
                 }
