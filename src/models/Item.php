@@ -906,13 +906,18 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getBreaksInto()
     {
-        if(isset($this->data->breaks_into)) {
-            return array_map(
-                function($item) {
-                    return $this->repo->getModel("Item", $item->item);
-                },
-                $this->data->breaks_into
-            );
+        $breaks_into = $this->data->breaks_into;
+        if (isset($breaks_into)) {
+            if (is_string($breaks_into)) {
+                return $breaks_into;
+            } else {
+                return array_map(
+                    function ($item) {
+                        return $this->repo->getModel("Item", $item->item);
+                    },
+                    $breaks_into
+                );
+            }
         }
     }
 

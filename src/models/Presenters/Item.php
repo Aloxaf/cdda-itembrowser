@@ -416,12 +416,15 @@ class Item extends \Robbo\Presenter\Presenter
     public function presentBreaksInto()
     {
         $breaks_into = $this->object->breaks_into;
-        if ($breaks_into == NULL) {
+        if (is_array($breaks_into)) {
+            return implode("，", array_map(function ($entry) {
+                return '<a href="' . route("item.view", $entry->id) . '">' . $entry->name . '</a>';
+            }, $breaks_into));
+        } elseif (is_string($breaks_into)) {
+            return '<a href="' . route('special.itemgroup', $breaks_into) . '">' . $breaks_into . '</a>';
+        } else {
             return;
         }
-        return implode("，", array_map(function($entry) {
-            return '<a href="'.route("item.view", $entry->id).'">'.$entry->name.'</a>';
-        }, $breaks_into));
     }
 
     public function presentLongestSide()
