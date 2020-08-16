@@ -445,4 +445,24 @@ class Item extends \Robbo\Presenter\Presenter
             return $s;
         }
     }
+
+    public function presentRotSpawn()
+    {
+
+        $monsters = $this->object->rot_spawn;
+        return implode("，", array_map(
+            function ($mon) {
+                $ret = "";
+                $name = $mon->monster->name;
+                if (is_object($name)) {
+                    $name = $name->str;
+                }
+                $freq = $mon->freq / 10;
+                $ret .= '<a href="'.route("monster.view", $mon->monster->id).'">'.$name."</a>";
+                $ret .= " （{$freq}%）";
+                return $ret;
+            },
+            $monsters
+        ));
+    }
 }

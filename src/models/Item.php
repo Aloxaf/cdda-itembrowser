@@ -989,6 +989,22 @@ class Item implements Robbo\Presenter\PresentableInterface
         return false;
     }
 
+    public function getRotSpawn()
+    {
+        if (!isset($this->data->rot_spawn)) {
+            return NULL;
+        }
+        $group = $this->repo->getModel("MonsterGroup", $this->data->rot_spawn);
+        return array_map(
+            function ($mon) {
+                $model = $this->repo->getModel("Monster", $mon->monster);
+                $mon->monster = $model;
+                return $mon;
+            },
+            $group->monsters
+        );
+    }
+
     public function effective_dps($mon)
     {
         $hits_by_accuracy = array(

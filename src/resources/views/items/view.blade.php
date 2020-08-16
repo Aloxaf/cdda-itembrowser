@@ -348,6 +348,13 @@
         兴奋剂：<yellow>{{ $item->stim }}</yellow>&nbsp;
         上瘾概率：<yellow>{{ $item->addiction_potential }}</yellow>%<br>
       @endif
+
+      @if($item->hasKey("rot_spawn"))
+        --<br>
+        孵化产物：{!! $item->rot_spawn !!}<br>
+        孵化概率：<yellow>{{ round($item->rot_spawn_chance, 1) }}</yellow>%<br>
+      @endif
+
       @if($item->isArmor)
         --<br>
         覆盖：{!! $item->covers !!}<br>
