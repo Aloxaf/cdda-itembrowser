@@ -8,9 +8,13 @@
 {{{
 array(
   "arm_either" => "单臂",
+  "arm_l" => "左臂",
+  "arm_r" => "右臂",
   "arms" => "双臂",
   "eyes" => "眼部",
   "feet" => "双脚",
+  "foot_l" => "左脚",
+  "foot_r" => "右脚",
   "foot_either" => "单脚",
   "hand_either" => "单手",
   "hand_l" => "左手",
@@ -19,6 +23,8 @@ array(
   "head" => "头部",
   "leg_either" => "单腿",
   "legs" => "双腿",
+  "leg_l" => "左腿",
+  "leg_r" => "右腿",
   "mouth" => "嘴巴",
   "torso" => "躯干",
 )[$value]

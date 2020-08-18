@@ -640,7 +640,8 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function getCovers()
     {
         return array_map(function ($cover) {
-            return strtolower(gettext($cover));
+            $model = $this->repo->getModel("Item", $cover);
+            return gettext($model->name);
         }, isset($this->data->covers) ? $this->data->covers : []);
     }
 

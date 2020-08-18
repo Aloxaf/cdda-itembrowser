@@ -120,3 +120,14 @@ details pre {
   padding: 0px;
   border: 0px;
 }
+
+html, body{
+  height: 100%
+}
+.container{
+  min-height: 100%;
+}
+.footer{
+  position: absolute;
+  bottom: 0;
+}
