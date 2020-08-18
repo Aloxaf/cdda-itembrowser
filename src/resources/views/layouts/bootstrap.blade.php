@@ -35,6 +35,8 @@
 
       gtag('config', 'UA-162534158-1');
     </script>
+    <!-- Google ad -->
+    <script data-ad-client="ca-pub-1206456801696320" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   </head>
 
   <body class="terminal">
