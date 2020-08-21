@@ -1,5 +1,5 @@
 @section('title')
-容器 - Cataclysm: Dark Days Ahead
+容器 - CDDA 物品浏览器
 @endsection
 <h1>容器</h1>
 

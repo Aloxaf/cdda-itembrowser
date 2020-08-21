@@ -8,7 +8,7 @@
   <meta name="description" content="@yield('description', 'roguelike 游戏 CDDA 的物品/配方浏览器。借助它你可以查询物品并提前计划！')">
   <meta name="author" content="Sergio Duran">
 
-  <title>@yield('title', 'Cataclysm: Dark Days Ahead 物品浏览器')</title>
+  <title>@yield('title', 'CDDA 物品浏览器')</title>
 
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 

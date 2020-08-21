@@ -1,5 +1,5 @@
 @section('title')
-变异分类 - Cataclysm: Dark Days Ahead
+变异分类 - CDDA 物品浏览器
 @endsection
 <div class="row">
   <div class="col-md-3">
@@ -15,7 +15,7 @@
   </div>
   <div class="col-md-9">
     @if(!$id)
-      Please select an entry from the menu on the left.
+      请从左边选择一项
     @else
       <ul class="list-unstyled">
         <table class="table table-bordered tablesorter">

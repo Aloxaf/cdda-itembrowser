@@ -1,5 +1,5 @@
 @section('title')
-怪物种类: {{ $id }} - Cataclysm: Dark Days Ahead
+怪物种类: {{ $id }} - CDDA 物品浏览器
 @endsection
 @section('description')
 怪物种类: {{ $id }}

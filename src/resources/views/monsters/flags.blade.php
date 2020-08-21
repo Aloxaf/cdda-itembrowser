@@ -1,5 +1,5 @@
 @section('title')
-Flags - Cataclysm: Dark Days Ahead
+Flags - CDDA 物品浏览器
 @endsection
 <div class="row">
   <div class="col-md-3">
@@ -11,7 +11,7 @@ Flags - Cataclysm: Dark Days Ahead
   </div>
   <div class="col-md-9">
     @if(!$id)
-      Please select an entry from the menu on the left.
+      请从左边选择一项。
     @else
       <ul class="list-unstyled">
         @include("monsters/_list", array('data'=>$mons))

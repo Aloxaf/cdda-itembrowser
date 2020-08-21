@@ -1,5 +1,5 @@
 @section('title')
-功能 - Cataclysm: Dark Days Ahead
+功能 - CDDA 物品浏览器
 @endsection
 <h1>功能</h1>
 

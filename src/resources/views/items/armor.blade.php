@@ -1,5 +1,5 @@
 @section('title')
-装备 - Cataclysm: Dark Days Ahead
+装备 - CDDA 物品浏览器
 @endsection
 <h1>装备</h1>
 <ul class="nav nav-tabs">

@@ -1,5 +1,5 @@
 @section('title')
-材料 - Cataclysm: Dark Days Ahead
+材料 - CDDA 物品浏览器
 @endsection
 <h1>材料</h1>
 

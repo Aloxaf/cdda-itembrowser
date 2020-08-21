@@ -1,11 +1,11 @@
 @section('title')
-{{{$itembunch[0]->rawName}}} (disassemble) - Cataclysm: Dark Days Ahead
+{{{$itembunch[0]->rawName}}} (拆解)) - CDDA 物品浏览器
 @endsection
 @section('description')
 @if ($itembunch[0]->count("disassembly")>0)
-{{{$itembunch[0]->rawName}}} can be disassembled. You can find more information here.
+{{{$itembunch[0]->rawName}}} 可以被拆解。你可以在此找到更多相关信息。
 @else
-{{{$itembunch[0]->rawName}}} can't be disassembled.
+{{{$itembunch[0]->rawName}}} 无法被拆解。
 @endif
 @endsection
 @include('items.menu', array('active'=>'disassemble'))

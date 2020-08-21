@@ -1,5 +1,5 @@
 @section('title')
-最新变化 - Cataclysm: Dark Days Ahead
+最新变化 - CDDA 物品浏览器
 @endsection
 <h1>最新变化</h1>
 

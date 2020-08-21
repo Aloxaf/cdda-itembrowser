@@ -1,5 +1,5 @@
 @section('title')
-建造类别 - Cataclysm: Dark Days Ahead
+建造类别 - CDDA 物品浏览器
 @endsection
 <h1>建造类别</h1>
 

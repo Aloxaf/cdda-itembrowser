@@ -1,8 +1,8 @@
 @section('title')
-{{ $itembunch[0]->rawName }} - Cataclysm: Dark Days Ahead
+{{ $itembunch[0]->rawName }} - CDDA 物品浏览器
 @endsection
 @section('description')
-{{ $itembunch[0]->rawName }} has a volume of {{ $itembunch[0]->volume }} and a weight of {{ $itembunch[0]->weight }}. It does {{ $itembunch[0]->bashing }} bashing damage and {{ $itembunch[0]->cutting }} cutting damage. You can find more information here.
+{{ $itembunch[0]->rawName }} 的体积为 {{ $itembunch[0]->volume }}，重量为 {{ $itembunch[0]->weight }}。它的钝击伤害为 {{ $itembunch[0]->bashing }}、斩击伤害为 {{ $itembunch[0]->cutting }}。你可以在此找到更多相关信息。
 @endsection
 @if($itembunch[0]->isVehiclePart)
   @include('items.vpart_menu', array('active'=>'view'))

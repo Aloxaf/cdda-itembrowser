@@ -1,5 +1,5 @@
 @section('title')
-Flags - Cataclysm: Dark Days Ahead
+Flags - CDDA 物品浏览器
 @endsection
 <div class="row">
   <div class="col-md-3">

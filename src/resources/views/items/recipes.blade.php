@@ -1,11 +1,11 @@
 @section('title')
-{{{$itembunch[0]->rawName}}} (recipes) - Cataclysm: Dark Days Ahead
+{{{$itembunch[0]->rawName}}} (配方)) - CDDA 物品浏览器
 @endsection
 @section('description')
 @if ($itembunch[0]->count("toolFor"))
-{{{$itembunch[0]->rawName}}} can be used to craft other items. You can find more information here.
+{{{$itembunch[0]->rawName}}} 可以被用来制造其它物品。你可以在此找到更多相关信息。
 @else
-{{{$itembunch[0]->rawName}}} can't be used to craft other items.
+{{{$itembunch[0]->rawName}}} 不能被用来制造其他物品。
 @endif
 @endsection
 <script>

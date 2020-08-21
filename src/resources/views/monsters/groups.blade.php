@@ -1,5 +1,5 @@
 @section('title')
-Monster Groups - Cataclysm: Dark Days Ahead
+Monster Groups - CDDA 物品浏览器
 @endsection
 @section('description')
 Monster groups

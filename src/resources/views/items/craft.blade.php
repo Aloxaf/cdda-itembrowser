@@ -1,9 +1,9 @@
 @section('title')
-{{{$itembunch[0]->rawName}}} (craft) - Cataclysm: Dark Days Ahead
+{{{$itembunch[0]->rawName}}} (制作)) - CDDA 物品浏览器
 @endsection
 @section('description')
 @if ($itembunch[0]->count("recipes")>0)
-{{{$itembunch[0]->rawName}}} can be crafted. You can find more information here.
+{{{$itembunch[0]->rawName}}} 可以被制作出来。你可以在这里找到更多相关信息。
 @else
 {{{$itembunch[0]->rawName}}} 无法被制作出来。
 @endif

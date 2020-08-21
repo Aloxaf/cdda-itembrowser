@@ -1,5 +1,5 @@
 @section('title')
-可消耗物品 - Cataclysm: Dark Days Ahead
+可消耗物品 - CDDA 物品浏览器
 @endsection
 <style type="text/css">
 tr:nth-child(2n) {background-color:#1C1C1C}

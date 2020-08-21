@@ -1,5 +1,5 @@
 @section('title')
-物品组 - Cataclysm: Dark Days Ahead
+物品组 - CDDA 物品浏览器
 @endsection
 
 <h1>物品组</h1>

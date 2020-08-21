@@ -1,5 +1,5 @@
 @section('title')
-状态 - Cataclysm: Dark Days Ahead
+状态 - CDDA 物品浏览器
 @endsection
 
 @foreach($items as $item)

@@ -1,5 +1,5 @@
 @section('title')
-变异 - Cataclysm: Dark Days Ahead
+变异 - CDDA 物品浏览器
 @endsection
 
 @foreach($muts as $mut)

@@ -1,5 +1,5 @@
 @section('title')
-维生素 - Cataclysm: Dark Days Ahead
+维生素 - CDDA 物品浏览器
 @endsection
 
 @foreach($items as $item)

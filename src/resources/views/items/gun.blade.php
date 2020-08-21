@@ -1,5 +1,5 @@
 @section('title')
-远程武器 - Cataclysm: Dark Days Ahead
+远程武器 - CDDA 物品浏览器
 @endsection
 <h1>远程武器</h1>
 <ul class="nav nav-tabs">

@@ -1,5 +1,5 @@
 @section("title")
-建造: Cataclysm Dark Days Ahead
+建造: CDDA 物品浏览器
 @stop
 <h3>{{$data->description}}
 @if ($data->comment!="")

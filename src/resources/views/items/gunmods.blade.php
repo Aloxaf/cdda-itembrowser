@@ -1,5 +1,5 @@
 @section('title')
-改装模组 - Cataclysm: Dark Days Ahead
+改装模组 - CDDA 物品浏览器
 @endsection
 <div class="row">
   <div class="col-md-3">

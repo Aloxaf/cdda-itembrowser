@@ -1,5 +1,5 @@
 @section('title')
-近战武器 - Cataclysm: Dark Days Ahead
+近战武器 - CDDA 物品浏览器
 @endsection
 <h1>近战武器</h1>
 <p>
