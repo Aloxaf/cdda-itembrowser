@@ -1006,6 +1006,33 @@ class Item implements Robbo\Presenter\PresentableInterface
         );
     }
 
+    public function get_item_restriction($idx)
+    {
+        if (isset($this->data->pocket_data[$idx]->item_restriction)) {
+            return array_map(
+                function ($id) {
+                    return $this->repo->getModel("Item", $id);
+                },
+                $this->data->pocket_data[$idx]->item_restriction
+            );
+        } else {
+            return array();
+        }
+    }
+
+    public function get_ammo_restriction($idx)
+    {
+        $ret = array();
+        $ammo_restriction = $this->data->pocket_data[$idx]->ammo_restriction;
+        if (isset($ammo_restriction)) {
+            foreach ($ammo_restriction as $ammo => $count) {
+                $ammolist = $this->repo->allModels("Item", "ammo.$ammo");
+                $ret[] = (object)array("count" => $count, "ammo" => $ammolist);
+            }
+        }
+        return $ret;
+    }
+
     public function effective_dps($mon)
     {
         $hits_by_accuracy = array(

@@ -465,4 +465,28 @@ class Item extends \Robbo\Presenter\Presenter
             $monsters
         ));
     }
+
+    public function get_item_restriction($idx)
+    {
+        return implode("，", array_map(
+            function ($item) {
+                return '<a href="'.route("item.view", $item->id).'">'.$item->name."</a>";
+            },
+            $this->object->get_item_restriction($idx)
+        ));
+    }
+
+    public function get_ammo_restriction($idx)
+    {
+        $ret = array();
+        foreach ($this->object->get_ammo_restriction($idx) as $ammos) {
+            $ret[] = "容量：<yellow>{$ammos->count}</yellow> 发". implode(" 或 ", array_map(
+                function ($ammo) {
+                    return '<a href="'.route("item.view", $ammo->id).'">'.$ammo->name."</a>";
+                },
+                $ammos->ammo
+            ));
+        }
+        return implode("<br>", $ret);
+    }
 }

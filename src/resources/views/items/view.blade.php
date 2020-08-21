@@ -384,6 +384,14 @@
             @endphp
             <br>
           @endif
+          @if ($pocket->pocket_type == "MAGAZINE_WELL")
+            兼容弹匣：{!! $item->get_item_restriction($k) !!}<br>
+            @continue
+          @endif
+          @if ($pocket->pocket_type == "MAGAZINE")
+            {!! $item->get_ammo_restriction($k) !!}<br>
+            @continue
+          @endif
           @if (isset($pocket->max_contains_volume))
             最大容量：<yellow>{{ $pocket->max_contains_volume }} </yellow>L<br>
           @endif
