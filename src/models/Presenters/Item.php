@@ -480,7 +480,7 @@ class Item extends \Robbo\Presenter\Presenter
     {
         $ret = array();
         foreach ($this->object->get_ammo_restriction($idx) as $ammos) {
-            $ret[] = "容量：<yellow>{$ammos->count}</yellow> 发". implode(" 或 ", array_map(
+            $ret[] = "容量：<yellow>{$ammos->count}</yellow> 发 ". implode(" 或 ", array_map(
                 function ($ammo) {
                     return '<a href="'.route("item.view", $ammo->id).'">'.$ammo->name."</a>";
                 },
