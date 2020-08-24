@@ -207,6 +207,21 @@ class Item implements IndexerInterface
         return $val;
     }
 
+    public function calc_to_hit($to_hit)
+    {
+        $val = -2;
+        $types = array(
+            "grip" => [-1, "bad", "none", "solid", "weapon"],
+            "length" => [0, "hand", "short", "long" ],
+            "surface" => [-2, "point", "line", "any", "every"],
+            "balance" => [-2, "clumsy", "uneven", "neutral", "good"],
+        );
+        foreach ($to_hit as $k => $v) {
+            $val += array_search($v, $types[$k], TRUE) + $types[$k][0] - 1;
+        }
+        return $val;
+    }
+
     public function onNewObject(RepositoryWriterInterface $repo, $object)
     {
         // capitalize type name to avoid failing on lowercase types
@@ -375,6 +390,11 @@ class Item implements IndexerInterface
             unset($object->proportional);
         }
 
+        if (isset($object->to_hit)) {
+            $to_hit = $object->to_hit;
+            $object->cib_to_hit = is_object($to_hit) ? $this->calc_to_hit($to_hit) : $to_hit;
+        }
+
         // items with enough damage might be good melee weapons.
         $damagecheck = 0;
         if (isset($object->bashing)) {
@@ -384,7 +404,7 @@ class Item implements IndexerInterface
             $damagecheck += $object->cutting;
         }
         if (isset($object->to_hit)) {
-            $damagecheck += $object->to_hit;
+            $damagecheck += $object->cib_to_hit;
         }
         if ($damagecheck >= 8 && strtoupper($object->type) != "VEHICLE_PART" && isset($object->weight) && $object->weight < 15000 && (!isset($object->dispersion) || $object->dispersion == 0)) {
             $repo->append("melee", $object->id);

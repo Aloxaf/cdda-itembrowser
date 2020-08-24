@@ -298,11 +298,11 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getToHit()
     {
-        if (!isset($this->data->to_hit)) {
+        if (!isset($this->data->cib_to_hit)) {
             return 0;
         }
 
-        return sprintf("%+d", $this->data->to_hit);
+        return sprintf("%+d", $this->data->cib_to_hit);
     }
 
     public function getPierce()
@@ -1047,7 +1047,7 @@ class Item implements Robbo\Presenter\PresentableInterface
             9993, 9997, 9998, 9999, 10000 // 16 to 20
         );
         $mon_dodge = $mon->dodge;
-        $base_hit = 8 / 4 + (4 / 3) + (4 / 2) + $this->data->to_hit;
+        $base_hit = 8 / 4 + (4 / 3) + (4 / 2) + $this->data->cib_to_hit;
         $base_hit *= max(0.25, 1 - 20 / 100.0);
         $mon_defense = $mon->dodge + 0 / 5.0;
         $hit_trials = 10000.0;
