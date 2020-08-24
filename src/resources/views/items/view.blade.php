@@ -384,11 +384,11 @@
             @endphp
             <br>
           @endif
-          @if ($pocket->pocket_type == "MAGAZINE_WELL")
+          @if (($pocket->pocket_type ?? 'CONTAINER') == "MAGAZINE_WELL")
             兼容弹匣：{!! $item->get_item_restriction($k) !!}<br>
             @continue
           @endif
-          @if ($pocket->pocket_type == "MAGAZINE")
+          @if (($pocket->pocket_type ?? 'CONTAINER') == "MAGAZINE")
             {!! $item->get_ammo_restriction($k) !!}<br>
             @continue
           @endif
