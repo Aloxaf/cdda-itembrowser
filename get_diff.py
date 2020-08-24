@@ -73,7 +73,7 @@ def load_all_json(root: Path) -> Dict[str, Json]:
     for file in data_dir.glob("**/*.json"):
         print(f"\rParsing {file}", end="")
         json_data = json.load(file.open("r", encoding="utf-8"))
-        if not (isinstance(json_data, list) and isinstance(json_data[0], dict)):
+        if len(json_data) == 0 or not (isinstance(json_data, list) and isinstance(json_data[0], dict)):
             continue
         for entry in json_data:
             if entry.get("type", "").upper() not in WHITELIST_TYPE:
