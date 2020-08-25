@@ -58,6 +58,8 @@
 实验版物品浏览器项目地址: <a href="https://github.com/DanmakuDan/cdda-itembrowser">Github</a>.
 <br/>
 中文版项目地址: <a href="https://github.com/Aloxaf/cdda-itembrowser">Github</a>.
+<br/>
+意见反馈请前往：<a href="https://tieba.baidu.com/p/6905321647">百度贴吧</a>
 </p>
 </div>
 
