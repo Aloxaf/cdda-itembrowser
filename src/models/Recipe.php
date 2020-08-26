@@ -94,9 +94,17 @@ class Recipe implements Robbo\Presenter\PresentableInterface
 
     public function getBooksTeaching()
     {
-        return array_map(function ($book) {
-            return array($this->repo->getModel("Item", $book[0]), $book[1]);
-        }, $this->data->book_learn);
+        if (is_array($this->data->book_learn)) {
+            return array_map(function ($book) {
+                return array($this->repo->getModel("Item", $book[0]), $book[1]);
+            }, $this->data->book_learn);
+        } else {
+            $ret = [];
+            foreach ($this->data->book_learn as $book => $info) {
+                $ret[] = array($this->repo->getModel("Item", $book), $info->skill_level);
+            }
+            return $ret;
+        }
     }
 
     public function getHasQualities()
