@@ -48,6 +48,14 @@ class Mutation implements Robbo\Presenter\PresentableInterface
         }, $this->data->$name));
     }
 
+    public function getModName()
+    {
+        if (isset($this->data->modname)) {
+            $id = $this->data->modname;
+            return $this->repo->raw("modname.$id");
+        }
+    }
+
     public function getName() {
         $name = $this->data->name;
         if (is_object($name)) {

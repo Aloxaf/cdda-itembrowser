@@ -30,6 +30,14 @@ class ItemGroup implements Robbo\Presenter\PresentableInterface
         return new Presenters\ItemGroup($this);
     }
 
+    public function getModName()
+    {
+        if (isset($this->data->modname)) {
+            $id = $this->data->modname;
+            return $this->repo->raw("modname.$id");
+        }
+    }
+
     public function getId()
     {
         if (isset($this->data->id)) {
