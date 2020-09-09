@@ -301,6 +301,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         }
 
         // skip snippets and talk topics for now
+        // 因为此处已经判断是否存在 $object->type 了，所以后面不需要再判断了
         if (!isset($object->type)) {
             return;
         }
@@ -310,15 +311,15 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         }
 
         // manually skip other water definitions for now
-        if (isset($object->id) && $object->id == "water" && isset($object->type) && $object->type != "COMESTIBLE") {
+        if (isset($object->id) && $object->id == "water" && $object->type != "COMESTIBLE" && $object->type != "material") {
             return;
         }
 
-        if (isset($object->type) && $object->type == "recipe" && isset($object->category) && $object->category == "CC_BUILDING") {
+        if ($object->type == "recipe" && isset($object->category) && $object->category == "CC_BUILDING") {
             return;
         }
 
-        if (isset($object->type) && $object->type == "requirement") {
+        if ($object->type == "requirement") {
             $object->id = "requirement_".$object->id;
         }
 
@@ -329,14 +330,14 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
 
         // move abstract field to id field so abstracts can be referenced in copy-from logic
         if (array_key_exists("abstract", $object)) {
-            if (isset($object->type) && ($object->type == "recipe" || $object->type == "uncraft") && !isset($object->result)) {
+            if (($object->type == "recipe" || $object->type == "uncraft") && !isset($object->result)) {
                 $object->result = $object->abstract;
             } elseif (!array_key_exists("id", $object)) {
                 $object->id = $object->abstract;
             }
         }
         // handle vpart naming replacement here so abstracts are covered
-        if (!isset($object->vpartadded) && isset($object->type) && $object->type == "vehicle_part") {
+        if (!isset($object->vpartadded) && $object->type == "vehicle_part") {
             $object->id = "vpart_".$object->id;
             $object->vpartadded = true;
         }
@@ -567,9 +568,9 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         }
 
         // store basic ID into simple array for lookup later for resolving copy-from templates
-        if (isset($object->type) && $object->type == "recipe") {
+        if ($object->type == "recipe") {
             $this->simplesetrecipe($object->result, $object->repo_id);
-        } elseif (isset($object->type) && $object->type == "uncraft") {
+        } elseif ($object->type == "uncraft") {
             $this->simplesetuncraft($object->result, $object->repo_id);
         } elseif (array_key_exists("id", $object)) {
             $this->simpleset($object->id, $object->repo_id);
