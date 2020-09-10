@@ -15,6 +15,8 @@ array(
   "feet" => "双脚",
   "foot_l" => "左脚",
   "foot_r" => "右脚",
+  "feet_l" => "左脚",
+  "feet_r" => "右脚",
   "foot_either" => "单脚",
   "hand_either" => "单手",
   "hand_l" => "左手",
