@@ -71,7 +71,14 @@ class Mutation implements Robbo\Presenter\PresentableInterface
         $ret = array();
         foreach ($this->data->wet_protection as $wet) {
             $part = $this->repo->getModel("Item", $wet->part);
-            $ret[] = "{$part->name}（<yellow>{$wet->ignored}</yellow>）";
+            if (isset($wet->good)) {
+                $prot = "正面效果 <y>+{$wet->good}</y> 负面效果 <y>-{$wet->good}</y>";
+            } elseif (isset($wet->neutral)) {
+                $prot = "负面效果 <y>-{$wet->neutral}</y>";
+            } else {
+                $prot = "正面效果 <y>-{$wet->ignored}</y> 负面效果 <y>-{$wet->ignored}</y>";
+            }
+            $ret[] = "{$part->name}（{$prot}）";
         }
         return "湿身防护：".implode("，", $ret)."<br>";
     }
