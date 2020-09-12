@@ -72,26 +72,23 @@ class Mutation implements Robbo\Presenter\PresentableInterface
         foreach ($this->data->wet_protection as $wet) {
             $part = $this->repo->getModel("Item", $wet->part);
             if (isset($wet->good)) {
-                $prot = "正面效果 <y>+{$wet->good}</y> 负面效果 <y>-{$wet->good}</y>";
+                $prot = "正面效果 <y>+{$wet->good}</y>，负面效果 <y>-{$wet->good}</y>";
             } elseif (isset($wet->neutral)) {
                 $prot = "负面效果 <y>-{$wet->neutral}</y>";
             } else {
-                $prot = "正面效果 <y>-{$wet->ignored}</y> 负面效果 <y>-{$wet->ignored}</y>";
+                $prot = "正面效果 <y>-{$wet->ignored}</y>，负面效果 <y>-{$wet->ignored}</y>";
             }
-            $ret[] = "{$part->name}（{$prot}）";
+            $ret[] = "&nbsp;{$part->name}：{$prot}";
         }
-        return "湿身防护：".implode("，", $ret)."<br>";
+        return "湿身防护：<br>".implode("<br>", $ret)."<br>";
     }
 
-    public function getEncumbranceCovered() {
-        if (!isset($this->data->encumbrance_covered)) {
-            return "";
-        }
+    public function getEncumbrance($data) {
         $ret = array();
-        foreach ($this->data->encumbrance_covered as $en) {
+        foreach ($data as $en) {
             $part = $this->repo->getModel("Item", $en[0]);
             $ret[] = "{$part->name}（<yellow>{$en[1]}</yellow>）";
         }
-        return "累赘：".implode("，", $ret)."<br>";
+        return implode("，", $ret);
     }
 }

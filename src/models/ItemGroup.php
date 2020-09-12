@@ -97,6 +97,9 @@ class ItemGroup implements Robbo\Presenter\PresentableInterface
                 $this->data->entries = array();
             }
             foreach ($this->data->groups as $group) {
+                if (!is_array($group)) {
+                    $group = array($group);
+                }
                 $this->data->entries[] = (object)array(
                     "group" => $group[0],
                     "prob" => count($group) == 2 ? $group[1] : 100,
