@@ -420,18 +420,6 @@ class Item implements Robbo\Presenter\PresentableInterface
         return stristr($this->material1->name, $material);
     }
 
-    public function matches($text)
-    {
-        $text = trim($text);
-
-        if ($text == "") {
-            return false;
-        }
-
-        return stristr($this->id, $text) ||
-            stristr($this->name, $text);
-    }
-
     public function getPresenter()
     {
         return new Presenters\Item($this);

@@ -92,16 +92,6 @@ class Monster implements Robbo\Presenter\PresentableInterface
         return $this->data->id;
     }
 
-    public function matches($search)
-    {
-        $search = trim($search);
-        if ($search == "" || !isset($this->data->name)) {
-            return false;
-        }
-
-        return stristr($this->name, $search);
-    }
-
     public function getModName()
     {
         if (isset($this->data->modname)) {
