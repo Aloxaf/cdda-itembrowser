@@ -108,7 +108,7 @@ abstract class Repository implements RepositoryInterface
         return $data;
     }
 
-    public function searchModels($model, $search)
+    public function searchModels($search_data, $search)
     {
         \Log::info("searching for $search...");
 
@@ -117,9 +117,9 @@ abstract class Repository implements RepositoryInterface
             return $results;
         }
 
-        foreach ($this->allModels($model) as $obj) {
-            if ($obj->matches($search)) {
-                $results[] = $obj;
+        foreach ($search_data as $obj) {
+            if (strstr($obj[0], $search) || stristr($obj[1], $search)) {
+                $results[] = $obj[0];
             }
         }
 

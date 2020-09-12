@@ -78,15 +78,22 @@ class CacheRepository extends Repository implements
         $search = strtolower($search);
         $key = "search:$model:".str_replace(" ", "!", $search);
 
+        $search_data = \Cache::rememberForever(
+            "search_data:$model",
+            function () use ($model) {
+                return array_map(
+                    function (&$object) {
+                        return [$object->id, $object->name];
+                    },
+                    $this->allModels($model)
+                );
+            }
+        );
+
         $objects = \Cache::rememberForever(
             $key,
-            function () use ($model, $search) {
-                $objects = parent::searchModels($model, $search);
-                array_walk($objects, function (&$object) {
-                    $object = $object->id;
-                });
-
-                return $objects;
+            function () use ($search_data, $search) {
+                return parent::searchModels($search_data, $search);
             }
         );
 
