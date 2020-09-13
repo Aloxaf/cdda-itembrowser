@@ -117,7 +117,7 @@ abstract class Repository implements RepositoryInterface
             return $results;
         }
 
-        foreach ($search_data as $obj) {
+        foreach ($search_data as &$obj) {
             if (strstr($obj[0], $search) || stristr($obj[1], $search)) {
                 $results[] = $obj[0];
             }
