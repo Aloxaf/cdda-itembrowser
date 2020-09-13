@@ -436,9 +436,28 @@ class Recipe implements IndexerInterface
                 $repo->set(self::DEFAULT_INDEX.".".$recipe->repo_id, $recipe->repo_id);
 
                 if (isset($recipe->book_learn)) {
-                    for ($i = 0; $i < count($recipe->book_learn); $i++) {
-                        if (count($recipe->book_learn[$i]) < 2) {
-                            $recipe->book_learn[$i][] = -1;
+                    if (is_array($recipe->book_learn)) {
+                        for ($i = 0; $i < count($recipe->book_learn); $i++) {
+                            if (count($recipe->book_learn[$i]) < 2) {
+                                $recipe->book_learn[$i][] = -1;
+                            }
+                        }
+                    } elseif (is_object($recipe->book_learn)) {
+                        // convert new book_learn from CDDA #42475 to classic book_learn
+                        $templearn = $recipe->book_learn;
+                        $recipe->book_learn = array();
+                        foreach ($templearn as $bl_book=>$bl_bookdata) {
+                            $temparray = array();
+                            $temparray[] = $bl_book;
+                            if (isset($bl_bookdata->skill_level)) {
+                                $temparray[] = $bl_bookdata->skill_level;
+                            } else {
+                                $temparray[] = -1;
+                            }
+                            if (isset($bl_bookdata->recipe_name)) {
+                                $temparray[] = $bl_bookdata->recipe_name;
+                            }
+                            $recipe->book_learn[] = $temparray;
                         }
                     }
                 }
@@ -454,7 +473,13 @@ class Recipe implements IndexerInterface
 
                 if (isset($recipe->qualities)) {
                     foreach ($recipe->qualities as $group) {
-                        ValueUtil::SetDefault($group, "amount", 1);
+                        if (is_array($group)) {
+                            foreach ($group as $groupgroup) {
+                                ValueUtil::SetDefault($groupgroup, "amount", 1);
+                            }
+                        } else {
+                            ValueUtil::SetDefault($group, "amount", 1);
+                        }
                     }
                 }
 

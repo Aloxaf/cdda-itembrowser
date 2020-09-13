@@ -252,9 +252,14 @@ class Item implements IndexerInterface
             $object->contains = floatval($object->contains);
         }
 
-        // handle "ml" in barrel length info
+        // handle "ml" in barrel length info (legacy)
         if (isset($object->barrel_length) && is_string($object->barrel_length)) {
             $object->barrel_length = $this->flattenVolume($object->barrel_length);
+        }
+
+        // handle "ml" in barrel length info (currently known as barrel volume)
+        if (isset($object->barrel_volume) && is_string($object->barrel_volume)) {
+            $object->barrel_volume = $this->flattenVolume($object->barrel_volume);
         }
 
         // adjust volume for low volume large stack size ammunition
@@ -302,7 +307,7 @@ class Item implements IndexerInterface
                     }
 
                     // handle values containing unit measurements
-                    if ($relkey == "volume" || $relkey == "barrel_length") {
+                    if ($relkey == "volume" || $relkey == "barrel_length" || $relkey == "barrel_volume") {
                         $tempval = $this->flattenVolume($relvalue);
                         $object->{$relkey} += $tempval;
                     } elseif ($relkey == "weight") {
@@ -323,6 +328,45 @@ class Item implements IndexerInterface
                                 array_push($object->{$relkey}, $vitamin_unit);
                             }
                         }
+                    } elseif (($relkey == "ranged_damage" || $relkey == "damage") && is_object($relvalue)) {
+                        $found_ranged_damage=false;
+                        if (!isset($object->{$relkey}) || $object->{$relkey} === 0) {
+                            $object->{$relkey} = $relvalue;
+                        } else {
+                            if (is_object($object->{$relkey})) {
+                                if ($object->{$relkey}->damage_type == $relvalue->damage_type) {
+                                    if (isset($object->{$relkey}->amount) && isset($relvalue->amount)) {
+                                        $object->{$relkey}->amount += $relvalue->amount;
+                                    }
+                                    if (isset($object->{$relkey}->armor_penetration) && isset($relvalue->armor_penetration)) {
+                                        $object->{$relkey}->armor_penetration += $relvalue->armor_penetration;
+                                    }
+                                    $found_ranged_damage = true;
+                                }
+                            } elseif (is_array($object->{$relkey})) {
+                                foreach ($object->{$relkey} as $individual_damage_instance) {
+                                    if ($individual_damage_instance->damage_type == $relvalue->damage_type) {
+                                        if (isset($individual_damage_instance->amount) && isset($relvalue->amount)) {
+                                            $individual_damage_instance->amount += $relvalue->amount;
+                                        }
+                                        if (isset($individual_damage_instance->armor_penetration) && isset($relvalue->armor_penetration)) {
+                                            $individual_damage_instance->armor_penetration += $relvalue->armor_penetration;
+                                        }
+                                        $found_ranged_damage = true;
+                                    }
+                                }
+                            }
+                            if (!$found_ranged_damage) {
+                                if (is_object($object->{$relkey})) {
+                                    $temp_ranged_damage = $object->{$relkey};
+                                    $object->{$relkey} = array();
+                                    $object->{$relkey}[] = $temp_ranged_damage;
+                                    $object->{$relkey}[] = $relvalue;
+                                } elseif (is_array($object->{$relkey})) {
+                                    $object->{$relkey}[] = $relvalue;
+                                }
+                            }
+                        }
                     } else {
                         try {
                             $object->{$relkey} += $relvalue;
@@ -338,7 +382,6 @@ class Item implements IndexerInterface
 
         if (isset($object->proportional)) {
             foreach ($object->proportional as $proportionkey => $proportionvalue) {
-                // echo $proportionkey."\n";
                 if (!isset($object->{$proportionkey}) || is_array($object->{$proportionkey})) {
                     continue;
                 }
@@ -348,6 +391,26 @@ class Item implements IndexerInterface
                 } elseif ($proportionkey == "weight") {
                     $tempval = $this->flattenWeight($proportionvalue);
                     $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
+                } elseif ($proportionkey == "damage" && is_object($proportionvalue)) {
+                    if (is_array($object->damage)) {
+                        foreach ($object->damage as $individual_damage_instance) {
+                            if ($individual_damage_instance->damage_type == $proportionvalue->damage_type) {
+                                if (isset($individual_damage_instance->amount) && isset($proportionvalue->amount)) {
+                                    $individual_damage_instance->amount = floor($individual_damage_instance->amount * $proportionvalue->amount);
+                                }
+                                if (isset($individual_damage_instance->armor_penetration) && isset($proportionvalue->armor_penetration)) {
+                                    $individual_damage_instance->armor_penetration = floor($individual_damage_instance->armor_penetration * $proportionvalue->armor_penetration);
+                                }
+                            }
+                        }
+                    } elseif (is_object($object->damage) && $object->damage->damage_type == $proportionvalue->damage_type) {
+                        if (isset($object->damage->amount) && isset($proportionvalue->amount)) {
+                            $object->damage->amount = floor($object->damage->amount * $proportionvalue->amount);
+                        }
+                        if (isset($object->damage->armor_penetration) && isset($proportionvalue->armor_penetration)) {
+                            $object->damage->armor_penetration = floor($object->damage->armor_penetration * $proportionvalue->armor_penetration);
+                        }
+                    }
                 } else {
                     $object->{$proportionkey} = floor($object->{$proportionkey} * $proportionvalue);
                 }
