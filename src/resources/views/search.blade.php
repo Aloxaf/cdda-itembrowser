@@ -25,3 +25,11 @@
 </ul>
 @endif
 
+@if (!empty($mutations))
+<h3>匹配变异：</h3>
+<ul class="list-unstyled">
+@foreach ($mutations as $mutation)
+  <li><a href="{{ route('special.mutation', array($mutation->id)) }}">{{ $mutation->name }}</a></li>
+@endforeach
+</ul>
+@endif

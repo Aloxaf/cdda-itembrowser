@@ -32,9 +32,10 @@ class HomeController extends Controller
         $search = $request->input('q');
         $items = $this->repo->searchModels("Item", $search);
         $monsters = $this->repo->searchModels("Monster", $search);
+        $mutations = $this->repo->searchModels("Mutation", $search);
 
         return $this->getLayout()->nest('content', 'search', compact('items',
-            'search', 'monsters'));
+            'search', 'monsters', 'mutations'));
     }
 
     // public function sitemap()
