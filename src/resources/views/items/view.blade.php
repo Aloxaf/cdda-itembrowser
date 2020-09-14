@@ -374,14 +374,16 @@
         &nbsp;环境：<yellow>{{ $item->environmental_protection }}</yellow><br>
       @endif
 
+      @if($item->power_draw != NULL)
+        --<br>
+        能量消耗：<y>{{ $item->power_draw / 1000 }}</y>W<br>
+      @endif
+
       @if($item->pocket_data !== NULL)
         @foreach ($item->pocket_data as $k => $pocket)
           --<br>
           @if (count($item->pocket_data) > 1)
-            @php
-              $k += 1;
-              echo "口袋 {$k}："
-            @endphp
+            {{ "口袋 ".($k + 1)."：" }}
             <br>
           @endif
           @if (($pocket->pocket_type ?? 'CONTAINER') == "MAGAZINE_WELL")
