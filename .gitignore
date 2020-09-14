@@ -1,7 +1,12 @@
 .DS_Store
+.vscode
+.mypy_cache
+.jsbeautifyrc
 Thumbs.db
 .*.sw*
 .vagrant
 *.zip
 Cataclysm-DDA*
+composer
 composer.phar
+log
