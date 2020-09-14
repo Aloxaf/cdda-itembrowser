@@ -312,9 +312,14 @@ class Item implements IndexerInterface
             $object->contains = floatval($object->contains);
         }
 
-        // handle "ml" in barrel length info
+        // handle "ml" in barrel length info (legacy)
         if (isset($object->barrel_length) && is_string($object->barrel_length)) {
             $object->barrel_length = $this->flattenVolume($object->barrel_length);
+        }
+
+        // handle "ml" in barrel length info (currently known as barrel volume)
+        if (isset($object->barrel_volume) && is_string($object->barrel_volume)) {
+            $object->barrel_volume = $this->flattenVolume($object->barrel_volume);
         }
 
         // adjust volume for low volume large stack size ammunition
@@ -359,7 +364,6 @@ class Item implements IndexerInterface
 
         if (isset($object->proportional)) {
             foreach ($object->proportional as $proportionkey => $proportionvalue) {
-                // echo $proportionkey."\n";
                 if (!isset($object->{$proportionkey}) || is_array($object->{$proportionkey})) {
                     continue;
                 }
