@@ -895,8 +895,8 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getBreaksInto()
     {
-        $breaks_into = $this->data->breaks_into;
-        if (isset($breaks_into)) {
+        if (isset($this->data->breaks_into)) {
+            $breaks_into =  $this->data->breaks_into;
             if (is_string($breaks_into)) {
                 return $breaks_into;
             } else {
