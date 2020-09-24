@@ -24,7 +24,7 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function load($data)
     {
-        if (!isset($data->material) || count($data->material) === 0) {
+        if (!isset($data->material) || (is_array($data->material) && count($data->material) === 0)) {
             $data->material = array("null", "null");
         }
         if (!is_array($data->material)) {
