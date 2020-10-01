@@ -16,6 +16,7 @@ class Mutation implements IndexerInterface
 
         $repo->sort(self::DEFAULT_INDEX);
         $repo->appendUnique("mutation_category", "None");
+        $repo->appendUnique("mutation_category", "MYCUS");
 
         $timediff = microtime(true) - $starttime;
         echo "Mutation post-processing ".number_format($timediff, 3)." s.\n";
