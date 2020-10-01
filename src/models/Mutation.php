@@ -45,8 +45,12 @@ class Mutation implements Robbo\Presenter\PresentableInterface
             return NULL;
         }
         return implode("，", array_map(function ($id) {
-            $mut = $this->repo->getModel("Mutation", $id);
-            return '<a href="'.route('special.mutation', $mut->id).'">'.$mut->name.'</a>';
+            try {
+                $mut = $this->repo->getModel("Mutation", $id);
+                return '<a href="'.route('special.mutation', $mut->id).'">'.$mut->name.'</a>';
+            } catch (\Exception $e) {
+                return '<a href="'.route('special.mutation', $id).'">'.$id.'</a>';;
+            }
         }, $this->data->$name));
     }
 

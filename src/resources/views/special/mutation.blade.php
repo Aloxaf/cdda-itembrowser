@@ -101,7 +101,7 @@
   </table>
   <table>
     <tr>
-      <td colspan="4" width="80%"><br><b>变异</b></td>
+      <td colspan="6" width="80%"><br><b>变异</b></td>
     </tr>
     <tr>
       <td>前置1：</td>
