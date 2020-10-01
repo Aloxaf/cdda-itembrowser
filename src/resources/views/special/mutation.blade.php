@@ -32,7 +32,7 @@
     <tr>
       <td>社交加成：</td>
       <td>
-        @if ($mut->hasKey('social_modifiers'))
+        @if($mut->hasKey('social_modifiers'))
           @php
             $mods = array(
               "lie" => "撒谎",
@@ -40,16 +40,16 @@
               "intimidate" => "威胁"
             );
           @endphp
-          @foreach ($mut->social_modifiers as $mod => $value)
+          @foreach($mut->social_modifiers as $mod => $value)
             {!! "{$mods[$mod]} <y>".sprintf("%+d", $value)."</y> &nbsp;" !!}
           @endforeach
         @else
-         无
+          无
         @endif
-        </td>
+      </td>
       <td>属性加成：</td>
       <td>
-        @if ($mut->hasKey('passive_mods'))
+        @if($mut->hasKey('passive_mods'))
           @php
             $mods = array(
               "per_mod" => "感知",
@@ -58,21 +58,43 @@
               "int_mod" => "智力"
             );
           @endphp
-          @foreach ($mut->passive_mods as $mod => $value)
+          @foreach($mut->passive_mods as $mod => $value)
             {!! "{$mods[$mod]} <y>".sprintf("%+d", $value)."</y> &nbsp;" !!}
           @endforeach
         @else
-         无
+          无
+        @endif
+      </td>
+      <td>闪避加成：</td>
+      <td>
+        @if($mut->hasKey('dodge_modifier'))
+          <y>{{ sprintf("%+d", $mut->dodge_modifier) }}</y><br>
+        @else
+          无
         @endif
       </td>
     </tr>
     <tr>
-      <td>闪避加成：</td>
+      <td>斩击加成</td>
       <td>
-        @if ($mut->hasKey('dodge_modifier'))
-          <y>{{ sprintf("%+d", $mut->dodge_modifier) }}</y><br>
-        @else
-          无
+        @if ($mut->cut_dmg_bonus !== NULL)
+          {{ $mut->cut_dmg_bonus }}
+        @elseif ($mut->rand_cut_bonus !== NULL)
+          {{ "{$mut->rand_cut_bonus->min} ~ {$mut->rand_cut_bonus->max}" }}
+        @endif
+      </td>
+      <td>钝击加成</td>
+      <td>
+        @if ($mut->bash_dmg_bonus)
+          {{ $mut->bash_dmg_bonus }}
+        @elseif ($mut->rand_bash_bonus !== NULL)
+          {{ "{$mut->rand_bash_bonus->min} ~ {$mut->rand_bash_bonus->max}" }}
+        @endif
+      </td>
+      <td>刺击加成</td>
+      <td>
+        @if ($mut->pierce_dmg_bonus)
+          {{ $mut->pierce_dmg_bonus }}
         @endif
       </td>
     </tr>
@@ -137,24 +159,38 @@
       @endif
     </tr>
   </table>
+  <br>
+  @if($mut->hasKey("armor") || $mut->hasKey("wet_protection") ||
+    $mut->hasKey("encumbrance_covered") || $mut->hasKey("encumbrance_always"))
+    <b>防护</b><br>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 4em">位置</th>
+          <th style="width: 7em">累赘（衣物）</th>
+          <th style="width: 7em">累赘（永久）</th>
+          <th style="width: 4em">斩击</th>
+          <th style="width: 4em">钝击</th>
+          <th style="width: 4em">子弹</th>
+          <th style="width: 7em">湿身（正面）</th>
+          <th style="width: 7em">湿身（负面）</th>
+        </tr>
+      </thead>
+      @foreach($mut->all_armor as $armor)
+        <tr>
+          <td>{{ $armor["parts"]->name }}</td>
+          <td>{{ $armor["encumbrance_covered"] ?? 0 }}</td>
+          <td>{{ $armor["encumbrance_always"] ?? 0 }}</td>
+          <td>{{ $armor["cut"] ?? 0 }}</td>
+          <td>{{ $armor["bash"] ?? 0 }}</td>
+          <td>{{ $armor["bullet"] ?? 0 }}</td>
+          <td>{{ $armor["good"] ?? 0 }}</td>
+          <td>{{ $armor["neutral"] ?? 0 }}</td>
+        </tr>
+      @endforeach
+    </table>
+  @endif
   --<br>
-
-  {!! $mut->wet_protection !!}
-  @if ($mut->hasKey("encumbrance_covered"))
-    普通衣物累赘：{!! $mut->getEncumbrance($mut->encumbrance_covered) !!}<br>
-  @endif
-  @if ($mut->hasKey("encumbrance_always"))
-    永久累赘：{!! $mut->getEncumbrance($mut->encumbrance_always) !!}<br>
-  @endif
-  @if($mut->hasKey('cut_dmg_bonus'))
-    斩击加成：<yellow>{{ $mut->cut_dmg_bonus }}</yellow><br>
-  @endif
-  @if($mut->hasKey('pierce_dmg_bonus'))
-    刺击加成：<yellow>{{ $mut->pierce_dmg_bonus }}</yellow><br>
-  @endif
-  @if($mut->hasKey('bash_dmg_bonus'))
-    钝击加成：<yellow>{{ $mut->bash_dmg_bonus }}</yellow><br>
-  @endif
   @if($mut->hasKey('mana_regen_multiplier'))
     魔力回复速率：<yellow>{{ $mut->mana_regen_multiplier * 100 }}</yellow>%<br>
   @endif

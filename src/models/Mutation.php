@@ -1,5 +1,7 @@
 <?php
 
+use function DeepCopy\deep_copy;
+
 class Mutation implements Robbo\Presenter\PresentableInterface
 {
     use MagicModel;
@@ -65,30 +67,70 @@ class Mutation implements Robbo\Presenter\PresentableInterface
     }
 
     public function getWetProtection() {
-        if (!isset($this->data->wet_protection)) {
-            return "";
-        }
+        if (!isset($this->data->wet_protection))
+            return array();
+
         $ret = array();
         foreach ($this->data->wet_protection as $wet) {
             $part = $this->repo->getModel("Item", $wet->part);
             if (isset($wet->good)) {
-                $prot = "正面效果 <y>+{$wet->good}</y>，负面效果 <y>-{$wet->good}</y>";
+                $tmp = array("parts" => $part, "good" => $wet->good);
             } elseif (isset($wet->neutral)) {
-                $prot = "负面效果 <y>-{$wet->neutral}</y>";
+                $tmp = array("parts" => $part, "neutral" => $wet->neutral);
             } else {
-                $prot = "正面效果 <y>-{$wet->ignored}</y>，负面效果 <y>-{$wet->ignored}</y>";
+                $tmp = array("parts" => $part, "good" => $wet->ignored, "neutral" => $wet->ignored);
             }
-            $ret[] = "&nbsp;{$part->name}：{$prot}";
+            $ret[$wet->part] = $tmp;
         }
-        return "湿身防护：<br>".implode("<br>", $ret)."<br>";
+        return $ret;
     }
 
-    public function getEncumbrance($data) {
+    public function getArmor()
+    {
+        if (!isset($this->data->armor))
+            return array();
         $ret = array();
-        foreach ($data as $en) {
-            $part = $this->repo->getModel("Item", $en[0]);
-            $ret[] = "{$part->name}（<yellow>{$en[1]}</yellow>）";
+        foreach ($this->data->armor as $armor) {
+            if (is_array($armor->parts)) {
+                foreach ($armor->parts as $part) {
+                    $tmp = (array)deep_copy($armor);
+                    $tmp["parts"] = $this->repo->getModel("Item", $part);
+                    $ret[$part] = $tmp;
+                }
+            } else {
+                $ret[$armor->parts] = $armor;
+            }
         }
-        return implode("，", $ret);
+        return $ret;
+    }
+
+    public function getEncumbrance($key) {
+        if (!isset($this->data->{$key}))
+            return array();
+        $ret = array();
+        foreach ($this->data->{$key} as $en) {
+            $part = $this->repo->getModel("Item", $en[0]);
+            $ret[$en[0]] = array("parts" => $part, $key => $en[1]);
+        }
+        return $ret;
+    }
+
+    public function getAllArmor()
+    {
+        $ret = $this->getArmor();
+        $rest = array(
+            $this->getWetProtection(),
+            $this->getEncumbrance("encumbrance_covered"),
+            $this->getEncumbrance("encumbrance_always")
+        );
+        foreach ($rest as $item) {
+            foreach ($item as $name => $prot) {
+                if (!isset($ret[$name]))
+                    $ret[$name] = $prot;
+                else
+                    $ret[$name] = array_merge($ret[$name], $prot);
+            }
+        }
+        return $ret;
     }
 }
