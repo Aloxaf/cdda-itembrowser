@@ -52,12 +52,11 @@ class SpecialController extends Controller
     public function mutations($id = null)
     {
         $categories = array_map(function ($cid) {
-            if ($cid == "None")
-                return "None";
-            elseif ($cid == "MYCUS")
-                return "马卡斯";
-            else
+            try {
                 return $this->repo->getModel("Mutation", $cid);
+            } catch (\Exception $e) {
+                return $cid;
+            }
         }, $this->repo->raw("mutation_category"));
 
         if ($id === null) {
