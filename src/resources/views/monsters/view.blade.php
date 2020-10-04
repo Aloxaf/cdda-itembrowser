@@ -114,11 +114,11 @@
 </tr>
 <tr>
   <td valign="top">Flags:</td>
-  <td colspan="3">{!! $monster->flags !!}</td>
+  <td colspan="4">{!! $monster->flags !!}</td>
 </tr>
 <tr>
   <td valign="top">死亡掉落：</td>
-  <td colspan="3">{!! $monster->death_drops !!}</td>
+  <td colspan="4">{!! $monster->death_drops !!}</td>
 </tr>
 </table>
 <br>
