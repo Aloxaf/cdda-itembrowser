@@ -49,7 +49,8 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         $this->blacklist = new \Ds\Set([
             "snippet", "talk_topic", "overmap_terrain", "scenario", "ammunition_type", "start_location",
             "MIGRATION", "item_action", "ITEM_CATEGORY", "mapgen", "speech", "keybinding", "region_overlay",
-            "mod_tileset", "MONSTER_FACTION"
+            "mod_tileset", "MONSTER_FACTION", "EXTERNAL_OPTION", "profession_item_substitutions", "dream",
+            "rotatable_symbol"
         ]);
     }
 
@@ -385,7 +386,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                     } else if (isset($object->name->str_sp)) {
                         $name = $object->name->str_sp;
                     } else {
-                        echo "There is no name for ".var_dump($object->id);
+                        echo "There is no name for {$object->id}\n";
                     }
                     if (isset($name)) {
                         $this->appendUnique("item_multi.name.$object->id", $name);
@@ -568,14 +569,16 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         }
 
         // store basic ID into simple array for lookup later for resolving copy-from templates
-        if ($object->type == "recipe") {
-            $this->simplesetrecipe($object->result, $object->repo_id);
-        } elseif ($object->type == "uncraft") {
-            $this->simplesetuncraft($object->result, $object->repo_id);
-        } elseif (array_key_exists("id", $object)) {
-            $this->simpleset($object->id, $object->repo_id);
-        } else {
-            echo "There is not id for an object\n"; //.var_dump($object);
+        if (!($object->obsolete ?? false)) {
+            if ($object->type == "recipe") {
+                $this->simplesetrecipe($object->result, $object->repo_id);
+            } elseif ($object->type == "uncraft") {
+                $this->simplesetuncraft($object->result, $object->repo_id);
+            } elseif (array_key_exists("id", $object)) {
+                $this->simpleset($object->id, $object->repo_id);
+            } elseif ($object->type != "monstergroup") {
+                echo "There is no id for an object type {$object->type}\n"; //.var_dump($object);
+            }
         }
 
         try {
@@ -815,7 +818,7 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                 $pendRetry++;
                 if ($pendRetry > 2) {
                     echo $pendingCount." pending items left out.\n";
-                    var_dump($this->pending);
+                    // var_dump($this->pending);
                     break;
                 }
             }

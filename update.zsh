@@ -24,7 +24,7 @@ curl -LOs https://github.wuyanzheshui.workers.dev/CleverRaven/Cataclysm-DDA/arch
 LOG "Unzipping..."
 unzip -qo master.zip
 
-echo "#define VERSION \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"" > $dir/src/version.h
+echo "#define VERSION \"$(env TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')\"" > $dir/src/version.h
 msgfmt $dir/lang/po/zh_CN.po -o locale/zh_CN/LC_MESSAGES/cataclysm-dda.mo
 cp -f src/public/diff.json{,.bak}
 LOG "Generating diff..."

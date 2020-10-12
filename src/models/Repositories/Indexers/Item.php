@@ -554,7 +554,7 @@ class Item implements IndexerInterface
             }
         }
 
-        if (isset($object->material)) {
+        if (isset($object->material) && !(is_array($object->material) && count($object->material) === 0)) {
             $materials = (array) $object->material;
             $repo->append("material.$materials[0]", $object->id);
             if (count($materials) > 1 and $materials[1] != "null") {

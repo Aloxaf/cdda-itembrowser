@@ -325,7 +325,7 @@ class Recipe implements IndexerInterface
                         // \Log::info("checking for $recipe->result\n");
                         $item = $this->simple_resolve_reference($repo, $recipe);
                         if ($item === null) {
-                            var_dump($recipe);
+                            // var_dump($recipe);
                             echo "missing recipe result $recipe->result\n";
                         } else {
                             // \Log::info("found $item->id\n");
