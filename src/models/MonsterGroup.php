@@ -38,6 +38,15 @@ class MonsterGroup implements Robbo\Presenter\PresentableInterface
         }, $uniqueMonsters);
     }
 
+    public function getMonsters()
+    {
+        // TODO: 这个默认到底是什么意思，其他地方需不需要修正
+        if (!isset($this->data->monsters)) {
+            return array((object)array("monster" => $this->data->default, "freq" => 100));
+        }
+        return $this->data->monsters;
+    }
+
     public function getId()
     {
         return $this->data->id;

@@ -50,8 +50,9 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             "snippet", "talk_topic", "overmap_terrain", "scenario", "ammunition_type", "start_location",
             "MIGRATION", "item_action", "ITEM_CATEGORY", "mapgen", "speech", "keybinding", "region_overlay",
             "mod_tileset", "MONSTER_FACTION", "EXTERNAL_OPTION", "profession_item_substitutions", "dream",
-            "rotatable_symbol"
+            "rotatable_symbol", "ascii_art"
         ]);
+        // TODO: ascii_art & dream
     }
 
     public function setSource($source)
