@@ -63,6 +63,9 @@ class Mutation implements Robbo\Presenter\PresentableInterface
     }
 
     public function getName() {
+        if (!isset($this->data->name)) {
+            return NULL;
+        }
         $name = $this->data->name;
         if (is_object($name)) {
             $name = $name->str;
