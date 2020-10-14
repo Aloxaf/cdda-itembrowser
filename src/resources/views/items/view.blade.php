@@ -81,7 +81,8 @@
       @if(!$item->isVehiclePart)
         <br>
         材质：{!! $item->materials !!}<br>
-        体积：<yellow>{{ $item->volume }}</yellow> 升&nbsp;&nbsp;重量：<yellow>{{ $item->weightMetric }}</yellow> 千克<br>
+        体积：<yellow>{{ $item->volume }}</yellow> 升&nbsp;&nbsp;
+        重量：<yellow>{{ $item->weightMetric }}</yellow> 千克<br>
         长度：{!! $item->longest_side !!}<br>
         --<br>
         {{ $item->description }}<br>

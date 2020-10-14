@@ -232,6 +232,16 @@ class Item implements IndexerInterface
         $repo->append(self::DEFAULT_INDEX, $object->id);
         $repo->set(self::DEFAULT_INDEX.".".$object->id, $object->repo_id);
 
+        // 将对体积和重量的预处理提前，以免 abstract 物品的属性没有被格式化为数字导致后续展示的时候出错
+        // flatten weight values (g, mg, kg) to g
+        if (isset($object->weight) && is_string($object->weight)) {
+            $object->weight = $this->flattenWeight($object->weight);
+        }
+        // handle "ml" indicators in volume/container volume and flatten volume values into numbers
+        if (isset($object->volume) && is_string($object->volume)) {
+            $object->volume = $this->flattenVolume($object->volume);
+        }
+
         // nearby fire and integrated toolset are "virtual" items
         // they don't have anything special.
         // also exclude abstract objects
@@ -292,15 +302,6 @@ class Item implements IndexerInterface
             }
         }
 
-        // flatten weight values (g, mg, kg) to g
-        if (isset($object->weight) && is_string($object->weight)) {
-            $object->weight = $this->flattenWeight($object->weight);
-        }
-
-        // handle "ml" indicators in volume/container volume and flatten volume values into numbers
-        if (isset($object->volume) && is_string($object->volume)) {
-            $object->volume = $this->flattenVolume($object->volume);
-        }
         if (isset($object->min_pet_vol) && is_string($object->min_pet_vol)) {
             $object->min_pet_vol = $this->flattenVolume($object->min_pet_vol);
         }
