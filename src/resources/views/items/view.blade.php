@@ -560,6 +560,9 @@
         {!!$item->json!!}
       </details>
     </div>
+    <div class="col-md-3">
+      @include('layouts.side_ad')
+    </div>
   </div>
 @endforeach
 <script>
