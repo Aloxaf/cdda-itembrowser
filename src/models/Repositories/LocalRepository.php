@@ -449,7 +449,13 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
 
             if (array_key_exists("extend", $object)) {
                 foreach ($object->extend as $k => $v) {
-                    $object->$k = array_merge($object->$k ?? array(), $v);
+                    if (is_array($v)) {
+                        $object->$k = array_merge($object->$k ?? array(), $v);
+                    } else if (!is_object($v)) {
+                        $object->$k = $v;
+                    } else {
+                        echo "Unsupport type of extend\n";
+                    }
                 }
             }
 
