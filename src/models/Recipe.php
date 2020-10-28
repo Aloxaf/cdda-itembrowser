@@ -31,8 +31,8 @@ class Recipe implements Robbo\Presenter\PresentableInterface
             return array(array($this->repo->getModel("Item", $skills[0]), $skills[1]));
         }
 
-        return array_map(function ($i) use ($skills) {
-            return array($this->repo->getModel("Item", $i[0]), $i);
+        return array_map(function ($i) {
+            return array($this->repo->getModel("Item", $i[0]), $i[1]);
         }, $skills);
     }
 
