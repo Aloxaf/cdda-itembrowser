@@ -169,10 +169,10 @@ class ItemsController extends Controller
 
     public function skills($id = null, $level = 1)
     {
-        $skills = $this->repo->raw("skills");
+        $skills = $this->repo->allModels("Item", "skills");
 
         if ($id === null) {
-            return redirect()->route(Route::currentRouteName(), array(reset($skills), 1));
+            return redirect()->route(Route::currentRouteName(), array($skills[0]->id, 1));
         }
         $items = $this->repo->allModels("Item", "skill.$id.$level");
         $levels = range(1, 10);

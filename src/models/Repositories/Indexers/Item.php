@@ -56,41 +56,6 @@ class Item implements IndexerInterface
             "swimming" => "生存",
             "none" => "娱乐",
         );
-
-        $this->book_skill_trans = array(
-            "archery" => "弓术",
-            "handguns" => "手枪",
-            "markmanship" => "枪法",
-            "launcher" => "重武器",
-            "firearms" => "枪法",
-            "throw" => "投掷武器",
-            "rifle" => "步枪",
-            "shotgun" => "霰弹枪",
-            "smg" => "冲锋枪",
-            "pistol" => "手枪",
-            "gun" => "枪法",
-            "bashing" => "钝击武器",
-            "cutting" => "斩击武器",
-            "stabbing" => "近战",
-            "dodge" => "闪避",
-            "melee" => "近战",
-            "unarmed" => "徒手格斗",
-            "computer" => "计算机学",
-            "electronics" => "电子学",
-            "fabrication" => "制造",
-            "mechanics" => "机械学",
-            "construction" => "制造",
-            "carpentry" => "制造",
-            "traps" => "陷阱",
-            "tailor" => "裁缝",
-            "firstaid" => "急救",
-            "cooking" => "烹饪",
-            "barter" => "交易",
-            "speech" => "口才",
-            "driving" => "驾驶",
-            "survival" => "生存",
-            "swimming" => "游泳",
-        );
     }
 
     public function onFinishedLoading(RepositoryWriterInterface $repo)
@@ -472,9 +437,6 @@ class Item implements IndexerInterface
                 $skill = $this->book_types[$object->skill];
             } else {
                 $skill = "其他";
-            }
-            if (isset($this->book_skill_trans[$object->skill])) {
-                $object->skill = $this->book_skill_trans[$object->skill];
             }
             $repo->append("book.$skill", $object->id);
             $repo->addUnique("bookSkills", $skill);

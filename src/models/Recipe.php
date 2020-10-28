@@ -28,11 +28,11 @@ class Recipe implements Robbo\Presenter\PresentableInterface
             return array();
         }
         if (!is_array($skills[0])) {
-            return array($skills);
+            return array(array($this->repo->getModel("Item", $skills[0]), $skills[1]));
         }
 
         return array_map(function ($i) use ($skills) {
-            return $i;
+            return array($this->repo->getModel("Item", $i[0]), $i);
         }, $skills);
     }
 
@@ -144,5 +144,13 @@ class Recipe implements Robbo\Presenter\PresentableInterface
             $id = $this->data->modname;
             return $this->repo->raw("modname.$id");
         }
+    }
+
+    public function getSkillUsed()
+    {
+        if (!isset($this->data->skill_used))
+            return "N/A";
+        $skill = $this->repo->getModel("Item", $this->data->skill_used);
+        return $skill->name;
     }
 }

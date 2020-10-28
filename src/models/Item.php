@@ -1045,4 +1045,9 @@ class Item implements Robbo\Presenter\PresentableInterface
         $rng_high_mean = max(min(intval($base_hit - 1.5 * $mon->dodge), 20), -20) + 20;
         $rng_high_hits = $hits_by_accuracy[$rng_high_mean] * $num_all_hits / $hit_trials;
     }
+
+    public function getSkill()
+    {
+        return $this->repo->getModel("Item", $this->data->skill)->name;
+    }
 }
