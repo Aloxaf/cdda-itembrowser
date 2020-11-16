@@ -113,14 +113,18 @@
           @endif
         </tr>
         <tr>
-          <td valign="top">Flags:</td>
-          <td colspan="4">{!! $monster->flags !!}</td>
-        </tr>
-        <tr>
           <td valign="top">死亡掉落：</td>
           <td colspan="4">{!! $monster->death_drops !!}</td>
         </tr>
       </table>
+      <details>
+        <summary><b>Flags</b></summary>
+        <div class="flag_table">
+          @foreach ($monster->flags as $flags)
+            {!!'<a href="'.route("monster.flags", $flags[0])."\">* 这个怪物{$flags[1]}</a>" !!}<br>
+          @endforeach
+        </div>
+      </details>
       <br>
       <details>
         <summary>查看 JSON</summary>
@@ -144,5 +148,9 @@
 <style>
   ul {
     padding-left: 15px;
+  }
+
+  .flag_table > a {
+    color: white;
   }
 </style>

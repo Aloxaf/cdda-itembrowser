@@ -23,16 +23,114 @@ class Monster extends \Robbo\Presenter\Presenter
 
     public function presentFlags()
     {
+        $expl = array(
+            "ABSORBS_SPLITS" => "移动时会<info>吞噬物品</info>，吞噬量足够时会<bad>分裂</bad>",
+            "ACIDPROOF" => "免疫<bad>酸性伤害</bad>",
+            "ACIDTRAIL" => "留下<bad>带有酸液的足迹</bad>",
+            "ACID_BLOOD" => "拥有<info>酸性血液</info>",
+            "ANIMAL" => "是<info>动物</info>",
+            "AQUATIC" => "是<info>水生生物</info>",
+            "ARTHROPOD_BLOOD" => "拥有<info>淋巴血液</info>",
+            "ATTACKMON" => "会<info>攻击其他怪物</info>",
+            "BADVENOM" => "的攻击可能使你<bad>严重中毒</bad>",
+            "BASHES" => "会<bad>破坏门</bad>",
+            "BILE_BLOOD" => "拥有<info>胆汁血液</info>",
+            "BIRDFOOD" => "可以用鸟食<good>驯服</good>",
+            "BONES" => "屠宰时可能得到<info>骨头和肌腱</info>",
+            "BORES" => "挖掘时能<info>破坏任何东西</info>",
+            "CAN_DIG" => "可以<info>掘进</info>",
+            "CAN_OPEN_DOORS" => "会<bad>开门</bad>",
+            "CANPLAY" => "在成为宠物后可以和它<good>一起玩</good>",
+            "CATFOOD" => "可以用猫粮<good>驯服</good>",
+            "CATTLEFODDER" => "可以用家畜饲料<good>驯服</good>",
+            "CLIMBS" => "会<bad>攀爬</bad>",
+            "DESTROYS" => "会<bad>破坏墙壁</bad>及其他地形",
+            "DIGS" => "在地下挖掘",
+            "DOGFOOD" => "可以用狗粮<good>驯服</good>",
+            "DRIPS_GASOLINE" => "移动时偶尔会<info>滴下汽油</info>",
+            "DRIPS_NAPALM" => "移动时偶尔会<info>滴下凝固汽油</info>",
+            "ELECTRIC" => "<bad>浑身带电</bad>",
+            "ELECTRONIC" => "是<info>电子产品</info>",
+            "ELECTRIC_FIELD" => "会向周围区域<info>放电</info>",
+            "FAT" => "屠宰时可能得到<info>脂肪</info>",
+            "FILTHY" => "掉落的衣物永远是<bad>肮脏的</bad>",
+            "FIREPROOF" => "<bad>免疫火焰</bad>",
+            "FIREY" => "在燃烧并且<bad>免疫火焰</bad>",
+            "FISHABLE" => "可以被<info>钓上来</info>",
+            "FLAMMABLE" => "可以被<good>点燃</good>",
+            "FLIES" => "<info>会飞</info>",
+            "GOODHEARING" => "拥有<bad>敏锐的听觉</bad>",
+            "GRABS" => "攻击时可能<bad>抓住你</bad>",
+            "GROUP_BASH" => "在破坏门时会得到周围怪物的<bad>协助</bad>",
+            "GROUP_MORALE" => "当周围有同伴时会<bad>更勇敢</bad>",
+            "GUILT" => "被杀死后会让你<bad>感到内疚</bad>",
+            "HARDTOSHOOT" => "<bad>不易</bad>被远程攻击命中",
+            "HEARS" => "<bad>拥有听觉</bad>",
+            "HIT_AND_RUN" => "完成一次攻击后会<info>迅速逃开</info>",
+            "HUMAN" => "是<info>人类</info>",
+            "CONSOLE_DESPAWN" => "在附近的控制台被正确入侵时<good>会消失</good>",
+            "IMMOBILE" => "<good>不会移动</good>",
+            "ID_CARD_DESPAWN" => "在附近的控制台被插入科学家 ID 卡以后<good>会消失</good>",
+            "INTERIOR_AMMO" => "不会掉落子弹",
+            "KEENNOSE" => "拥有<bad>敏锐的嗅觉</bad>",
+            "LARVA" => "是幼虫",
+            "LEATHER" => "屠宰时可能得到<info>皮革</info>",
+            "LOUDMOVES" => "移动时会发出<info>巨大的噪音</info>",
+            "MECH_RECON_VISION" => "驾驶时能提供<good>夜视</good>和增强的<good>大地图视野</good>",
+            "MECH_DEFENSIVE" => "This mech can protect you thoroughly when piloted.",
+            "MILITARY_MECH" => "是<info>军用机甲</info>",
+            "MILKABLE" => "<good>会产奶</good>",
+            "NIGHT_INVISIBILITY" => "在黑暗中<bad>隐形</bad>",
+            "NOGIB" => "被超量伤害杀死时<info>不会爆成碎块</info>",
+            "NOHEAD" => "<bad>没有脑袋</bad>",
+            "NO_BREATHE" => "<bad>不需要呼吸</bad>",
+            "NO_BREED" => "<info>不会繁殖</info>",
+            "PAY_BOT" => "Creature can be turned into a pet for a limited time in exchange of e-money.",
+            "PET_MOUNTABLE" => "可以<good>骑乘</good>或<good>装备挽具</good>",
+            "PET_HARNESSABLE" => "可以<good>装备挽具</good>",
+            "PACIFIST" => "<good>不会进行近战攻击</good>",
+            "PLASTIC" => "拥有<bad>物理伤害减免</bad>",
+            "POISON" => "吃起来<bad>有毒</bad>",
+            "PUSH_MON" => "会<info>推开道路上的其他怪物</info>",
+            "PUSH_VEH" => "会<info>推开道路上的载具</info>",
+            "QUEEN" => "的死亡会<good>导致整个种群死亡</good>",
+            "REVIVES" => "<bad>会复活</bad>",
+            "RIDEABLE_MECH" => "是一件<good>可以驾驶的机甲</good>",
+            "SEES" => "<bad>拥有视觉</bad>",
+            "SHEARABLE" => "可以被剪羊毛",
+            "SLUDGEPROOF" => "<bad>不受污泥痕影响</bad>",
+            "SLUDGETRAIL" => "移动时会<bad>留下污泥痕</bad>",
+            "SMELLS" => "<bad>拥有嗅觉</bad>",
+            "STUMBLES" => "行动时<good>会跌到</good>",
+            "SUNDEATH" => "会在<good>阳光下死亡</good>",
+            "SWARMS" => "会与其他同伴<info>聚集在一起</info>",
+            "SWIMS" => "<bad>会游泳</bad>",
+            "VENOM" => "的攻击可能使你<bad>中毒</bad>",
+            "WARM" => "是<info>温血生物</info>",
+            "WEBWALK" => "可以在<info>蛛网上行走</info>",
+            "PRIORITIZE_TARGETS" => "会依据威胁程度处理目标",
+            "PATH_AVOID_DANGER_2" => "行动时会<bad>规避危险</bad>",
+            "PATH_AVOID_DANGER_1" => "行动时会<bad>规避危险</bad>",
+            "PATH_AVOID_FIRE" => "行动时会<info>绕开火焰</info>",
+            "PATH_AVOID_FALL" => "行动时会<info>绕开悬崖</info>",
+            "DROPS_AMMO" => "<good>掉落子弹</good>",
+            "COLDPROOF" => "<bad>免疫低温伤害</bad>",
+            "PET_WONT_FOLLOW" => "被驯服之后<info>不会跟着你</info>",
+        );
         $invert = $this->object->flags;
 
         if (empty($invert)) {
             return "None";
         }
 
-        return implode(", ", array_map(function ($flag) {
-            return '<a href="'.route("monster.flags", $flag).'">'.$flag.'</a>';
-        }, $invert));
+        $ret = [];
+        foreach ($invert as $flag) {
+            $ret[] = array($flag, $expl[$flag] ?? "待补充");
+        }
+        return $ret;
     }
+
+
     public function presentDeathFunction()
     {
         $death = (array) $this->object->death_function;
