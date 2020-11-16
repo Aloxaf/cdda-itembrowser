@@ -364,11 +364,6 @@ class Item implements Robbo\Presenter\PresentableInterface
         return $pairs[$this->id];
     }
 
-    public function getHasAmmoTypes()
-    {
-        return isset($this->data->ammo);
-    }
-
     public function getAmmoTypes()
     {
         $ammolist = $this->data->ammo;
@@ -383,6 +378,20 @@ class Item implements Robbo\Presenter\PresentableInterface
         } else {
             $ammotypes = $this->repo->allModels("Item", "ammo.$ammolist");
         }
+
+        // 因为枪械简化 mod 覆盖了大量原版子弹
+        // 此处需要考虑该 id 对应多种子弹得的可能性
+        $tmp = [];
+        foreach ($ammotypes as &$ammotype) {
+            $tmp = array_merge($tmp, $this->repo->getMultiModelOrFail("Item", $ammotype->id));
+        }
+        $ammotypes = [];
+        // 枪械简化会将多种子弹对应到一种，为了避免重复过滤一下
+        foreach ($tmp as &$ele) {
+            $hash = $ele->rawname.$ele->modname;
+            $ammotypes[$hash] = $ele;
+        }
+        $ammotypes = array_values($ammotypes);
 
         foreach ($ammotypes as &$ammotype) {
             $ammo_damage_multiplier = 1.0;

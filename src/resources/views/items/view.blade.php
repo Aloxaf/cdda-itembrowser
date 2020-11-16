@@ -239,7 +239,7 @@
         <br>
       @endif
       @if($item->isGun)
-        @if($item->hasAmmoTypes)
+        @if($item->hasKey('ammo'))
           --<br>
           弹药：{{ $item->clip_size }} 回合：<br>
           <table class="tablesorter">
@@ -253,7 +253,7 @@
             </thead>
             @foreach($item->ammoTypes as $ammo)
               <tr>
-                <td><a href="{{ route("item.view", $ammo->id) }}">{{ $ammo->name }}</a></td>
+              <td><a href="{{ route("item.view", $ammo->id) }}">{{ $ammo->rawname }}{!! $ammo->modLabel !!}</a></td>
                 <td class="text-right">{{ $ammo->damage }}
                   @if($ammo->critical_multiplier > 0)
                     ({{ $ammo->damage * $ammo->critical_multiplier }})

@@ -131,3 +131,7 @@ html, body{
   position: absolute;
   bottom: 0;
 }
+
+.label {
+  vertical-align: middle;
+}
