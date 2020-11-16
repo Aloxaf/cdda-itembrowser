@@ -284,7 +284,7 @@ class Monster extends \Robbo\Presenter\Presenter
             } else {
                 $strvalue = "巨大";
             }
-            return $strvalue." (".$value." 升)";
+            return "$strvalue (<y>$value</y> L)";
         } else {
             return $this->object->size;
         }
@@ -294,17 +294,17 @@ class Monster extends \Robbo\Presenter\Presenter
     {
         $diff = $this->object->difficulty;
         if ($diff < 3) {
-            $strvalue = '<font color="lightgray">极低威胁。</font>';
+            $strvalue = '<font color="lightgray">极低威胁</font>';
         } elseif ($diff < 10) {
-            $strvalue = '<font color="lightgray">低威胁。</font>';
+            $strvalue = '<font color="lightgray">低威胁</font>';
         } elseif ($diff < 20) {
-            $strvalue = '<font color="LightCoral">中威胁。</font>';
+            $strvalue = '<font color="LightCoral">中威胁</font>';
         } elseif ($diff < 30) {
-            $strvalue = '<font color="LightCoral">高威胁。</font>';
+            $strvalue = '<font color="LightCoral">高威胁</font>';
         } elseif ($diff < 50) {
-            $strvalue = '<font color="red">极高威胁。</font>';
+            $strvalue = '<font color="red">极高威胁</font>';
         } else {
-            $strvalue = '<font color="red">致命威胁！</font>';
+            $strvalue = '<font color="red">致命威胁</font>';
         }
         $diff = floor($diff);
         return "$diff ($strvalue)";

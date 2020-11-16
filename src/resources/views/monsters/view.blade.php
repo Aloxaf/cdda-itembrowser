@@ -20,35 +20,35 @@
         </tr>
         <tr>
           <td>HP：</td>
-          <td>{{ $monster->hp }}</td>
+          <td><y>{{ $monster->hp }}</y></td>
 
           <td>近战技能：</td>
-          <td>{{ $monster->melee_skill }}</td>
+          <td><y>{{ $monster->melee_skill }}</y></td>
         </tr>
         <tr>
           <td>种类：</td>
           <td>{!!$monster->species!!}</td>
 
           <td>闪避技能：</td>
-          <td>{{ $monster->dodge }}</td>
+          <td><y>{{ $monster->dodge }}</y></td>
         </tr>
         <tr>
           <td>体型：</td>
-          <td>{{ $monster->size }}</td>
+          <td>{!! $monster->size !!}</td>
 
           <td>伤害：</td>
-          <td>{{ $monster->damage }}</td>
+          <td><y>{{ $monster->damage }}</y></td>
         </tr>
         <tr>
           <td>材质：</td>
           <td>{{ $monster->material }}</td>
 
           <td>攻击消耗：</td>
-          <td>{{ $monster->attack_cost ?: 100 }}</td>
+          <td><y>{{ $monster->attack_cost ?: 100 }}</y></td>
         </tr>
         <tr>
           <td>速度：</td>
-          <td>{{ $monster->speed }}</td>
+          <td><y>{{ $monster->speed }}</y></td>
         </tr>
         <tr>
           <td colspan="2"><br><b>防护</b></td>
@@ -56,21 +56,26 @@
         </tr>
         <tr>
           <td>钝击防护：</td>
-          <td>{{ $monster->armor_bash }}</td>
+          <td><y>{{ $monster->armor_bash }}</y></td>
 
           <td>死亡：</td>
           <td>{{ $monster->death_function }}</td>
         </tr>
         <tr>
           <td>斩击防护：</td>
-          <td>{{ $monster->armor_cut }}</td>
+          <td><y>{{ $monster->armor_cut }}</y></td>
 
           <td valign="top">攻击：</td>
-          <td>{!!$monster->special_attacks!!}</td>
+          <td>
+            <details>
+              <summary>展开</summary>
+              {!!$monster->special_attacks!!}
+            </details>
+          </td>
         </tr>
         <tr>
           <td>防弹：</td>
-          <td>{{ $monster->armor_bullet }}</td>
+          <td><y>{{ $monster->armor_bullet }}</y></td>
           <td>击中时：</td>
           <td>{{ $monster->specialWhenHit }}</td>
         </tr>
@@ -79,15 +84,15 @@
         </tr>
         <tr>
           <td>攻击性：</td>
-          <td>{{ $monster->aggression }}</td>
+          <td><y>{{ $monster->aggression }}</y></td>
           <td>士气：</td>
-          <td>{{ $monster->morale }}</td>
+          <td><y>{{ $monster->morale }}</y></td>
         </tr>
         <tr>
           <td>难度：</td>
-          <td>{!!$monster->difficulty!!}</td>
+          <td><y>{!!$monster->difficulty!!}</y></td>
           <td>视力：</td>
-          <td>{{ "{$monster->vision_day} (日) / {$monster->vision_night} (夜)" }}</td>
+          <td>{!! "<y>{$monster->vision_day}</y> (夜：<y>{$monster->vision_night}</y>)" !!}</td>
         </tr>
         @if($monster->upgrades)
           <tr>
@@ -96,10 +101,17 @@
               <td>{{ $monster->upgrades->age_grow }}</td>
             @else
               <td>半数进化期：</td>
-              <td>{{ $monster->upgrades->half_life ?? 4 }}</td>
+              <td><y>{{ $monster->upgrades->half_life ?? 4 }}</y></td>
             @endif
-            <td>进化为：</td>
-            <td>{!! $monster->upgrades_to !!}</td>
+          </tr>
+          <tr>
+            <td valign="top">进化为：</td>
+            <td colspan="3">
+              <details>
+                <summary>展开</summary>
+                {!! $monster->upgrades_to !!}
+              </details>
+            </td>
           </tr>
         @endif
         <tr>
