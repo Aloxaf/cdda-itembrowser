@@ -34,7 +34,7 @@
           <td>速度：</td>
           <td><y>{{ $monster->speed }}</y></td>
 
-          <td>伤害：</td>
+          <td>近战伤害：</td>
           <td><y>{{ $monster->damage }}</y></td>
         </tr>
         <tr>
@@ -112,16 +112,18 @@
             </td>
           </tr>
         @endif
-        <tr>
-          @if($monster->harvest != NULL)
-            <td valign="top">可收获：</td>
-            <td colspan="3"><a href="{{ route("special.itemgroup", $monster->harvest) }}">{{ $monster->harvest }}</a></td>
-          @endif
-          @if($monster->burn_into != NULL)
+        @if($monster->burn_into != NULL)
+          <tr>
             <td>燃烧进化：</td>
             <td><a href="{{ route("monster.view", $monster->burn_into->id) }}">{{ $monster->burn_into->nicename }}</a></td>
-          @endif
-        </tr>
+          </tr>
+        @endif
+        @if($monster->harvest != NULL)
+          <tr>
+            <td valign="top">可收获：</td>
+            <td colspan="3"><a href="{{ route("special.itemgroup", $monster->harvest) }}">{{ $monster->harvest }}</a></td>
+          </tr>
+        @endif
         <tr>
           <td valign="top">死亡掉落：</td>
           <td colspan="3">{!! $monster->death_drops !!}</td>
@@ -160,7 +162,8 @@
     padding-left: 15px;
   }
 
-  .flag_table > a {
-    color: white;
+  table {
+    border-collapse: initial;
+    border-spacing: 5px 0px;
   }
 </style>
