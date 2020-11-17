@@ -10,8 +10,6 @@
     <div class="col-md-8">
       <h4>{!! $monster->symbol !!} {{ $monster->rawname }} {!!$monster->modinfo!!}</h4>
       <p>{{ $monster->description }}</p>
-      怪物 ID: {{ $monster->id }}
-      <br>
       <br>
       <table>
         <tr>
@@ -33,8 +31,8 @@
           <td><y>{{ $monster->dodge }}</y></td>
         </tr>
         <tr>
-          <td>体型：</td>
-          <td>{!! $monster->size !!}</td>
+          <td>速度：</td>
+          <td><y>{{ $monster->speed }}</y></td>
 
           <td>伤害：</td>
           <td><y>{{ $monster->damage }}</y></td>
@@ -47,8 +45,8 @@
           <td><y>{{ $monster->attack_cost ?: 100 }}</y></td>
         </tr>
         <tr>
-          <td>速度：</td>
-          <td><y>{{ $monster->speed }}</y></td>
+          <td>体型：</td>
+          <td colspan="2">{!! $monster->size !!}</td>
         </tr>
         <tr>
           <td colspan="2"><br><b>防护</b></td>
@@ -116,8 +114,8 @@
         @endif
         <tr>
           @if($monster->harvest != NULL)
-            <td>可收获：</td>
-            <td><a href="{{ route("special.itemgroup", $monster->harvest) }}">{{ $monster->harvest }}</a></td>
+            <td valign="top">可收获：</td>
+            <td colspan="3"><a href="{{ route("special.itemgroup", $monster->harvest) }}">{{ $monster->harvest }}</a></td>
           @endif
           @if($monster->burn_into != NULL)
             <td>燃烧进化：</td>
@@ -126,7 +124,7 @@
         </tr>
         <tr>
           <td valign="top">死亡掉落：</td>
-          <td colspan="4">{!! $monster->death_drops !!}</td>
+          <td colspan="3">{!! $monster->death_drops !!}</td>
         </tr>
       </table>
       <details>
