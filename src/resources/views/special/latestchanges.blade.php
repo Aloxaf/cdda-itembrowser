@@ -26,7 +26,7 @@
             <td><a href="{{ route("item.view", $item->id) }}">{{ $item->name }}</a></td>
           @endif
         @else
-          <td>{{ gettext($item->name) }}</td>
+          <td>{{ $item->name }}</td>
         @endif
         <td>{{ $item->type }}</td>
       </tr>

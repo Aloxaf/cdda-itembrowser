@@ -4,13 +4,6 @@ namespace Repositories;
 
 use function DeepCopy\deep_copy;
 
-putenv('LANG=zh_CN.utf8');   
-setlocale(LC_ALL, 'zh_CN.utf8');  //指定要用的语系，如：en_US、zh_CN、zh_TW   
-$domain = 'cataclysm-dda';                     //域名，可以任意取个有意义的名字，不过要跟相应的.mo文件的文件名相同（不包括扩展名）。
-bindtextdomain($domain , "/cdda/locale/"); //设置某个域的mo文件路径    
-bind_textdomain_codeset($domain, 'UTF-8');  //设置mo文件的编码为UTF-8    
-textdomain($domain);                    //设置gettext()函数从哪个域去找mo文件 
-
 class LocalRepository extends Repository implements RepositoryInterface, RepositoryParserInterface, RepositoryWriterInterface
 {
     // provides a unique ID for each JSON entry added to cache, some JSON entries will overlap in text IDs
@@ -183,87 +176,8 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
         return $result;
     }
 
-    private function trans($string)
-    {
-        if ($string === "") {
-            return "";
-        }
-        if (!is_string($string)) {
-            echo "NOT STRING: ".var_dump($string)."\n";
-            debug_print_backtrace(1, 2);
-        }
-        return gettext($string);
-    }
-
     private function newObject($object)
     {
-        if (isset($object->name)) {
-            if (is_array($object->name)) {
-                foreach ($object->name as $k => $name) {
-                    if (is_string($name)) {
-                        $object->name[$k] = $this->trans($name);
-                    }
-                }
-            } else if (is_string($object->name)) {
-                $object->name = $this->trans($object->name);
-            } else {
-                if (isset($object->name->ctxt)) {
-                    $object->name = trans("{$object->name->ctxt}\004{$object->name->str}");
-                } else if (isset($object->name->str)) {
-                    $object->name->str = $this->trans($object->name->str);
-                } else if (isset($object->name->str_sp)) {
-                    $object->name->str_sp = $this->trans($object->name->str_sp);
-                } else if (!isset($object->name->male)) {
-                    echo "ERROR Name".var_dump($object->name)."\n";
-                }
-            }
-        }
-        if (isset($object->description) && is_string($object->description)) {
-            $object->description = $this->trans($object->description);
-        }
-        // effect 的相关
-        if (isset($object->desc)) {
-            foreach ($object->desc as $k => $desc) {
-                $object->desc[$k] = $this->trans($desc);
-            }
-        }
-        if (isset(($object->decay_messages))) {
-            foreach ($object->decay_messages as $k => $msg) {
-                $object->decay_messages[$k][0] = $this->trans($msg[0]);
-            }
-        }
-        $keys = array("apply_message", "remove_message");
-        foreach ($keys as $key) {
-            if (isset($object->{$key})) {
-                $object->{$key} = $this->trans($object->{$key});
-            }
-        }
-
-        // data/json/flags.json 里的 flag 描述
-        if (isset($object->info)) {
-            $object->info = $this->trans($object->info);
-        }
-        if (isset($object->location)) {
-            $object->location = $this->trans($object->location);
-        }
-        if (isset($object->type) && $object->type == "GUNMOD") {
-            if (isset($object->mod_targets)) {
-                foreach ($object->mod_targets as $k => $target) {
-                    // gun_type_type 为 msgctxt
-                    $text = $this->trans("gun_type_type\004{$target}");
-                    if ($text != "gun_type_type\004{$target}" && $target != "ar15") {
-                        $object->mod_targets[$k] = $text;
-                    }
-                }
-            }
-        }
-        // 武器可用模组
-        if (isset($object->valid_mod_locations)) {
-            foreach ($object->valid_mod_locations as $k => $v) {
-                $object->valid_mod_locations[$k][0] = $this->trans($v[0]);
-            }
-        }
-
         // skip snippets and talk topics for now
         // 因为此处已经判断是否存在 $object->type 了，所以后面不需要再判断了
         if (!isset($object->type)) {
@@ -663,9 +577,9 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                         }
                     }
                 }
-                $modname = gettext($modinfo[0]->name);
+                $modname = $modinfo[0]->name;
                 if (isset($modinfo[0]->obsolete) && $modinfo[0]->obsolete == true) {
-                    $modname = "过时：".$modname;
+                    $modname = "过时：".$modinfo[0]->name;
                 }
                 $this->set("modname.$isolatedname", $modname);
             } else {
@@ -682,9 +596,9 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
                         }
                     }
                 }
-                $modname = gettext($modinfo->name);
+                $modname = $modinfo->name;
                 if (isset($modinfo->obsolete) && $modinfo->obsolete == true) {
-                    $modname = "过时：".$modname;
+                    $modname = "过时：".$modinfo->name;
                 }
                 $this->set("modname.$isolatedname", $modname);
             }

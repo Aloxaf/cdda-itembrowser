@@ -164,7 +164,7 @@ class Monster extends \Robbo\Presenter\Presenter
                     $attackstr = "$attack->id: ";
                     $attackarray = [];
                     foreach ($attack->damage_max_instance as $inst) {
-                        $attackarray[] = "($inst->amount 点".gettext("damage type\004$inst->damage_type")."伤害)";
+                        $attackarray[] = "($inst->amount 点".$inst->damage_type."伤害)";
                     }
                     $attackstr = $attackstr.implode(" ", $attackarray);
                     $attack = $attackstr;

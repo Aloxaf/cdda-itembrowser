@@ -5,18 +5,7 @@
 <ul class="nav nav-tabs">
 @foreach($skills as $value)
 <li @if($value==$skill) class="active" @endif><a href="{{ route(Route::currentRouteName(), $value) }}">
-{{{
-array(
-  "archery" => "弓",
-  "launcher" => "重武器",
-  "melee" => "火器",
-  "pistol" => "手枪",
-  "rifle" => "步枪",
-  "shotgun" => "霰弹枪",
-  "smg" => "冲锋枪",
-  "throw" => "投掷",
-)[$value]
-}}}
+{{ $value }}
 </a></li>
 @endforeach
 </ul>

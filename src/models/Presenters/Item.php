@@ -216,21 +216,12 @@ class Item extends \Robbo\Presenter\Presenter
 
     public function presentValidModLocations()
     {
-        $trans = array(
-            "archery" => "弓",
-            "rifle" => "步枪",
-            "smg" => "冲锋枪",
-            "shotgun" => "霰弹枪",
-            "pistol" => "手枪",
-        );
         $ret = array();
         $parts = $this->object->valid_mod_locations;
         foreach ($parts as $part) {
-            if (isset($trans[$this->object->skill])) {
-                $skill = $trans[$this->object->skill];
-            } else {
-                $skill = $this->object->skill;
-            }
+            $skill = $this->object->skill;
+            if ($skill == "archery")
+                $skill = "弓";
             $ret[] = "$part[1] ".'<a href="'.route("item.gunmods", array($skill, $part[0])).'">'.$part[0].'</a>';
         }
 
@@ -266,11 +257,7 @@ class Item extends \Robbo\Presenter\Presenter
     {
         $damage = $this->object->damage_modifier;
         if (is_object($damage)) {
-            $damage_type = gettext("damage type\004{$damage->damage_type}");
-            if (strpos($damage_type, "\004") !== FALSE) {
-                $damage_type = gettext("damage_type\004{$damage->damage_type}");
-            }
-            return sprintf("%+d（%s）", $damage->amount, $damage_type);
+            return sprintf("%+d（%s）", $damage->amount, $damage->damage_type);
         } else {
             return sprintf("%+d", $damage);
         }
@@ -327,7 +314,7 @@ class Item extends \Robbo\Presenter\Presenter
         }
         $ret = array();
         foreach ($this->object->min_skills as $skill) {
-            $ret[] = gettext($skill[0])."（$skill[1]）";
+            $ret[] = $skill[0]."（$skill[1]）";
         }
         return implode(',', $ret);
     }

@@ -53,14 +53,14 @@
           <td colspan="2"><br><b>触发器</b></td>
         </tr>
         <tr>
-          <td>钝击防护：</td>
+          <td>钝击：</td>
           <td><y>{{ $monster->armor_bash }}</y></td>
 
           <td>死亡：</td>
           <td>{{ $monster->death_function }}</td>
         </tr>
         <tr>
-          <td>斩击防护：</td>
+          <td>斩击：</td>
           <td><y>{{ $monster->armor_cut }}</y></td>
 
           <td valign="top">攻击：</td>

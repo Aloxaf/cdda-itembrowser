@@ -160,7 +160,7 @@
 
       @if($item->seed_data)
         --<br>
-        种植得到：<a href="{{ route('item.view', $item->seed_data->fruit) }}">{{ gettext($item->seed_data->plant_name) }}</a><br>
+        种植得到：<a href="{{ route('item.view', $item->seed_data->fruit) }}">{{ $item->seed_data->plant_name }}</a><br>
         成熟时间：{{ $item->seed_data->grow }}<br>
       @endif
 
