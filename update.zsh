@@ -28,7 +28,7 @@ echo "#define VERSION \"$(env TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')\"" >
 
 LOG "Transalting..."
 pushd $dir
-make localization LANGUAGES=zh_CN
+./lang/compile_mo.sh zh_CN
 python3 ../translate_json_strings.py
 popd
 

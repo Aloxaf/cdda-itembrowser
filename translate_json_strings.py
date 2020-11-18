@@ -38,10 +38,6 @@ not_json = {os.path.normpath(i) for i in {
     "LOADING_ORDER.md"
 }}
 
-git_files_list = {os.path.normpath(i) for i in {
-    ".",
-}}
-
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/json/flags.json",
@@ -871,26 +867,13 @@ def tlcomment(fs, string):
         for line in string.splitlines():
             fs.write("#~ {}\n".format(line))
 
-
-def gettextify(string, context=None, plural=None):
-    "Put the string in a fake gettext call, and add a newline."
-    if context:
-        if plural:
-            return "npgettext(%r, %r, %r, n)\n" % (context, string, plural)
-        else:
-            return "pgettext(%r, %r)\n" % (context, string)
-    else:
-        if plural:
-            return "ngettext(%r, %r, n)\n" % (string, plural)
-        else:
-            return "_(%r)\n" % string
-
 def npgettext(context, single, plural):
     if context:
         if plural:
-            return zh_CN.npgettext(context, single, plural, 1)
+            # Fuck python 3.6
+            return zh_CN.ngettext(f"{context}\004{single}", f"{context}\004{plural}", 1)
         else:
-            return zh_CN.pgettext(context, single)
+            return zh_CN.gettext(f"{context}\004{single}")
     else:
         if plural:
             return zh_CN.ngettext(single, plural, 1)
@@ -1106,11 +1089,7 @@ def extract_all_from_dir(json_dir):
         elif any(full_name.startswith(dir) for dir in ignore_directories):
             continue
         elif f.endswith(".json"):
-            if full_name in git_files_list:
-                extract_all_from_file(full_name)
-            else:
-                if options.verbose:
-                    print("Skipping untracked file: '{}'".format(full_name))
+            extract_all_from_file(full_name)
         elif f not in not_json:
             if options.verbose:
                 print("Skipping file: '{}'".format(f))
@@ -1132,39 +1111,16 @@ def extract_all_from_file(json_file):
         else:
             for jsonobject in jsondata:
                 extract(jsonobject, json_file)
-        json.dump(jsondata, open(json_file, "w"), ensure_ascii=False, indent=2)
+        json.dump(jsondata, open(json_file, mode="w", encoding="utf-8"), ensure_ascii=False, indent=2)
     except WrongJSONItem as E:
         print("---\nFile: '{0}'".format(json_file))
         print(E)
         exit(1)
 
-
-def prepare_git_file_list():
-    command_str = "git ls-files"
-    res = None
-    if platform == "win32":
-        res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
-    else:
-        res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE, close_fds=True)
-    output = res.stdout.readlines()
-    res.communicate()
-    if res.returncode != 0:
-        print("'git ls-files' command exited with non-zero exit code: "
-              "{}".format(res.returncode))
-        exit(1)
-    for f in output:
-        if len(f) > 0:
-            git_files_list.add(os.path.normpath(f[:-1].decode('utf8')))
-
-
 #
 #  EXTRACTION
 #
 
-print("==> Generating the list of all Git tracked files")
-prepare_git_file_list()
 print("==> Parsing JSON")
 for i in sorted(directories):
     print("----> Traversing directory {}".format(i))
