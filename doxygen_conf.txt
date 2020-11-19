@@ -1333,7 +1333,7 @@ EXTERNAL_SEARCH        = YES
 # the open source search engine library Xapian. See the manual for configuration
 # details.
 
-SEARCHENGINE_URL       = https://cdda-trunk.aloxaf.cn/doxysearch.cgi
+SEARCHENGINE_URL       = https://cdda-trunk.aloxaf.cn/cgi-bin/doxysearch.cgi
 
 # When SERVER_BASED_SEARCH and EXTERNAL_SEARCH are both enabled the unindexed
 # search data is written to a file for indexing by an external tool. With the
