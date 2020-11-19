@@ -6,10 +6,12 @@ LABEL version="0.1.0"
 
 RUN sed -i -E "s#[^/]+.ubuntu.com#mirrors.aliyun.com#g" /etc/apt/sources.list \
     && apt-get update \
-    && apt-get -y install php7.2 php7.2-mbstring php7.2-xml composer sudo unzip language-pack-zh-hans curl git python3 gettext\
+    && apt-get -y install php7.2 php7.2-mbstring php7.2-xml composer sudo unzip language-pack-zh-hans curl git python3 gettext libxapian30\
     && rm -rf /var/lib/apt/lists/* \
     && a2enmod rewrite \
     && sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf \
+    && sed -i 's#/usr/lib#/cdda/src/public#g' /etc/apache2/conf-enabled/serve-cgi-bin.conf \
+    && ln -s /etc/apache2/mods-available/cgi.load /etc/apache2/mods-enabled/cgi.load \
     && rm -rf /var/www/html \
     && ln -sf /cdda/src/public /var/www/html \
     && service apache2 start
