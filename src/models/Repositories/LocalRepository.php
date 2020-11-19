@@ -559,7 +559,9 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
 
             // JSON structure is different than earlier mod versions
             if (is_array($modinfo)) {
-                $paths[] = $mod;
+                // test_data mod 仅用于自动化测试
+                if ($modinfo[0]->id != "test_data")
+                    $paths[] = $mod;
                 $id = "dda";
                 if (isset($modinfo[0]->id)) {
                     $id = strtolower($modinfo[0]->id);

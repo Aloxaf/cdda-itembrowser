@@ -381,13 +381,19 @@ def extract_gun(item):
         # be extracted directly.
         if not item["skill"] == "archery":
             item["skill"] = writestr(item["skill"], context="gun_type_type")
+        else:
+            item["skill"] = writestr("bow", context="gun_type_type")
     if "reload_noise" in item:
         item["reload_noise"] = writestr(item["reload_noise"])
     if "valid_mod_locations" in item:
         for mod_loc in item["valid_mod_locations"]:
             mod_loc[0] = writestr(mod_loc[0])
     if isinstance(item.get("ranged_damage"), dict) and item["ranged_damage"].get("damage_type"):
-        item["ranged_damage"]["damage_type"] = writestr(item["ranged_damage"]["damage_type"], context="damage type")
+        damage_type = item["ranged_damage"]["damage_type"]
+        if damage_type == "bullet":
+            item["ranged_damage"]["damage_type"] = writestr(damage_type, context="damage_type")
+        else:
+            item["ranged_damage"]["damage_type"] = writestr(damage_type, context="damage type")
 
 
 def extract_gunmod(item):
@@ -868,17 +874,18 @@ def tlcomment(fs, string):
             fs.write("#~ {}\n".format(line))
 
 def npgettext(context, single, plural):
+    # Fuck python 3.6, which doens't support pgettext
     if context:
-        if plural:
-            # Fuck python 3.6
-            return zh_CN.ngettext(f"{context}\004{single}", f"{context}\004{plural}", 1)
-        else:
-            return zh_CN.gettext(f"{context}\004{single}")
+        if not plural:
+            text = zh_CN.gettext(f"{context}\004{single}")
+        if plural or text == single:
+            text = zh_CN.ngettext(f"{context}\004{single}", f"{context}\004{plural}", 1)
     else:
-        if plural:
-            return zh_CN.ngettext(single, plural, 1)
-        else:
-            return zh_CN.gettext(single)
+        if not plural:
+            text = zh_CN.gettext(single)
+        if plural or text == single:
+            text = zh_CN.ngettext(single, plural, 1)
+    return single if '\004' in text else text
 
 def writestr(string, context=None, pl_fmt=False, format_strings=False, comment=None):
     "Wrap the string and write to the file."
