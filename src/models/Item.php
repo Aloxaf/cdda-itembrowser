@@ -548,7 +548,7 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getDamage()
     {
-        if ($this->data->damage !== null) {
+        if (isset($this->data->damage)) {
             $damage = $this->data->damage;
             if (is_object($damage)) {
                 $strval = '';
