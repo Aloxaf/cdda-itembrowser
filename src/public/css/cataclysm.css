@@ -1,86 +1,79 @@
-.terminal
-{
-background: black;
-font-family: "Lucida Console", Monaco, monospace;
-color: white;
+.terminal {
+  background: #181818;
+  font-family: "Lucida Console", Monaco, monospace;
+  color: white;
 }
 
-h1
-{
+h1 {
   font-size: 170%;
 }
 
-h2 
-{
+h2 {
   font-size: 130%;
 }
 
-a.active
-{
+a.active {
   background: #428bca;
   color: white;
 }
 
 a.list-group-item {
-	background: black;
-	color: white;
+  background: #181818;
+  color: white;
 }
 
 a.list-group-item:hover {
-	background: blue;
-	color: yellow;
+  background: blue;
+  color: yellow;
 }
 
-.navbar-default
-{
-	background: black;
+.navbar-default {
+  background: #181818;
 }
 
-.navbar-default .navbar-nav > li.active a
-{
+.navbar-default .navbar-nav>li.active a {
   background: #428bca;
   color: white;
 }
-.navbar-default .navbar-nav > li > a
-{
-	color: white;
-}
-.navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > .active > a:hover
-{
-	background: blue;
-	color: yellow;
-}
 
-.nav-tabs a
-{
+.navbar-default .navbar-nav>li>a {
   color: white;
 }
 
-.nav-tabs li a:hover 
-{
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>.active>a:hover {
+  background: blue;
+  color: yellow;
+}
+
+.nav-tabs a {
+  color: white;
+}
+
+.nav-tabs li a:hover {
   background: blue;
 }
 
 
-.table-hover >tbody >tr:hover >td
-{
+.table-hover>tbody>tr:hover>td {
   color: yellow;
   background: #428bca;
 }
 
 table.tablesorter thead tr .header {
-	background-image: url(blue/bg.gif);
-	background-repeat: no-repeat;
-	background-position: center right;
-	cursor: pointer;
+  background-image: url(blue/bg.gif);
+  background-repeat: no-repeat;
+  background-position: center right;
+  cursor: pointer;
 }
+
 table.tablesorter thead tr .headerSortUp {
-	background-image: url(blue/asc.gif);
+  background-image: url(blue/asc.gif);
   background-color: #428bca;
 }
+
 table.tablesorter thead tr .headerSortDown {
-	background-image: url(blue/desc.gif);
+  background-image: url(blue/desc.gif);
   background-color: #428bca;
 }
 
@@ -88,23 +81,28 @@ table tr:hover a {
   color: #ffa;
 }
 
-info, cyan {
+info,
+cyan {
   color: cyan;
 }
 
-bad, red {
-    color: red;
+bad,
+red {
+  color: red;
 }
 
-good, green {
-    color: green;
+good,
+green {
+  color: green;
 }
 
-yellow, y {
+yellow,
+y {
   color: yellow;
 }
 
-blue, stat {
+blue,
+stat {
   color: #663399;
 }
 
@@ -121,13 +119,16 @@ details pre {
   border: 0px;
 }
 
-html, body{
+html,
+body {
   height: 100%
 }
-.container{
+
+.container {
   min-height: 100%;
 }
-.footer{
+
+.footer {
   position: absolute;
   bottom: 0;
 }
