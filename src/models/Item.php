@@ -1073,4 +1073,11 @@ class Item implements Robbo\Presenter\PresentableInterface
             ];
         }, $this->data->min_skills);
     }
+
+    public function getRevertTo()
+    {
+        if (!isset($this->data->revert_to))
+            return NULL;
+        return $this->repo->getModel("Item", $this->data->revert_to);
+    }
 }
