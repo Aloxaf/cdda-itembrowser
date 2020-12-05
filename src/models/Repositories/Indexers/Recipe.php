@@ -50,7 +50,7 @@ class Recipe implements IndexerInterface
 
                                         $this->linkIndexes($repo, "toolFor", $id, $recipe);
 
-                                        if ($recipe->category == "uncraft"
+                                        if ((isset($recipe->category) && $recipe->category == "uncraft")
                                         or (isset($recipe->reversible)
                                         and $recipe->reversible == "true")) {
                                             $repo->append("item.disassembledFrom.$id", $recipe->repo_id);
@@ -404,17 +404,19 @@ class Recipe implements IndexerInterface
         }
 
         if ($key == "toolFor") {
-            // create a list of recipe categories, excluding NONCRAFT.
-            if ($recipe->type != "uncraft") {
-                $category = $recipe->category;
-                $repo->addUnique("item.categories.$id", $category);
-            }
+            if (isset($recipe->category)) {
+                // create a list of recipe categories, excluding NONCRAFT.
+                if ($recipe->type != "uncraft") {
+                    $category = $recipe->category;
+                    $repo->addUnique("item.categories.$id", $category);
+                }
 
-            // create a list of tools per category for this object.
-            $repo->append(
-                "item.toolForCategory.$id.$recipe->category",
-                $recipe->repo_id
-            );
+                // create a list of tools per category for this object.
+                $repo->append(
+                    "item.toolForCategory.$id.$recipe->category",
+                    $recipe->repo_id
+                );
+            }
         }
 
         $repo->append("item.$key.$id", $recipe->repo_id);
