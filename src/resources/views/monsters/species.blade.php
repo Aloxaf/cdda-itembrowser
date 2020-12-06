@@ -41,8 +41,8 @@
         "nether" => "神话生物",
         "plant" => "植物",
         "reptile" => "爬虫",
-        "robot" => "机器人"
-        "slime" => "变形怪", 
+        "robot" => "机器人",
+        "slime" => "变形怪",
         "spider" => "蜘蛛",
         "uplift" => "擢升者",
         "worm" => "蠕虫",
