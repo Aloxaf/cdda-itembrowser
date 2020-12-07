@@ -34,7 +34,6 @@ popd
 
 LOG "Generating diff..."
 cp -f src/public/diff.json{,.bak}
-
 python3 get_diff.py $dir.bak $dir src/public/diff.json
 
 LOG "Rebuilding database..."
