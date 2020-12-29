@@ -881,6 +881,8 @@ def npgettext(context, single, plural):
         if plural or text == single:
             text = zh_CN.ngettext(f"{context}\004{single}", f"{context}\004{plural}", 1)
     else:
+        if not single:
+            return ''
         if not plural:
             text = zh_CN.gettext(single)
         if plural or text == single:
