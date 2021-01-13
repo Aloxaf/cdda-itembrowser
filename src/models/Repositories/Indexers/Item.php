@@ -4,6 +4,7 @@ namespace Repositories\Indexers;
 
 use Repositories\RepositoryWriterInterface;
 use CustomUtility\ValueUtil;
+use CustomUtility\ToHitEnumConversion;
 
 class Item implements IndexerInterface
 {
@@ -427,7 +428,26 @@ class Item implements IndexerInterface
             $damagecheck += $object->cutting;
         }
         if (isset($object->to_hit)) {
-            $damagecheck += $object->to_hit;
+            if (is_numeric($object->to_hit)) {
+                $damagecheck += $object->to_hit;
+            } else {
+                $to_hit = 0;
+                if (isset($object->to_hit->grip)) {
+                    $to_hit+= ToHitEnumConversion::GripStringToInt($object->to_hit->grip);
+                }
+                if (isset($object->to_hit->length)) {
+                    $to_hit+= ToHitEnumConversion::LengthStringToInt($object->to_hit->length);
+                }
+                if (isset($object->to_hit->surface)) {
+                    $to_hit+= ToHitEnumConversion::SurfaceStringToInt($object->to_hit->surface);
+                }
+                if (isset($object->to_hit->balance)) {
+                    $to_hit+= ToHitEnumConversion::BalanceStringToInt($object->to_hit->balance);
+                }
+                $object->to_hit = $to_hit;
+
+                $damagecheck += $object->to_hit;
+            }
         }
         if ($damagecheck >= 8 && strtoupper($object->type) != "VEHICLE_PART" && isset($object->weight) && $object->weight < 15000 && (!isset($object->dispersion) || $object->dispersion == 0)) {
             $repo->append("melee", $object->id);
