@@ -321,8 +321,8 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             } elseif (isset($object->result)) {
                 $str = $object->result;
             }
-            echo $str." had an error.\n".$e;
-            // throw $e;
+            echo $str." had an error.\n";
+            echo substr($e,0,strpos($e,"#4 "))."\n\n";
         }
 
         // store the updated object into the repo
