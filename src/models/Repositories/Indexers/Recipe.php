@@ -440,6 +440,14 @@ class Recipe implements IndexerInterface
 
                 ValueUtil::SetDefault($recipe, "difficulty", 0);
 
+                if (!isset($recipe->category)) {
+                    if (isset($recipe->id_suffix)) {
+                        $recipe->category = "uncategorized_".$recipe->id_suffix;
+                    } else {
+                        $recipe->category = "uncategorized";
+                    }
+                }
+
                 $repo->append(self::DEFAULT_INDEX, $recipe->repo_id);
                 $repo->set(self::DEFAULT_INDEX.".".$recipe->repo_id, $recipe->repo_id);
 
