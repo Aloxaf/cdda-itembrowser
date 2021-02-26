@@ -78,8 +78,8 @@
         --<br>
         这个车辆部件是由 {!!$item->sourcePart!!} 安装而得到的。<br>
       @endif
-      @if(!$item->isVehiclePart)
-        <br>
+      <br>
+      @if(!$item->isVehiclePart && !$item->isBionic && $item->type !== "material")
         材质：{!! $item->materials !!}<br>
         体积：<yellow>{{ $item->volume }}</yellow> 升&nbsp;&nbsp;
         重量：<yellow>{{ $item->weightMetric }}</yellow> 千克<br>
@@ -210,20 +210,24 @@
         射程：<yellow>{{ $item->range }}</yellow>
         &nbsp;散布：<yellow>{{ $item->dispersion }}</yellow><br>
         后坐力：<yellow>{{ $item->recoil }}</yellow><br>
-        伤害加成：<yellow>{{ $item->prop_damage }}</yellow><br>
+        @if ($item->prop_damage !== NULL)
+          伤害加成：<yellow>{{ $item->prop_damage }}</yellow><br>
+        @endif
         数量：<yellow>{{ $item->count }}</yellow><br>
-        可用于：{!! $item->usedby !!}<br>
+        @if ($item->usedby !== "")
+          可用于：{!! $item->usedby !!}<br>
+        @endif
       @endif
 
-      @if($item->fuel != NULL)
+      @if($item->fuel_data != NULL)
         --<br>
-        能量比：<yellow>{{ $item->fuel->energy }}</yellow> 单位/毫升<br>
+        能量比：<yellow>{{ $item->fuel_data->energy }}</yellow> 单位/毫升<br>
         {{-- 此处 isset 不可？ --}}
-        @if(array_key_exists("explosion_data", $item->fuel))
+        @if(array_key_exists("explosion_data", $item->fuel_data))
           爆炸几率：
-          热武器攻击：<yellow>{{ $item->fuel->explosion_data->chance_hot / 100 }}</yellow>%&nbsp;
-          冷兵器攻击：<yellow>{{ $item->fuel->explosion_data->chance_cold / 100 }}</yellow>%<br>
-          爆炸威力：<yellow>{{ $item->fuel->explosion_data->factor }}</yellow><br>
+          热武器攻击：<yellow>{{ $item->fuel_data->explosion_data->chance_hot / 100 }}</yellow>%&nbsp;
+          冷兵器攻击：<yellow>{{ $item->fuel_data->explosion_data->chance_cold / 100 }}</yellow>%<br>
+          爆炸威力：<yellow>{{ $item->fuel_data->explosion_data->factor }}</yellow><br>
         @endif
       @endif
 
@@ -237,6 +241,9 @@
           @endforeach
         @endif
         <br>
+        @if ($item->hasKey("revert_to"))
+          默认状态：<a href="{{ route("item.view", $item->revert_to->id) }}">{{ $item->revert_to->name }}</a>  <br>
+        @endif
       @endif
       @if($item->isGun)
         @if($item->hasKey('ammo'))

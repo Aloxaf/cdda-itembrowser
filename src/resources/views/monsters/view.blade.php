@@ -87,7 +87,7 @@
           <td><y>{{ $monster->morale }}</y></td>
         </tr>
         <tr>
-          <td>难度：</td>
+          <td>威胁：</td>
           <td><y>{!!$monster->difficulty!!}</y></td>
           <td>视力：</td>
           <td>{!! "<y>{$monster->vision_day}</y> (夜：<y>{$monster->vision_night}</y>)" !!}</td>

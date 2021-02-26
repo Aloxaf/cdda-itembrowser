@@ -474,8 +474,8 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
             } elseif (isset($object->result)) {
                 $str = $object->result;
             }
-            echo $str." had an error.\n".$e;
-            // throw $e;
+            echo $str." had an error.\n";
+            echo substr($e,0,strpos($e,"#4 "))."\n\n";
         }
 
         // store the updated object into the repo
@@ -559,7 +559,9 @@ class LocalRepository extends Repository implements RepositoryInterface, Reposit
 
             // JSON structure is different than earlier mod versions
             if (is_array($modinfo)) {
-                $paths[] = $mod;
+                // test_data mod 仅用于自动化测试
+                if ($modinfo[0]->id != "test_data")
+                    $paths[] = $mod;
                 $id = "dda";
                 if (isset($modinfo[0]->id)) {
                     $id = strtolower($modinfo[0]->id);

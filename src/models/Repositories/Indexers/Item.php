@@ -450,6 +450,13 @@ class Item implements IndexerInterface
                 } else {
                     $object->ranged_damage = "N/A";
                 }
+            } elseif (is_array($object->ranged_damage)) {
+                $object->ranged_damage_type = implode("+", array_map(function($e) {
+                    return $e->damage_type;
+                }, $object->ranged_damage));
+                $object->ranged_damage = implode("+", array_map(function($e) {
+                    return $e->amount;
+                }, $object->ranged_damage));
             }
             if (!isset($object->skill)) {
                 $object->skill = "none";

@@ -220,8 +220,6 @@ class Item extends \Robbo\Presenter\Presenter
         $parts = $this->object->valid_mod_locations;
         foreach ($parts as $part) {
             $skill = $this->object->skill;
-            if ($skill == "archery")
-                $skill = "弓";
             $ret[] = "$part[1] ".'<a href="'.route("item.gunmods", array($skill, $part[0])).'">'.$part[0].'</a>';
         }
 

@@ -132,10 +132,15 @@ class Mutation implements Robbo\Presenter\PresentableInterface
         );
         foreach ($rest as $item) {
             foreach ($item as $name => $prot) {
+                if (!is_array($prot))
+                    $prot = array($prot);
                 if (!isset($ret[$name]))
                     $ret[$name] = $prot;
-                else
+                else {
+                    if (!is_array($ret[$name]))
+                        $ret[$name] = array($ret[$name]);
                     $ret[$name] = array_merge($ret[$name], $prot);
+                }
             }
         }
         return $ret;

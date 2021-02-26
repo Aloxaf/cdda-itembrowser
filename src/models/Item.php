@@ -407,12 +407,15 @@ class Item implements Robbo\Presenter\PresentableInterface
             if (is_object($result)) {
                 $result = $result->amount;
             }
-            $rdamage=0;
+            $rdamage = 0;
             if (isset($this->data->ranged_damage)) {
                 $rdamage = $this->data->ranged_damage;
             }
             if (is_object($rdamage)) {
                 $rdamage = $rdamage->amount;
+            }
+            if (strchr($rdamage, '+') !== FALSE) {
+                $rdamage = array_sum(explode("+", $rdamage));
             }
             if ($this->data->type == "GUN") {
                 $result = ($result + $rdamage) * $ammo_damage_multiplier;
@@ -548,7 +551,7 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getDamage()
     {
-        if ($this->data->damage !== null) {
+        if (isset($this->data->damage)) {
             $damage = $this->data->damage;
             if (is_object($damage)) {
                 $strval = '';
@@ -1047,12 +1050,37 @@ class Item implements Robbo\Presenter\PresentableInterface
         $rng_high_hits = $hits_by_accuracy[$rng_high_mean] * $num_all_hits / $hit_trials;
     }
 
+    // FIXME: skill 不应该汉化，不然导致了部分汉化部分没汉化的问题
     public function getSkill()
     {
         if (!isset($this->data->skill)) {
             return NULL;
         }
 
-        return $this->repo->getModel("Item", $this->data->skill)->name;
+        $skill = $this->data->skill;
+        if(preg_match('/[^\x20-\x7e]/', $skill)) {
+            return $skill;
+        } else {
+            return $this->repo->getModel("Item", $skill)->name;
+        }
+    }
+
+    public function getMinSkills()
+    {
+        if (!isset($this->data->min_skills))
+            return NULL;
+        return array_map(function ($skill) {
+            return [
+                $this->repo->getModel("Item", $skill[0])->name,
+                $skill[1],
+            ];
+        }, $this->data->min_skills);
+    }
+
+    public function getRevertTo()
+    {
+        if (!isset($this->data->revert_to))
+            return NULL;
+        return $this->repo->getModel("Item", $this->data->revert_to);
     }
 }

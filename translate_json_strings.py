@@ -9,6 +9,7 @@ import itertools
 import subprocess
 from optparse import OptionParser
 from sys import platform
+from sys import exit
 
 zh_CN = gettext.translation("cataclysm-dda", localedir="lang/mo", languages=["zh_CN"])
 zh_CN.install()
@@ -41,7 +42,9 @@ not_json = {os.path.normpath(i) for i in {
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/json/flags.json",
+    "data/json/npcs/npc.json",
     "data/json/overmap_terrain.json",
+    "data/json/statistics.json",
     "data/json/traps.json",
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
@@ -49,7 +52,7 @@ warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
     "data/mods/More_Survival_Tools/start_locations.json",
     "data/mods/NPC_Traits/npc_classes.json",
-    "data/mods/Tanks/monsters.json"
+    "data/mods/Tanks/monsters.json",
 }}
 
 
@@ -63,6 +66,7 @@ def warning_supressed(filename):
 # these files will not be parsed. Full related path.
 ignore_files = {os.path.normpath(i) for i in {
     "data/json/anatomy.json",
+    "data/json/items/book/abstract.json",
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
 }}
@@ -85,7 +89,6 @@ ignorable = {
     "emit",
     "enchantment",
     "event_transformation",
-    "event_statistic",
     "EXTERNAL_OPTION",
     "hit_range",
     "ITEM_BLACKLIST",
@@ -204,6 +207,11 @@ needs_plural = {
     "WHEEL",
 }
 
+# These objects use a plural form in their description
+needs_plural_desc = {
+    "event_statistic"
+}
+
 # these objects can be automatically converted, but use format strings
 use_format_strings = {
     "technique",
@@ -244,6 +252,8 @@ def extract_bodypart(item):
     item["encumbrance_text"] = writestr(item["encumbrance_text"])
     item["heading"] = writestr(item["heading"])
     item["heading_multiple"] = writestr(item["heading_multiple"])
+    if "smash_message" in item:
+        item["smash_message"] = writestr(item["smash_message"])
     if "hp_bar_ui_text" in item:
         item["hp_bar_ui_text"] = writestr(item["hp_bar_ui_text"])
 
@@ -381,13 +391,19 @@ def extract_gun(item):
         # be extracted directly.
         if not item["skill"] == "archery":
             item["skill"] = writestr(item["skill"], context="gun_type_type")
+        else:
+            item["skill"] = writestr("bow", context="gun_type_type")
     if "reload_noise" in item:
         item["reload_noise"] = writestr(item["reload_noise"])
     if "valid_mod_locations" in item:
         for mod_loc in item["valid_mod_locations"]:
             mod_loc[0] = writestr(mod_loc[0])
     if isinstance(item.get("ranged_damage"), dict) and item["ranged_damage"].get("damage_type"):
-        item["ranged_damage"]["damage_type"] = writestr(item["ranged_damage"]["damage_type"], context="damage type")
+        damage_type = item["ranged_damage"]["damage_type"]
+        if damage_type == "bullet":
+            item["ranged_damage"]["damage_type"] = writestr(damage_type, context="damage_type")
+        else:
+            item["ranged_damage"]["damage_type"] = writestr(damage_type, context="damage type")
 
 
 def extract_gunmod(item):
@@ -784,8 +800,8 @@ def extract_vehicle_part_category(item):
     outfile = get_outfile("vehicle_part_categories")
     name = item.get("name")
     short_name = item.get("short_name")
-    item["name"] = writestr(name, context="vpart_category_name")
-    item["short_name"] = writestr(short_name, context="vpart_category_short_name")
+    item["name"] = writestr(name)
+    item["short_name"] = writestr(short_name)
 
 
 # these objects need to have their strings specially extracted
@@ -868,18 +884,25 @@ def tlcomment(fs, string):
             fs.write("#~ {}\n".format(line))
 
 def npgettext(context, single, plural):
+    # Fuck python 3.6, which doens't support pgettext
     if context:
-        if plural:
-            # Fuck python 3.6
-            return zh_CN.ngettext(f"{context}\004{single}", f"{context}\004{plural}", 1)
-        else:
-            return zh_CN.gettext(f"{context}\004{single}")
+        if not plural:
+            text = zh_CN.gettext(f"{context}\004{single}")
+        if plural or text == single:
+            text = zh_CN.ngettext(f"{context}\004{single}", f"{context}\004{plural}", 1)
     else:
-        if plural:
-            return zh_CN.ngettext(single, plural, 1)
-        else:
-            return zh_CN.gettext(single)
+        if not single:
+            return ''
+        if not plural:
+            text = zh_CN.gettext(single)
+        if plural or text == single:
+            text = zh_CN.ngettext(single, plural, 1)
+    return single if '\004' in text else text
 
+
+# `context` is deprecated and only for use in legacy code. Use
+# `class translation` to read the text in c++ and specify the context in json
+# instead.
 def writestr(string, context=None, pl_fmt=False, format_strings=False, comment=None):
     "Wrap the string and write to the file."
     if type(string) is list:
@@ -1013,7 +1036,10 @@ def extract(item, infilename):
         for cname in item["conditional_names"]:
             cname["name"] = writestr(cname["name"], pl_fmt=True, **kwargs)
     if "description" in item:
-        item["description"] = writestr(item["description"], **kwargs)
+        if object_type in needs_plural_desc:
+            item["description"] = writestr(item["description"], pl_fmt=True, **kwargs)
+        else:
+            item["description"] = writestr(item["description"], **kwargs)
     if "detailed_definition" in item:
         item["detailed_definition"] = writestr(item["detailed_definition"], **kwargs)
     if "sound" in item:
@@ -1120,6 +1146,21 @@ def extract_all_from_file(json_file):
 #
 #  EXTRACTION
 #
+
+ignored_types = []
+
+# first, make sure we aren't erroneously ignoring types
+for ignored in ignorable:
+    if ignored in automatically_convertible:
+        ignored_types.append(ignored)
+    if ignored in extract_specials:
+        ignored_types.append(ignored)
+
+if len(ignored_types) != 0:
+    print("ERROR: Some types set to be both extracted and ignored:")
+    for ignored in ignored_types:
+        print(ignored)
+    exit(-1)
 
 print("==> Parsing JSON")
 for i in sorted(directories):

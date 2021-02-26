@@ -32,7 +32,7 @@ WHITELIST_TYPE = [
     "MATERIAL",
 ]
 
-TRANS = gettext.translation("cataclysm-dda", localedir="locale", languages=["zh_CN"])
+TRANS = gettext.translation("cataclysm-dda", localedir=f"{argv[2]}/lang/mo", languages=["zh_CN"])
 TRANS.install()
 
 
