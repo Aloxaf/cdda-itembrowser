@@ -107,7 +107,6 @@ ignorable = {
     "overmap_location",
     "overmap_special",
     "profession_item_substitutions",
-    "palette",
     "region_overlay",
     "region_settings",
     "relic_procgen_data",
@@ -395,6 +394,10 @@ def extract_gun(item):
             item["skill"] = writestr("bow", context="gun_type_type")
     if "reload_noise" in item:
         item["reload_noise"] = writestr(item["reload_noise"])
+    if "use_action" in item:
+        use_action = item.get("use_action")
+        item_name = item.get("name")
+        extract_use_action_msgs(outfile, use_action, item_name, {})
     if "valid_mod_locations" in item:
         for mod_loc in item["valid_mod_locations"]:
             mod_loc[0] = writestr(mod_loc[0])
@@ -487,6 +490,14 @@ def extract_mapgen(item):
                         opt["name"] = writestr(opt.get("name"))
                 if "access_denied" in v:
                     v["access_denied"] = writestr(v.get("access_denied"))
+
+
+def extract_palette(item):
+    outfile = get_outfile("palette")
+    if "signs" in item:
+        for (k, v) in items_sorted_by_key(item["signs"]):
+            if v.get("signage"):
+                v["signage"] = writestr(v["signage"], comment="Sign")
 
 
 def extract_monster_attack(item):
@@ -604,6 +615,14 @@ def extract_talk_topic(item):
     if "responses" in item:
         for r in item["responses"]:
             extract_talk_response(r, outfile)
+    if "repeat_responses" in item:
+        rr = item["repeat_responses"]
+        if type(rr) is dict and "response" in rr:
+            extract_talk_response(rr["response"], outfile)
+        elif type(rr) is list:
+            for r in rr:
+                if "response" in r:
+                    extract_talk_response(r["response"], outfile)
     if "effect" in item:
         extract_talk_effects(item["effect"], outfile)
 
@@ -824,6 +843,7 @@ extract_specials = {
     "movement_mode": extract_move_mode,
     "mutation": extract_mutation,
     "mutation_category": extract_mutation_category,
+    "palette": extract_palette,
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,
@@ -1024,79 +1044,92 @@ def extract(item, infilename):
             item["name"] = writestr(name, pl_fmt=True, **kwargs)
         else:
             item["name"] = writestr(name, **kwargs)
-    if "name_suffix" in item:
-        item["name_suffix"] = writestr(item["name_suffix"], **kwargs)
-    if "name_unique" in item:
-        item["name_unique"] = writestr(item["name_unique"], **kwargs)
-    if "job_description" in item:
-        item["job_description"] = writestr(item["job_description"], **kwargs)
-    if "use_action" in item:
-        extract_use_action_msgs(outfile, item["use_action"], item.get("name"), kwargs)
-    if "conditional_names" in item:
-        for cname in item["conditional_names"]:
-            cname["name"] = writestr(cname["name"], pl_fmt=True, **kwargs)
-    if "description" in item:
-        if object_type in needs_plural_desc:
-            item["description"] = writestr(item["description"], pl_fmt=True, **kwargs)
+        if type(name) is dict and "str" in name:
+            singular_name = name["str"]
         else:
-            item["description"] = writestr(item["description"], **kwargs)
-    if "detailed_definition" in item:
-        item["detailed_definition"] = writestr(item["detailed_definition"], **kwargs)
-    if "sound" in item:
-        item["sound"] = writestr(item["sound"], **kwargs)
-    if "sound_description" in item:
-        item["sound_description"] = writestr(item["sound_description"], **kwargs)
-    if "snippet_category" in item and type(item["snippet_category"]) is list:
-        # snippet_category is either a simple string (the category ident)
-        # which is not translated, or an array of snippet texts.
-        for entry in item["snippet_category"]:
-            # Each entry is a json-object with an id and text
-            if type(entry) is dict:
-                entry["text"] = writestr(entry["text"], **kwargs)
+            singular_name = name
+
+    def do_extract(item):
+        if "name_suffix" in item:
+            item["name_suffix"] = writestr(item["name_suffix"], **kwargs)
+        if "name_unique" in item:
+            item["name_unique"] = writestr(item["name_unique"], **kwargs)
+        if "job_description" in item:
+            item["job_description"] = writestr(item["job_description"], **kwargs)
+        if "use_action" in item:
+            extract_use_action_msgs(outfile, item["use_action"], singular_name, kwargs)
+        if "conditional_names" in item:
+            for cname in item["conditional_names"]:
+                cname["name"] = writestr(cname["name"], pl_fmt=True, **kwargs)
+        if "description" in item:
+            if object_type in needs_plural_desc:
+                item["description"] = writestr(item["description"], pl_fmt=True, **kwargs)
             else:
-                # or a simple string
-                # TODO: 
-                writestr(entry, **kwargs)
-                wrote = True
-    if "bash" in item and type(item["bash"]) is dict:
-        # entries of type technique have a bash member, too.
-        # but it's a int, not an object.
-        bash = item["bash"]
-        if "sound" in bash:
-            bash["sound"] = writestr(bash["sound"], **kwargs)
-        if "sound_fail" in bash:
-            bash["sound_fail"] = writestr(bash["sound_fail"], **kwargs)
-    if "seed_data" in item:
-        seed_data = item["seed_data"]
-        seed_data["plant_name"] = writestr(seed_data["plant_name"], **kwargs)
-    if "relic_data" in item and "name" in item["relic_data"]:
-        item["relic_data"]["name"] = writestr(item["relic_data"]["name"], **kwargs)
-    if "text" in item:
-        item["text"] = writestr(item["text"], **kwargs)
-    if "message" in item:
-        item["message"] = writestr(item["message"], format_strings=True, **kwargs)
-    if "messages" in item:
-        item["messages"] = [writestr(message, **kwargs) for message in item["messages"]]
-    if "valid_mod_locations" in item:
-        for mod_loc in item["valid_mod_locations"]:
-            mod_loc[0] = writestr(mod_loc[0], **kwargs)
-    if "info" in item:
-        item["info"] = writestr(item["info"], **kwargs)
-    if "restriction" in item:
-        item["restriction"] = writestr(item["restriction"], **kwargs)
-    if "verb" in item:
-        item["verb"] = writestr(item["verb"], **kwargs)
-    if "special_attacks" in item:
-        special_attacks = item["special_attacks"]
-        for special_attack in special_attacks:
-            if "description" in special_attack:
-                special_attack["description"] = writestr(special_attack["description"], **kwargs)
-            if "monster_message" in special_attack:
-                special_attack["monster_message"] = writestr(special_attack["monster_message"], **kwargs)
-    if "footsteps" in item:
-        item["footsteps"] = writestr(item["footsteps"], **kwargs)
-    if "revert_msg" in item:
-        item["revert_msg"] = writestr(item["revert_msg"], **kwargs)
+                item["description"] = writestr(item["description"], **kwargs)
+        if "detailed_definition" in item:
+            item["detailed_definition"] = writestr(item["detailed_definition"], **kwargs)
+        if "sound" in item:
+            item["sound"] = writestr(item["sound"], **kwargs)
+        if "sound_description" in item:
+            item["sound_description"] = writestr(item["sound_description"], **kwargs)
+        if "snippet_category" in item and type(item["snippet_category"]) is list:
+            # snippet_category is either a simple string (the category ident)
+            # which is not translated, or an array of snippet texts.
+            for entry in item["snippet_category"]:
+                # Each entry is a json-object with an id and text
+                if type(entry) is dict:
+                    entry["text"] = writestr(entry["text"], **kwargs)
+                else:
+                    # or a simple string
+                    # TODO: 
+                    writestr(entry, **kwargs)
+                    wrote = True
+        if "bash" in item and type(item["bash"]) is dict:
+            # entries of type technique have a bash member, too.
+            # but it's a int, not an object.
+            bash = item["bash"]
+            if "sound" in bash:
+                bash["sound"] = writestr(bash["sound"], **kwargs)
+            if "sound_fail" in bash:
+                bash["sound_fail"] = writestr(bash["sound_fail"], **kwargs)
+        if "seed_data" in item:
+            seed_data = item["seed_data"]
+            seed_data["plant_name"] = writestr(seed_data["plant_name"], **kwargs)
+        if "relic_data" in item and "name" in item["relic_data"]:
+            item["relic_data"]["name"] = writestr(item["relic_data"]["name"], **kwargs)
+        if "text" in item:
+            item["text"] = writestr(item["text"], **kwargs)
+        if "message" in item:
+            item["message"] = writestr(item["message"], format_strings=True, **kwargs)
+        if "messages" in item:
+            item["messages"] = [writestr(message, **kwargs) for message in item["messages"]]
+        if "valid_mod_locations" in item:
+            for mod_loc in item["valid_mod_locations"]:
+                mod_loc[0] = writestr(mod_loc[0], **kwargs)
+        if "info" in item:
+            item["info"] = writestr(item["info"], **kwargs)
+        if "restriction" in item:
+            item["restriction"] = writestr(item["restriction"], **kwargs)
+        if "verb" in item:
+            item["verb"] = writestr(item["verb"], **kwargs)
+        if "special_attacks" in item:
+            special_attacks = item["special_attacks"]
+            for special_attack in special_attacks:
+                if "description" in special_attack:
+                    special_attack["description"] = writestr(special_attack["description"], **kwargs)
+                if "monster_message" in special_attack:
+                    special_attack["monster_message"] = writestr(special_attack["monster_message"], **kwargs)
+                if "targeting_sound" in special_attack:
+                    special_attack["targeting_sound"] = writestr(special_attack["targeting_sound"], **kwargs)
+                if "no_ammo_sound" in special_attack:
+                    special_attack["no_ammo_sound"] = writestr(outfile, special_attack["no_ammo_sound"], **kwargs)
+        if "footsteps" in item:
+            item["footsteps"] = writestr(item["footsteps"], **kwargs)
+        if "revert_msg" in item:
+            item["revert_msg"] = writestr(item["revert_msg"], **kwargs)
+    do_extract(item)
+    if "extend" in item:
+        do_extract(item["extend"])
 
 
 def extract_all_from_dir(json_dir):
