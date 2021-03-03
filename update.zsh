@@ -8,7 +8,7 @@ TRAPZERR() {
 }
 
 LOG() {
-  echo "[LOG] $1"
+  echo "[LOG][$(env TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')] $1"
 }
 
 cd $0:A:h
