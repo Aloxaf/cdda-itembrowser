@@ -48,7 +48,7 @@ cp doxygen_conf.txt $dir/doxygen_doc/doxygen_conf.txt
 pushd $dir
 doxygen doxygen_doc/doxygen_conf.txt
 popd
-./doxyindexer $dir/doxygen_doc/searchdata.xml -o src/public/cgi-bin/
+doxyindexer $dir/doxygen_doc/searchdata.xml -o src/public/cgi-bin/
 if [[ -d src/public/doc ]]; then
   rm -rdf src/public/doc
 fi
