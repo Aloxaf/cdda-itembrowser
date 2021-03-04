@@ -46,6 +46,11 @@
 注2：阈值 - 使这个突变成为可能需要的阈值
 </p>
 
+<h2>文档</h2>
+<p>
+实验版文档：<a href="https://cdda-trunk.aloxaf.cn/doc">https://cdda-trunk.aloxaf.cn/doc</a>
+</p>
+
 <hr>
 <p>
 原版物品浏览器项目地址: <a href="https://github.com/Sheco/cdda-itembrowser">Github</a>.
