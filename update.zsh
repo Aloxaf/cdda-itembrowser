@@ -37,6 +37,13 @@ LOG "Generating diff..."
 cp -f src/public/diff.json{,.bak}
 python3 get_diff.py $dir.bak $dir src/public/diff.json
 
+LOG "Download latest Mods"
+rm -f Kenan-Modpack-Mod.zip
+rm -rdf Kenan-Modpack-汉化版
+curl -LOs https://github.wuyanzheshui.workers.dev/linonetwo/CDDA-Kenan-Modpack-Chinese/releases/download/latest/Kenan-Modpack-Mod.zip
+unzip -qo Kenan-Modpack-Mod.zip
+cp -R Kenan-Modpack-汉化版/* $dir/data/mods
+
 LOG "Rebuilding database..."
 php src/artisan down
 # sudo -u www-data php -c ./php.ini src/artisan cache:clear
