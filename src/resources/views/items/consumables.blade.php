@@ -16,7 +16,7 @@ array(
     "food" => "食物",
     "med" => "药剂",
     "none" => "其他",
-)[$value]
+)[$value] ?? $value
 }}}
 </a></li>
 @endforeach
