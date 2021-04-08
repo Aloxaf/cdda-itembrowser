@@ -19,9 +19,9 @@ RUN sed -i -E "s#[^/]+.ubuntu.com#mirrors.aliyun.com#g" /etc/apt/sources.list \
 RUN git clone https://github.com/Aloxaf/cdda-itembrowser --branch zh_CN1.1 --depth 1 /cdda \
     && cd /cdda \
     && cp src/.env.example src/.env \
-    && curl -sS https://getcomposer.org/installer | php -- --filename=composer
     && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
     && composer -dsrc install
+    && php src/artisan key:generate
     && chgrp -R www-data /cdda/src/storage/* \
     && chmod -R g+ws /cdda/src/storage/* # 执行完下一行命令似乎又要再执行一次这个? \
     && zsh update.zsh
