@@ -29,13 +29,9 @@ echo "#define VERSION \"$(env TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')\"" >
 
 LOG "Transalting..."
 pushd $dir
-./lang/compile_mo.sh zh_CN
+bash ./lang/compile_mo.sh zh_CN
 python3 ../translate_json_strings.py
 popd
-
-LOG "Generating diff..."
-cp -f src/public/diff.json{,.bak}
-python3 get_diff.py $dir.bak $dir src/public/diff.json
 
 LOG "Download latest Mods"
 rm -f Kenan-Modpack-Mod.zip
