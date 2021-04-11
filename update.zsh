@@ -35,27 +35,16 @@ popd
 
 LOG "Download latest Mods"
 rm -f Kenan-Modpack-Mod.zip
-rm -rdf Kenan-Modpack-汉化版
+rm -rdf Kenan-Modpack-Chinese
 curl -LOs https://github.wuyanzheshui.workers.dev/linonetwo/CDDA-Kenan-Modpack-Chinese/releases/download/latest/Kenan-Modpack-Mod.zip
 unzip -qo Kenan-Modpack-Mod.zip
-cp -R Kenan-Modpack-汉化版/* $dir/data/mods
+cp -R Kenan-Modpack-Chinese/* $dir/data/mods
 
 LOG "Rebuilding database..."
 php src/artisan down
 # sudo -u www-data php -c ./php.ini src/artisan cache:clear
 sudo -u www-data php -c ./php.ini src/artisan cataclysm:rebuild $dir
 php src/artisan up
-
-LOG "Generating doc..."
-cp doxygen_conf.txt $dir/doxygen_doc/doxygen_conf.txt
-pushd $dir
-doxygen doxygen_doc/doxygen_conf.txt
-popd
-doxyindexer $dir/doxygen_doc/searchdata.xml -o src/public/cgi-bin/
-if [[ -d src/public/doc ]]; then
-  rm -rdf src/public/doc
-fi
-mv $dir/doxygen_doc/html src/public/doc
 
 # https://juejin.im/entry/5901af2e1b69e60058be2134
 
