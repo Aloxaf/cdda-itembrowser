@@ -1028,7 +1028,7 @@ def extract(item, infilename):
         extract_specials[object_type](item)
         return
     elif object_type not in automatically_convertible:
-        raise WrongJSONItem(
+        print(
             "ERROR: Unrecognized object type '{}'!".format(object_type), item)
     if object_type not in known_types:
         print("WARNING: known_types does not contain object type '{}'".format(

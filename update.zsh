@@ -1,6 +1,7 @@
 #!/bin/zsh
 
 TRAPZERR() {
+  cd $0:A:h
   LOG "Recovering..."
   sudo -u www-data php -c ./php.ini src/artisan cataclysm:rebuild $dir.bak
   php src/artisan up
