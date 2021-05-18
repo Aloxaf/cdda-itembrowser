@@ -88,7 +88,6 @@
 <li><a href="{{ route('construction.categories') }}">分类</a></li>
 <h2>其他</h2>
 <li><a href="{{ route('special.mutations') }}">变异</a></li>
-<li><a href="{{ route('special.latestchanges') }}">最新变化</a></li>
 </ul>
 </div>
 </div>

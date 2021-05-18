@@ -14,18 +14,18 @@ LOG() {
 cd $0:A:h
 
 LOG "Downloading latest source code..."
-rm -f master.zip
-curl -LOs https://github.wuyanzheshui.workers.dev/CleverRaven/Cataclysm-DDA/archive/master.zip
+rm -f 0.F-dev.zip
+curl -LOs https://github.wuyanzheshui.workers.dev/CleverRaven/Cataclysm-DDA/archive/refs/heads/0.F-dev.zip
 
 LOG "Unzipping..."
-dir=Cataclysm-DDA-master
+dir=Cataclysm-DDA-0.F-dev
 if [[ -d $dir ]]; then
   [[ ! -d $dir.bak ]] || rm -rdf $dir.bak
   mv -f $dir $dir.bak
 fi
-unzip -qo master.zip
+unzip -qo 0.F-dev.zip
 
-echo "#define VERSION \"$(env TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')\"" > $dir/src/version.h
+echo "#define VERSION \"0.F-dev + KeanMod: $(env TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')\"" > $dir/src/version.h
 
 LOG "Transalting..."
 pushd $dir
