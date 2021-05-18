@@ -28,16 +28,13 @@
     <![endif]-->
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162534158-1"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F0YQHC6VQ7"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'UA-162534158-1');
+    gtag('config', 'G-F0YQHC6VQ7');
   </script>
   <!-- Google ad -->
   <script data-ad-client="ca-pub-1206456801696320" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
