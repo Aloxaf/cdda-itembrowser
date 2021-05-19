@@ -3,7 +3,9 @@
 TRAPZERR() {
   cd $0:A:h
   LOG "Recovering..."
-  sudo -u www-data php -c ./php.ini src/artisan cataclysm:rebuild $dir.bak
+  mv $dir.bak $dir
+  php src/artisan down
+  sudo -u www-data php -c ./php.ini src/artisan cataclysm:rebuild $dir
   php src/artisan up
   exit
 }
@@ -16,7 +18,7 @@ cd $0:A:h
 
 LOG "Downloading latest source code..."
 rm -f master.zip
-curl -LOs https://github.wuyanzheshui.workers.dev/CleverRaven/Cataclysm-DDA/archive/master.zip
+curl -LOs https://github.wuyanzheshui.workers.dev/CleverRaven/Cataclysm-DDA/archive/master.zip || return
 
 LOG "Unzipping..."
 dir=Cataclysm-DDA-master
@@ -38,7 +40,7 @@ LOG "Generating diff..."
 cp -f src/public/diff.json{,.bak}
 python3 get_diff.py $dir.bak $dir src/public/diff.json
 
-LOG "Rebuilding database..."
+LOG "Building database..."
 php src/artisan down
 # sudo -u www-data php -c ./php.ini src/artisan cache:clear
 sudo -u www-data php -c ./php.ini src/artisan cataclysm:rebuild $dir
@@ -54,6 +56,9 @@ if [[ -d src/public/doc ]]; then
   rm -rdf src/public/doc
 fi
 mv $dir/doxygen_doc/html src/public/doc
+
+LOG "Building cache..."
+curl -sL "https://cdda-trunk.aloxaf.cn/search?q=丧尸浩克" > /dev/null || return
 
 # https://juejin.im/entry/5901af2e1b69e60058be2134
 
