@@ -1,7 +1,9 @@
 #!/bin/zsh
 
+ROOT=$0:A:h
+
 TRAPZERR() {
-  cd $0:A:h
+  cd $ROOT
   LOG "Recovering..."
   mv $dir.bak $dir
   php src/artisan down
@@ -14,7 +16,7 @@ LOG() {
   echo "[LOG][$(env TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')] $1"
 }
 
-cd $0:A:h
+cd $ROOT
 
 LOG "Downloading latest source code..."
 rm -f 0.F-dev.zip
