@@ -547,6 +547,13 @@ class Recipe implements IndexerInterface
                         }
                     }
                 }
+
+                # TODO: 此处是否应该使用 repo_id？
+                if (isset($recipe->proficiencies)) {
+                    foreach ($recipe->proficiencies as $proficiency) {
+                        $repo->append("proficiency.{$proficiency->proficiency}", $recipe->result);
+                    }
+                }
             }
         } catch (\Exception $e) {
             var_dump($object);

@@ -180,6 +180,16 @@ class ItemsController extends Controller
         return $this->getLayout()->nest('content', "items.skills", compact("items", "skills", "id", "level", "levels"));
     }
 
+    public function proficiencies($id = null)
+    {
+        $proficiencies = $this->repo->allModels("Proficiency", "proficiencies");
+        if ($id === null) {
+            return redirect()->route(Route::currentRouteName(), array($proficiencies[0]->id));
+        }
+        $items = $this->repo->allModels("Item", "proficiency.$id");
+        return $this->getLayout()->nest('content', 'items.proficiencies', compact('items', 'proficiencies', 'id'));
+    }
+
     public function gunmods($skill = null, $part = null)
     {
         $skills = array_map(

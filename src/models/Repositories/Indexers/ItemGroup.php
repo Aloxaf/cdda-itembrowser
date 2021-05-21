@@ -97,7 +97,7 @@ class ItemGroup implements IndexerInterface
         }
         if ($object->type == "harvest") {
             foreach ($object->entries as $entry) {
-                if (strpos($entry->type, "_group") == false) {
+                if (strpos($entry->type ?? "", "_group") == false) {
                     $repo->append("item.harvestfrom.{$entry->drop}", $object->id);
                 } else {
                     $repo->append("itemgroup.harvestfrom.{$entry->drop}", $object->id);

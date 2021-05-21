@@ -62,6 +62,11 @@ Route::group(array('after' => 'theme:layouts.bootstrap'), function () {
       'uses' => 'ItemsController@skills', )
   );
 
+  Route::get('/proficiencies/{id?}', array(
+    'as' => 'item.proficiencies',
+    'uses' => 'ItemsController@proficiencies'
+  ));
+
   Route::get('/containers', array(
       'as' => 'item.containers',
       'uses' => 'ItemsController@containers', )

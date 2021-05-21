@@ -23,6 +23,7 @@
       {!! $recipe->labels !!}<br>
       主要技能: {{ $recipe->skill_used }}（{{ $recipe->difficulty }}）<br>
       其他技能: {{ $recipe->skillsRequired }} <br>
+      需要专长：{{ $recipe->proficiencies }} <br>
       完成耗时: <info>{{ $recipe->time }}</info><br>
       @if($recipe->batch_time_factors)
         批量耗时减少：<info>{{ "{$recipe->batch_time_factors[0]}%（至少 {$recipe->batch_time_factors[1]} 批）" }}</info><br>
@@ -70,6 +71,10 @@
           </a><br>
         @endforeach
       @endif
+      <details>
+        <summary>查看 JSON</summary>
+        {!!$recipe->json!!}
+      </details>
       <br>
     @endforeach
   </div>
@@ -77,3 +82,10 @@
     @include('layouts.side_ad')
   </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  document.querySelectorAll('pre code').forEach((block) => {
+    hljs.highlightBlock(block);
+  });
+});
+</script>

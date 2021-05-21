@@ -148,4 +148,19 @@ class Recipe extends \Robbo\Presenter\Presenter
         }
         return $ret;
     }
+
+    public function presentJson()
+    {
+        return '<pre><code class="language-json">'.$this->object->json.'</code></pre>';
+    }
+
+    public function presentProficiencies()
+    {
+        if ($this->object->proficiencies === NULL) {
+            return "";
+        }
+        return implode("，", array_map(function ($proficiency) {
+            return $proficiency->name;
+        }, $this->object->proficiencies));
+    }
 }
