@@ -61,7 +61,7 @@ fi
 mv $dir/doxygen_doc/html src/public/doc
 
 LOG "Building cache..."
-curl -sL "https://cdda-trunk.aloxaf.cn/search?q=丧尸浩克" > /dev/null || return
+curl -sL "http://127.0.0.1/search?q=丧尸浩克" > /dev/null || return
 
 # https://juejin.im/entry/5901af2e1b69e60058be2134
 
