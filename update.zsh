@@ -44,6 +44,7 @@ python3 get_diff.py $dir.bak $dir src/public/diff.json
 
 LOG "Building database..."
 php src/artisan down
+# FOR dev: ln -s /tmp ./src/storage/framework/cache/data
 # sudo -u www-data php -c ./php.ini src/artisan cache:clear
 sudo -u www-data php -c ./php.ini src/artisan cataclysm:rebuild $dir
 php src/artisan up

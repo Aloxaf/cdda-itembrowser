@@ -1,7 +1,7 @@
 <?php
 
 // https://github.com/laravel/framework/issues/26229
-// 添加完新 Model 后需要 composer -d src update
+// 添加完新 Model 后需要 composer -dsrc update
 // php src/artisan make:model Customer
 // php src/artisan make:controller CustomersController --resource 
 // OR
