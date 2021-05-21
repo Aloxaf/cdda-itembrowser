@@ -153,4 +153,18 @@ class Recipe implements Robbo\Presenter\PresentableInterface
         $skill = $this->repo->getModel("Item", $this->data->skill_used);
         return $skill->name;
     }
+
+    public function getJson()
+    {
+        return json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getProficiencies() {
+        if (!isset($this->data->proficiencies)) {
+            return NULL;
+        }
+        return array_map(function ($proficiency) {
+            return $this->repo->getModel("Proficiency", $proficiency->proficiency);
+        }, $this->data->proficiencies);
+    }
 }

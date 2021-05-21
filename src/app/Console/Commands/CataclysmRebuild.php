@@ -82,6 +82,7 @@ class CataclysmCache extends Command
         // another event series needs to be added
         $this->registerIndexer(new Indexers\Construction());
         $this->registerIndexer(new Indexers\Material());
+        $this->registerIndexer(new Indexers\Proficiency());
         $this->registerIndexer(new Indexers\Recipe());
         $this->registerIndexer(new Indexers\Item());
         $this->registerIndexer(new Indexers\Quality());

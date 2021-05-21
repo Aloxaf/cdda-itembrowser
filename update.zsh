@@ -47,6 +47,7 @@ cp -R Kenan-Modpack-Chinese/* $dir/data/mods
 
 LOG "Building database..."
 php src/artisan down
+# FOR dev: ln -s /tmp ./src/storage/framework/cache/data
 # sudo -u www-data php -c ./php.ini src/artisan cache:clear
 sudo -u www-data php -c ./php.ini src/artisan cataclysm:rebuild $dir
 php src/artisan up
