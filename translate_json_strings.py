@@ -1029,7 +1029,7 @@ def extract(item, infilename):
         return
     elif object_type not in automatically_convertible:
         print(
-            "ERROR: Unrecognized object type '{}'!".format(object_type), item)
+            "ERROR: Unrecognized object type '{}'!".format(object_type), json.dumps(item))
     if object_type not in known_types:
         print("WARNING: known_types does not contain object type '{}'".format(
               object_type))
