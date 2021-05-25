@@ -7,6 +7,8 @@
 // OR
 // php src/artisan make:controller CustomersController --model=Customer
 
+use function DeepCopy\deep_copy;
+
 class ItemGroup implements Robbo\Presenter\PresentableInterface
 {
     use MagicModel;
@@ -47,7 +49,8 @@ class ItemGroup implements Robbo\Presenter\PresentableInterface
 
     public function parseEntries($entries)
     {
-        foreach ($entries as $entry) {
+        $entries = deep_copy($entries);
+        foreach ($entries as &$entry) {
             if (isset($entry->group)) {
                 $entry->group = $this->repo->getModel("ItemGroup", $entry->group);
             } else if (isset($entry->item) && is_string($entry->item)) {
