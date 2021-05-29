@@ -430,14 +430,14 @@ def extract_gunmod(item):
 
 def extract_professions(item):
     outfile = get_outfile("professions")
-    nm = item["name"]
+    nm = item.get("name")
     if type(nm) == dict:
         nm["male"] = writestr(nm["male"], context="profession_male")
         item["description"] = writestr(item["description"], context="prof_desc_male")
 
         nm["female"] = writestr(nm["female"], context="profession_female")
         item["description"] = writestr(item["description"], context="prof_desc_female")
-    else:
+    else if nm is not None:
         item["name"] = writestr(nm, context="profession_male")
         item["description"] = writestr(item["description"], context="prof_desc_male")
 
