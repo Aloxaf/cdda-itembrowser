@@ -32,18 +32,18 @@ unzip -qo 0.F-dev.zip
 
 echo "#define VERSION \"0.F-dev + KeanMod: $(env TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')\"" > $dir/src/version.h
 
-LOG "Transalting..."
-pushd $dir
-bash ./lang/compile_mo.sh zh_CN
-python3 ../translate_json_strings.py
-popd
-
 LOG "Downloading latest Mods..."
 rm -f Kenan-Modpack-Mod.zip
 rm -rdf Kenan-Modpack-Chinese
 curl -LOs https://github.wuyanzheshui.workers.dev/linonetwo/CDDA-Kenan-Modpack-Chinese/releases/download/latest/Kenan-Modpack-Mod.zip
 unzip -qo Kenan-Modpack-Mod.zip
 cp -R Kenan-Modpack-Chinese/* $dir/data/mods
+
+LOG "Transalting..."
+pushd $dir
+bash ./lang/compile_mo.sh zh_CN
+python3 ../translate_json_strings.py
+popd
 
 LOG "Building database..."
 php src/artisan down
