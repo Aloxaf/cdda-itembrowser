@@ -437,7 +437,7 @@ def extract_professions(item):
 
         nm["female"] = writestr(nm["female"], context="profession_female")
         item["description"] = writestr(item["description"], context="prof_desc_female")
-    else if nm is not None:
+    elif nm is not None:
         item["name"] = writestr(nm, context="profession_male")
         item["description"] = writestr(item["description"], context="prof_desc_male")
 
