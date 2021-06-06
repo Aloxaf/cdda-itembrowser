@@ -127,7 +127,7 @@ if __name__ == "__main__":
     target = Path(argv[3])
     diff = [*obj_add, *obj_del]
     if target.exists():
-        tmp = json.load(target.open("r", encoding="utf-8"))
+        tmp = json.loads(target.read_text() or '[]')
         diff.extend(tmp[:700])
 
     for entry in diff:
