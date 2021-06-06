@@ -36,7 +36,7 @@ echo "#define VERSION \"0.F-dev + KeanMod: $(env TZ='Asia/Shanghai' date +'%Y-%m
 LOG "Downloading latest Mods..."
 rm -f Kenan-Modpack-Mod.zip
 rm -rdf Kenan-Modpack-Chinese
-curl -LOs https://github.wuyanzheshui.workers.dev/linonetwo/CDDA-Kenan-Modpack-Chinese/releases/download/latest/Kenan-Modpack-Mod.zip
+curl -LOs https://github.com.cnpmjs.org/linonetwo/CDDA-Kenan-Modpack-Chinese/releases/download/latest/Kenan-Modpack-Mod.zip
 unzip -qo Kenan-Modpack-Mod.zip
 cp -R Kenan-Modpack-Chinese/* $dir/data/mods
 
