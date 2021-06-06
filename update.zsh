@@ -20,7 +20,7 @@ cd $ROOT
 
 LOG "Downloading latest source code..."
 rm -f 0.F-dev.zip
-curl -LOs https://github.wuyanzheshui.workers.dev/CleverRaven/Cataclysm-DDA/archive/refs/heads/0.F-dev.zip || return
+curl -LOs https://github.com.cnpmjs.org/CleverRaven/Cataclysm-DDA/archive/refs/heads/0.F-dev.zip || return
 
 LOG "Unzipping..."
 dir=Cataclysm-DDA-0.F-dev
