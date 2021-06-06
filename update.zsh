@@ -5,7 +5,8 @@ ROOT=$0:A:h
 TRAPZERR() {
   cd $ROOT
   LOG "Recovering..."
-  mv -T -f $dir.bak $dir
+  rm -rd $dir
+  mv $dir.bak $dir
   php src/artisan down
   sudo -u www-data php -c ./php.ini src/artisan cataclysm:rebuild $dir
   php src/artisan up
