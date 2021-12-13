@@ -21,7 +21,7 @@ cd $ROOT
 
 LOG "Downloading latest source code..."
 rm -f master.zip
-curl -LOs https://github.com.cnpmjs.org/CleverRaven/Cataclysm-DDA/archive/master.zip || return
+curl -LO https://github.com.cnpmjs.org/CleverRaven/Cataclysm-DDA/archive/master.zip || return
 
 LOG "Unzipping..."
 dir=Cataclysm-DDA-master
@@ -40,8 +40,10 @@ python3 ../translate_json_strings.py
 popd
 
 LOG "Generating diff..."
-cp -f src/public/diff.json{,.bak}
-python3 get_diff.py $dir.bak $dir src/public/diff.json
+if [[ -d $dir.bak ]]; then
+  cp -f src/public/diff.json{,.bak}
+  python3 get_diff.py $dir.bak $dir src/public/diff.json
+fi
 
 LOG "Building database..."
 php src/artisan down
