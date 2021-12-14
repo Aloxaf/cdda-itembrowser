@@ -57,7 +57,7 @@
           <td><y>{{ $monster->armor_bash }}</y></td>
 
           <td>死亡：</td>
-          <td>{{ $monster->death_function }}</td>
+          <td>{!! $monster->death_function !!}</td>
         </tr>
         <tr>
           <td>斩击：</td>

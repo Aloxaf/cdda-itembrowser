@@ -317,12 +317,20 @@ class Item implements Robbo\Presenter\PresentableInterface
 
     public function getMaterial1()
     {
-        return $this->repo->getModel("Material", $this->data->material[0]);
+        $id = $this->data->material[0];
+        if (is_object($id)) {
+            $id = $id->type;
+        }
+        return $this->repo->getModel("Material", $id);
     }
 
     public function getMaterial2()
     {
-        return $this->repo->getModel("Material", $this->data->material[1]);
+        $id = $this->data->material[1];
+        if (is_object($id)) {
+            $id = $id->type;
+        }
+        return $this->repo->getModel("Material", $id);
     }
 
     public function getCanBeCut()
@@ -654,31 +662,21 @@ class Item implements Robbo\Presenter\PresentableInterface
     public function getEncumbrance()
     {
         $result = 0;
-        if (!isset($this->data->encumbrance)) {
+        if (!isset($this->data->armor)) {
             return 0;
         }
-        if (is_numeric($this->data->encumbrance) && $this->data->encumbrance > 0) {
-            $result = "";
-            $foundvarsize = false;
-            $enc = $this->data->encumbrance;
-            // not sure why index number contains the flag values
-            foreach ($this->data->flags as $indexnum => $flag) {
-                if (!is_array($indexnum) && $indexnum == "VARSIZE") {
-                    $foundvarsize = true;
-                }
-            }
-            if ($foundvarsize == true) {
-                $result = "<yellow>".$enc."</yellow> (不合身), <yellow>".max(floor($enc / 2), $enc - 10)."</yellow> (合身)";
-            } else {
-                $result = $enc;
+
+        $armor_info = array();
+        foreach ($this->data->armor as $armor) {
+            foreach ($armor->covers as $cover) {
+                $armor_info[$cover] = (object)array(
+                    "encumbrance" => $armor->encumbrance ?? 0,
+                    "coverage" => $armor->coverage ?? 0,
+                );
             }
         }
 
-        if ($this->data->max_encumbrance > 0) {
-            $result = $result." ~ <yellow>".$this->data->max_encumbrance."</yellow>";
-        }
-
-        return $result;
+        return (object)$armor_info;
     }
 
     public function getRangedDamage()

@@ -44,6 +44,10 @@ class Mutation implements Robbo\Presenter\PresentableInterface
         if (!isset($this->data->$name)) {
             return NULL;
         }
+        $mutation = $this->data->$name;
+        if (!is_array($mutation)) {
+            $mutation = [$mutation];
+        }
         return implode("，", array_map(function ($id) {
             try {
                 $mut = $this->repo->getModel("Mutation", $id);
@@ -51,7 +55,7 @@ class Mutation implements Robbo\Presenter\PresentableInterface
             } catch (\Exception $e) {
                 return '<a href="'.route('special.mutation', $id).'">'.$id.'</a>';;
             }
-        }, $this->data->$name));
+        }, $mutation));
     }
 
     public function getModName()

@@ -120,7 +120,7 @@ class Monster extends \Robbo\Presenter\Presenter
         $invert = $this->object->flags;
 
         if (empty($invert)) {
-            return "None";
+            return [];
         }
 
         $ret = [];
@@ -133,12 +133,21 @@ class Monster extends \Robbo\Presenter\Presenter
 
     public function presentDeathFunction()
     {
-        $death = (array) $this->object->death_function;
+        $death = $this->object->death_function;
         if (empty($death)) {
             return "";
         }
 
-        return implode(", ", $death);
+        if (is_object($death)) {
+            if (isset($death->effect)) {
+                $death_type = $death->effect->id;
+            } else {
+                $death_type = $death->corpse_type;
+            }
+            return "<a title=\"{$death->message}\">{$death_type}</a>";
+        } else {
+            return implode(", ", $death);
+        }
     }
 
     public function presentSpecialAttacks()
@@ -330,6 +339,10 @@ class Monster extends \Robbo\Presenter\Presenter
     public function presentUpgradesTo()
     {
         $monsters = $this->object->upgrades_to;
+        if (empty($monsters)) {
+            return "";
+        }
+
         return implode("<br>", array_map(
             function ($mon) {
                 $ret = "";
@@ -337,9 +350,11 @@ class Monster extends \Robbo\Presenter\Presenter
                 if (is_object($name)) {
                     $name = $name->str;
                 }
-                $freq = $mon->freq / 10;
-                $ret .= '<a href="'.route("monster.view", $mon->monster->id).'">'.$name."</a>";
-                $ret .= " （{$freq}%）(占位：{$mon->cost_multiplier})";
+                $freq = ($mon->freq ?? $mon->weight) / 10;
+                $ret .= '<a href="'.route("monster.view", $mon->monster->id).'">'.$name."</a> （{$freq}%）";
+                if (isset($mon->cost_multiplier)) {
+                    $ret .= "(占位：{$mon->cost_multiplier})";
+                }
                 return $ret;
             },
             $monsters

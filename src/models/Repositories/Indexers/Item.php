@@ -406,16 +406,18 @@ class Item implements IndexerInterface
             }
         }
 
-        $is_armor = in_array($object->type, ["ARMOR", "TOOL_ARMOR"]);
-
         // create an index with armor for each body part they cover.
-        if ($is_armor and !isset($object->covers)) {
-            $repo->append("armor.none", $object->id);
-        } elseif ($is_armor and isset($object->covers)) {
-            foreach ($object->covers as $part) {
-                $part = strtolower($part);
-                $repo->append("armor.$part", $object->id);
-                $repo->addUnique("armorParts", $part);
+        if (in_array($object->type, ["ARMOR", "TOOL_ARMOR"])) {
+            if (!isset($object->armor) || !isset($object->armor[0]->covers)) {
+                $repo->append("armor.none", $object->id);
+            } else {
+                foreach ($object->armor as $armor) {
+                    foreach ($armor->covers as $part) {
+                        $part = strtolower($part);
+                        $repo->append("armor.$part", $object->id);
+                        $repo->addUnique("armorParts", $part);
+                    }
+                }
             }
         }
 
@@ -525,10 +527,13 @@ class Item implements IndexerInterface
         }
 
         if (isset($object->material) && !(is_array($object->material) && count($object->material) === 0)) {
-            $materials = (array) $object->material;
-            $repo->append("material.$materials[0]", $object->id);
-            if (count($materials) > 1 and $materials[1] != "null") {
-                $repo->append("material.$materials[1]", $object->id);
+            $materials = (array)$object->material;
+            foreach ($materials as $material) {
+                if (is_string($material)) {
+                    $repo->append("material.$material", $object->id);
+                } else {
+                    $repo->append("material.{$material->type}", $object->id);
+                }
             }
         }
 

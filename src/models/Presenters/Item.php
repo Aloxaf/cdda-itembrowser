@@ -474,4 +474,66 @@ class Item extends \Robbo\Presenter\Presenter
         }
         return implode("<br>", $ret);
     }
+
+    public function trans_body_part($value)
+    {
+        return array(
+            "arm_either" => "单臂",
+            "arm_l" => "左臂",
+            "arm_r" => "右臂",
+            "arms" => "双臂",
+            "eyes" => "眼部",
+            "feet" => "双脚",
+            "foot_l" => "左脚",
+            "foot_r" => "右脚",
+            "feet_l" => "左脚",
+            "feet_r" => "右脚",
+            "foot_either" => "单脚",
+            "hand_either" => "单手",
+            "hand_l" => "左手",
+            "hand_r" => "右手",
+            "hands" => "双手",
+            "head" => "头部",
+            "leg_either" => "单腿",
+            "legs" => "双腿",
+            "leg_l" => "左腿",
+            "leg_r" => "右腿",
+            "mouth" => "嘴巴",
+            "torso" => "躯干",
+          )[$value];
+    }
+
+    public function get_encumbrance($part = null)
+    {
+        $encumbrances = $this->object->encumbrance;
+        if ($part != null) {
+            $enc = $encumbrances->$part;
+            if (is_array($enc->encumbrance)) {
+                return "{$enc->encumbrance[0]}~{$enc->encumbrance[1]}";
+            } else {
+                return "{$enc->encumbrance}";
+            }
+        }
+        $data = [];
+        foreach ($encumbrances as $body_part => $enc) {
+            $body_part = $this->trans_body_part($body_part);
+            if (is_array($enc->encumbrance)) {
+                $data[] = "{$body_part}（<yellow>{$enc->encumbrance[0]}~{$enc->encumbrance[1]}</yellow>）";
+            } else {
+                $data[] = "{$body_part}（<yellow>{$enc->encumbrance}</yellow>）";
+            }
+        }
+        return implode("，", $data);
+    }
+
+    public function presentCoverage()
+    {
+        $cover = $this->object->encumbrance;
+        $data = [];
+        foreach ($cover as $body_part => $enc) {
+            $body_part = $this->trans_body_part($body_part);
+            $data[] = "{$body_part}（<yellow>{$enc->coverage}%</yellow>）";
+        }
+        return implode("，", $data);
+    }
 }

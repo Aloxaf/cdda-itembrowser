@@ -367,11 +367,11 @@
         --<br>
         覆盖：{!! $item->covers !!}<br>
         衣物层：<info>{{ $item->clothing_layer }}</info><br>
-        覆盖率：<yellow>{{ $item->coverage }}</yellow>%
-        &nbsp;保暖度：<yellow>{{ $item->warmth }}</yellow><br>
+        覆盖率：{!! $item->coverage !!}<br>
+        保暖度：<yellow>{{ $item->warmth }}</yellow><br>
         --<br>
         材料厚度：<yellow>{{ $item->material_thickness }}</yellow>mm<br>
-        累赘度：{!! $item->encumbrance !!}<br>
+        累赘度：{!! $item->get_encumbrance() !!}<br>
         防护：
         钝击：<yellow>{{ $item->protection('bash') }}</yellow>
         &nbsp;斩击：<yellow>{{ $item->protection('cut') }}</yellow>
