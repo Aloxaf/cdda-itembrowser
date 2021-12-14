@@ -310,7 +310,7 @@ class Item implements IndexerInterface
                     "max_item_length", "magazine_well",
                 );
                 foreach ($keys as $key) {
-                    if (isset($pocket_data->$key)) {
+                    if (isset($pocket_data->$key) && !is_float($pocket_data->$key)) {
                         $is_container = true;
                         if (
                             strpos($pocket_data->$key, "kg") !== false 
@@ -318,7 +318,7 @@ class Item implements IndexerInterface
                             || strpos($pocket_data->$key, "meter") !== false) {
                             $pocket_data->$key = floatval($pocket_data->$key);
                         } else {
-                            $pocket_data->$key = floatval($pocket_data->$key) / 1000;
+                            $pocket_data->$key = floatval($pocket_data->$key) / 1000.;
                         }
                     }
                 }
