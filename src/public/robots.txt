@@ -1,8 +1,9 @@
 User-agent: *
-Allow: /$
-Disallow: /
-
-User-agent: Googlebot
 Allow: /
+Disallow: /search
 Disallow: /doc/
-
+Disallow: /*/craft$
+Disallow: /*/recipes/*
+Disallow: /*/disassemble$
+Disallow: /*/construction$
+Disallow: /itemgroup/

@@ -506,6 +506,9 @@ class Item extends \Robbo\Presenter\Presenter
     public function get_encumbrance($part = null)
     {
         $encumbrances = $this->object->encumbrance;
+        if (empty($encumbrances)) {
+            return "";
+        }
         if ($part != null) {
             $enc = $encumbrances->$part;
             if (is_array($enc->encumbrance)) {
@@ -529,6 +532,9 @@ class Item extends \Robbo\Presenter\Presenter
     public function presentCoverage()
     {
         $cover = $this->object->encumbrance;
+        if (empty($cover)) {
+            return "";
+        }
         $data = [];
         foreach ($cover as $body_part => $enc) {
             $body_part = $this->trans_body_part($body_part);

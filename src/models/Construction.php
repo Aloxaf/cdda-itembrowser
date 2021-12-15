@@ -105,7 +105,7 @@ class Construction implements Robbo\Presenter\PresentableInterface
 
     public function getHasPostTerrain()
     {
-        return isset($this->data->post_terrain);
+        return isset($this->data->post_terrain) && $this->data->post_terrain !== "f_null";
     }
 
     public function getPostTerrain()

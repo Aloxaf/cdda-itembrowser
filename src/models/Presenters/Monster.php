@@ -23,8 +23,10 @@ class Monster extends \Robbo\Presenter\Presenter
 
     public function presentFlags()
     {
+        // 参见 mtypre.h
         $expl = array(
-            "ABSORBS_SPLITS" => "移动时会<info>吞噬物品</info>，吞噬量足够时会<bad>分裂</bad>",
+            "ABSORBS" => "移动时会<info>吞噬物品</info>并<bad>恢复血量</bad>",
+            "ABSORBS_SPLITS" => "移动时会<info>吞噬物品</info>并<bad>恢复血量</bad>，吞噬量足够时会<bad>分裂</bad>",
             "ACIDPROOF" => "免疫<bad>酸性伤害</bad>",
             "ACIDTRAIL" => "留下<bad>带有酸液的足迹</bad>",
             "ACID_BLOOD" => "拥有<info>酸性血液</info>",
@@ -32,26 +34,38 @@ class Monster extends \Robbo\Presenter\Presenter
             "AQUATIC" => "是<info>水生生物</info>",
             "ARTHROPOD_BLOOD" => "拥有<info>淋巴血液</info>",
             "ATTACKMON" => "会<info>攻击其他怪物</info>",
+            "ATTACK_LOWER" => "<good>无法击中上肢</good>",
+            "ATTACK_UPPER" => "<bad>可以击中上肢</bad>",
             "BADVENOM" => "的攻击可能使你<bad>严重中毒</bad>",
             "BASHES" => "会<bad>破坏门</bad>",
             "BILE_BLOOD" => "拥有<info>胆汁血液</info>",
             "BIRDFOOD" => "可以用鸟食<good>驯服</good>",
             "BONES" => "屠宰时可能得到<info>骨头和肌腱</info>",
             "BORES" => "挖掘时能<info>破坏任何东西</info>",
+            "CANPLAY" => "在成为宠物后可以和它<good>一起玩</good>",
             "CAN_DIG" => "可以<info>掘进</info>",
             "CAN_OPEN_DOORS" => "会<bad>开门</bad>",
-            "CANPLAY" => "在成为宠物后可以和它<good>一起玩</good>",
             "CATFOOD" => "可以用猫粮<good>驯服</good>",
             "CATTLEFODDER" => "可以用家畜饲料<good>驯服</good>",
+            "CBM_CIV" => "屠宰时可能得到<info>常见 CBM</info>或<info>储能 CBM</info>",
+            "CBM_OP" => "屠宰时可能得到<info>bionics_op 内的 CBM</info>",
+            "CBM_POWER" => "屠宰时可能得到<info>储能 CBM</info>",
+            "CBM_SCI" => "屠宰时可能得到<info>bionics_sci 内的 CBM</info>",
+            "CBM_SUBS" => "屠宰时可能得到<info>bionics_subs 内的 CBM</info>",
+            "CBM_TECH" => "屠宰时可能得到<info>bionics_tech 内的 CBM</info>",
+            "CHITIN" => "屠宰时可能得到<info>几丁质</info>",
             "CLIMBS" => "会<bad>攀爬</bad>",
+            "COLDPROOF" => "<bad>免疫低温伤害</bad>",
+            "CONSOLE_DESPAWN" => "在附近的控制台被正确入侵时<good>会消失</good>",
             "DESTROYS" => "会<bad>破坏墙壁</bad>及其他地形",
             "DIGS" => "在地下挖掘",
             "DOGFOOD" => "可以用狗粮<good>驯服</good>",
             "DRIPS_GASOLINE" => "移动时偶尔会<info>滴下汽油</info>",
             "DRIPS_NAPALM" => "移动时偶尔会<info>滴下凝固汽油</info>",
+            "DROPS_AMMO" => "<good>掉落子弹</good>",
             "ELECTRIC" => "<bad>浑身带电</bad>",
-            "ELECTRONIC" => "是<info>电子产品</info>",
             "ELECTRIC_FIELD" => "会向周围区域<info>放电</info>",
+            "ELECTRONIC" => "是<info>电子产品</info>",
             "FAT" => "屠宰时可能得到<info>脂肪</info>",
             "FILTHY" => "掉落的衣物永远是<bad>肮脏的</bad>",
             "FIREPROOF" => "<bad>免疫火焰</bad>",
@@ -59,6 +73,7 @@ class Monster extends \Robbo\Presenter\Presenter
             "FISHABLE" => "可以被<info>钓上来</info>",
             "FLAMMABLE" => "可以被<good>点燃</good>",
             "FLIES" => "<info>会飞</info>",
+            "FUR" => "屠宰时可能得到<info>毛皮</info>",
             "GOODHEARING" => "拥有<bad>敏锐的听觉</bad>",
             "GRABS" => "攻击时可能<bad>抓住你</bad>",
             "GROUP_BASH" => "在破坏门时会得到周围怪物的<bad>协助</bad>",
@@ -68,54 +83,64 @@ class Monster extends \Robbo\Presenter\Presenter
             "HEARS" => "<bad>拥有听觉</bad>",
             "HIT_AND_RUN" => "完成一次攻击后会<info>迅速逃开</info>",
             "HUMAN" => "是<info>人类</info>",
-            "CONSOLE_DESPAWN" => "在附近的控制台被正确入侵时<good>会消失</good>",
-            "IMMOBILE" => "<good>不会移动</good>",
             "ID_CARD_DESPAWN" => "在附近的控制台被插入科学家 ID 卡以后<good>会消失</good>",
+            "IMMOBILE" => "<good>不会移动</good>",
+            "INSECTICIDEPROOF" => "<bad>对杀虫剂免疫</bad>",
             "INTERIOR_AMMO" => "不会掉落子弹",
             "KEENNOSE" => "拥有<bad>敏锐的嗅觉</bad>",
+            "KEEP_DISTANCE" => "会与当前目标<info>保持距离</info>",
             "LARVA" => "是幼虫",
             "LEATHER" => "屠宰时可能得到<info>皮革</info>",
             "LOUDMOVES" => "移动时会发出<info>巨大的噪音</info>",
+            "MECH_DEFENSIVE" => "可以在驾驶时彻底保护你",
             "MECH_RECON_VISION" => "驾驶时能提供<good>夜视</good>和增强的<good>大地图视野</good>",
-            "MECH_DEFENSIVE" => "This mech can protect you thoroughly when piloted.",
             "MILITARY_MECH" => "是<info>军用机甲</info>",
             "MILKABLE" => "<good>会产奶</good>",
+            "NEMESIS" => "是一个复仇怪物",
             "NIGHT_INVISIBILITY" => "在黑暗中<bad>隐形</bad>",
             "NOGIB" => "被超量伤害杀死时<info>不会爆成碎块</info>",
             "NOHEAD" => "<bad>没有脑袋</bad>",
+            "NOT_HALLUCINATION" => "<info>不会成为幻觉</info>",
             "NO_BREATHE" => "<bad>不需要呼吸</bad>",
             "NO_BREED" => "<info>不会繁殖</info>",
-            "PAY_BOT" => "Creature can be turned into a pet for a limited time in exchange of e-money.",
-            "PET_MOUNTABLE" => "可以<good>骑乘</good>或<good>装备挽具</good>",
-            "PET_HARNESSABLE" => "可以<good>装备挽具</good>",
+            "NO_FUNG_DMG" => "<info>免疫真菌</info>",
+            "NO_NECRO" => "<good>无法被死灵魔法复活</good>",
             "PACIFIST" => "<good>不会进行近战攻击</good>",
+            "PARALYZEVENOM" => "攻击时可能<bad>使你麻痹</bad>",
+            "PATH_AVOID_DANGER_1" => "行动时会<bad>规避危险</bad>",
+            "PATH_AVOID_DANGER_2" => "行动时会<bad>规避危险</bad>",
+            "PATH_AVOID_FALL" => "行动时会<info>绕开悬崖</info>",
+            "PATH_AVOID_FIRE" => "行动时会<info>绕开火焰</info>",
+            "PAY_BOT" => "可以通过支付金钱来短暂地<good>成为伙伴</good>",
+            "PET_HARNESSABLE" => "可以<good>装备挽具</good>",
+            "PET_MOUNTABLE" => "可以<good>骑乘</good>或<good>装备挽具</good>",
+            "PET_WONT_FOLLOW" => "被驯服之后<info>不会跟着你</info>",
             "PLASTIC" => "拥有<bad>物理伤害减免</bad>",
             "POISON" => "吃起来<bad>有毒</bad>",
+            "PRIORITIZE_TARGETS" => "会依据威胁程度处理目标",
             "PUSH_MON" => "会<info>推开道路上的其他怪物</info>",
             "PUSH_VEH" => "会<info>推开道路上的载具</info>",
             "QUEEN" => "的死亡会<good>导致整个种群死亡</good>",
+            "RANGED_ATTACKER" => "拥有<bad>远程攻击</bad>手段",
             "REVIVES" => "<bad>会复活</bad>",
+            "REVIVES_HEALTHY" => "复活时会<bad>恢复状态</bad>",
             "RIDEABLE_MECH" => "是一件<good>可以驾驶的机甲</good>",
             "SEES" => "<bad>拥有视觉</bad>",
             "SHEARABLE" => "可以被剪羊毛",
+            "SHORTACIDTRAIL" => "移动时会留下<bad>酸液痕迹</bad>",
             "SLUDGEPROOF" => "<bad>不受污泥痕影响</bad>",
             "SLUDGETRAIL" => "移动时会<bad>留下污泥痕</bad>",
             "SMELLS" => "<bad>拥有嗅觉</bad>",
             "STUMBLES" => "行动时<good>会跌到</good>",
+            "STUN_IMMUNE" => "<bad>免疫眩晕</bad>",
             "SUNDEATH" => "会在<good>阳光下死亡</good>",
             "SWARMS" => "会与其他同伴<info>聚集在一起</info>",
             "SWIMS" => "<bad>会游泳</bad>",
             "VENOM" => "的攻击可能使你<bad>中毒</bad>",
             "WARM" => "是<info>温血生物</info>",
+            "WATER_CAMOUFLAGE" => "在水下<bad>难以被发现</bad>，尤其是你不在水下时",
             "WEBWALK" => "可以在<info>蛛网上行走</info>",
-            "PRIORITIZE_TARGETS" => "会依据威胁程度处理目标",
-            "PATH_AVOID_DANGER_2" => "行动时会<bad>规避危险</bad>",
-            "PATH_AVOID_DANGER_1" => "行动时会<bad>规避危险</bad>",
-            "PATH_AVOID_FIRE" => "行动时会<info>绕开火焰</info>",
-            "PATH_AVOID_FALL" => "行动时会<info>绕开悬崖</info>",
-            "DROPS_AMMO" => "<good>掉落子弹</good>",
-            "COLDPROOF" => "<bad>免疫低温伤害</bad>",
-            "PET_WONT_FOLLOW" => "被驯服之后<info>不会跟着你</info>",
+            "WOOL" => "屠宰时可能得到<info>木头</info>",
         );
         $invert = $this->object->flags;
 
@@ -144,7 +169,8 @@ class Monster extends \Robbo\Presenter\Presenter
             } else {
                 $death_type = $death->corpse_type;
             }
-            return "<a title=\"{$death->message}\">{$death_type}</a>";
+            $message = $death->message ?? "";
+            return "<a title=\"{$message}\">{$death_type}</a>";
         } else {
             return implode(", ", $death);
         }
@@ -350,7 +376,7 @@ class Monster extends \Robbo\Presenter\Presenter
                 if (is_object($name)) {
                     $name = $name->str;
                 }
-                $freq = ($mon->freq ?? $mon->weight) / 10;
+                $freq = ($mon->freq ?? ($mon->weight ?? 1)) / 10;
                 $ret .= '<a href="'.route("monster.view", $mon->monster->id).'">'.$name."</a> （{$freq}%）";
                 if (isset($mon->cost_multiplier)) {
                     $ret .= "(占位：{$mon->cost_multiplier})";

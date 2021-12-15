@@ -19,6 +19,7 @@ RUN sed -i -E "s#[^/]+.ubuntu.com#mirrors.aliyun.com#g" /etc/apt/sources.list \
 RUN git clone https://hub.fastgit.org/Aloxaf/cdda-itembrowser /cdda \
     && cd /cdda \
     && cp src/.env.example src/.env \
+    && cp /usr/bin/doxysearch.cgi src/public/cgi-bin/doxysearch.cgi \
     && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
     && composer -dsrc install \
     && php src/artisan key:generate \
