@@ -121,7 +121,9 @@
         @if($monster->harvest != NULL)
           <tr>
             <td valign="top">可收获：</td>
-            <td colspan="3"><a href="{{ route("special.itemgroup", $monster->harvest) }}">{{ $monster->harvest }}</a></td>
+            @if ($monster->harvest !== "exempt")
+              <td colspan="3"><a href="{{ route("special.itemgroup", $monster->harvest) }}">{{ $monster->harvest }}</a></td>
+            @endif
           </tr>
         @endif
         <tr>

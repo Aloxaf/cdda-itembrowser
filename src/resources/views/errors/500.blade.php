@@ -57,7 +57,8 @@
       500 </div>
 
     <div class="message" style="padding: 10px;">
-        CDDA 物品浏览器在加载这个页面时遇到了错误，你可以前往<a href="https://tieba.baidu.com/p/6905321647">此处</a>反馈情况。
+        CDDA 物品浏览器在加载这个页面时遇到了错误<br>
+        <b>该错误已被记录</b>，你也可以前往<a href="https://cdda-wiki.aloxaf.cn/%E7%94%A8%E6%88%B7%E8%AE%A8%E8%AE%BA:Aloxaf">此处</a>反馈情况。
     </div>
 
   </div>

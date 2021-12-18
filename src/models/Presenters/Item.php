@@ -435,14 +435,20 @@ class Item extends \Robbo\Presenter\Presenter
     {
 
         $monsters = $this->object->rot_spawn;
+
+
+        $total_weight = array_sum(array_map(function ($mon) {
+            return $mon->freq ?? ($mon->weight ?? 1);
+        }, $monsters));
+
         return implode("，", array_map(
-            function ($mon) {
+            function ($mon) use ($total_weight) {
                 $ret = "";
                 $name = $mon->monster->name;
                 if (is_object($name)) {
                     $name = $name->str;
                 }
-                $freq = $mon->freq / 10;
+                $freq = ($mon->freq ?? ($mon->weight ?? 1)) / $total_weight * 100;
                 $ret .= '<a href="'.route("monster.view", $mon->monster->id).'">'.$name."</a>";
                 $ret .= " （{$freq}%）";
                 return $ret;
@@ -500,6 +506,7 @@ class Item extends \Robbo\Presenter\Presenter
             "leg_r" => "右腿",
             "mouth" => "嘴巴",
             "torso" => "躯干",
+            "none" => "",
           )[$value];
     }
 

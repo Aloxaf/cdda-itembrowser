@@ -213,6 +213,6 @@ class ItemsController extends Controller
     {
         $item = $this->repo->getModelOrFail("Item", $id);
 
-        return redirect()->to("http://cddawiki.chezzo.com/cdda_wiki/index.php?title=$item->slug");
+        return redirect()->to("https://cdda-wiki.aloxaf.cn/{$item->slug}");
     }
 }

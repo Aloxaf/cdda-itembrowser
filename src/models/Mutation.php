@@ -109,7 +109,9 @@ class Mutation implements Robbo\Presenter\PresentableInterface
                     $ret[$part] = $tmp;
                 }
             } else {
-                $ret[$armor->parts] = $armor;
+                $tmp = (array)deep_copy($armor);
+                $tmp["parts"] = $this->repo->getModel("Item", $armor->parts);
+                $ret[$armor->parts] = $tmp;
             }
         }
         return $ret;

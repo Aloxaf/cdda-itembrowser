@@ -668,8 +668,15 @@ class Item implements Robbo\Presenter\PresentableInterface
 
         $armor_info = array();
         foreach ($this->data->armor as $armor) {
-            foreach ($armor->covers as $cover) {
-                $armor_info[$cover] = (object)array(
+            if (isset($armor->covers)) {
+                foreach ($armor->covers as $cover) {
+                    $armor_info[$cover] = (object)array(
+                        "encumbrance" => $armor->encumbrance ?? 0,
+                        "coverage" => $armor->coverage ?? 0,
+                    );
+                }
+            } else {
+                $armor_info["none"] = (object)array(
                     "encumbrance" => $armor->encumbrance ?? 0,
                     "coverage" => $armor->coverage ?? 0,
                 );

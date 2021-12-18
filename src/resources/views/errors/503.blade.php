@@ -66,7 +66,7 @@
         <li>数据库自动升级。</li>
       </ul>
       请稍等几分钟后再尝试访问。
-      <p>如果长时间处于该状态（超过半个小时），请前往<a href="https://tieba.baidu.com/p/6905321647">此处</a>反馈情况。</p>
+      <p>如果长时间处于该状态（超过半个小时），请前往<a href="https://cdda-wiki.aloxaf.cn/%E7%94%A8%E6%88%B7%E8%AE%A8%E8%AE%BA:Aloxaf">此处</a>反馈情况。</p>
 
     </div>
 

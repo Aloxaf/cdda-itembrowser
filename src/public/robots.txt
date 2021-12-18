@@ -3,7 +3,9 @@ Allow: /
 Disallow: /search
 Disallow: /doc/
 Disallow: /*/craft$
+Disallow: /*/recipes$
 Disallow: /*/recipes/*
 Disallow: /*/disassemble$
 Disallow: /*/construction$
+Disallow: /*/wiki$
 Disallow: /itemgroup/

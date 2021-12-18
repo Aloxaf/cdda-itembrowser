@@ -31,7 +31,7 @@
         "human" => "人类",
         "insect" => "昆虫",
         "insect_flying" => "飞虫",
-        "leech_plant" => "吸血植物",
+        "leech_plant" => "水蛭花",
         "licorice" => "甘草",
         "lizardfolk" => "蜥蜴人",
         "magical_beast" => "魔法巨兽",

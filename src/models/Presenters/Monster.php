@@ -185,7 +185,7 @@ class Monster extends \Robbo\Presenter\Presenter
 
         array_walk($attacks, function (&$attack) {
             if (isset($attack->type)) {
-                $attackstr = "$attack->type";
+                $attackstr = "<a href=\"https://cdda-wiki.aloxaf.cn/怪物：攻击#{$attack->type}\">{$attack->type}</a>";
                 if (isset($attack->cooldown)) {
                     $attackstr = $attackstr." / 冷却：$attack->cooldown";
                 }
@@ -196,7 +196,7 @@ class Monster extends \Robbo\Presenter\Presenter
             } elseif (isset($attack->id)) {
                 if (isset($attack->damage_max_instance)) {
                     $counter = 0;
-                    $attackstr = "$attack->id: ";
+                    $attackstr = "<a href=\"https://cdda-wiki.aloxaf.cn/怪物：攻击#{$attack->id}\">{$attack->id}</a>: ";
                     $attackarray = [];
                     foreach ($attack->damage_max_instance as $inst) {
                         $attackarray[] = "($inst->amount 点".$inst->damage_type."伤害)";
@@ -204,10 +204,10 @@ class Monster extends \Robbo\Presenter\Presenter
                     $attackstr = $attackstr.implode(" ", $attackarray);
                     $attack = $attackstr;
                 } else {
-                    $attack = "$attack->id";
+                    $attack = "<a href=\"https://cdda-wiki.aloxaf.cn/怪物：攻击#{$attack->id}\">{$attack->id}</a>";
                 }
             } else {
-                $attack = "$attack[0] / 冷却：$attack[1]";
+                $attack = "<a href=\"https://cdda-wiki.aloxaf.cn/怪物：攻击#{$attack[0]}\">{$attack[0]}</a> / 冷却：$attack[1]";
             }
         });
 
@@ -249,7 +249,7 @@ class Monster extends \Robbo\Presenter\Presenter
             "human" => "人类",
             "insect" => "昆虫",
             "insect_flying" => "飞虫",
-            "leech_plant" => "吸血植物",
+            "leech_plant" => "水蛭花",
             "licorice" => "甘草",
             "lizardfolk" => "蜥蜴人",
             "magical_beast" => "魔法巨兽",
@@ -369,14 +369,18 @@ class Monster extends \Robbo\Presenter\Presenter
             return "";
         }
 
+        $total_weight = array_sum(array_map(function ($mon) {
+            return $mon->freq ?? ($mon->weight ?? 1);
+        }, $monsters));
+
         return implode("<br>", array_map(
-            function ($mon) {
+            function ($mon) use ($total_weight) {
                 $ret = "";
                 $name = $mon->monster->name;
                 if (is_object($name)) {
                     $name = $name->str;
                 }
-                $freq = ($mon->freq ?? ($mon->weight ?? 1)) / 10;
+                $freq = ($mon->freq ?? ($mon->weight ?? 1)) / $total_weight * 100;
                 $ret .= '<a href="'.route("monster.view", $mon->monster->id).'">'.$name."</a> （{$freq}%）";
                 if (isset($mon->cost_multiplier)) {
                     $ret .= "(占位：{$mon->cost_multiplier})";

@@ -59,12 +59,13 @@
 <br/>
 中文版项目地址: <a href="https://github.com/Aloxaf/cdda-itembrowser">Github</a>.
 <br/>
-意见反馈请前往：<a href="https://tieba.baidu.com/p/6905321647">百度贴吧</a>
+意见反馈请前往：<a href="https://cdda-wiki.aloxaf.cn/%E7%94%A8%E6%88%B7%E8%AE%A8%E8%AE%BA:Aloxaf">我的用户讨论页</a>.
 </p>
 
 <hr>
 
 <h2>更新日志</h2>
+2021-12-17：<a href="https://cdda-wiki.aloxaf.cn">CDDA Wiki</a> 建立了，顺便作为本站的官方讨论及内容补充区 <br/>
 2021-12-13 ~ 2021-12-15：作者复活了，迁移了网站，并修复了一堆 503 错误 <br/>
 
 </div>
