@@ -196,7 +196,7 @@ class Monster extends \Robbo\Presenter\Presenter
             } elseif (isset($attack->id)) {
                 if (isset($attack->damage_max_instance)) {
                     $counter = 0;
-                    $attackstr = "<a href=\"https://cdda-wiki.aloxaf.cn/怪物：攻击#{$attack->id}\">{$attack->id}</a>: ";
+                    $attackstr = "<a href=\"https://cdda-wiki.aloxaf.cn/wiki/怪物：攻击#{$attack->id}\">{$attack->id}</a>: ";
                     $attackarray = [];
                     foreach ($attack->damage_max_instance as $inst) {
                         $attackarray[] = "($inst->amount 点".$inst->damage_type."伤害)";
@@ -204,10 +204,10 @@ class Monster extends \Robbo\Presenter\Presenter
                     $attackstr = $attackstr.implode(" ", $attackarray);
                     $attack = $attackstr;
                 } else {
-                    $attack = "<a href=\"https://cdda-wiki.aloxaf.cn/怪物：攻击#{$attack->id}\">{$attack->id}</a>";
+                    $attack = "<a href=\"https://cdda-wiki.aloxaf.cn/wiki/怪物：攻击#{$attack->id}\">{$attack->id}</a>";
                 }
             } else {
-                $attack = "<a href=\"https://cdda-wiki.aloxaf.cn/怪物：攻击#{$attack[0]}\">{$attack[0]}</a> / 冷却：$attack[1]";
+                $attack = "<a href=\"https://cdda-wiki.aloxaf.cn/wiki/怪物：攻击#{$attack[0]}\">{$attack[0]}</a> / 冷却：$attack[1]";
             }
         });
 

@@ -293,7 +293,7 @@ class Item implements Robbo\Presenter\PresentableInterface
             return;
         }
 
-        return floor(65 + 4 * floatval($this->volume) + floatval($this->weight) / 60);
+        return floor(65 + floatval($this->volume) * 1000 / 62.5 + floatval($this->weight) / 60);
     }
 
     public function getToHit()

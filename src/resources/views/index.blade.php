@@ -65,6 +65,7 @@
 <hr>
 
 <h2>更新日志</h2>
+2021-12-20：<a href="https://cdda-wiki.aloxaf.cn/wiki/分类:法术">法术</a> 已导入 WIKI <br/>
 2021-12-17：<a href="https://cdda-wiki.aloxaf.cn">CDDA Wiki</a> 建立了，顺便作为本站的官方讨论及内容补充区 <br/>
 2021-12-13 ~ 2021-12-15：作者复活了，迁移了网站，并修复了一堆 503 错误 <br/>
 
