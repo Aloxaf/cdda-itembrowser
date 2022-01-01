@@ -37,9 +37,9 @@
 
 <h2>变异路线</h2>
 <p>
-<a href="https://cdda-trunk.aloxaf.cn/mutations.svg" target='_blank'>变异路线图(剧透警告)</a>
-<a href="https://cdda-trunk.aloxaf.cn/mutation_threshold.svg" target='_blank'>变异阈值(剧透警告)</a>
-<a href="https://cdda-trunk.aloxaf.cn/mutation_conflict.svg" target='_blank'>变异冲突(剧透警告)</a>
+<a href="https://cdda-trunk.aloxaf.com/mutations.svg" target='_blank'>变异路线图(剧透警告)</a>
+<a href="https://cdda-trunk.aloxaf.com/mutation_threshold.svg" target='_blank'>变异阈值(剧透警告)</a>
+<a href="https://cdda-trunk.aloxaf.com/mutation_conflict.svg" target='_blank'>变异冲突(剧透警告)</a>
 <br>
 注1：前置1/前置2 - 两组前置突变，满足任意一组才能向下一个方向突变
 <br>
@@ -48,7 +48,7 @@
 
 <h2>文档</h2>
 <p>
-实验版文档：<a href="https://cdda-trunk.aloxaf.cn/doc">https://cdda-trunk.aloxaf.cn/doc</a>
+实验版文档：<a href="https://cdda-trunk.aloxaf.com/doc">https://cdda-trunk.aloxaf.com/doc</a>
 </p>
 
 <hr>
@@ -59,7 +59,7 @@
 <br/>
 中文版项目地址: <a href="https://github.com/Aloxaf/cdda-itembrowser">Github</a>.
 <br/>
-意见反馈请前往：<a href="https://cdda-wiki.aloxaf.cn/%E7%94%A8%E6%88%B7%E8%AE%A8%E8%AE%BA:Aloxaf">我的用户讨论页</a>.
+意见反馈请前往：<a href="https://cdda-wiki.aloxaf.com/%E7%94%A8%E6%88%B7%E8%AE%A8%E8%AE%BA:Aloxaf">我的用户讨论页</a>.
 </p>
 
 <hr>
@@ -67,8 +67,8 @@
 <h2>更新日志</h2>
 2022-01-01：迁移网站到海外，速度可能有所下降<br/>
 2021-12-31：修复了攻击耗时计算公式 <br/>
-2021-12-20：<a href="https://cdda-wiki.aloxaf.cn/wiki/分类:法术">法术</a> 已导入 WIKI <br/>
-2021-12-17：<a href="https://cdda-wiki.aloxaf.cn">CDDA Wiki</a> 建立了，顺便作为本站的官方讨论及内容补充区 <br/>
+2021-12-20：<a href="https://cdda-wiki.aloxaf.com/wiki/分类:法术">法术</a> 已导入 WIKI <br/>
+2021-12-17：<a href="https://cdda-wiki.aloxaf.com">CDDA Wiki</a> 建立了，顺便作为本站的官方讨论及内容补充区 <br/>
 2021-12-13 ~ 2021-12-15：作者复活了，迁移了网站，并修复了一堆 503 错误 <br/>
 
 </div>

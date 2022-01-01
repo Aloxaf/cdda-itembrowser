@@ -2,8 +2,8 @@
 
 return array(
   "sites" => array(
-    "0.F"   => "cdda.aloxaf.cn",
-    "实验版" => "cdda-trunk.aloxaf.cn",
+    "0.F"   => "cdda.aloxaf.com",
+    "实验版" => "cdda-trunk.aloxaf.com",
   ),
 
   "searchCacheExpiration" => 3600,
