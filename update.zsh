@@ -20,23 +20,23 @@ LOG() {
 cd $ROOT
 
 LOG "Downloading latest source code..."
-rm -f 0.F-dev.zip
-curl -LOs https://github.com.cnpmjs.org/CleverRaven/Cataclysm-DDA/archive/refs/heads/0.F-dev.zip || return
+rm -f 0.F-3.zip
+curl -LO https://github.com.cnpmjs.org/CleverRaven/Cataclysm-DDA/archive/refs/tags/0.F-3.zip || return
 
 LOG "Unzipping..."
-dir=Cataclysm-DDA-0.F-dev
+dir=Cataclysm-DDA-0.F-3
 if [[ -d $dir ]]; then
   [[ ! -d $dir.bak ]] || rm -rdf $dir.bak
   mv -f $dir $dir.bak
 fi
-unzip -qo 0.F-dev.zip
+unzip -qo 0.F-3.zip
 
-echo "#define VERSION \"0.F-dev + KeanMod: $(env TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')\"" > $dir/src/version.h
+echo "#define VERSION \"0.F-3 + KeanMod: 2021-12-05\"" > $dir/src/version.h
 
 LOG "Downloading latest Mods..."
 rm -f Kenan-Modpack-Mod.zip
 rm -rdf Kenan-Modpack-Chinese
-curl -LOs https://github.com.cnpmjs.org/linonetwo/CDDA-Kenan-Modpack-Chinese/releases/download/latest/Kenan-Modpack-Mod.zip
+curl -LO https://github.com.cnpmjs.org/linonetwo/CDDA-Kenan-Modpack-Chinese/releases/download/archive-2021-12-05-1040/Kenan-Modpack-Mod.zip
 unzip -qo Kenan-Modpack-Mod.zip
 cp -R Kenan-Modpack-Chinese/* $dir/data/mods
 
