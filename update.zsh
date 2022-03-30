@@ -21,7 +21,7 @@ cd $ROOT
 
 LOG "Downloading latest source code..."
 rm -f master.zip
-curl -LO https://github.com.cnpmjs.org/CleverRaven/Cataclysm-DDA/archive/master.zip || return
+curl -LO https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip || return
 
 LOG "Unzipping..."
 dir=Cataclysm-DDA-master
