@@ -68,6 +68,7 @@ def warning_supressed(filename):
 ignore_files = {os.path.normpath(i) for i in {
     "data/json/anatomy.json",
     "data/json/items/book/abstract.json",
+    "data/json/npcs/TALK_TEST.json",
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
 }}
@@ -890,6 +891,13 @@ def extract_speed_description(item):
                 value["descriptions"] = [writestr(description) for description in descriptions]
 
 
+def extract_weapon_category(item):
+    outfile = get_outfile("weapon_category")
+    name = item.get("name")
+    comment = "weapon category name"
+    item["name"] = writestr(name)
+
+
 def extract_vehicle_part_category(item):
     outfile = get_outfile("vehicle_part_categories")
     name = item.get("name")
@@ -937,6 +945,7 @@ extract_specials = {
     "scenario": extract_scenarios,
     "snippet": extract_snippets,
     "speed_description": extract_speed_description,
+    "weapon_category": extract_weapon_category,
     "talk_topic": extract_talk_topic,
     "trap": extract_trap,
     "gate": extract_gate,
@@ -1026,6 +1035,9 @@ def writestr(string, context=None, pl_fmt=False, format_strings=False, comment=N
             string["str"] = npgettext(context, string["str"], pl_fmt)
         elif "str_sp" in string:
             string["str_sp"] = npgettext(context, string["str_sp"], string["str_sp"])
+        elif "male" in string:
+            string["male"] = npgettext(context, string["male"], False)
+            string["female"] = npgettext(context, string["female"], False)
         else:
             raise WrongJSONItem("ERROR: 'str' or 'str_sp' not found", string)
     elif type(string) is str:
